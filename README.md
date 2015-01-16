@@ -2,6 +2,7 @@
 曦潮网站新版
 
 环境：
+  mysql
   virtualenv
   flask
   flask-MySQLdb    //flask-sqlalchemy的依赖包
@@ -9,6 +10,7 @@
   flask-wtforms    //表单渲染和验证
 
 框架：
+  update.txt    //工作更新说明
   runserver.py    //程序启动模块
   /xichao    //python包
     /static    //静态文件夹
@@ -22,3 +24,6 @@
     views.py    //视图模块
     forms.py    //表单模块
     myvalidators.py    //自定义验证器模块
+
+注意事项：
+  安装完mysql数据库后修改编码方式，统一采用utf8，否则中文会乱码或者无法存储
