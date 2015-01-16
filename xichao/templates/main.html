@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>XiChao</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/myico.ico') }}" />
+        <link href="{{ url_for('static', filename='css/main.css') }}" rel='stylesheet' type='text/css'/>
+        {% block css %}
+        {% endblock %}
+
+    </head>
+
+    <body>
+
+        <!--header-->
+        <div id="header">
+
+            <!--标题栏-->
+            <div id="nav-bar-header">
+
+                <!--曦潮logo-->
+                <div id="nav-bar-logo">
+                    <img src="{{ url_for('static', filename='images/logo.jpg') }}"/>
+                </div>
+
+                <!--注册登陆&搜索-->
+                <div style="float:right">
+                    <ul id="nav-bar-button">
+                        <li class="nav-bar-login nav-bar-login-first"><a href="#">登陆</a></li>
+                        <li class="nav-bar-login"><a href="#">注册</a></li>
+                    </ul>
+
+                    <div class="clear"></div>
+
+                    <form id="nav-bar-search" action="#" method="post">
+                        <input type="text" name="search" />
+                    </form>
+                </div>
+            </div>
+
+            <!--导航栏-->
+            <ul id="nav-bar">
+                <hr/>
+                <li class="nav-bar-item"> <a href="#">首页</a> </li>
+                <li class="nav-bar-item"> <a href="#">专栏</a> </li>
+                <li class="nav-bar-item"> <a href="#">活动</a> </li>
+                <li class="nav-bar-item"> <a href="#">文章</a> </li>
+                <li class="nav-bar-item"> <a href="#">广场</a> </li>
+                <div class="clear"></div>
+                <hr/>
+            </ul>
+        </div>
+
+        <!--body主题-->
+        <div id="content">
+            <!--当前位置-->
+            <div class="current-pos">
+
+            </div>
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+        <!---->
+
+        <!--footer-->
+        <div id="footer">
+
+        </div>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block js %}
+    {% endblock %}
+    </body>
+
+
+</html>
