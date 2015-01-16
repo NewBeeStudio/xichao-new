@@ -1,11 +1,20 @@
-{% from "_formhelpers.html" import render %}
-<form method=post action="/reg">
-  <dl>
-    {{ render(form.email) }}
-    {{ render(form.nick) }}
-    {{ render(form.password) }}
-    {{ render(form.confirm) }}
-  </dl>
-  <p><input type=reset value=reset></p>
-  <p><input type=submit value=Register></p>
-</form>
+<html xmlns="http://www.w3.org/1999/xhtml" abpwhitelist785165813502="">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<title>测试搜索</title>
+</head>
+
+<body>
+	{% from "_formhelpers.html" import render %}
+	<form method=post action="/register" accept-charset="utf-8" >
+	  <dl>
+	    {{ render(form.email) }}
+	    {{ render(form.nick) }}
+	    {{ render(form.password) }}
+	    {{ render(form.confirm) }}
+	  </dl>
+	  <p><input type=reset value=reset></p>
+	  <p><input type=submit value=Register></p>
+	</form>
+</body>
+</html>

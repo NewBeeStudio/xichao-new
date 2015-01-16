@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from xichao import app
 from functions import *
-from flask import redirect,url_for,render_template,request
+from flask import redirect,url_for,render_template,request,flash,session
 from models import User
 from database import db_session
 from datetime import datetime
@@ -67,37 +67,17 @@ def test():
 	return 'hello world'
 
 
-
-@app.route('/register',methods=['GET','POST'])
-def register():
-	error=None
-	username='admin'
-	if nick_exist(username):
-		error='invalid user'
-		return error
-	else:
-		user=User(username,'754ss4d4@qq.com',1,datetime.now(),datetime.now(),encrypt('world'))
-		db_session.add(user)
-		db_session.commit()
-		return 'yes'
-
-@app.route('/reg', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def reg():
-    re=ImmutableMultiDict([('username', u'dddd'), ('password', u''), ('email', u'')])
+    #re=ImmutableMultiDict([('username', u'dddd'), ('password', u''), ('email', u'')])
+    #form2 = RegistrationForm(re)
     form = RegistrationForm(request.form)
-    #print(request.form)
-    form2 = RegistrationForm(re)
     if request.method == 'POST' and form.validate():
-    	'''
-        user = User(form.username.data, form.email.data,
-                    form.password.data)
+        user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data))
         db_session.add(user)
+        db_session.commit()
         flash('Thanks for registering')
-        return redirect(url_for('login'))
-        '''
-        return 'yes'
-    form2.validate()
-    print(form2.errors.get('email')[0])
-    #errors_dic={'username': form2.errors.get('username')[0]}
+        return redirect(url_for('test'))
+    #form2.validate()
+    #print(form2.errors.get('email')[0])
     return render_template('register.html', form=form)
-

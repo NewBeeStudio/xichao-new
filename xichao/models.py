@@ -4,6 +4,10 @@ from database import Base
 
 class User(Base):
 	__tablename__ = 'user'
+	__table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+        }   
 	user_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, index=True)
 	nick = Column(String(50), unique=True, nullable=False, index=True)
 	gender=Column(CHAR(1), nullable=True)
@@ -16,7 +20,7 @@ class User(Base):
 	register_time=Column(DateTime,nullable=False)
 	last_login_time=Column(DateTime,nullable=False)
 	password=Column(String(60),nullable=False)
-	state=Column(CHAR(1),nullable=False)
+	#state=Column(CHAR(1),nullable=False)
 
 	def __init__(self, nick=None, email=None, role=None,register_time=None,last_login_time=None,password=None):
 		self.nick = nick
