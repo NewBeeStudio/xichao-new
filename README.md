@@ -9,6 +9,7 @@
   flask-sqlalchemy    //操作数据库
   flask-wtforms    //表单渲染和验证
 
+
 框架：
   update.txt    //工作更新说明
   runserver.py    //程序启动模块
@@ -24,6 +25,13 @@
     views.py    //视图模块
     forms.py    //表单模块
     myvalidators.py    //自定义验证器模块
+
+资料：
+  sqlalchemy：http://dormousehole.readthedocs.org/en/latest/patterns/sqlalchemy.html
+              http://www.zouyesheng.com/sqlalchemy.html#toc10
+  WTForms：http://dormousehole.readthedocs.org/en/latest/patterns/wtforms.html
+           http://wtforms.readthedocs.org/en/latest/fields.html
+  ajax：http://dormousehole.readthedocs.org/en/latest/patterns/jquery.html
 
 注意事项：
   安装完mysql数据库后修改编码方式，统一采用utf8，否则中文会乱码或者无法存储

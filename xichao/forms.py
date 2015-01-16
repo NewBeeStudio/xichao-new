@@ -14,3 +14,8 @@ class RegistrationForm(Form):
 	nick = TextField(u'昵称：',[validators.Required(u'昵称必须'),validators.Length(min=4,max=16,message=u'昵称长度需在4-16之间'),nick_validator])
 	password = PasswordField(u'密码：', [validators.Required(u'密码必须')])
 	confirm = PasswordField(u'确认密码：', [validators.Required(u'确认密码必须'),validators.EqualTo('password', message=u'密码不匹配')])
+
+class LoginForm(Form):
+	email=TextField(u'邮箱：',[validators.Required(u'邮箱必须')])
+	password=PasswordField(u'密码：',[validators.Required(u'密码必须')])
+	stay=BooleanField(u'是否保持登录')

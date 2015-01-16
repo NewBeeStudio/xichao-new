@@ -11,6 +11,7 @@ from hashlib import md5
 from models import User
 from database import db_session
 from flask import jsonify
+from sqlalchemy import or_, not_, and_
 
 ##################################  注册函数  ####################################
 def nick_exist(nick):
@@ -30,3 +31,11 @@ def email_exist(email):
 def encrypt(password):
 	encrypt_password=md5(password).hexdigest()
 	return encrypt_password
+##################################  登陆函数  ####################################
+def get_nick(email,password):
+	result=db_session.query(User).filter(and_(User.email==email,User.password==encrypt(password))).all()
+	if len(result)>0:
+		return result[0].nick
+	else:
+		return False
+		

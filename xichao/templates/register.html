@@ -5,13 +5,13 @@
 </head>
 
 <body>
-	{% from "_formhelpers.html" import render %}
+	{% from "_formhelpers.html" import render_register %}
 	<form method=post action="/register" accept-charset="utf-8" >
 	  <dl>
-	    {{ render(form.email) }}
-	    {{ render(form.nick) }}
-	    {{ render(form.password) }}
-	    {{ render(form.confirm) }}
+	    {{ render_register(form.email) }}
+	    {{ render_register(form.nick) }}
+	    {{ render_register(form.password) }}
+	    {{ render_register(form.confirm) }}
 	  </dl>
 	  <p><input type=reset value=reset></p>
 	  <p><input type=submit value=Register></p>
