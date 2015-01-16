@@ -1,0 +1,48 @@
+#register-content{
+    width: 450px;
+}
+
+
+.register-form-field{
+    height: 40px;
+
+    margin-bottom: 30px;
+}
+
+/*.register-not-first-form{
+    margin-bottom: 30px;
+}*/
+
+.register-label{
+    font-family: 微软雅黑;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.register-userinfo{
+    width: 300px;
+    height: 40px;
+    float: right;
+
+    font-size: 20px;
+}
+
+/*.register-form-button{
+    
+    width: 118px;
+    height: 38px;
+}*/
+
+.register-form-button{
+	margin: 18px auto 48px auto;
+    width: 118px;
+    height: 38px;
+
+    font-family: 黑体;
+    font-size: 20px;
+
+}
+
+div.register-form-button{
+	float: left;
+}

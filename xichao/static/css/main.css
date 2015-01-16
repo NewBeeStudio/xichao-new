@@ -1,0 +1,135 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+    position: relative;
+    width: 100%;
+    margin: auto;
+}
+
+input{
+    border: solid 1.5px #aaaaaa;
+}
+
+a{
+	text-decoration: none;
+}
+
+.clear{
+    clear: both;
+}
+
+
+/*******************header*****************/
+ul{
+    list-style:none; /*去黑点*/
+    padding-left: 0;
+}
+
+#header{
+    width: 1085px;
+    margin: auto;
+}
+
+#nav-bar-header{
+    height: 144px;
+    width: 100%;
+    margin-top: 60px;
+}
+
+#nav-bar-logo{
+    float: left;
+    margin-top: -10px;
+}
+
+#nav-bar-button{
+    float: right;
+}
+
+.nav-bar-login{
+    width: 60px;
+    float: left;
+    text-align: center;
+    font-family: 微软雅黑;
+    /*margin-right: -5px;*/
+}
+
+.nav-bar-login-first{
+    border-right: 2px solid #000000;
+}
+
+.nav-bar-login > a{
+    text-decoration: none;
+    color: #000000;
+}
+
+#nav-bar-search{
+	margin-top: 30px;
+    height: 18px;
+    float: right;
+}
+
+#nav-bar-search > input{
+    width: 200px;
+    height: 25px;
+    font-size: 16px;
+}
+
+input:hover{
+    border:solid 1.5px gray;
+}
+
+input:focus{
+    border:solid 1.5px #00aaff; /*浅蓝*/
+}
+
+#nav-bar{
+    position: relative;
+    height: 34px;
+    width: 100%;
+    margin: auto;
+}
+
+#nav-bar > hr{
+    margin: auto;
+    width: 100%;
+    color: #000000;
+    background-color: #000000;
+    height: 1px;
+    border-width: 0;
+}
+
+.hover{
+    background-color: #D9AE48;
+}
+
+.nav-bar-item{
+    width: 20%;
+    height: 30px;
+    margin: 2px auto 2px auto;
+    float: left;
+
+    font-family: 微软雅黑;
+    text-align: center; /*水平居中*/
+    line-height: 30px; /*垂直居中*/
+}
+
+.nav-bar-item > a{
+    text-decoration: none;
+    color: #000000;
+}
+
+
+
+/*******************body*****************/
+/*content对齐*/
+#content{
+    width: 1085px;
+    margin: auto;
+}
+
+.current-pos{
+    height: 88px;
+}
