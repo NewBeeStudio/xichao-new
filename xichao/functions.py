@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+'''
+
+	功能函数模块
+
+	实现一些数据库基本的功能，被高层次代码所调用
+
+'''
 from xichao import app
 from hashlib import md5
 from models import User

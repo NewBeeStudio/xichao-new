@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+'''
+	
+	定制验证器模块
+
+	定义并实现了个人定制的验证器函数，被用于在表单验证过程中调用
+'''
 from wtforms import Form, BooleanField, TextField, PasswordField, validators, ValidationError
 from functions import nick_exist,email_exist
 

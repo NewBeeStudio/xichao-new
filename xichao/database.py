@@ -1,4 +1,12 @@
 # -*- coding: utf-8 -*-
+'''
+
+	数据库基础模块
+
+	定义db_session，用于和数据库进行交互
+	定义Base类，作为父类，被子类继承，形成数据表类
+	定义init_db函数，用于初始化数据表
+'''
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base

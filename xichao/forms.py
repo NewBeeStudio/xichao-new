@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+'''
+	表单模块
+
+	定义了表单
+	定义了验证器，验证器可以是内建验证器，也可以是定制验证器
+'''
 from wtforms import Form, BooleanField, TextField, PasswordField, validators
 from myvalidators import *
 

@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+'''
+	
+	数据模型模块
+
+	定义了数据库的数据模型
+'''
+
 from sqlalchemy import Column, Integer, String, CHAR, SmallInteger, Date, DateTime
 from database import Base
 

@@ -1,4 +1,13 @@
 # -*- coding: utf-8 -*-
+'''
+
+	视图模块
+
+	定义路由
+	定义并实现处理函数
+	渲染视图
+	
+'''
 from xichao import app
 from functions import *
 from flask import redirect,url_for,render_template,request,flash,session
