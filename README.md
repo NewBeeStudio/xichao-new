@@ -11,6 +11,7 @@
   /xichao    //python包
     /static    //静态文件夹
     /templates    //模板文件夹
+    /upload    //上传文件存储
     __init__.py    //曦潮包文件
     ajax.py    //ajax请求处理模块
     database.py    //数据库基本定义模块
