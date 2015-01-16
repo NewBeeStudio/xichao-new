@@ -55,3 +55,4 @@ target/
 
 *.pyc
 venv/
+.DS_Store
