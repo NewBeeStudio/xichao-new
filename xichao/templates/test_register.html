@@ -5,7 +5,7 @@
 </head>
 
 <body>
-	{% from "_formhelpers.html" import render_register %}
+	{% from "test_formhelpers.html" import render_register %}
 	<form method=post action="/register" accept-charset="utf-8" >
 	  <dl>
 	    {{ render_register(form.email) }}

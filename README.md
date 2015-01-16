@@ -16,12 +16,16 @@
   /xichao    //python包
     /static    //静态文件夹
     /templates    //模板文件夹
+      test.html    //测试文件
+      test_formhelps.html    //测试文件的宏定义文件
+      test_login.html    //登陆页面测试文件
+      test_register.html    //注册页面测试文件
     /upload    //上传文件存储
     __init__.py    //曦潮包文件
     ajax.py    //ajax请求处理模块
     database.py    //数据库基本定义模块
     models.py    //数据库表模块
-    functions.py    //处理函数模块
+    functions.py    //通用处理函数模块
     views.py    //视图模块
     forms.py    //表单模块
     myvalidators.py    //自定义验证器模块

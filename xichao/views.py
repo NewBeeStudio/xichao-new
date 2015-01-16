@@ -26,7 +26,7 @@ def default():
 def logout():
 	session.pop('username', None)
 	flash('You were logged out')
-    return redirect(url_for('index'))
+	return redirect(url_for('index'))
 
 
 @app.route('/test')
@@ -34,9 +34,9 @@ def test():
 	nick=None
 	if 'user' in session:
 		nick=session['user']
-	else if request.cookies.get('user')!=None:
+	elif request.cookies.get('user')!=None:
 		nick=request.cookies.get('user')
-	return 'hello'
+	return render_template('test.html', nick=nick)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -53,7 +53,7 @@ def register():
 		return redirect(url_for('test'))
 	#form2.validate()
 	#print(form2.errors.get('email')[0])
-	return render_template('register.html', form=form)
+	return render_template('test_register.html', form=form)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -71,7 +71,6 @@ def login():
 			if form.stay.data:
 				response.set_cookie('user',nick)
 			return response
-			#return redirect(url_for('test'))
 		else:
 			error=u'邮箱或密码错误'
-	return render_template('login.html', form=form, error=error)
+	return render_template('test_login.html', form=form, error=error)

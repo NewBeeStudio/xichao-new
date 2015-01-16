@@ -1,4 +1,4 @@
-{% from "_formhelpers.html" import render_login %}
+{% from "test_formhelpers.html" import render_login %}
 <form method=post action="/login" accept-charset="utf-8">
 	<dl>
 	    {{ render_login(form.email) }}
