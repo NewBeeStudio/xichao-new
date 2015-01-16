@@ -1,0 +1,11 @@
+{% from "_formhelpers.html" import render %}
+<form method=post action="/reg">
+  <dl>
+    {{ render(form.email) }}
+    {{ render(form.nick) }}
+    {{ render(form.password) }}
+    {{ render(form.confirm) }}
+  </dl>
+  <p><input type=reset value=reset></p>
+  <p><input type=submit value=Register></p>
+</form>
