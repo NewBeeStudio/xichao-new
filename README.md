@@ -36,6 +36,7 @@
   WTForms：http://dormousehole.readthedocs.org/en/latest/patterns/wtforms.html
            http://wtforms.readthedocs.org/en/latest/fields.html
   ajax：http://dormousehole.readthedocs.org/en/latest/patterns/jquery.html
+  UEditor：http://segmentfault.com/blog/digwtx/1190000002429055
 
 注意事项：
   安装完mysql数据库后修改编码方式，统一采用utf8，否则中文会乱码或者无法存储

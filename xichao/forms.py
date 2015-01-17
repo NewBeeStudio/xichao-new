@@ -5,7 +5,7 @@
 	定义了表单
 	定义了验证器，验证器可以是内建验证器，也可以是定制验证器
 '''
-from wtforms import Form, BooleanField, TextField, PasswordField, validators
+from wtforms import Form, BooleanField, TextField, PasswordField, validators, FileField
 from myvalidators import *
 
 #注册表单
@@ -14,7 +14,9 @@ class RegistrationForm(Form):
 	nick = TextField(u'昵称：',[validators.Required(u'昵称必须'),validators.Length(min=4,max=16,message=u'昵称长度需在4-16之间'),nick_validator])
 	password = PasswordField(u'密码：', [validators.Required(u'密码必须')])
 	confirm = PasswordField(u'确认密码：', [validators.Required(u'确认密码必须'),validators.EqualTo('password', message=u'密码不匹配')])
+	photo = FileField(u'上传头像')
 
+#登录表单
 class LoginForm(Form):
 	email=TextField(u'邮箱：',[validators.Required(u'邮箱必须')])
 	password=PasswordField(u'密码：',[validators.Required(u'密码必须')])

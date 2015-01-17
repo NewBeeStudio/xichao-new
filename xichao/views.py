@@ -17,6 +17,11 @@ from datetime import datetime
 from forms import RegistrationForm,LoginForm
 from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
+import os
+from werkzeug import secure_filename
+
+PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload')
+
 @app.route('/')
 def default():
 	return redirect(url_for('test'))
@@ -24,9 +29,12 @@ def default():
 
 @app.route('/logout')
 def logout():
-	session.pop('username', None)
-	flash('You were logged out')
-	return redirect(url_for('index'))
+	session.pop('user', None)
+	response=make_response(redirect(url_for('test')))
+	if request.cookies.get('user')!=None:
+		response.set_cookie('user','',expires=0)
+	flash('你已退出')
+	return response
 
 
 @app.route('/test')
@@ -36,7 +44,7 @@ def test():
 		nick=session['user']
 	elif request.cookies.get('user')!=None:
 		nick=request.cookies.get('user')
-	return render_template('test.html', nick=nick)
+	return render_template('template.html', nick=nick)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -44,7 +52,18 @@ def register():
 	#re=ImmutableMultiDict([('username', u'dddd'), ('password', u''), ('email', u'')])
 	#form2 = RegistrationForm(re)
 	form = RegistrationForm(request.form)
+	photo_error=None
 	if request.method == 'POST' and form.validate():
+		photo = request.files['photo']
+		if photo:
+			if allowed_file(photo.filename):
+				filename=secure_filename(photo.filename)
+				photoname=filename.rsplit('.',1)[0]+datetime.now().strftime('%Y%m%d%H%M%s')+'.'+filename.rsplit('.',1)[1]
+				photo_url=os.path.join(PHOTO_DEST, photoname)
+				photo.save(photo_url)
+			else:
+				photo_error=u'文件名称不合法'
+				return render_template('test_register.html', form=form, photo_error=photo_error)
 		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data))
 		db_session.add(user)
 		db_session.commit()
@@ -53,13 +72,12 @@ def register():
 		return redirect(url_for('test'))
 	#form2.validate()
 	#print(form2.errors.get('email')[0])
-	return render_template('test_register.html', form=form)
+	return render_template('test_register.html', form=form, photo_error=photo_error)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
 	error=None
 	form=LoginForm(request.form)
-	print type(form.stay.data)
 	if request.method=='POST' and form.validate():
 		email=form.email.data
 		password=form.password.data

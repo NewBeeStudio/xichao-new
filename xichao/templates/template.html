@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends "layout.html" %}
 
 <!--css file used-->
 {% block css %}
@@ -7,7 +7,9 @@
 
 <!--content-->
 {% block content %}
-
+	{% if nick!=None %}
+		{{ nick }}
+	{% endif %}
 {% endblock %}
 
 

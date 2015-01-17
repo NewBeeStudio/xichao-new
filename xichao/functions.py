@@ -31,6 +31,10 @@ def email_exist(email):
 def encrypt(password):
 	encrypt_password=md5(password).hexdigest()
 	return encrypt_password
+
+ALLOWED_EXTENSIONS=['jpg']
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
 	result=db_session.query(User).filter(and_(User.email==email,User.password==encrypt(password))).all()

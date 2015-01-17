@@ -6,12 +6,16 @@
 
 <body>
 	{% from "test_formhelpers.html" import render_register %}
-	<form method=post action="/register" accept-charset="utf-8" >
+	<form method=post action="/register" accept-charset="utf-8" enctype="multipart/form-data">
 	  <dl>
 	    {{ render_register(form.email) }}
 	    {{ render_register(form.nick) }}
 	    {{ render_register(form.password) }}
 	    {{ render_register(form.confirm) }}
+	    {{ render_register(form.photo) }}
+	    {% if photo_error != None%}
+	    	{{ photo_error }}
+	    {% endif %}
 	  </dl>
 	  <p><input type=reset value=reset></p>
 	  <p><input type=submit value=Register></p>
