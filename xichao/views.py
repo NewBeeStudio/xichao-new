@@ -23,7 +23,7 @@ from werkzeug import secure_filename
 from flask.ext.mail import Mail
 from flask.ext.mail import Message
 
-PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload')
+PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
 HOST='http://127.0.0.1:5000'
 
 @app.route('/')

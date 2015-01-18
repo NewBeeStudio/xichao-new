@@ -28,7 +28,7 @@ class User(Base):
 	register_time=Column(DateTime,nullable=False)
 	last_login_time=Column(DateTime,nullable=False)
 	password=Column(String(60),nullable=False)
-	state=Column(CHAR(1),nullable=False)
+	state=Column(CHAR(1),nullable=False)#'0'表示未激活，'1'表示已激活
 	#photo=Column(String(255),nullable=True)
 
 	def __init__(self, nick=None, email=None, role=None,register_time=None,last_login_time=None,password=None,state=None):
