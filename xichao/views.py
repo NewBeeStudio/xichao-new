@@ -19,8 +19,12 @@ from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 import os
 from werkzeug import secure_filename
+#from logging.handlers import SMTPHandler
+from flask.ext.mail import Mail
+from flask.ext.mail import Message
 
 PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload')
+HOST='http://127.0.0.1:5000'
 
 @app.route('/')
 def default():
@@ -39,6 +43,7 @@ def logout():
 
 @app.route('/test')
 def test():
+	print type(url_for('test'))
 	nick=None
 	if 'user' in session:
 		nick=session['user']
@@ -64,9 +69,16 @@ def register():
 			else:
 				photo_error=u'文件名称不合法'
 				return render_template('test_register.html', form=form, photo_error=photo_error)
-		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data))
+		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0')
 		db_session.add(user)
 		db_session.commit()
+		verify_url=HOST+url_for('verify')+'?nick='+form.nick.data+'&secret='+encrypt(form.password.data)
+		mail=Mail(app)
+		msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[form.email.data])
+		msg.body='text body'
+		msg.html = render_template('test_verify_email.html',verify_url=verify_url)
+		with app.app_context():
+			mail.send(msg)
 		session['user']=request.form['nick']
 		flash(u'注册成功，正在跳转')
 		return redirect(url_for('test'))
@@ -92,3 +104,12 @@ def login():
 		else:
 			error=u'邮箱或密码错误'
 	return render_template('test_login.html', form=form, error=error)
+
+@app.route('/verify')
+def verify():
+	nick=request.args.get('nick')
+	password=request.args.get('secret')
+	state=get_state(nick,password)
+	if state:
+		update_state(nick)
+	return redirect(url_for('test'))

@@ -28,16 +28,17 @@ class User(Base):
 	register_time=Column(DateTime,nullable=False)
 	last_login_time=Column(DateTime,nullable=False)
 	password=Column(String(60),nullable=False)
-	#state=Column(CHAR(1),nullable=False)
+	state=Column(CHAR(1),nullable=False)
 	#photo=Column(String(255),nullable=True)
 
-	def __init__(self, nick=None, email=None, role=None,register_time=None,last_login_time=None,password=None):
+	def __init__(self, nick=None, email=None, role=None,register_time=None,last_login_time=None,password=None,state=None):
 		self.nick = nick
 		self.email = email
 		self.role=role
 		self.register_time=register_time
 		self.last_login_time=last_login_time
 		self.password=password
+		self.state=state
 
 	def __repr__(self):
 		return '<User %r>' % (self.nick)

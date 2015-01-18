@@ -35,6 +35,18 @@ def encrypt(password):
 ALLOWED_EXTENSIONS=['jpg']
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
+
+def get_state(nick,password):
+	result=db_session.query(User).filter(and_(User.nick==nick,User.password==password)).all()
+	if len(result)>0:
+		return result[0].state
+	else:
+		return False
+def update_state(nick):
+	print 'update0000000000000000000000000'
+	print nick
+	db_session.query(User).filter(User.nick==nick).update({'state':'1'})
+	db_session.commit()
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
 	result=db_session.query(User).filter(and_(User.email==email,User.password==encrypt(password))).all()
