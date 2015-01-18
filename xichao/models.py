@@ -16,7 +16,6 @@ from database import Base
 ##################################  用户模型  ####################################
 
 class User(Base):
-<<<<<<< HEAD
     __tablename__ = 'user'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
