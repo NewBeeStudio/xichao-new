@@ -35,8 +35,10 @@
               http://www.zouyesheng.com/sqlalchemy.html#toc10
   WTForms：http://dormousehole.readthedocs.org/en/latest/patterns/wtforms.html
            http://wtforms.readthedocs.org/en/latest/fields.html
+           http://docs.jinkan.org/docs/flask-wtf/index.html
   ajax：http://dormousehole.readthedocs.org/en/latest/patterns/jquery.html
   UEditor：http://segmentfault.com/blog/digwtx/1190000002429055
+  进度条：http://www.developerdrive.com/2012/07/displaying-the-progress-of-tasks-with-html5/
 
 注意事项：
   安装完mysql数据库后修改编码方式，统一采用utf8，否则中文会乱码或者无法存储
