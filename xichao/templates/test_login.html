@@ -1,6 +1,6 @@
 {% from "test_formhelpers.html" import render_login %}
 <form method=post action="/login" accept-charset="utf-8">
-	{{form.hidden_tag()}}
+	<input name=_csrf_token type=hidden value="{{ csrf_token() }}">
 	<dl>
 	    {{ render_login(form.email) }}
 	    {{ render_login(form.password) }}

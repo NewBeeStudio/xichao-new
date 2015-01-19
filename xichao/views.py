@@ -20,13 +20,14 @@ from werkzeug.datastructures import ImmutableMultiDict
 import os
 
 
-PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
-HOST='http://127.0.0.1:5000'
+#PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
+#HOST='http://127.0.0.1:5000'
 
 @app.route('/')
 def default():
 	return redirect(url_for('test'))
 
+####################################  logout  ################################
 
 @app.route('/logout')
 def logout():
@@ -37,6 +38,7 @@ def logout():
 	flash('你已退出')
 	return response
 
+####################################  test  ##################################
 
 @app.route('/test')
 def test():
@@ -46,13 +48,15 @@ def test():
 		nick=session['user']
 	elif request.cookies.get('user')!=None:
 		nick=request.cookies.get('user')
-	return render_template('template.html', nick=nick,photo_url='http://127.0.0.1:5000/upload/avator/u24396247923879124612fm21gp02015011916361421656586.jpg')
+	return render_template('template.html', nick=nick,photo_url=app.config['HOST_NAME']+'/upload/avator/u24396247923879124612fm21gp02015011916361421656586.jpg')
 
+####################################  register  ##################################
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 	#re=ImmutableMultiDict([('username', u'dddd'), ('password', u''), ('email', u'')])
 	#form2 = RegistrationForm(re)
+	#form = RegistrationForm(request.form)
 	form = RegistrationForm(request.form)
 	photo_error=None
 	if request.method == 'POST' and form.validate():
@@ -60,7 +64,7 @@ def register():
 		if photo:
 			if allowed_file(photo.filename):
 				photoname=get_secure_photoname(photo.filename)
-				photo_url=os.path.join(PHOTO_DEST, photoname)
+				photo_url=os.path.join(app.config['PHOTO_DEST'], photoname)
 				photo.save(photo_url)
 			else:
 				photo_error=u'文件名称不合法'
@@ -75,6 +79,8 @@ def register():
 	#form2.validate()
 	#print(form2.errors.get('email')[0])
 	return render_template('test_register.html', form=form, photo_error=photo_error)
+
+####################################  login  ##################################
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -95,6 +101,8 @@ def login():
 			error=u'邮箱或密码错误'
 	return render_template('test_login.html', form=form, error=error)
 
+####################################  email verify  ##################################
+
 @app.route('/verify')
 def verify():
 	nick=request.args.get('nick')
@@ -104,12 +112,16 @@ def verify():
 		update_state(nick)
 	return redirect(url_for('test'))
 
+####################################  article  ##################################
+
 @app.route('/article/<int:article_id>',methods=['GET'])
 def article(article_id):
 	article=get_article_information(article_id)
 	#comment初始显示5-6条，下拉显示全部
 	comment=get_article_comment(article_id)
 	return render_template('test_article.html',article=article,comment=comment)
+
+####################################  special  ##################################
 
 @app.route('/special/<int:special_id>/page/<int:page_id>',methods=['GET'])
 def special(special_id,page_id=1):
@@ -118,9 +130,11 @@ def special(special_id,page_id=1):
 	articles_pagination=get_special_article(special_id,page_id)
 	return render_template('special.html',special=special,articles_pagination=articles_pagination)
 
+####################################  get uploaded file  ##################################
+
 @app.route('/upload/avator/<filename>')
 def uploaded_file(filename):
-	return send_from_directory(PHOTO_DEST,filename)
+	return send_from_directory(app.config['PHOTO_DEST'],filename)
 
 @app.route('/article_upload')
 def article_upload():
