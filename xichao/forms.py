@@ -7,6 +7,12 @@
 '''
 from wtforms import Form, BooleanField, TextField, PasswordField, validators, FileField
 from myvalidators import *
+from wtforms.csrf.session import SessionCSRF
+from datetime import timedelta
+from flask import request,session
+from xichao import app
+
+
 
 #注册表单
 class RegistrationForm(Form):
