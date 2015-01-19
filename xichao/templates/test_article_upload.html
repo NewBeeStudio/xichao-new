@@ -12,19 +12,24 @@
 {% block content %}
  <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发表文章</p>
     <div id="pics">
-    	<img class="pics" id="pic_4" src="/static/images/artical_upload_pic_4.png" />
+    	<img class="pics" id="pic_4" src="/static/images/article_upload_pic_4.png" />
        	<p class="p_triangle" id="triangle_left">◀</p>
-        <img class="pics" id="pic_1" src="/static/images/artical_upload_pic_1.jpg" />
-        <img class="pics" id="pic_2" src="/static/images/artical_upload_pic_2.jpg" />
-        <img class="pics" id="pic_3" src="/static/images/artical_upload_pic_3.jpg" />
+        <img class="pics" id="pic_1" src="/static/images/article_upload_pic_1.jpg" />
+        <img class="pics" id="pic_2" src="/static/images/article_upload_pic_2.jpg" />
+        <img class="pics" id="pic_3" src="/static/images/article_upload_pic_3.jpg" />
         <p class="p_triangle" id="triangle_right">▶</p>
 
-        <a href="#" class="myButton" id="button_upload">上传题图</a>
+        <a href="#" class="myButton" id="button_upload_pic">上传题图</a>
     </div>
 
-   	<div id="artical_editor">
-   		<p id="p_artical_title">文章标题:</p>
+   	<div id="article_editor">
+   		<p id="p_article_title">文章标题:</p>
    		<input id="input_title" type="text">
+
+      <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+      
+      <a href="#" class="myButton" id="button_upload_cancel">取消</a>
+      <a href="#" class="myButton" id="button_upload_confirm">确定</a>
    	</div>
 	
 {% endblock %}
@@ -36,10 +41,11 @@
     <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.all.min.js') }}"> </script>
     <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/lang/zh-cn/zh-cn.js') }}"></script>
 
-    <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
     <script type="text/javascript">
     var ue = UE.getEditor('editor', {
-		serverUrl: "/upload/"
+		serverUrl: "/upload/",
+    initialFrameWidth: 1058,
+    initialFrameHeight: 500
 	});
 </script>
 {% endblock %}

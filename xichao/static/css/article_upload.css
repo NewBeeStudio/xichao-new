@@ -11,7 +11,7 @@
 	font-size: 17px;
 }
 
-#artical_upload {
+#article_upload {
 	margin-top: 4%;
 }
 
@@ -60,17 +60,17 @@
 	margin-left: 1%;
 }
 
-#button_upload {
+#button_upload_pic {
 	margin-right: 75%;
 	margin-left: 5%;
 	margin-top: 1%;
 }
 
-#artical_editor {
+#article_editor {
 	margin-top: 5%;
 }
 
-#p_artical_title {
+#p_article_title {
 	font-family: 微软雅黑;
 	font-size: 20px;
 	float: left;
@@ -81,4 +81,18 @@
 	margin-left: 2%;
 	height: 26px;
 	width: 50%;
+}
+
+#editor {
+	margin-top: 3%;
+}
+
+#button_upload_cancel {
+	margin-left: 30%;
+	margin-top: 3%;
+}
+
+#button_upload_confirm {
+	margin-left: 20%;
+	margin-top: 3%;
 }
