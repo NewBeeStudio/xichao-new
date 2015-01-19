@@ -72,6 +72,20 @@ def get_nick(email,password):
 	else:
 		return False
 ##################################  文章函数  ####################################
+def new_draft(userid = None):
+    ## 新建草稿，返回值为新的article_id
+    from models import Article
+    article = Article(title = u"草稿", picture = u"草稿",
+                      content = "空", is_draft = '1',
+                      time = datetime.now(), category = '0',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
+                      groups = '1', user_id = userid,             ## 1表示 TODO
+                      book_id = 1, special_id = 1)
+    db_session.add(article)
+    db_session.commit()
+    
+    # TODO 查询新插入的article_id并返回
+    return 2
+
 #文章分页显示函数
 def get_article_pagination(page,posts_per_page):
 	pagination=db_session.query(Article).paginate(page,posts_per_page,False)#获得分页对象

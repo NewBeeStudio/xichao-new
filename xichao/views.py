@@ -21,7 +21,8 @@ import os
 
 
 #PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
-#HOST='http://127.0.0.1:5000'
+HOST='http://127.0.0.1:5000'
+ARTICLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article')
 
 @app.route('/')
 def default():
@@ -136,6 +137,69 @@ def special(special_id,page_id=1):
 def uploaded_file(filename):
 	return send_from_directory(app.config['PHOTO_DEST'],filename)
 
+	
+#######################写文章#######################
 @app.route('/article_upload')
 def article_upload():
-	return render_template('test_article_upload.html')
+    ## 只有登陆才能发表文章，需要增加判断
+        ## 登陆的时候要在session中加入userid
+
+    ## 应该判断如果该用户草稿过多，则不能继续写文章
+        ## TODO
+
+    ## 插入一篇草稿
+    from functions import new_draft
+    draft_id = new_draft(int(session['userid']))
+    session['draft_id'] = str(draft_id)
+    
+    ## 新建文章图片路径
+    os.makedirs(os.path.join(ARTICLE_DEST, session['draft_id']))
+    
+    ## 前端应该在关闭页面前询问用户是否保留草稿
+    ## 否则用户没打开一次界面都会产生一个草稿
+    return render_template('test_article_upload.html')
+
+	
+@app.route('/editor/', methods=['GET', 'POST'])
+def upload():
+    from flask import json
+    action = request.args.get('action')
+
+    # 初始化，解析JSON格式的配置文件
+    # 这里使用PHP版本自带的config.json文件
+    if action == 'config':
+        fp = open(os.path.join(app.static_folder, 'ueditor', 'php', 'config.json'))
+        import re
+        CONFIG = json.loads(re.sub(r'\/\*.*\*\/', '', fp.read()))
+        # 初始化时，返回配置文件给客户端
+        result = CONFIG
+        return json.dumps(result)
+
+
+    if action == 'uploadimage':
+        result = {}
+        upfile = request.files['upfile']  # 这个表单名称以配置文件为准
+        # upfile 为 FileStorage 对象
+        # 这里保存文件并返回相应的URL
+        photoname = get_secure_photoname(upfile.filename)
+        path = os.path.join(ARTICLE_DEST, str(session['draft_id']), photoname)
+        upfile.save(path)
+        result = {
+            "state": "SUCCESS",
+            "url": "%s/editor_upload/%s" % (HOST, photoname),
+            "title": "article1.jpg",
+            "original": "article1.jpg"
+        }
+        return json.dumps(result)
+
+@app.route('/editor_upload/<filename>')
+def editor_upload(filename):
+    from flask import send_from_directory
+    return send_from_directory(os.path.join(ARTICLE_DEST, str(session['draft_id'])), filename)
+
+@app.route('/article_finish')
+def article_finish():
+    title = request.args.get('title')
+    content = request.args.get('content')
+    return title + "\n" + content
+    ## 修改session['draft_id']对应的数据库项

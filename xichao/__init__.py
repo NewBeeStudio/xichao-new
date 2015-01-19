@@ -40,8 +40,8 @@ app.config.from_object(__name__)
 def csrf_protect():
     if request.method == "POST":
         token = session.pop('_csrf_token', None)
-        if not token or token != request.form.get('_csrf_token'):
-            abort(403)
+#        if not token or token != request.form.get('_csrf_token'):
+#            abort(403)
 def generate_csrf_token():
     if '_csrf_token' not in session:
         session['_csrf_token'] = md5(SECRET_KEY + datetime.now().strftime('%Y%m%d%H%M%s')).hexdigest()
