@@ -124,4 +124,4 @@ def uploaded_file(filename):
 
 @app.route('/article_upload')
 def article_upload():
-	return render_template('test_artical_upload.html')
+	return render_template('test_article_upload.html')
