@@ -10,14 +10,13 @@ from xichao import app
 from hashlib import md5
 from models import User,Article,Special,Book,Comment
 from database import db_session
-from flask import jsonify,render_template
+from flask import jsonify,render_template,request,session
 from sqlalchemy import or_, not_, and_, desc
 from werkzeug import secure_filename
 from datetime import datetime
 from flask.ext.mail import Mail
 from flask.ext.mail import Message
 
-HOST='http://127.0.0.1:5000'
 
 ##################################  注册函数  ####################################
 def nick_exist(nick):
@@ -58,7 +57,7 @@ def get_secure_photoname(filename):
 	return photoname
 
 def send_verify_email(nick,password,email):
-	verify_url=HOST+'/verify?nick='+nick+'&secret='+encrypt(password)
+	verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+encrypt(password)
 	mail=Mail(app)
 	msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[email])
 	msg.body='text body'

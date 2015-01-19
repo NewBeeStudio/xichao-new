@@ -7,6 +7,7 @@
 <body>
 	{% from "test_formhelpers.html" import render_register %}
 	<form method=post action="/register" accept-charset="utf-8" enctype="multipart/form-data">
+		<input name=_csrf_token type=hidden value="{{ csrf_token() }}">
 	  <dl>
 	    {{ render_register(form.email) }}
 	    {{ render_register(form.nick) }}
