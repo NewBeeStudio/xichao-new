@@ -201,5 +201,6 @@ def editor_upload(filename):
 def article_finish():
     title = request.args.get('title')
     content = request.args.get('content')
+    ## TODO 用title和content更新数据库
     return title + "\n" + content
     ## 修改session['draft_id']对应的数据库项
