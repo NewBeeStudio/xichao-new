@@ -1,0 +1,40 @@
+{% extends "main.html" %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/login.css') }}" rel='stylesheet' type='text/css'/>
+{% endblock %}
+
+{% block content %}
+
+<!--登陆入口-->
+<div id="login-content">
+    <img src="{{ url_for('static', filename='images/login-lantern.jpg') }}" id="login-lantern"/>
+
+    <img src="{{ url_for('static', filename='images/login-white-circle.png') }}" id="login-outside-circle"/>
+
+    <div id="login-inside-circle">
+        <form id="login-form-block" action="#" method="post">
+        
+            <input type="text" name="username" class="login-userinfo" placeholder="输入用户名/邮箱" /> 
+            <input type="password" name="password" class="login-userinfo" placeholder="密码"/> 
+
+            <div id="login-autologin">
+                <input type="checkbox" name="autologin" id="login-autologin-label"/>
+                <label for="login-autologin-label">下次自动登录</label>
+                <a href="#">忘记密码</a>
+            </div>
+
+            <div id="login-submit">
+                <input type="submit" value="登陆">
+                <div class="clear" style="margin-top: 10px;">
+                    <a href="#">还没有账号？点击注册 >>></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}
