@@ -143,7 +143,7 @@ def uploaded_file(filename):
 def article_upload():
     ## 只有登陆才能发表文章，需要增加判断
         ## 登陆的时候要在session中加入userid
-
+    session['userid'] = '1'
     ## 应该判断如果该用户草稿过多，则不能继续写文章
         ## TODO
 
