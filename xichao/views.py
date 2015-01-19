@@ -121,3 +121,7 @@ def special(special_id,page_id=1):
 @app.route('/upload/avator/<filename>')
 def uploaded_file(filename):
 	return send_from_directory(PHOTO_DEST,filename)
+
+@app.route('/article_upload')
+def article_upload():
+	return render_template('test_article_upload.html')
