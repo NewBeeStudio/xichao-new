@@ -1,0 +1,84 @@
+.container {
+	display: block;
+
+	margin-left: 12%;
+	margin-right: 12%;
+	margin-top: 2%;
+}
+
+#title {
+	font-family: 微软雅黑;
+	font-size: 17px;
+}
+
+#artical_upload {
+	margin-top: 4%;
+}
+
+#pics {
+	margin-top: 4%;
+}
+
+.pics {
+	float: left;
+}
+
+#pic_1 {
+	margin-left: 5px;
+}
+
+#pic_2 {
+	margin-left: 2%;
+}
+
+#pic_3 {
+	margin-left: 2%;
+}
+
+.p_triangle {
+	float: left;
+	margin-top: 8%;
+	color: #ff9900;
+	font-size: 35px;
+	text-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+}
+
+.p_triangle:hover {
+	color: #ff6600;
+}
+
+.p_triangle:active {
+	position:relative;
+	top:1px;
+}
+
+#triangle_left {
+	margin-left: 19px;
+}
+
+#triangle_right {
+	margin-left: 5px;
+}
+
+#button_upload {
+	margin-right: 75%;
+	margin-left: 5%;
+	margin-top: 1%;
+}
+
+#artical_editor {
+	margin-top: 5%;
+}
+
+#p_artical_title {
+	font-family: 微软雅黑;
+	font-size: 20px;
+	float: left;
+	margin-top: 0px;
+}
+
+#input_title {
+	margin-left: 2%;
+	height: 26px;
+	width: 50%;
+}

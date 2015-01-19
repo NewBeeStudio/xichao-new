@@ -92,3 +92,7 @@ def login():
 		else:
 			error=u'邮箱或密码错误'
 	return render_template('test_login.html', form=form, error=error)
+
+@app.route('/artical')
+def artical():
+	return render_template('test_artical_upload.html')
