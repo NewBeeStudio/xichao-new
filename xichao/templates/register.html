@@ -1,0 +1,48 @@
+{% extends "main.html" %}
+
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/>
+{% endblock %}
+
+{% block content %}
+
+<!--注册表单-->
+<div id="register-content">
+    <form id="login-form-block" action="#" method="post">
+        <div class="register-form-field">
+        <label class="register-label">注册邮箱：</label>
+        <input type="text" name="mailaddress" class="register-userinfo"/> 
+        </div>
+
+        <div class="register-form-field">
+        <label class="register-label">昵称：</label>
+        <input type="text" name="username" class="register-userinfo"/>
+        </div>
+
+        <div class="register-form-field">
+        <label class="register-label">密码：</label>
+        <input type="password" name="password" class="register-userinfo"/>
+        </div>
+
+        <div class="register-form-field">
+        <label class="register-label">确认密码：</label>
+        <input type="password" name="passwordagain" class="register-userinfo"/>
+        </div>
+
+        <div class="register-form-field">
+        <label class="register-label">上传头像：</label>
+        <input type="password" name="passwordagain" class="register-userinfo"/>
+        </div>
+
+        <div class="register-form-field">
+        <a href="#"><div class="register-form-button">取消</div></a>
+        <input type="submit" value="提交" class="register-form-button">
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}
