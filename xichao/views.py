@@ -10,7 +10,7 @@
 '''
 from xichao import app
 from functions import *
-from flask import redirect,url_for,render_template,request,flash,session,make_response
+from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory
 from models import User
 from database import db_session
 from datetime import datetime
@@ -18,10 +18,7 @@ from forms import RegistrationForm,LoginForm
 from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 import os
-from werkzeug import secure_filename
-#from logging.handlers import SMTPHandler
-from flask.ext.mail import Mail
-from flask.ext.mail import Message
+
 
 PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
 HOST='http://127.0.0.1:5000'
@@ -43,13 +40,13 @@ def logout():
 
 @app.route('/test')
 def test():
-	print type(url_for('test'))
+	#print type(url_for('test'))
 	nick=None
 	if 'user' in session:
 		nick=session['user']
 	elif request.cookies.get('user')!=None:
 		nick=request.cookies.get('user')
-	return render_template('template.html', nick=nick)
+	return render_template('template.html', nick=nick,photo_url='http://127.0.0.1:5000/upload/avator/u24396247923879124612fm21gp02015011916361421656586.jpg')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -62,8 +59,7 @@ def register():
 		photo = request.files['photo']
 		if photo:
 			if allowed_file(photo.filename):
-				filename=secure_filename(photo.filename)
-				photoname=filename.rsplit('.',1)[0]+datetime.now().strftime('%Y%m%d%H%M%s')+'.'+filename.rsplit('.',1)[1]
+				photoname=get_secure_photoname(photo.filename)
 				photo_url=os.path.join(PHOTO_DEST, photoname)
 				photo.save(photo_url)
 			else:
@@ -72,13 +68,7 @@ def register():
 		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0')
 		db_session.add(user)
 		db_session.commit()
-		verify_url=HOST+url_for('verify')+'?nick='+form.nick.data+'&secret='+encrypt(form.password.data)
-		mail=Mail(app)
-		msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[form.email.data])
-		msg.body='text body'
-		msg.html = render_template('test_verify_email.html',verify_url=verify_url)
-		with app.app_context():
-			mail.send(msg)
+		send_verify_email(form.nick.data,form.password.data,form.email.data)
 		session['user']=request.form['nick']
 		flash(u'注册成功，正在跳转')
 		return redirect(url_for('test'))
@@ -113,3 +103,21 @@ def verify():
 	if state:
 		update_state(nick)
 	return redirect(url_for('test'))
+
+@app.route('/article/<int:article_id>',methods=['GET'])
+def article(article_id):
+	article=get_article_information(article_id)
+	#comment初始显示5-6条，下拉显示全部
+	comment=get_article_comment(article_id)
+	return render_template('test_article.html',article=article,comment=comment)
+
+@app.route('/special/<int:special_id>/page/<int:page_id>',methods=['GET'])
+def special(special_id,page_id=1):
+	special=get_special_information(special_id)
+	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
+	articles_pagination=get_special_article(special_id,page_id)
+	return render_template('special.html',special=special,articles_pagination=articles_pagination)
+
+@app.route('/upload/avator/<filename>')
+def uploaded_file(filename):
+	return send_from_directory(PHOTO_DEST,filename)

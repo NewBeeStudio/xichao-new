@@ -8,10 +8,16 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User
+from models import User,Article,Special,Book,Comment
 from database import db_session
-from flask import jsonify
-from sqlalchemy import or_, not_, and_
+from flask import jsonify,render_template
+from sqlalchemy import or_, not_, and_, desc
+from werkzeug import secure_filename
+from datetime import datetime
+from flask.ext.mail import Mail
+from flask.ext.mail import Message
+
+HOST='http://127.0.0.1:5000'
 
 ##################################  注册函数  ####################################
 def nick_exist(nick):
@@ -43,10 +49,22 @@ def get_state(nick,password):
 	else:
 		return False
 def update_state(nick):
-	print 'update0000000000000000000000000'
-	print nick
 	db_session.query(User).filter(User.nick==nick).update({'state':'1'})
 	db_session.commit()
+
+def get_secure_photoname(filename):
+	secured_filename=secure_filename(filename)
+	photoname=secured_filename.rsplit('.',1)[0]+datetime.now().strftime('%Y%m%d%H%M%s')+'.'+secured_filename.rsplit('.',1)[1]
+	return photoname
+
+def send_verify_email(nick,password,email):
+	verify_url=HOST+'/verify?nick='+nick+'&secret='+encrypt(password)
+	mail=Mail(app)
+	msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[email])
+	msg.body='text body'
+	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
+	with app.app_context():
+		mail.send(msg)
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
 	result=db_session.query(User).filter(and_(User.email==email,User.password==encrypt(password))).all()
@@ -54,4 +72,56 @@ def get_nick(email,password):
 		return result[0].nick
 	else:
 		return False
-		
+##################################  文章函数  ####################################
+#文章分页显示函数
+def get_article_pagination(page,posts_per_page):
+	pagination=db_session.query(Article).paginate(page,posts_per_page,False)#获得分页对象
+	return pagination
+	#pagination.items是分页好的数据
+'''
+<div class="pagination  "> 
+    <div class="row-fluid"> 
+        <div class="span3 offset2"> 
+            {% if pagination.has_prev %} 
+                <a href="/index/{{ pagination.prev_num }}">previous</a> 
+            {% endif %} 
+        </div> 
+        <div class="span3 "> 
+            <a href="">Page {{ pagination.page }} of {{ pagination.pages }}.</a> 
+        </div> 
+        <div class="span3 ">
+
+            {% if pagination.has_next %} 
+                <a href="/index/{{ pagination.next_num }}">next</a> 
+            {% endif %} 
+        </div> 
+    </div> 
+</div>
+'''
+#返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
+def get_article_information(article_id):
+	result=db_session.query(Article,User.nick,Book).join(User,Book).filter(Article.article_id==article_id).all()
+	#result[0][0]
+	#result[0][1]
+	#result[0][2]
+	print result[0]
+	if len(result)>0:
+		return result[0]
+	else:
+		return None
+
+#返回一个列表，列表中的元素为元组，result[x][0]是Comment类的数据库实例，result[x][1]是该Comment所对应的用户昵称
+def get_article_comment(article_id):
+	result=db_session.query(Comment,User.nick).join(User).filter(Comment.article_id==article_id).order_by(desc(Comment.time)).all()
+	return result
+##################################  专栏函数  ####################################
+def get_special_information(special_id):
+	result=db_session.query(Special,User.nick).join(User).filter(Special.special_id==special_id).all()
+	if len(result)>0:
+		return result[0]
+	else:
+		return None
+	
+def get_special_article(special_id,page_id):
+	pagination=db_session.query(Article).filter_by(special_id=special_id).paginate(page_id,5,False)
+	return pagination

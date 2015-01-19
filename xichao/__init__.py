@@ -22,6 +22,7 @@ MAIL_PASSWORD = 'xichaoxichao'
 # administrator list
 ADMINS = ['xichao_test@163.com']
 
+MAX_CONTENT_LENGTH=16*1024*1024
 
 
 app.config.from_object(__name__)
