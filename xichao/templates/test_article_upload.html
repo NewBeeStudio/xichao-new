@@ -41,11 +41,29 @@
     <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.all.min.js') }}"> </script>
     <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/lang/zh-cn/zh-cn.js') }}"></script>
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <script type="text/javascript">
     var ue = UE.getEditor('editor', {
 		serverUrl: "/upload/",
     initialFrameWidth: 1058,
     initialFrameHeight: 500
 	});
+
+    val_title = $("#input_title")[0].value;
+    val_content = UE.getEditor('editor').getAllHtml()
+
+    $(document).ready(function(){
+      $("#button_upload_confirm").click(function(){
+        $.post("localhost:5000/article_finish",
+        {
+          title: val_title,
+          content: val_content
+        },
+        function(data,status){
+          alert("Data: " + data + "\nStatus: " + status);
+        });
+      });
+    });
 </script>
 {% endblock %}
