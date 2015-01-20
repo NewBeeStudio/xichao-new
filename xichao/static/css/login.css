@@ -50,7 +50,6 @@
     /*background-color: #aaaaaa;*/
 }
 
-
 .login-userinfo > input{
     width: 299px;
     height: 40px;
@@ -69,6 +68,10 @@
     float: left;
     font-family: 微软雅黑;
 
+}
+
+#login-autologin > a{
+    float: right;
 }
 
 #login-submit{

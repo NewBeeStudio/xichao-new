@@ -1,5 +1,7 @@
 $(document).ready(function(){
+    /**************************************************************/ 
     /*nav-bar hover效果*/
+    /**************************************************************/
     var nav_onMouseIn = function(){
         $(this).addClass("hover");
         $(this).children().css("color","#ffffff");
@@ -12,7 +14,10 @@ $(document).ready(function(){
 
     $("li.nav-bar-item").hover(nav_onMouseIn, nav_onMouseOut);
 
+
+    /**************************************************************/
     /*login页面滑动效果*/
+    /**************************************************************/
 
     var login_circle_onMouseIn = function(e){      
         $(this).stop(true, true);
@@ -45,6 +50,18 @@ $(document).ready(function(){
     }
 
     $("#login-inside-circle").hover(login_circle_onMouseIn, login_circle_onMouseOut);
+
+
+    /**************************************************************/
+    /*登陆input提示*/
+    /**************************************************************/
+    $(".login-userinfo > #email").attr({"placeholder": "输入用户名/邮箱"});
+    $(".login-userinfo > #password").attr({"placeholder": "密码"});
+
+
+
+
+
 
 
 });
