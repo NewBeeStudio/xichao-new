@@ -44,7 +44,7 @@ def csrf_protect():
 #            abort(403)
 def generate_csrf_token():
     if '_csrf_token' not in session:
-        session['_csrf_token'] = md5(SECRET_KEY + datetime.now().strftime('%Y%m%d%H%M%s')).hexdigest()
+        session['_csrf_token'] = md5(SECRET_KEY + datetime.now().strftime('%Y%m%d%H%M%S')).hexdigest()
     return session['_csrf_token']
 
 app.jinja_env.globals['csrf_token'] = generate_csrf_token 

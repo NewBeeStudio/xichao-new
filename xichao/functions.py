@@ -53,7 +53,7 @@ def update_state(nick):
 
 def get_secure_photoname(filename):
 	secured_filename=secure_filename(filename)
-	photoname=secured_filename.rsplit('.',1)[0]+datetime.now().strftime('%Y%m%d%H%M%s')+'.'+secured_filename.rsplit('.',1)[1]
+	photoname=secured_filename.rsplit('.',1)[0]+datetime.now().strftime('%Y%m%d%H%M%S')+'.'+secured_filename.rsplit('.',1)[1]
 	return photoname
 
 def send_verify_email(nick,password,email):
