@@ -136,3 +136,8 @@ input:focus{
 .current-position{
     height: 88px;
 }
+
+
+input.input-warning{
+    border: solid 1.5px #ff0000;
+}
