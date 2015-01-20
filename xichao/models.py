@@ -183,8 +183,8 @@ class Article(Base):
                       unique = False, index = True, default = 0)
 
     ########## Foreign Key ##########
-    user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
-    book_id = Column(Integer, ForeignKey('book.book_id'), index = True)
+    user_id = Column(Integer, ForeignKey('user.user_id'), index = True,nullable = False)
+    book_id = Column(Integer, ForeignKey('book.book_id'), index = True,nullable = True)
     special_id = Column(Integer, ForeignKey('special.special_id'),
                         index = True, nullable = True)
 
