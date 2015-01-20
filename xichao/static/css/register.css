@@ -1,7 +1,3 @@
-#register-content{
-    width: 450px;
-}
-
 
 .register-form-field{
     height: 40px;
@@ -13,36 +9,47 @@
     margin-bottom: 30px;
 }*/
 
-.register-label{
+
+td.register-label{
+    width: 120px;
+}
+
+.register-label > label{
     font-family: 微软雅黑;
     font-size: 20px;
     line-height: 40px;
 }
 
-.register-userinfo{
+/*错误信息*/
+td.register-error{
+    padding-left: 20px;
+    color: #ff0000;
+    font-size: 18px;
+}
+
+input#email, input#nick, input#password, input#confirm{
     width: 300px;
     height: 40px;
-    float: right;
+    /*float: right;*/
 
     font-size: 20px;
 }
 
-/*.register-form-button{
-    
-    width: 118px;
-    height: 38px;
-}*/
+/*override*/
+input#photo{
+    border-width: 0;
+}
 
-.register-form-button{
-	margin: 18px auto 48px auto;
+
+.register-button{
+	margin: 18px auto 48px 120px;
     width: 118px;
     height: 38px;
 
     font-family: 黑体;
     font-size: 20px;
 
-}
-
-div.register-form-button{
-	float: left;
+    background-color: #D9AE48;
+    color: #ffffff;
+    float: left;
 }

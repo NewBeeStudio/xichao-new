@@ -1,48 +1,92 @@
-{% extends "main.html" %}
-
+{% extends "layout.html" %}
 
 {% block css %}
 <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/>
 {% endblock %}
 
 {% block content %}
+    <!--当前位置-->
+    <div class="current-position">
 
-<!--注册表单-->
-<div id="register-content">
-    <form id="login-form-block" action="#" method="post">
-        <div class="register-form-field">
-        <label class="register-label">注册邮箱：</label>
-        <input type="text" name="mailaddress" class="register-userinfo"/> 
-        </div>
-
-        <div class="register-form-field">
-        <label class="register-label">昵称：</label>
-        <input type="text" name="username" class="register-userinfo"/>
-        </div>
-
-        <div class="register-form-field">
-        <label class="register-label">密码：</label>
-        <input type="password" name="password" class="register-userinfo"/>
-        </div>
-
-        <div class="register-form-field">
-        <label class="register-label">确认密码：</label>
-        <input type="password" name="passwordagain" class="register-userinfo"/>
-        </div>
-
-        <div class="register-form-field">
-        <label class="register-label">上传头像：</label>
-        <input type="password" name="passwordagain" class="register-userinfo"/>
-        </div>
-
-        <div class="register-form-field">
-        <a href="#"><div class="register-form-button">取消</div></a>
-        <input type="submit" value="提交" class="register-form-button">
-        </div>
+    </div>
+    <!--注册表单-->
+    {% from "test_formhelpers.html" import render_register %}
+    <form method="post" action="/register" accept-charset="utf-8" enctype="multipart/form-data">
+        <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+        <dl>
+        {{ render_register(form.email, 0) }}
+        {{ render_register(form.nick, 1) }}
+        {{ render_register(form.password, 2) }}
+        {{ render_register(form.confirm, 3) }}
+        {{ render_register(form.photo, 4) }}
+        {% if photo_error != None%}
+            {{ photo_error }}
+        {% endif %}
+        </dl>
+      <input class="register-button" type="reset" value="取消">
+      <input class="register-button" type="submit" value="提交">
     </form>
-</div>
-
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+
+      $(".register-form-value").each(function(){
+            //有警告则输入框变色
+            if($(this).next().text().length > 25){ 
+              //最开始时字符串长度为25，why?
+              $(this).children().first().addClass("input-warning");
+            }
+            else
+              $(this).children().first().removeClass("input-warning");
+      });
+      
+      
+      /************************************************************/
+      /*input ajax*/
+      /************************************************************/
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+      $(".register-form-value input").change(function(){
+      var index = parseInt($(this).parent().attr("data-index")); //changed line number
+      // alert(index);
+      var info = new Array();
+      $(".register-form-value input").each(function(){
+        info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
+      });
+      // alert(info);
+      $.getJSON($SCRIPT_ROOT + '/ajax_register', {
+        email: info[0],
+        nick: info[1],
+        password: info[2],
+        confirm: info[3]}, function(data){
+        $(".register-form-value").each(function(){
+            var cur_index = parseInt($(this).attr("data-index"))
+            var cur_val = $(this).children().first().val()
+            if(cur_index <= index){ //当前内容不为空且光标位置在其之下，则显示警告
+              if(cur_index == 0)
+                $(this).next().text(data.email);
+              else if(cur_index == 1)
+                $(this).next().text(data.nick);
+              else if(cur_index == 2)
+                $(this).next().text(data.password);
+              else if(cur_index == 3)
+                $(this).next().text(data.confirm);
+            }
+            else{
+              $(this).next().text("");
+            }
+
+            //有警告则输入框变色
+            if($(this).next().text() != ""){
+              $(this).children().first().addClass("input-warning");
+            }
+            else
+              $(this).children().first().removeClass("input-warning");
+        });
+      });
+    });
+});
+</script>
 {% endblock %}
