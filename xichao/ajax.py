@@ -15,13 +15,15 @@ from werkzeug.datastructures import ImmutableMultiDict
 from flask import request, jsonify
 from forms import RegistrationForm
 
-@app.route('/ajax_register')
+@app.route('/ajax_register', methods=['GET'])
 def ajax_register_validate():
+	print "============================================================================="
 	email = request.args.get('email',0,type=str)
+	print email
 	nick = request.args.get('nick',0,type=str)
 	password = request.args.get('password',0,type=str)
 	confirm = request.args.get('confirm',0,type=str)
-	request_form_from_ajax=ImmutableMultiDict([('email', email),('nick', nick), ('password', password), ('confirm', confirm)])
-	form=RegistrationForm(request_form_from_ajax)
+	request_form_from_ajax = ImmutableMultiDict([('email', email),('nick', nick), ('password', password), ('confirm', confirm)])
+	form = RegistrationForm(request_form_from_ajax)
 	form.validate()
 	return jsonify(email=form.errors.get('email')[0],nick=form.errors.get('nick')[0],password=form.errors.get('password')[0],confirm=form.errors.get('confirm')[0])

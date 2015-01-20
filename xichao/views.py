@@ -10,7 +10,7 @@
 '''
 from xichao import app
 from functions import *
-from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory
+from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify
 from models import User
 from database import db_session
 from datetime import datetime
@@ -69,7 +69,7 @@ def register():
 				photo.save(photo_url)
 			else:
 				photo_error=u'文件名称不合法'
-				return render_template('test_register.html', form=form, photo_error=photo_error)
+				return render_template('register.html', form=form, photo_error=photo_error)
 		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0')
 		db_session.add(user)
 		db_session.commit()
@@ -79,7 +79,7 @@ def register():
 		return redirect(url_for('test'))
 	#form2.validate()
 	#print(form2.errors.get('email')[0])
-	return render_template('test_register.html', form=form, photo_error=photo_error)
+	return render_template('register.html', form=form, photo_error=photo_error)
 
 ####################################  login  ##################################
 
@@ -100,7 +100,7 @@ def login():
 			return response
 		else:
 			error=u'邮箱或密码错误'
-	return render_template('test_login.html', form=form, error=error)
+	return render_template('login.html', form=form, error=error)
 
 ####################################  email verify  ##################################
 
@@ -203,3 +203,35 @@ def article_finish():
     content = request.args.get('content')
     return title + "\n" + content
     ## 修改session['draft_id']对应的数据库项
+
+
+
+'''
+
+		ajax请求处理模块
+		
+		接收前端页面发送的json格式ajax请求
+		根据请求参数，形成RegistrationForm类的实例
+		调用RegistrationForm类的validate()方法，形成errors信息
+		根据errors信息，形成json格式的ajax响应
+
+
+'''
+@app.route('/ajax_register', methods=['GET'])
+def ajax_register_validate():
+	email = request.args.get('email',0,type=str)
+	nick = request.args.get('nick',0,type=str)
+	password = request.args.get('password',0,type=str)
+	confirm = request.args.get('confirm',0,type=str)
+	request_form_from_ajax = ImmutableMultiDict([('email', email),('nick', nick), ('password', password), ('confirm', confirm)])
+	form = RegistrationForm(request_form_from_ajax)
+	form.validate()
+
+	form_return = {}
+	for param in ['email', 'nick', 'password', 'confirm']:
+		if form.errors.get(param) == None:
+			form_return[param] = [u'']
+		else:
+			form_return[param] = form.errors.get(param)
+
+	return jsonify(email=form_return.get('email')[0],nick=form_return.get('nick')[0],password=form_return.get('password')[0],confirm=form_return.get('confirm')[0])
