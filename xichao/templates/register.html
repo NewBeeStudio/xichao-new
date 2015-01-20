@@ -33,11 +33,11 @@
     $(document).ready(function(){
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     
-      $(".ajax-form-value input").change(function(){
+      $(".register-form-value input").change(function(){
       var index = parseInt($(this).parent().attr("data-index")); //changed line number
       // alert(index);
       var info = new Array();
-      $(".ajax-form-value input").each(function(){
+      $(".register-form-value input").each(function(){
         info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
       });
       // alert(info);
@@ -46,7 +46,7 @@
         nick: info[1],
         password: info[2],
         confirm: info[3]}, function(data){
-        $(".ajax-error").each(function(){
+        $(".register-error").each(function(){
             if(parseInt($(this).attr("data-index")) == index){
             if(index == 0)
               $(this).text(data.email);

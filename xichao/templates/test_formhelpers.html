@@ -3,8 +3,8 @@
   <table>
     <tr>
       <td class="register-label">{{ field.label }}</td>
-      <td class="ajax-form-value" data-index="{{ data_index }}">{{ field(**kwargs)|safe }}</td>
-      <td class="ajax-error" data-index="{{ data_index }}">
+      <td class="register-form-value" data-index="{{ data_index }}">{{ field(**kwargs)|safe }}</td>
+      <td class="register-error" data-index="{{ data_index }}">
         <!--
         {% for error in field.errors %}
           <li>{{ error }} </li>

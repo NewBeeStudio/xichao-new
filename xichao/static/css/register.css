@@ -20,6 +20,10 @@ td.register-label{
     line-height: 40px;
 }
 
+td.register-error{
+    padding-left: 20px;
+    color: #ff0000;
+}
 
 input#email, input#nick, input#password, input#confirm{
     width: 300px;
