@@ -28,7 +28,12 @@ ARTICLE_DEST= os.path.join(os.path.dirname(__file__),'upload/article')
 
 @app.route('/')
 def default():
-	return redirect(url_for('test'))
+	return render_template('test.html')
+
+
+@app.route('/<filename>')
+def xiuxiu_config(filename):
+	return send_from_directory(os.path.dirname(__file__),filename)
 
 ####################################  logout  ################################
 
@@ -142,10 +147,28 @@ def uploaded_file(filename):
 	
 #######################写文章#######################
 
+@app.route('/upload_article_title_image', methods=['GET', 'POST'])
+def save_title_image():
+	title_image = request.files['upload_file']
+	title_image_name = 'article_upload_pic_4.png'
+	if title_image:
+		if allowed_file(title_image.filename):
+			title_image_name=get_secure_photoname(title_image.filename)
+			title_image_url=os.path.join(app.config['ARTICLE_TITLE_DEST'], title_image_name)
+			title_image.save(title_image_url)
+			#return HOST+'/upload/article/article_title_image/'+title_image_name
+		#else:
+			#return None article_upload_pic_4.png
+	return HOST+'/upload/article/article_title_image/'+title_image_name
+
+
+
+#获得文章题图
 @app.route('/upload/article/article_title_image/<filename>')
 def uploaded_article_title_image(filename):
 	return send_from_directory(app.config['ARTICLE_TITLE_DEST'],filename)
 
+#写文章页面显示
 @app.route('/article_upload')
 def article_upload():
     ## 只有登陆才能发表文章，需要增加判断
@@ -165,9 +188,15 @@ def article_upload():
     #os.makedirs(os.path.join(ARTICLE_DEST,session['draft_id']))
     ## 前端应该在关闭页面前询问用户是否保留草稿
     ## 否则用户没打开一次界面都会产生一个草稿
+    '''
+    不能用上面的方式创建文件夹，在两个用户同时想创建同一个号码的文件夹时，会发生冲突（因为他们可能拿到相同的draft_id）
+
+    '''
+
+
     return render_template('test_article_upload.html')
 
-	
+#UEditor配置
 @app.route('/editor/', methods=['GET', 'POST'])
 def upload():
     from flask import json
@@ -200,11 +229,12 @@ def upload():
         }
         return json.dumps(result)
 
+#获得UEditor内的图片
 @app.route('/editor_upload/<filename>')
 def editor_upload(filename):
-    from flask import send_from_directory
     return send_from_directory(app.config['ARTICLE_CONTENT_DEST'], filename)
 
+#文章完成时的提交路径
 @app.route('/article_finish',methods=['POST'])
 def article_finish():
     content = request.form['content']
@@ -217,6 +247,8 @@ def article_finish():
     return title + "\n" + content
     ## 修改session['draft_id']对应的数据库项
 
+
+#文章草稿的提交路径
 @app.route('/article_draft',methods=['POST'])
 def article_draft():
 	content=request.form['content']
