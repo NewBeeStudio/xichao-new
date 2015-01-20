@@ -111,8 +111,9 @@ input:focus{
     height: 30px;
     margin: 2px auto 2px auto;
     float: left;
-
+    
     font-family: 微软雅黑;
+    font-size: 20px;
     text-align: center; /*水平居中*/
     line-height: 30px; /*垂直居中*/
 }
@@ -131,6 +132,6 @@ input:focus{
     margin: auto;
 }
 
-.current-pos{
+.current-position{
     height: 88px;
 }

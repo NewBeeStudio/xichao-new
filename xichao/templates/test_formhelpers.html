@@ -1,10 +1,10 @@
-
-{% macro render_register(field) %}
+{% macro render_register(field, data_index) %}
+  <div class="register-form-field">
   <table>
     <tr>
-      <td style="width:200px">{{ field.label }}</td>
-      <td>{{ field(**kwargs)|safe }}</td>
-      <td>
+      <td class="register-label">{{ field.label }}</td>
+      <td class="ajax-form-value" data-index="{{ data_index }}">{{ field(**kwargs)|safe }}</td>
+      <td class="ajax-error" data-index="{{ data_index }}">
         <!--
         {% for error in field.errors %}
           <li>{{ error }} </li>
@@ -13,16 +13,25 @@
       </td>
     </tr>
   </table>
+  </div>
 {% endmacro %}
 
 {% macro render_login(field) %}
   <table>
     <tr>
-      <td style="width:200px">{{ field.label }}</td>
-      <td>{{ field(**kwargs)|safe }}</td>
+      <!-- <td style="width:200px">{{ field.label }}</td> -->
+      <td class="login-userinfo">{{ field(**kwargs)|safe }}</td>
       <td>
         {{ field.errors[0] }}
       </td>
     </tr>
   </table>
+{% endmacro %}
+
+{% macro render_login_autologin(field) %}
+  <div id="login-autologin">
+    {{ field(**kwargs)|safe }}
+    {{ field.label }}
+    <a href="#">忘记密码</a>
+  </div>
 {% endmacro %}

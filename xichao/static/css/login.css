@@ -51,8 +51,8 @@
 }
 
 
-.login-userinfo{
-    width: 100%;
+.login-userinfo > input{
+    width: 299px;
     height: 40px;
     margin: 0 auto 24px auto;
 
@@ -66,12 +66,9 @@
     height: 62px;
     width: 100%;
     font-size: 14px;
+    float: left;
     font-family: 微软雅黑;
 
-}
-
-#login-autologin > a{
-    float: right;
 }
 
 #login-submit{

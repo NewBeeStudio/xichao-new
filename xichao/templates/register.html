@@ -1,48 +1,65 @@
-{% extends "main.html" %}
-
+{% extends "layout.html" %}
 
 {% block css %}
 <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/>
 {% endblock %}
 
 {% block content %}
+    <!--当前位置-->
+    <div class="current-position">
 
-<!--注册表单-->
-<div id="register-content">
-    <form id="login-form-block" action="#" method="post">
-        <div class="register-form-field">
-        <label class="register-label">注册邮箱：</label>
-        <input type="text" name="mailaddress" class="register-userinfo"/> 
-        </div>
-
-        <div class="register-form-field">
-        <label class="register-label">昵称：</label>
-        <input type="text" name="username" class="register-userinfo"/>
-        </div>
-
-        <div class="register-form-field">
-        <label class="register-label">密码：</label>
-        <input type="password" name="password" class="register-userinfo"/>
-        </div>
-
-        <div class="register-form-field">
-        <label class="register-label">确认密码：</label>
-        <input type="password" name="passwordagain" class="register-userinfo"/>
-        </div>
-
-        <div class="register-form-field">
-        <label class="register-label">上传头像：</label>
-        <input type="password" name="passwordagain" class="register-userinfo"/>
-        </div>
-
-        <div class="register-form-field">
-        <a href="#"><div class="register-form-button">取消</div></a>
-        <input type="submit" value="提交" class="register-form-button">
-        </div>
+    </div>
+    <!--注册表单-->
+    {% from "test_formhelpers.html" import render_register %}
+    <form method="post" action="/register" accept-charset="utf-8" enctype="multipart/form-data">
+        <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+        <dl>
+        {{ render_register(form.email, 0) }}
+        {{ render_register(form.nick, 1) }}
+        {{ render_register(form.password, 2) }}
+        {{ render_register(form.confirm, 3) }}
+        {{ render_register(form.photo, 4) }}
+        {% if photo_error != None%}
+            {{ photo_error }}
+        {% endif %}
+        </dl>
+      <input class="register-button" type="reset" value="取消">
+      <input class="register-button" type="submit" value="提交">
     </form>
-</div>
-
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    
+      $(".ajax-form-value input").change(function(){
+      var index = parseInt($(this).parent().attr("data-index")); //changed line number
+      // alert(index);
+      var info = new Array();
+      $(".ajax-form-value input").each(function(){
+        info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
+      });
+      // alert(info);
+      $.getJSON($SCRIPT_ROOT + '/ajax_register', {
+        email: info[0],
+        nick: info[1],
+        password: info[2],
+        confirm: info[3]}, function(data){
+        $(".ajax-error").each(function(){
+            if(parseInt($(this).attr("data-index")) == index){
+            if(index == 0)
+              $(this).text(data.email);
+            else if(index == 1)
+              $(this).text(data.nick);
+            else if(index == 2)
+              $(this).text(data.password);
+            else if(index == 3)
+              $(this).text(data.confirm);
+          }
+        });
+      });
+    });
+});
+</script>
 {% endblock %}
