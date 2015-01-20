@@ -22,7 +22,9 @@ import os
 
 #PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
 HOST='http://127.0.0.1:5000'
-ARTICLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article')
+ARTICLE_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_title')
+ARTICLE_CONTENT_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_content')
+ARTICLE_DEST= os.path.join(os.path.dirname(__file__),'upload/article')
 
 @app.route('/')
 def default():
@@ -139,22 +141,28 @@ def uploaded_file(filename):
 
 	
 #######################写文章#######################
+
+@app.route('/upload/article/article_title_image/<filename>')
+def uploaded_article_title_image(filename):
+	return send_from_directory(app.config['ARTICLE_TITLE_DEST'],filename)
+
 @app.route('/article_upload')
 def article_upload():
     ## 只有登陆才能发表文章，需要增加判断
         ## 登陆的时候要在session中加入userid
-
+    #session['userid'] = '1'
     ## 应该判断如果该用户草稿过多，则不能继续写文章
         ## TODO
 
     ## 插入一篇草稿
-    from functions import new_draft
-    draft_id = new_draft(int(session['userid']))
-    session['draft_id'] = str(draft_id)
+    #draft_id = new_draft()
+    #session['draft_id'] = str(draft_id)
     
     ## 新建文章图片路径
-    os.makedirs(os.path.join(ARTICLE_DEST, session['draft_id']))
-    
+    #os.makedirs(os.path.join(app.config['ARTICLE_TITLE_DEST'], session['draft_id']))
+    #os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['draft_id']))
+
+    #os.makedirs(os.path.join(ARTICLE_DEST,session['draft_id']))
     ## 前端应该在关闭页面前询问用户是否保留草稿
     ## 否则用户没打开一次界面都会产生一个草稿
     return render_template('test_article_upload.html')
@@ -182,7 +190,7 @@ def upload():
         # upfile 为 FileStorage 对象
         # 这里保存文件并返回相应的URL
         photoname = get_secure_photoname(upfile.filename)
-        path = os.path.join(ARTICLE_DEST, str(session['draft_id']), photoname)
+        path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], photoname)
         upfile.save(path)
         result = {
             "state": "SUCCESS",
@@ -195,15 +203,27 @@ def upload():
 @app.route('/editor_upload/<filename>')
 def editor_upload(filename):
     from flask import send_from_directory
-    return send_from_directory(os.path.join(ARTICLE_DEST, str(session['draft_id'])), filename)
+    return send_from_directory(app.config['ARTICLE_CONTENT_DEST'], filename)
 
-@app.route('/article_finish')
+@app.route('/article_finish',methods=['POST'])
 def article_finish():
-    title = request.args.get('title')
-    content = request.args.get('content')
+    content = request.form['content']
+    title = request.form['title']
+    title_image=request.form['title_image']
+    print content
+    print title
+
+    ## TODO 用title和content更新数据库
     return title + "\n" + content
     ## 修改session['draft_id']对应的数据库项
 
+
+@app.route('/article_draft',methods=['POST'])
+def article_draft():
+	content=request.form['content']
+	title=request.form['title']
+	title_image=request.form['title_image']
+	return title + '\n'+content
 
 
 '''
@@ -235,3 +255,5 @@ def ajax_register_validate():
 			form_return[param] = form.errors.get(param)
 
 	return jsonify(email=form_return.get('email')[0],nick=form_return.get('nick')[0],password=form_return.get('password')[0],confirm=form_return.get('confirm')[0])
+
+
