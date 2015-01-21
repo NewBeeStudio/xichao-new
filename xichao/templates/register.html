@@ -33,11 +33,11 @@
     $(document).ready(function(){
 
       $(".register-form-value").each(function(){
-            //有警告则输入框变色
-            if($(this).next().text().length > 25){ 
-              //最开始时字符串长度为25，why?
+            var warning = $(this).next().text().replace(/(^\s*)|(\s*$)/g, ""); //获取warning区内容，去除空白字符
+
+            //有warning则输入框变色
+            if(warning.length > 0)
               $(this).children().first().addClass("input-warning");
-            }
             else
               $(this).children().first().removeClass("input-warning");
       });
@@ -63,8 +63,10 @@
         confirm: info[3]}, function(data){
         $(".register-form-value").each(function(){
             var cur_index = parseInt($(this).attr("data-index"))
-            var cur_val = $(this).children().first().val()
-            if(cur_index <= index){ //当前内容不为空且光标位置在其之下，则显示警告
+            var cur_val = $(this).children().first().val() //input框是否有内容
+
+            $(this).next().text("");
+            if(cur_index <= index){ //当前光标位置在其之下，则显示警告内容
               if(cur_index == 0)
                 $(this).next().text(data.email);
               else if(cur_index == 1)
@@ -78,12 +80,19 @@
               $(this).next().text("");
             }
 
-            //有警告则输入框变色
-            if($(this).next().text() != ""){
+            //input框变色
+            if($(this).next().text() != "" && cur_index <= index){
+              $(this).children().first().removeClass("input-ok");
               $(this).children().first().addClass("input-warning");
             }
-            else
+            else if($(this).next().text() == "" && cur_index <= index){
               $(this).children().first().removeClass("input-warning");
+              $(this).children().first().addClass("input-ok");
+            }
+            else{
+              $(this).children().first().removeClass("input-warning");
+              $(this).children().first().removeClass("input-ok");
+            }
         });
       });
     });

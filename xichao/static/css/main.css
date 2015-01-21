@@ -141,3 +141,7 @@ input:focus{
 input.input-warning{
     border: solid 1.5px #ff0000;
 }
+
+input.input-ok{
+    border: solid 1.5px #00ff00;
+}
