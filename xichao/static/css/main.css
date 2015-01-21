@@ -60,6 +60,9 @@ ul{
 
 .nav-bar-login-first{
     border-right: 2px solid #000000;
+    width: 300px;
+    text-align: right;
+    padding-right: 15px; /*右对齐，有padding*/
 }
 
 .nav-bar-login > a{
