@@ -239,21 +239,22 @@ def article_draft():
 '''
 @app.route('/ajax_register', methods=['GET'])
 def ajax_register_validate():
-	email = request.args.get('email',0,type=str)
-	nick = request.args.get('nick',0,type=str)
-	password = request.args.get('password',0,type=str)
-	confirm = request.args.get('confirm',0,type=str)
+	email = request.args.get('email',0,type=unicode)
+	nick = request.args.get('nick',0,type=unicode)
+	password = request.args.get('password',0,type=unicode)
+	confirm = request.args.get('confirm',0,type=unicode)
+
 	request_form_from_ajax = ImmutableMultiDict([('email', email),('nick', nick), ('password', password), ('confirm', confirm)])
 	form = RegistrationForm(request_form_from_ajax)
 	form.validate()
 
-	form_return = {}
+	errors_return = {} #返回去的错误信息字典
 	for param in ['email', 'nick', 'password', 'confirm']:
 		if form.errors.get(param) == None:
-			form_return[param] = [u'']
+			errors_return[param] = [u'']
 		else:
-			form_return[param] = form.errors.get(param)
+			errors_return[param] = form.errors.get(param)
 
-	return jsonify(email=form_return.get('email')[0],nick=form_return.get('nick')[0],password=form_return.get('password')[0],confirm=form_return.get('confirm')[0])
+	return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0])
 
 
