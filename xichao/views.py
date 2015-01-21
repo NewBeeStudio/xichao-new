@@ -60,6 +60,7 @@ def register():
 	#re=ImmutableMultiDict([('username', u'dddd'), ('password', u''), ('email', u'')])
 	#form2 = RegistrationForm(re)
 	#form = RegistrationForm(request.form)
+
 	form = RegistrationForm(request.form)
 	photo_error=None
 	if request.method == 'POST' and form.validate():
@@ -71,7 +72,7 @@ def register():
 				photo.save(photo_url)
 			else:
 				photo_error=u'文件名称不合法'
-				return render_template('register.html', form=form, photo_error=photo_error)
+				return render_template('register.html', nick=None, form=form, photo_error=photo_error)
 		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0')
 		db_session.add(user)
 		db_session.commit()
@@ -81,7 +82,7 @@ def register():
 		return redirect(url_for('test'))
 	#form2.validate()
 	#print(form2.errors.get('email')[0])
-	return render_template('register.html', form=form, photo_error=photo_error)
+	return render_template('register.html', nick=None, form=form, photo_error=photo_error)
 
 ####################################  login  ##################################
 
@@ -102,7 +103,7 @@ def login():
 			return response
 		else:
 			error=u'邮箱或密码错误'
-	return render_template('login.html', form=form, error=error)
+	return render_template('login.html', nick=None, form=form, error=error)
 
 ####################################  email verify  ##################################
 
