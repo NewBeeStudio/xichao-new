@@ -10,7 +10,7 @@
 '''
 from xichao import app
 from functions import *
-from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory
+from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify
 from models import User
 from database import db_session
 from datetime import datetime
@@ -28,7 +28,12 @@ ARTICLE_DEST= os.path.join(os.path.dirname(__file__),'upload/article')
 
 @app.route('/')
 def default():
-	return redirect(url_for('test'))
+	return render_template('test.html')
+
+
+@app.route('/<filename>')
+def xiuxiu_config(filename):
+	return send_from_directory(os.path.dirname(__file__),filename)
 
 ####################################  logout  ################################
 
@@ -71,7 +76,7 @@ def register():
 				photo.save(photo_url)
 			else:
 				photo_error=u'文件名称不合法'
-				return render_template('test_register.html', form=form, photo_error=photo_error)
+				return render_template('register.html', form=form, photo_error=photo_error)
 		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0')
 		db_session.add(user)
 		db_session.commit()
@@ -81,7 +86,7 @@ def register():
 		return redirect(url_for('test'))
 	#form2.validate()
 	#print(form2.errors.get('email')[0])
-	return render_template('test_register.html', form=form, photo_error=photo_error)
+	return render_template('register.html', form=form, photo_error=photo_error)
 
 ####################################  login  ##################################
 
@@ -102,7 +107,7 @@ def login():
 			return response
 		else:
 			error=u'邮箱或密码错误'
-	return render_template('test_login.html', form=form, error=error)
+	return render_template('login.html', form=form, error=error)
 
 ####################################  email verify  ##################################
 
@@ -142,10 +147,28 @@ def uploaded_file(filename):
 	
 #######################写文章#######################
 
+@app.route('/upload_article_title_image', methods=['GET', 'POST'])
+def save_title_image():
+	title_image = request.files['upload_file']
+	title_image_name = 'article_upload_pic_4.png'
+	if title_image:
+		if allowed_file(title_image.filename):
+			title_image_name=get_secure_photoname(title_image.filename)
+			title_image_url=os.path.join(app.config['ARTICLE_TITLE_DEST'], title_image_name)
+			title_image.save(title_image_url)
+			#return HOST+'/upload/article/article_title_image/'+title_image_name
+		#else:
+			#return None article_upload_pic_4.png
+	return HOST+'/upload/article/article_title_image/'+title_image_name
+
+
+
+#获得文章题图
 @app.route('/upload/article/article_title_image/<filename>')
 def uploaded_article_title_image(filename):
 	return send_from_directory(app.config['ARTICLE_TITLE_DEST'],filename)
 
+#写文章页面显示
 @app.route('/article_upload')
 def article_upload():
     ## 只有登陆才能发表文章，需要增加判断
@@ -165,9 +188,15 @@ def article_upload():
     #os.makedirs(os.path.join(ARTICLE_DEST,session['draft_id']))
     ## 前端应该在关闭页面前询问用户是否保留草稿
     ## 否则用户没打开一次界面都会产生一个草稿
+    '''
+    不能用上面的方式创建文件夹，在两个用户同时想创建同一个号码的文件夹时，会发生冲突（因为他们可能拿到相同的draft_id）
+
+    '''
+
+
     return render_template('test_article_upload.html')
 
-	
+#UEditor配置
 @app.route('/editor/', methods=['GET', 'POST'])
 def upload():
     from flask import json
@@ -200,11 +229,12 @@ def upload():
         }
         return json.dumps(result)
 
+#获得UEditor内的图片
 @app.route('/editor_upload/<filename>')
 def editor_upload(filename):
-    from flask import send_from_directory
     return send_from_directory(app.config['ARTICLE_CONTENT_DEST'], filename)
 
+#文章完成时的提交路径
 @app.route('/article_finish',methods=['POST'])
 def article_finish():
     content = request.form['content']
@@ -217,9 +247,45 @@ def article_finish():
     return title + "\n" + content
     ## 修改session['draft_id']对应的数据库项
 
+
+
+#文章草稿的提交路径
 @app.route('/article_draft',methods=['POST'])
 def article_draft():
 	content=request.form['content']
 	title=request.form['title']
 	title_image=request.form['title_image']
 	return title + '\n'+content
+
+
+'''
+
+		ajax请求处理模块
+		
+		接收前端页面发送的json格式ajax请求
+		根据请求参数，形成RegistrationForm类的实例
+		调用RegistrationForm类的validate()方法，形成errors信息
+		根据errors信息，形成json格式的ajax响应
+
+
+'''
+@app.route('/ajax_register', methods=['GET'])
+def ajax_register_validate():
+	email = request.args.get('email',0,type=str)
+	nick = request.args.get('nick',0,type=str)
+	password = request.args.get('password',0,type=str)
+	confirm = request.args.get('confirm',0,type=str)
+	request_form_from_ajax = ImmutableMultiDict([('email', email),('nick', nick), ('password', password), ('confirm', confirm)])
+	form = RegistrationForm(request_form_from_ajax)
+	form.validate()
+
+	form_return = {}
+	for param in ['email', 'nick', 'password', 'confirm']:
+		if form.errors.get(param) == None:
+			form_return[param] = [u'']
+		else:
+			form_return[param] = form.errors.get(param)
+
+	return jsonify(email=form_return.get('email')[0],nick=form_return.get('nick')[0],password=form_return.get('password')[0],confirm=form_return.get('confirm')[0])
+
+
