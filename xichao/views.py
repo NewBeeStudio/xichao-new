@@ -26,6 +26,7 @@ ARTICLE_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/art
 ARTICLE_CONTENT_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_content')
 ARTICLE_DEST= os.path.join(os.path.dirname(__file__),'upload/article')
 
+
 @app.route('/')
 def default():
 	return render_template('test.html')
@@ -171,30 +172,38 @@ def uploaded_article_title_image(filename):
 #写文章页面显示
 @app.route('/article_upload')
 def article_upload():
-    ## 只有登陆才能发表文章，需要增加判断
-        ## 登陆的时候要在session中加入userid
-    #session['userid'] = '1'
-    ## 应该判断如果该用户草稿过多，则不能继续写文章
-        ## TODO
-
-    ## 插入一篇草稿
-    #draft_id = new_draft()
-    #session['draft_id'] = str(draft_id)
-    
-    ## 新建文章图片路径
-    #os.makedirs(os.path.join(app.config['ARTICLE_TITLE_DEST'], session['draft_id']))
-    #os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['draft_id']))
-
-    #os.makedirs(os.path.join(ARTICLE_DEST,session['draft_id']))
-    ## 前端应该在关闭页面前询问用户是否保留草稿
-    ## 否则用户没打开一次界面都会产生一个草稿
-    '''
-    不能用上面的方式创建文件夹，在两个用户同时想创建同一个号码的文件夹时，会发生冲突（因为他们可能拿到相同的draft_id）
-
-    '''
+	## 只有登陆才能发表文章，需要增加判断
+	    ## 登陆的时候要在session中加入userid
+	#session['userid'] = '1'
+	## 应该判断如果该用户草稿过多，则不能继续写文章
+	    ## TODO
 
 
-    return render_template('test_article_upload.html')
+	## 插入一篇草稿
+	#draft_id = new_draft()
+	#session['draft_id'] = str(draft_id)
+
+	## 新建文章图片路径
+	#os.makedirs(os.path.join(app.config['ARTICLE_TITLE_DEST'], session['draft_id']))
+	#os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['draft_id']))
+
+	#os.makedirs(os.path.join(ARTICLE_DEST,session['draft_id']))
+	## 前端应该在关闭页面前询问用户是否保留草稿
+	## 否则用户没打开一次界面都会产生一个草稿
+	'''
+	不能用上面的方式创建文件夹，在两个用户同时想创建同一个号码的文件夹时，会发生冲突（因为他们可能拿到相同的draft_id）
+
+	'''
+	#未登录用户跳转到登录页面，已登录用户，跳转到发表文章页面
+	if not 'user' in session:
+		return redirect(url_for('login'))
+	else:
+		#使用全局变量ARTICLE_SESSION_ID，来新建文件夹
+		article_session_id=get_article_session_id()
+		#将ARTICLE_SESSION_ID放入session中，以访问该ARTICLE_SESSION_ID下的文件夹下的文章内容图该值需要能够被写入文章的数据库表中
+		session['article_session_id']=str(article_session_id)
+		os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+		return render_template('test_article_upload.html')
 
 #UEditor配置
 @app.route('/editor/', methods=['GET', 'POST'])
@@ -219,7 +228,7 @@ def upload():
         # upfile 为 FileStorage 对象
         # 这里保存文件并返回相应的URL
         photoname = get_secure_photoname(upfile.filename)
-        path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], photoname)
+        path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['article_session_id'] ,photoname)
         upfile.save(path)
         result = {
             "state": "SUCCESS",
@@ -232,22 +241,19 @@ def upload():
 #获得UEditor内的图片
 @app.route('/editor_upload/<filename>')
 def editor_upload(filename):
-    return send_from_directory(app.config['ARTICLE_CONTENT_DEST'], filename)
+    return send_from_directory(os.path.join(app.config['ARTICLE_CONTENT_DEST'],session['article_session_id']), filename)
 
 #文章完成时的提交路径
 @app.route('/article_finish',methods=['POST'])
 def article_finish():
     content = request.form['content']
     title = request.form['title']
+    ##TODO 文章标题的安全性过滤
     title_image=request.form['title_image']
-    print content
-    print title
+    user_id=get_user_id(session['user'])
 
-    ## TODO 用title和content更新数据库
-    return title + "\n" + content
-    ## 修改session['draft_id']对应的数据库项
-
-
+    create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0')
+    return u'文章保存成功'
 
 #文章草稿的提交路径
 @app.route('/article_draft',methods=['POST'])
@@ -255,7 +261,10 @@ def article_draft():
 	content=request.form['content']
 	title=request.form['title']
 	title_image=request.form['title_image']
-	return title + '\n'+content
+	user_id=get_user_id(session['user'])
+
+	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1')
+	return u'草稿保存成功'
 
 
 '''
@@ -271,10 +280,10 @@ def article_draft():
 '''
 @app.route('/ajax_register', methods=['GET'])
 def ajax_register_validate():
-	email = request.args.get('email',0,type=str)
-	nick = request.args.get('nick',0,type=str)
-	password = request.args.get('password',0,type=str)
-	confirm = request.args.get('confirm',0,type=str)
+	email = request.args.get('email',0,type=unicode)
+	nick = request.args.get('nick',0,type=unicode)
+	password = request.args.get('password',0,type=unicode)
+	confirm = request.args.get('confirm',0,type=unicode)
 	request_form_from_ajax = ImmutableMultiDict([('email', email),('nick', nick), ('password', password), ('confirm', confirm)])
 	form = RegistrationForm(request_form_from_ajax)
 	form.validate()
