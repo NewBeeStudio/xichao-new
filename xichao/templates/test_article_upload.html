@@ -12,7 +12,7 @@
 {% block content %}
  <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发表文章</p>
     <div id="pics">
-    	  <img class="pics" id="pic_4" src="http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_4.png" />
+    	  <img class="pics" id="pic_4" style="width:225px;height:205px;" src="http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_4.png" />
        	<p class="p_triangle" id="triangle_left">◀</p>
         <img class="pics" id="pic_1" src="http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg" />
         <img class="pics" id="pic_2" src="http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_2.jpg" />
@@ -44,6 +44,11 @@
 
     <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 
+    <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
+
+
+
     <script type="text/javascript">
     var ue = UE.getEditor('editor', {
 		serverUrl: "/editor/",
@@ -56,15 +61,15 @@
       $("#button_upload_confirm").click(function(){
         val_title = $("#input_title").val();
         val_content = UE.getEditor('editor').getContent();
-        alert(val_content);
-        alert(val_title);
+        val_title_image=$('#pic_4').attr('src');
         $.post("http://127.0.0.1:5000/article_finish",
         {
           title: val_title,
-          content: val_content
+          content: val_content,
+          title_image: val_title_image
         },
-        function(status){
-          //alert("Data: " + data + "\nStatus: " + status);
+        function(data){
+          alert(data)
           location.href ="http://127.0.0.1:5000/test"
         });
       });
@@ -72,14 +77,14 @@
       $('#button_upload_draft').click(function(){
         val_title = $("#input_title").val();
         val_content = UE.getEditor('editor').getContent();
+        val_title_image=$('#pic_4').attr('src');
         $.post("http://127.0.0.1:5000/article_draft",
         {
           title: val_title,
-          content: val_content
+          content: val_content,
+          title_image: val_title_image
         },
         function(data){
-          //alert("Data: " + data + "\nStatus: " + status);
-          alert('保存草稿成功！')
           alert(data)
         });
       });
@@ -88,9 +93,27 @@
         alert($(this).attr("src"))
         $('#pic_4').attr("src",$(this).attr("src"))
         alert($('#pic_4').attr("src"))
-      })
-
+      });
     });
 </script>
+<!--上传题图的页面框-->
+<script type="text/javascript">
+  $('#button_upload_pic').click(function(){
+    $.layer({
+        type: 2,
+        title: [
+            '上传文章题图', 
+            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+        ], 
+        border:[0],
+        area: ['90%', '90%'],
+        iframe: {src: 'http://127.0.0.1:5000/'},
+        close: function(index){
+          $('#pic_4').attr("src",layer.getChildFrame('#url',index).val())
+        }
+    });
+  });
+</script>
+
 {% endblock %}
 

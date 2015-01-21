@@ -167,7 +167,8 @@ class Article(Base):
     content = Column(Text, nullable = False)
     picture = Column(String(255), nullable = False)
     is_draft = Column(CHAR(1), nullable = False, default = '1')
-
+    #保存文章内容图片的文件夹号，便于删除
+    article_session_id = Column(String(20),nullable=False)
     ########## Index/Unique索引 ##########
     time = Column(DateTime, nullable = False, 
                             unique = False, index = True)
@@ -192,12 +193,13 @@ class Article(Base):
                        content = None, is_draft = '1',
                        time = None, category = '0',
                        groups = '1', user_id = None,
-                       book_id = None, special_id = None):
+                       book_id = None, special_id = None,article_session_id=None):
         self.title = title
         self.content = content
         self.picture = picture
         self.is_draft = is_draft
-        
+        self.article_session_id=article_session_id
+
         self.time = time
         self.favor = 0
         self.category = category
@@ -484,3 +486,21 @@ class Product(Base):
 
     def __repr__(self):
         return '<Product: %r>' % (self.name)
+####################################  文章会话id表  ######################################
+
+
+class Article_session(Base):
+    __tablename__='article_session'
+    __table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+    ########## Primary索引 ##########
+    article_session_id = Column(Integer, primary_key=True, 
+                       autoincrement=True, nullable=False, index=True)
+    
+    def __init__(self):
+        pass
+    def __repr__(self):
+        return '<Article_session: %r>' % (self.article_session_id)
+
