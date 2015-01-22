@@ -7,7 +7,7 @@
 {% block content %}
 <!--当前位置-->
 <div class="current-position">
-    
+    <p>登陆</p>
 </div>
 <!--登陆入口-->
 <div id="login-content">
@@ -26,10 +26,12 @@
                 {{ render_login(form.email) }}
                 {{ render_login(form.password) }}
                 {{ render_login_autologin(form.stay) }}
-                {% if error!=None %}
-                {{ error }}
-                {% endif %}
             </dl>
+            {% if error!=None %}
+            <div class="login-error-tip login-error-2">
+                {{ error }}
+            </div>
+            {% endif %}
 
             <div id="login-submit">
                 <input type="submit" value="登陆">
@@ -44,4 +46,9 @@
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".login-error-tip").fadeOut(4000);
+    });
+</script>
 {% endblock %}

@@ -20,12 +20,13 @@ td.register-label{
     line-height: 40px;
 }
 
-/*错误信息*/
-td.register-error{
+/*错误提示信息*/
+td.register-warning{
     padding-left: 20px;
     color: #ff0000;
     font-size: 18px;
 }
+
 
 input#email, input#nick, input#password, input#confirm{
     width: 300px;

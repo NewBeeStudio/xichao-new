@@ -4,7 +4,7 @@
     <tr>
       <td class="register-label">{{ field.label }}</td>
       <td class="register-form-value" data-index="{{ data_index }}">{{ field(**kwargs)|safe }}</td>
-      <td class="register-error" data-index="{{ data_index }}">
+      <td class="register-warning" data-index="{{ data_index }}">
         <!--
         {% for error in field.errors %}
           <li>{{ error }} </li>
@@ -22,7 +22,12 @@
       <!-- <td style="width:200px">{{ field.label }}</td> -->
       <td class="login-userinfo">{{ field(**kwargs)|safe }}</td>
       <td>
-        {{ field.errors[0] }}
+        {% if field.errors[0] %}
+            <div class="login-error-tip login-error-1">
+                {{ field.errors[0] }}
+            </div>
+        {% endif %}
+        <!-- {{ field.errors[0] }} -->
       </td>
     </tr>
   </table>

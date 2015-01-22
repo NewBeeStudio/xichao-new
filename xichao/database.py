@@ -32,7 +32,7 @@ def init_db():
 
 def test_db():
     ##先导入操作数据库所需的所有函数
-    from functions import *
+    from functions import encrypt
     ##上传路径
     ##关于上传路径是前端的事情,这里的url只是示例,具体url格式由前端决定
         
@@ -46,14 +46,14 @@ def test_db():
     db_session.add(user)
     db_session.commit()
 
-
+    
     user = User(nick = u"Nick2", email = u"example2@exmample.com", 
                 role = 1, register_time = datetime.now(),
                 last_login_time = datetime.now(), password = encrypt(u"password"),
                 state = u'0')
     db_session.add(user)
     db_session.commit()
-
+    
     ##测试书籍
     from models import Book
     book = Book(title = u"算法导论", ISBN = u"7111407016",
@@ -78,9 +78,18 @@ def test_db():
                       content = "本文是算法入门文章", is_draft = '1',
                       time = datetime.now(), category = '0',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
                       groups = '1', user_id = 1,             ## 1表示 TODO
-                      book_id = 1, special_id = 1)
+                      book_id = 1, special_id = 1,article_session_id=1)
     db_session.add(article)
     db_session.commit()
+
+
+    ##测试文章会话id
+
+    from models import Article_session
+    article_session = Article_session()
+    db_session.add(article_session)
+    db_session.commit()
+
     
     ##测试评论
     from models import Comment

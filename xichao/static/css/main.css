@@ -60,6 +60,9 @@ ul{
 
 .nav-bar-login-first{
     border-right: 2px solid #000000;
+    width: 300px;
+    text-align: right;
+    padding-right: 15px; /*右对齐，有padding*/
 }
 
 .nav-bar-login > a{
@@ -134,10 +137,33 @@ input:focus{
 }
 
 .current-position{
-    height: 88px;
+    position: relative;
+    height: 62px;
+    margin-bottom: 26px;
+}
+
+.current-position p{
+    position: absolute;
+    bottom: 0;
 }
 
 
 input.input-warning{
     border: solid 1.5px #ff0000;
+}
+
+input.input-ok{
+    border: solid 1.5px #00ff00;
+}
+
+.input-button{
+    /*
+    width: 118px;
+    height: 38px;*/
+
+    font-family: 黑体;
+    font-size: 20px;
+
+    background-color: #D9AE48;
+    color: #ffffff;
 }

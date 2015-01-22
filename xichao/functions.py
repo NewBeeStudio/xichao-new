@@ -8,7 +8,7 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User,Article,Special,Book,Comment
+from models import User,Article,Special,Book,Comment,Article_session
 from database import db_session
 from flask import jsonify,render_template,request,session
 from sqlalchemy import or_, not_, and_, desc
@@ -72,20 +72,22 @@ def get_nick(email,password):
 	else:
 		return False
 ##################################  文章函数  ####################################
-def new_draft():
-    ## 新建草稿，返回值为新的article_id
-    '''
-    article = Article(title = u"草稿", picture = u"草稿",
-                      content = "空", is_draft = '1',
-                      time = datetime.now(), category = '0',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
-                      groups = '1', user_id = userid,             ## 1表示 TODO
-                      book_id = 1, special_id = 1)
-    db_session.add(article)
+def get_article_session_id():
+    article_session = Article_session()
+    db_session.add(article_session)
     db_session.commit()
-    '''
-    # TODO 查询新插入的article_id并返回
-    result=db_session.query(Article.article_id).order_by(desc(Article.article_id)).first()
-    return result[0]+1
+    result=db_session.query(Article_session.article_session_id).order_by(desc(Article_session.article_session_id)).first()
+    return result[0]
+
+#添加文章
+def create_article(title,content,title_image,article_session_id,is_draft,user_id):
+	article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft)
+	db_session.add(article)
+	db_session.commit()
+
+def get_user_id(nick):
+	user_id=db_session.query(User.user_id).filter_by(nick=nick).first()
+	return user_id[0]
 
 #文章分页显示函数
 def get_article_pagination(page,posts_per_page):
@@ -139,3 +141,12 @@ def get_special_information(special_id):
 def get_special_article(special_id,page_id):
 	pagination=db_session.query(Article).filter_by(special_id=special_id).paginate(page_id,5,False)
 	return pagination
+
+###################################  昵称函数  ####################################
+def getNick():
+	nick = None
+	if 'user' in session:
+		nick = session['user']
+	elif request.cookies.get('user')!=None:
+		nick = request.cookies.get('user')
+	return nick

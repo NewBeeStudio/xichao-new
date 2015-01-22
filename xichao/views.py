@@ -10,7 +10,7 @@
 '''
 from xichao import app
 from functions import *
-from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify
+from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify,abort
 from models import User
 from database import db_session
 from datetime import datetime
@@ -19,30 +19,49 @@ from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 import os
 
-
-#PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
-HOST='http://127.0.0.1:5000'
-ARTICLE_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_title')
-ARTICLE_CONTENT_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_content')
-ARTICLE_DEST= os.path.join(os.path.dirname(__file__),'upload/article')
-
-@app.route('/')
-def default():
-	return render_template('test.html')
+#######################################  图片裁剪器  #########################################
+##TODO：通过传参，缩为一个
+@app.route('/upload/tailor/title_image')
+def upload_title_image():
+	return render_template('upload_title_image_tailor.html')
 
 
+@app.route('/upload/tailor/avatar')
+def upload_avator():
+	return render_template('upload_avatar_tailor.html')
+
+##################################### 获取session nick #############################
+'''
+函数要放在functions.py模块，不能放在这里
+
+
+def getNick():
+	nick = None
+	if 'user' in session:
+		nick = session['user']
+	elif request.cookies.get('user')!=None:
+		nick = request.cookies.get('user')
+	return nick
+'''
+#######################################  美图秀秀配置文件  #########################################
 @app.route('/<filename>')
 def xiuxiu_config(filename):
-	return send_from_directory(os.path.dirname(__file__),filename)
+	if filename=='crossdomain.xml':
+		return send_from_directory(os.path.dirname(__file__),filename)
+	else:
+		abort(404)
 
-####################################  logout  ################################
+
+#######################################  注销  #########################################
 
 @app.route('/logout')
 def logout():
+	#弹出session
 	session.pop('user', None)
 	response=make_response(redirect(url_for('test')))
+	#删除cookie
 	if request.cookies.get('user')!=None:
-		response.set_cookie('user','',expires=0)
+		response.set_cookie('user','',expires=datetime.now())
 	flash('你已退出')
 	return response
 
@@ -50,46 +69,50 @@ def logout():
 
 @app.route('/test')
 def test():
-	#print type(url_for('test'))
 	nick=None
+	#先从session中获取，若session中没有，再从cookie中获取，若都没有，则为默认值None
 	if 'user' in session:
 		nick=session['user']
 	elif request.cookies.get('user')!=None:
 		nick=request.cookies.get('user')
-	return render_template('template.html', nick=nick,photo_url=app.config['HOST_NAME']+'/upload/avator/u24396247923879124612fm21gp02015011916361421656586.jpg')
+	return render_template('template.html', nick=nick)
 
 ####################################  register  ##################################
-
+##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-	#re=ImmutableMultiDict([('username', u'dddd'), ('password', u''), ('email', u'')])
-	#form2 = RegistrationForm(re)
-	#form = RegistrationForm(request.form)
+	print request.form
 	form = RegistrationForm(request.form)
-	photo_error=None
 	if request.method == 'POST' and form.validate():
-		photo = request.files['photo']
-		if photo:
-			if allowed_file(photo.filename):
-				photoname=get_secure_photoname(photo.filename)
-				photo_url=os.path.join(app.config['PHOTO_DEST'], photoname)
-				photo.save(photo_url)
-			else:
-				photo_error=u'文件名称不合法'
-				return render_template('register.html', form=form, photo_error=photo_error)
-		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0')
+		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0',request.form['avatar'])
 		db_session.add(user)
 		db_session.commit()
 		send_verify_email(form.nick.data,form.password.data,form.email.data)
 		session['user']=request.form['nick']
 		flash(u'注册成功，正在跳转')
 		return redirect(url_for('test'))
-	#form2.validate()
-	#print(form2.errors.get('email')[0])
-	return render_template('register.html', form=form, photo_error=photo_error)
+	return render_template('register.html', nick=None, form=form)
+
+#接收上传的头像文件，保存并返回路径
+@app.route('/upload/avatar',methods=['GET', 'POST'])
+def save_avatar():
+	avatar = request.files['avatar']
+	avatar_name='default.jpg'
+	if avatar:
+		if allowed_file(avatar.filename):
+			avatar_name=get_secure_photoname(avatar.filename)
+			avatar_url=os.path.join(app.config['PHOTO_DEST'],avatar_name)
+			avatar.save(avatar_url)
+	return app.config['HOST_NAME']+'/upload/avatar/'+avatar_name
+
+#为上传的头像文件提供服务
+@app.route('/upload/avatar/<filename>')
+def uploaded_file(filename):
+	return send_from_directory(app.config['PHOTO_DEST'],filename)
+
 
 ####################################  login  ##################################
-
+##TODO：cookie的过期时间
 @app.route('/login',methods=['GET','POST'])
 def login():
 	error=None
@@ -107,10 +130,10 @@ def login():
 			return response
 		else:
 			error=u'邮箱或密码错误'
-	return render_template('login.html', form=form, error=error)
+	return render_template('login.html', nick=None, form=form, error=error)
 
 ####################################  email verify  ##################################
-
+##TODO：邮箱验证成功的flash界面，验证失败的flash界面
 @app.route('/verify')
 def verify():
 	nick=request.args.get('nick')
@@ -145,13 +168,11 @@ def special(special_id,page_id=1):
 
 ####################################  get uploaded file  ##################################
 
-@app.route('/upload/avator/<filename>')
-def uploaded_file(filename):
-	return send_from_directory(app.config['PHOTO_DEST'],filename)
+
 
 	
 #######################写文章#######################
-
+##文章题图上传路径
 @app.route('/upload_article_title_image', methods=['GET', 'POST'])
 def save_title_image():
 	title_image = request.files['upload_file']
@@ -161,12 +182,7 @@ def save_title_image():
 			title_image_name=get_secure_photoname(title_image.filename)
 			title_image_url=os.path.join(app.config['ARTICLE_TITLE_DEST'], title_image_name)
 			title_image.save(title_image_url)
-			#return HOST+'/upload/article/article_title_image/'+title_image_name
-		#else:
-			#return None article_upload_pic_4.png
-	return HOST+'/upload/article/article_title_image/'+title_image_name
-
-
+	return app.config['HOST_NAME']+'/upload/article/article_title_image/'+title_image_name
 
 #获得文章题图
 @app.route('/upload/article/article_title_image/<filename>')
@@ -176,30 +192,15 @@ def uploaded_article_title_image(filename):
 #写文章页面显示
 @app.route('/article_upload')
 def article_upload():
-    ## 只有登陆才能发表文章，需要增加判断
-        ## 登陆的时候要在session中加入userid
-    #session['userid'] = '1'
-    ## 应该判断如果该用户草稿过多，则不能继续写文章
-        ## TODO
-
-    ## 插入一篇草稿
-    #draft_id = new_draft()
-    #session['draft_id'] = str(draft_id)
-    
-    ## 新建文章图片路径
-    #os.makedirs(os.path.join(app.config['ARTICLE_TITLE_DEST'], session['draft_id']))
-    #os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['draft_id']))
-
-    #os.makedirs(os.path.join(ARTICLE_DEST,session['draft_id']))
-    ## 前端应该在关闭页面前询问用户是否保留草稿
-    ## 否则用户没打开一次界面都会产生一个草稿
-    '''
-    不能用上面的方式创建文件夹，在两个用户同时想创建同一个号码的文件夹时，会发生冲突（因为他们可能拿到相同的draft_id）
-
-    '''
-
-
-    return render_template('test_article_upload.html')
+	#未登录用户跳转到登录页面，已登录用户，跳转到发表文章页面
+	if not 'user' in session:
+		return redirect(url_for('login'))
+	else:
+		article_session_id=get_article_session_id()
+		#将article_session_id放入session中，以访问该article_session_id下的文件夹下的文章内容图该值需要能够被写入文章的数据库表中
+		session['article_session_id']=str(article_session_id)
+		os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+		return render_template('test_article_upload.html',nick=session['user'])
 
 #UEditor配置
 @app.route('/editor/', methods=['GET', 'POST'])
@@ -224,11 +225,11 @@ def upload():
         # upfile 为 FileStorage 对象
         # 这里保存文件并返回相应的URL
         photoname = get_secure_photoname(upfile.filename)
-        path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], photoname)
+        path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['article_session_id'] ,photoname)
         upfile.save(path)
         result = {
             "state": "SUCCESS",
-            "url": "%s/editor_upload/%s" % (HOST, photoname),
+            "url": "%s/editor_upload/%s" % (app.config['HOST_NAME'], photoname),
             "title": "article1.jpg",
             "original": "article1.jpg"
         }
@@ -237,31 +238,43 @@ def upload():
 #获得UEditor内的图片
 @app.route('/editor_upload/<filename>')
 def editor_upload(filename):
-    return send_from_directory(app.config['ARTICLE_CONTENT_DEST'], filename)
+    return send_from_directory(os.path.join(app.config['ARTICLE_CONTENT_DEST'],session['article_session_id']), filename)
 
 #文章完成时的提交路径
-@app.route('/article_finish',methods=['POST'])
+##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
+@app.route('/article/finish',methods=['POST'])
 def article_finish():
     content = request.form['content']
     title = request.form['title']
+    ##TODO 文章标题的安全性过滤
     title_image=request.form['title_image']
-    print content
-    print title
+    user_id=get_user_id(session['user'])
 
-    ## TODO 用title和content更新数据库
-    return title + "\n" + content
-    ## 修改session['draft_id']对应的数据库项
-
-
+    create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0')
+    return u'文章保存成功'
 
 #文章草稿的提交路径
-@app.route('/article_draft',methods=['POST'])
+@app.route('/article/draft',methods=['POST'])
 def article_draft():
 	content=request.form['content']
 	title=request.form['title']
 	title_image=request.form['title_image']
-	return title + '\n'+content
+	user_id=get_user_id(session['user'])
 
+	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1')
+	return u'草稿保存成功'
+
+
+
+
+#专栏详情页面
+@app.route('/column_detail')
+def coloum_detail():
+	return render_template('column_detail.html', nick = getNick())
+
+@app.route('/upload/special/<filename>')
+def uploaded_column_image(filename):
+	return send_from_directory(app.config['SPECIAL_DEST'],filename)
 
 '''
 
@@ -274,23 +287,25 @@ def article_draft():
 
 
 '''
+
 @app.route('/ajax_register', methods=['GET'])
 def ajax_register_validate():
-	email = request.args.get('email',0,type=str)
-	nick = request.args.get('nick',0,type=str)
-	password = request.args.get('password',0,type=str)
-	confirm = request.args.get('confirm',0,type=str)
+	email = request.args.get('email',0,type=unicode)
+	nick = request.args.get('nick',0,type=unicode)
+	password = request.args.get('password',0,type=unicode)
+	confirm = request.args.get('confirm',0,type=unicode)
+
 	request_form_from_ajax = ImmutableMultiDict([('email', email),('nick', nick), ('password', password), ('confirm', confirm)])
 	form = RegistrationForm(request_form_from_ajax)
 	form.validate()
 
-	form_return = {}
+	errors_return = {} #返回去的错误信息字典
 	for param in ['email', 'nick', 'password', 'confirm']:
 		if form.errors.get(param) == None:
-			form_return[param] = [u'']
+			errors_return[param] = [u'']
 		else:
-			form_return[param] = form.errors.get(param)
+			errors_return[param] = form.errors.get(param)
 
-	return jsonify(email=form_return.get('email')[0],nick=form_return.get('nick')[0],password=form_return.get('password')[0],confirm=form_return.get('confirm')[0])
+	return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0])
 
 

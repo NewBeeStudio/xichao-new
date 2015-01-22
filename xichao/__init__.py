@@ -36,7 +36,8 @@ HOST_NAME='http://127.0.0.1:5000'
 ARTICLE_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_title')
 #文章内容图片路径
 ARTICLE_CONTENT_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_content')
-
+#专栏图片路径
+SPECIAL_DEST=os.path.join(os.path.dirname(__file__),'upload/special')
 
 app.config.from_object(__name__)
 

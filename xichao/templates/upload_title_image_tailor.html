@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>美图WEB开放平台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="http://open.web.meitu.com/sources/xiuxiu.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script type="text/javascript">
+window.onload=function(){
+       /*第1个参数是加载编辑器div容器，第2个参数是编辑器类型，第3个参数是div容器宽，第4个参数是div容器高*/
+	xiuxiu.embedSWF("altContent",5,"100%","100%");
+       //修改为您自己的图片上传接口
+	//xiuxiu.setUploadURL("http://web.upload.meitu.com/image_upload.php");
+	xiuxiu.setUploadURL("http://127.0.0.1:5000/upload_article_title_image");
+    xiuxiu.setUploadType(2);
+    xiuxiu.setUploadDataFieldName("upload_file");
+	xiuxiu.onInit = function ()
+	{
+		xiuxiu.loadPhoto("http://open.web.meitu.com/sources/images/1.jpg");
+	}
+	var index=parent.layer.getFrameIndex(window.name);
+	xiuxiu.onUploadResponse = function (data)
+	{
+		parent.window.update_title_image(data);
+		layer.msg("上传成功",1,1,function(){
+			parent.layer.close(index);
+		});
+	}
+}
+</script>
+<style type="text/css">
+	html, body { height:100%; overflow:hidden; }
+	body { margin:0; }
+</style>
+</head>
+<body>
+<div id="altContent">
+	<h1>美图秀秀</h1>
+</div>
+<input id="url"></input>
+</body>
+</html>
