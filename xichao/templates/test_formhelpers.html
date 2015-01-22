@@ -22,7 +22,12 @@
       <!-- <td style="width:200px">{{ field.label }}</td> -->
       <td class="login-userinfo">{{ field(**kwargs)|safe }}</td>
       <td>
-        {{ field.errors[0] }}
+        {% if field.errors[0] %}
+            <div class="login-error-tip login-error-1">
+                {{ field.errors[0] }}
+            </div>
+        {% endif %}
+        <!-- {{ field.errors[0] }} -->
       </td>
     </tr>
   </table>
