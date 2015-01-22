@@ -1,0 +1,148 @@
+#p_title_1 {
+	float: left;
+	font-family: 微软雅黑;
+}
+
+#p_title_2 {
+	color: #D9AE48;
+	font-family: 微软雅黑;
+}
+
+#article_title {
+	margin-top: 7%;
+	margin-right: 10%;
+	margin-left: 10%;
+}
+
+#p_article_title {
+	text-align: center;
+	font-family: 微软雅黑;
+	font-size: 25px;
+}
+
+#p_article_author_1 {
+	margin-top: 4%;
+	margin-left: 65%;
+	float: left;
+}
+
+#p_article_author_2 {
+	float: left;
+	margin-top: 4%;
+	margin-left: 2%;
+}
+
+#p_article_time_1 {
+	float: left;
+	margin-top: 4%;
+	margin-left: 4%;
+}
+
+#p_article_time_2 {
+	float: left;
+	margin-top: 4%;
+	margin-left: 2%;
+}
+
+#article_content {
+	margin-left: 10%;
+	margin-right: 9%;
+}
+
+#share {
+	margin-top: 10%;
+	margin-left: 70%;
+	font-family: 微软雅黑;
+}
+
+#p_share {
+	float: left;
+	margin-right: 5%;
+}
+
+#read {
+	margin-top: 1%;
+	margin-left: 70%;
+	font-family: 微软雅黑;
+}
+
+#p_read {
+	float: left;
+	margin-right: 2%;
+}
+
+#p_read_content {
+	float: left;
+	color: gray;
+	margin-right: 10%;
+}
+
+#p_review {
+	float: left;
+	margin-right: 2%;
+	color: #D9AE48;
+}
+
+#p_review_content {
+	float: left;
+	margin-right: 10%;
+	color: #D9AE48;
+}
+
+#p_collection {
+	float: left;
+	margin-right: 2%;
+	color: #D9AE48;
+}
+
+#p_collection_content {
+	margin-right: 10%;
+	color: #D9AE48;
+}
+
+#book_info {
+	margin-top: 3%;
+	margin-left: 10%;
+}
+
+#pic_book {
+	float: left;
+	margin-bottom: 10%;
+}
+
+#p_book_info {
+	float: left;
+	color: #D9AE48;
+	margin-left: 20%;
+	font-family: 微软雅黑;
+	line-height: 220%;
+}
+
+#p_book_info_content {
+	margin-left: 60%;
+	font-family: 微软雅黑;
+	line-height: 220%;
+}
+
+#publish_review {
+	background-color: #ffcc99;
+	padding-top: 3%;
+	padding-bottom: 1%;
+
+}
+#p_publish_review {
+	margin-left: 10%;
+	font-family: 微软雅黑;
+	font-size: 20px;
+}
+
+#p_list_review {
+	margin-left: 10%;
+	margin-top: 3%;
+	margin-bottom: 1%;
+	font-family: 微软雅黑;
+	font-size: 20px;
+}
+
+
+
