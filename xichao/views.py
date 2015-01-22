@@ -32,10 +32,34 @@ ARTICLE_DEST= os.path.join(os.path.dirname(__file__),'upload/article')
 def upload_title_image():
 	return render_template('upload_title_image_tailor.html')
 
+
 @app.route('/upload/tailor/avatar')
 def upload_avator():
 	return render_template('upload_avatar_tailor.html')
 
+##################################### 获取session nick #############################
+'''
+函数要放在functions.py模块，不能放在这里
+'''
+
+def getNick():
+	nick = None
+	if 'user' in session:
+		nick = session['user']
+	elif request.cookies.get('user')!=None:
+		nick = request.cookies.get('user')
+	return nick
+
+
+
+'''
+这个路由是什么？，没有test.html啊，可以直接使用/test路由，渲染templates模板
+
+@app.route('/')
+def default():
+	return render_template('test.html')
+
+'''
 
 
 #######################################  美图秀秀配置文件  #########################################
@@ -264,6 +288,14 @@ def article_draft():
 
 	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1')
 	return u'草稿保存成功'
+
+
+
+
+#专栏详情页面
+@app.route('/column_detail')
+def coloum_detail():
+	return render_template('column_detail.html', nick = getNick())
 
 
 '''

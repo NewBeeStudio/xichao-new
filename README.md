@@ -11,6 +11,7 @@
  * flask-sqlalchemy  //操作数据库，下载安装：https://pypi.python.org/pypi/MySQL-python
  * flask-wtforms     //表单渲染和验证，安装：`pip install WTForms`
  * flask.ext.mail    //安装：`pip install flask-mail`
+ * flask.ext.wtf     //安装：`pip install flask_wtf`
 
 
 框架：

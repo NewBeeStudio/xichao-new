@@ -1,3 +1,7 @@
-2015.1.16, 姚方杰
+﻿2015.1.21,姚方杰
+    ajax.py文件删除，相应内容移至views.py
+    layout.html中导航栏与主体内容间留白删除（原本预留做当前页面的位置导航），改为每个页面自行添加，排版建议：login页面为例，字体大小颜色暂不定。
+
+2015.1.16,姚方杰
     完成网站header部分：xichao/templates/layout.html
     前端不同页面的个性化内容可以参考：xichao/templates/template.html来书写

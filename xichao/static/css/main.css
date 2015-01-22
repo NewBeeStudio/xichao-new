@@ -137,7 +137,14 @@ input:focus{
 }
 
 .current-position{
-    height: 88px;
+    position: relative;
+    height: 62px;
+    margin-bottom: 26px;
+}
+
+.current-position p{
+    position: absolute;
+    bottom: 0;
 }
 
 
@@ -147,4 +154,16 @@ input.input-warning{
 
 input.input-ok{
     border: solid 1.5px #00ff00;
+}
+
+.input-button{
+    /*
+    width: 118px;
+    height: 38px;*/
+
+    font-family: 黑体;
+    font-size: 20px;
+
+    background-color: #D9AE48;
+    color: #ffffff;
 }
