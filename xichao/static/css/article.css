@@ -49,6 +49,57 @@
 	margin-right: 9%;
 }
 
+#share {
+	margin-top: 10%;
+	margin-left: 70%;
+	font-family: 微软雅黑;
+}
+
+#p_share {
+	float: left;
+	margin-right: 5%;
+}
+
+#read {
+	margin-top: 1%;
+	margin-left: 70%;
+	font-family: 微软雅黑;
+}
+
+#p_read {
+	float: left;
+	margin-right: 2%;
+}
+
+#p_read_content {
+	float: left;
+	color: gray;
+	margin-right: 10%;
+}
+
+#p_review {
+	float: left;
+	margin-right: 2%;
+	color: #D9AE48;
+}
+
+#p_review_content {
+	float: left;
+	margin-right: 10%;
+	color: #D9AE48;
+}
+
+#p_collection {
+	float: left;
+	margin-right: 2%;
+	color: #D9AE48;
+}
+
+#p_collection_content {
+	margin-right: 10%;
+	color: #D9AE48;
+}
+
 #book_info {
 	margin-top: 3%;
 	margin-left: 10%;
@@ -61,6 +112,7 @@
 
 #p_book_info {
 	float: left;
+	color: #D9AE48;
 	margin-left: 20%;
 	font-family: 微软雅黑;
 	line-height: 220%;

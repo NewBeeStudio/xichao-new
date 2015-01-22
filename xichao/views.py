@@ -192,6 +192,7 @@ def uploaded_article_title_image(filename):
 #写文章页面显示
 @app.route('/article_upload')
 def article_upload():
+	return render_template('test_article_upload.html')
 	#未登录用户跳转到登录页面，已登录用户，跳转到发表文章页面
 	if not 'user' in session:
 		return redirect(url_for('login'))
