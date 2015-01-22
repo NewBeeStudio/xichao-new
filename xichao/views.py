@@ -6,7 +6,37 @@
 	定义路由
 	定义并实现处理函数
 	渲染视图
+	
+	文件结构：
+	    主要URL：
+    	    主页  /   /test
+	        注册  /register   /upload/avatar  /upload/avatar/<filename>
+	        登陆  /login
+	        注销  /logout
+	        邮箱验证    /verify
+	        文章页面    /article/<int:article_id>
+	        专栏页面    /special/<int:special_id>/page/<int:page_id>
+	        专栏详情    /column_detail    /upload/special/<filename>
+	        写文章
+	            文章编辑页面       /article_upload
+	            文章题图文件上传    /upload_article_title_image
+	            获得文章题图       /upload/article/article_title_image/<filename>
+	            UEditor交互       /editor/
+	            获得文章中的图片    /editor_upload/<filename>
+	            完成文章编辑       /article/finish
+	            完成草稿编辑       /article/draft
+	            
+	    
+	    辅助URL：
+	        美图秀秀配置  /crossdomain.xml
+	        图片剪裁器    /upload/tailor/title_image        /upload/tailor/avatar
+	        
+        Ajax请求：
+            注册信息验证  /ajax_register
 
+        已废弃：
+            /article/test
+            
 '''
 from xichao import app
 from functions import *
@@ -19,53 +49,10 @@ from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 import os
 
-#######################################  图片裁剪器  #########################################
-##TODO：通过传参，缩为一个
-@app.route('/upload/tailor/title_image')
-def upload_title_image():
-	return render_template('upload_title_image_tailor.html')
-
-
-@app.route('/upload/tailor/avatar')
-def upload_avator():
-	return render_template('upload_avatar_tailor.html')
-
-##################################### 获取session nick #############################
-'''
-函数要放在functions.py模块，不能放在这里
-
-
-def getNick():
-	nick = None
-	if 'user' in session:
-		nick = session['user']
-	elif request.cookies.get('user')!=None:
-		nick = request.cookies.get('user')
-	return nick
-'''
-#######################################  美图秀秀配置文件  #########################################
-@app.route('/<filename>')
-def xiuxiu_config(filename):
-	if filename=='crossdomain.xml':
-		return send_from_directory(os.path.dirname(__file__),filename)
-	else:
-		abort(404)
-
-
-#######################################  注销  #########################################
-
-@app.route('/logout')
-def logout():
-	#弹出session
-	session.pop('user', None)
-	response=make_response(redirect(url_for('test')))
-	#删除cookie
-	if request.cookies.get('user')!=None:
-		response.set_cookie('user','',expires=datetime.now())
-	flash('你已退出')
-	return response
-
-####################################  test  ##################################
+##################################  主页  ##################################
+@app.route('/')
+def home():
+    return redirect(url_for('test'))
 
 @app.route('/test')
 def test():
@@ -76,8 +63,9 @@ def test():
 	elif request.cookies.get('user')!=None:
 		nick=request.cookies.get('user')
 	return render_template('template.html', nick=nick)
-
-####################################  register  ##################################
+	
+	
+####################################  注册  ##################################
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -111,7 +99,7 @@ def uploaded_file(filename):
 	return send_from_directory(app.config['PHOTO_DEST'],filename)
 
 
-####################################  login  ##################################
+##################################  登陆  ##################################
 ##TODO：cookie的过期时间
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -132,7 +120,21 @@ def login():
 			error=u'邮箱或密码错误'
 	return render_template('login.html', nick=None, form=form, error=error)
 
-####################################  email verify  ##################################
+##################################  注销  ##################################
+
+@app.route('/logout')
+def logout():
+	#弹出session
+	session.pop('user', None)
+	response=make_response(redirect(url_for('test')))
+	#删除cookie
+	if request.cookies.get('user')!=None:
+		response.set_cookie('user','',expires=datetime.now())
+	flash('你已退出')
+	return response
+	
+	
+##################################  邮箱验证  ##################################
 ##TODO：邮箱验证成功的flash界面，验证失败的flash界面
 @app.route('/verify')
 def verify():
@@ -142,9 +144,9 @@ def verify():
 	if state:
 		update_state(nick)
 	return redirect(url_for('test'))
-
-####################################  article  ##################################
-
+	
+	
+##################################  文章页面  ##################################
 @app.route('/article/<int:article_id>',methods=['GET'])
 def article(article_id):
 	article=get_article_information(article_id)
@@ -152,30 +154,49 @@ def article(article_id):
 	comment=get_article_comment(article_id)
 	return render_template('test_article.html',article=article,comment=comment)
 
-###################################	article_test ################################
-@app.route('/article/test')
-def article_test():
-	return render_template('test_article.html')
 
-####################################  special  ##################################
-
-@app.route('/special/<int:special_id>/page/<int:page_id>',methods=['GET'])
+##################################  专栏页面  ##################################
+@app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
 def special(special_id,page_id=1):
 	special=get_special_information(special_id)
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
-	articles_pagination=get_special_article(special_id,page_id)
+	articles_pagination = get_special_article(special_id,page_id)
 	return render_template('special.html',special=special,articles_pagination=articles_pagination)
 
-####################################  get uploaded file  ##################################
+
+##################################  专栏详情页面  ##################################
+#TODO 专栏详情尽量改成special detail
+@app.route('/column_detail')
+def coloum_detail():
+	return render_template('column_detail.html', nick = getNick())
+
+@app.route('/upload/special/<filename>')
+def uploaded_column_image(filename):
+	return send_from_directory(app.config['SPECIAL_DEST'],filename)
 
 
+##################################  写文章  ##################################
 
-	
-#######################写文章#######################
+#文章编辑页面
+@app.route('/article_upload')
+def article_upload():
+	return render_template('test_article_upload.html')
+	#未登录用户跳转到登录页面，已登录用户，跳转到发表文章页面
+	if not 'user' in session:
+		return redirect(url_for('login'))
+	else:
+		article_session_id=get_article_session_id()
+		#将article_session_id放入session中，以访问该article_session_id下的文件夹下的文章内容图该值需要能够被写入文章的数据库表中
+		session['article_session_id']=str(article_session_id)
+		os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+		return render_template('test_article_upload.html',nick=session['user'])
+
+
 ##文章题图上传路径
 @app.route('/upload_article_title_image', methods=['GET', 'POST'])
 def save_title_image():
 	title_image = request.files['upload_file']
+	#设置默认题图
 	title_image_name = 'article_upload_pic_4.png'
 	if title_image:
 		if allowed_file(title_image.filename):
@@ -189,19 +210,6 @@ def save_title_image():
 def uploaded_article_title_image(filename):
 	return send_from_directory(app.config['ARTICLE_TITLE_DEST'],filename)
 
-#写文章页面显示
-@app.route('/article_upload')
-def article_upload():
-	return render_template('test_article_upload.html')
-	#未登录用户跳转到登录页面，已登录用户，跳转到发表文章页面
-	if not 'user' in session:
-		return redirect(url_for('login'))
-	else:
-		article_session_id=get_article_session_id()
-		#将article_session_id放入session中，以访问该article_session_id下的文件夹下的文章内容图该值需要能够被写入文章的数据库表中
-		session['article_session_id']=str(article_session_id)
-		os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
-		return render_template('test_article_upload.html',nick=session['user'])
 
 #UEditor配置
 @app.route('/editor/', methods=['GET', 'POST'])
@@ -236,10 +244,12 @@ def upload():
         }
         return json.dumps(result)
 
+
 #获得UEditor内的图片
 @app.route('/editor_upload/<filename>')
 def editor_upload(filename):
     return send_from_directory(os.path.join(app.config['ARTICLE_CONTENT_DEST'],session['article_session_id']), filename)
+
 
 #文章完成时的提交路径
 ##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
@@ -267,15 +277,42 @@ def article_draft():
 
 
 
+##################################  美图秀秀配置文件  ##################################
+'''
+## 老版本：
+@app.route('/<filename>')
+def xiuxiu_config(filename):
+	if filename=='crossdomain.xml':
+		return send_from_directory(os.path.dirname(__file__),filename)
+	else:
+		abort(404)
+'''
+#老版本无法打开localhost:5000，会404错误
+#由于只需要crossdomain.xml，故单独路由
+@app.route('/crossdomain.xml')
+def xiuxiu_config(filename):
+	return send_from_directory(os.path.dirname(__file__),filename)
+	
 
-#专栏详情页面
-@app.route('/column_detail')
-def coloum_detail():
-	return render_template('column_detail.html', nick = getNick())
+##################################  图片裁剪器  ##################################
+##TODO：通过传参，缩为一个
+@app.route('/upload/tailor/title_image')
+def upload_title_image():
+	return render_template('upload_title_image_tailor.html')
 
-@app.route('/upload/special/<filename>')
-def uploaded_column_image(filename):
-	return send_from_directory(app.config['SPECIAL_DEST'],filename)
+
+@app.route('/upload/tailor/avatar')
+def upload_avator():
+	return render_template('upload_avatar_tailor.html')
+
+
+
+
+
+
+
+
+
 
 '''
 
@@ -288,6 +325,8 @@ def uploaded_column_image(filename):
 
 
 '''
+
+####################################  注册信息验证  ####################################
 
 @app.route('/ajax_register', methods=['GET'])
 def ajax_register_validate():
@@ -310,3 +349,12 @@ def ajax_register_validate():
 	return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0])
 
 
+
+
+##################################	已废弃 ##################################
+
+
+##################################	article_test ##################################
+@app.route('/article/test')
+def article_test():
+	return render_template('test_article.html')
