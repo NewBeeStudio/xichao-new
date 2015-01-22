@@ -115,34 +115,24 @@
         title: [
             '上传头像', 
             'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
-        ], 
+        ],
+        shadeClose: true,
+        closeBtn: false, 
         border:[0],
         area: ['90%', '90%'],
         iframe: {src: 'http://127.0.0.1:5000/upload/tailor/avatar'},
-        close: function(index){
-          $('#avatar_user').attr("src",layer.getChildFrame('#url',index).val())
-          $('#avatar').attr("value",layer.getChildFrame('#url',index).val())
-        }
       });
     });
     $(".default_avatar").click(function(){
-      $("#avatar_user").attr("src",$(this).attr("src"))
-      $("#avatar").attr("value",$(this).attr("src"))
+      $("#avatar_user").attr("src",$(this).attr("src"));
+      $("#avatar").attr("value",$(this).attr("src"));
     });
-    /*
-    $("#registration").click(function(){
-      val_avatar=$("#avatar_user").attr("src");
-      alert(val_avatar)
-      $.post("http://127.0.0.1:5000/update/avatar",
-        {
-          avatar:val_avatar
-        },
-        function(data){
-          alert(data)
-          location.href ="http://127.0.0.1:5000/test"
-        });
-    })
-*/
   });
+</script>
+<script type="text/javascript">
+function update_avatar(data){
+  $('#avatar_user').attr("src",data);
+  $('#avatar').attr("value",data);
+}
 </script>
 {% endblock %}

@@ -18,11 +18,14 @@ window.onload=function(){
 	xiuxiu.onInit = function ()
 	{
 		xiuxiu.loadPhoto("http://open.web.meitu.com/sources/images/1.jpg");
-	}	
+	}
+	var index=parent.layer.getFrameIndex(window.name);
 	xiuxiu.onUploadResponse = function (data)
 	{
-		$('#url').val(data)
-		layer.msg("上传成功",1,1)
+		parent.window.update_avatar(data);
+		layer.msg("上传成功",1,1,function(){
+			parent.layer.close(index);
+		});
 	}
 }
 </script>
@@ -35,6 +38,5 @@ window.onload=function(){
 <div id="altContent">
 	<h1>美图秀秀</h1>
 </div>
-<input id="url"></input>
 </body>
 </html>

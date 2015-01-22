@@ -18,11 +18,14 @@ window.onload=function(){
 	xiuxiu.onInit = function ()
 	{
 		xiuxiu.loadPhoto("http://open.web.meitu.com/sources/images/1.jpg");
-	}	
+	}
+	var index=parent.layer.getFrameIndex(window.name);
 	xiuxiu.onUploadResponse = function (data)
 	{
-		$('#url').val(data)
-		layer.msg("上传成功",1,1)
+		parent.window.update_title_image(data);
+		layer.msg("上传成功",1,1,function(){
+			parent.layer.close(index);
+		});
 	}
 }
 </script>
