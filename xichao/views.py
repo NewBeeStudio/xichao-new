@@ -27,6 +27,18 @@ ARTICLE_CONTENT_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/a
 ARTICLE_DEST= os.path.join(os.path.dirname(__file__),'upload/article')
 
 
+##################################### 获取session nick #############################
+def getNick():
+	nick = None
+	if 'user' in session:
+		nick = session['user']
+	elif request.cookies.get('user')!=None:
+		nick = request.cookies.get('user')
+	return nick
+
+
+
+
 @app.route('/')
 def default():
 	return render_template('test.html')
@@ -266,6 +278,14 @@ def article_draft():
 
 	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1')
 	return u'草稿保存成功'
+
+
+
+
+#专栏详情页面
+@app.route('/column_detail')
+def coloum_detail():
+	return render_template('column_detail.html', nick = getNick())
 
 
 '''
