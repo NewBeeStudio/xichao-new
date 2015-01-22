@@ -33,78 +33,72 @@
 {% endblock %}
 
 {% block js %}
-
-<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
-
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
+  $(document).ready(function()
+  {
+    $(".register-error").each(function()
+    {
+      var warning = $(this).text().replace(/(^\s*)|(\s*$)/, ""); //获取warning区内容，去除空白字符
 
-      $(".register-form-value").each(function(){
-            var warning = $(this).next().text().replace(/(^\s*)|(\s*$)/g, ""); //获取warning区内容，去除空白字符
-
-            //有warning则输入框变色
-            if(warning.length > 0)
-              $(this).children().first().addClass("input-warning");
-            else
-              $(this).children().first().removeClass("input-warning");
-      });
+      if(warning.length > 0)
+        $(this).css("display", "block");
+      else
+        $(this).css("display", "none");
+    });
       
       
-      /************************************************************/
-      /*input ajax*/
-      /************************************************************/
-      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    /************************************************************/
+    /*input ajax*/
+    /************************************************************/
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
-      $(".register-form-value input").change(function(){
+    $(".register-form-value input").change(function()
+    {
       var index = parseInt($(this).parent().attr("data-index")); //changed line number
-      // alert(index);
+          
       var info = new Array();
-      $(".register-form-value input").each(function(){
+      $(".register-form-value input").each(function()
+      {
         info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
       });
-      // alert(info);
+          
       $.getJSON($SCRIPT_ROOT + '/ajax_register', {
-        email: info[0],
-        nick: info[1],
-        password: info[2],
-        confirm: info[3]}, function(data){
-        $(".register-form-value").each(function(){
-            var cur_index = parseInt($(this).attr("data-index"))
-            var cur_val = $(this).children().first().val() //input框是否有内容
+      email: info[0],
+      nick: info[1],
+      password: info[2],
+      confirm: info[3]}, function(data)
+      {
+        $(".register-error").each(function()
+        {
+          var cur_index = parseInt($(this).attr("data-index"));
+          $(this).text(""); 
+          $(this).css("display", "none"); //先初始化
 
-            $(this).next().text("");
-            if(cur_index <= index){ //当前光标位置在其之下，则显示警告内容
-              if(cur_index == 0)
-                $(this).next().text(data.email);
-              else if(cur_index == 1)
-                $(this).next().text(data.nick);
-              else if(cur_index == 2)
-                $(this).next().text(data.password);
-              else if(cur_index == 3)
-                $(this).next().text(data.confirm);
+          if(cur_index <= index){ 
+            //当前光标位置在其之下，则显示警告内容
+            if(cur_index == 0 && data.email != ""){
+              $(this).text(data.email);
+              $(this).css("display", "block");
             }
-            else{
-              $(this).next().text("");
+            else if(cur_index == 1 && data.nick != ""){
+              $(this).text(data.nick);
+              $(this).css("display", "block");
             }
-
-            //input框变色
-            if($(this).next().text() != "" && cur_index <= index){
-              $(this).children().first().removeClass("input-ok");
-              $(this).children().first().addClass("input-warning");
+            else if(cur_index == 2 && data.password != ""){
+              $(this).text(data.password);
+              $(this).css("display", "block");
             }
-            else if($(this).next().text() == "" && cur_index <= index){
-              $(this).children().first().removeClass("input-warning");
-              $(this).children().first().addClass("input-ok");
-            }
-            else{
-              $(this).children().first().removeClass("input-warning");
-              $(this).children().first().removeClass("input-ok");
-            }
+                
+            else if(cur_index == 3 && data.confirm != ""){
+              $(this).text(data.confirm);
+              $(this).css("display", "block");
+            }  
+          }
         });
       });
     });
-});
+  });
 </script>
 
 <script type="text/javascript">

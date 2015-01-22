@@ -16,9 +16,6 @@
     <img src="{{ url_for('static', filename='images/login-white-circle.png') }}" id="login-outside-circle"/>
 
     <div id="login-inside-circle">
-        <!-- <form id="login-form-block" action="#" method="post"> -->
-        
-
         {% from "test_formhelpers.html" import render_login, render_login_autologin %}
         <form id="login-form-block" method="post" action="/login" accept-charset="utf-8">
             <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
@@ -28,7 +25,7 @@
                 {{ render_login_autologin(form.stay) }}
             </dl>
             {% if error!=None %}
-            <div class="login-error-tip login-error-2">
+            <div class="error-tip login-error-not-match">
                 {{ error }}
             </div>
             {% endif %}
@@ -48,7 +45,7 @@
 {% block js %}
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".login-error-tip").fadeOut(4000);
+        $(".error-tip").fadeOut(4000);
     });
 </script>
 {% endblock %}

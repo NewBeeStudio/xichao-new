@@ -54,3 +54,10 @@ input#photo{
     color: #ffffff;
     float: left;
 }
+
+.register-error{
+    margin-left: 120px;
+    margin-top: -70px;
+
+    display: none;
+}

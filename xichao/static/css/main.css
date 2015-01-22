@@ -147,15 +147,6 @@ input:focus{
     bottom: 0;
 }
 
-
-input.input-warning{
-    border: solid 1.5px #ff0000;
-}
-
-input.input-ok{
-    border: solid 1.5px #00ff00;
-}
-
 .input-button{
     /*
     width: 118px;
@@ -166,4 +157,30 @@ input.input-ok{
 
     background-color: #D9AE48;
     color: #ffffff;
+}
+
+
+
+/*******************others*****************/
+.error-tip {
+    font-size: 12px;
+    position: absolute;
+    padding: 4px 7px;
+    background-color: #DF4D3F;
+    border-radius: 2px;
+    color: #FFF;
+    /*display: none;*/
+}
+
+.error-tip:after {
+    content: "";
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    margin-left: -4px;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 8px;
+    border-color: #DF4D3F transparent transparent;
 }
