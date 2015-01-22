@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-DB_URL='mysql://root:@localhost/xichao?charset=utf8'
+DB_URL='mysql://root:weiwei0305@localhost/xichao?charset=utf8'
 engine = create_engine(DB_URL, echo=True, convert_unicode=True)
 
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -78,11 +78,17 @@ def test_db():
                       content = "本文是算法入门文章", is_draft = '1',
                       time = datetime.now(), category = '0',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
                       groups = '1', user_id = 1,             ## 1表示 TODO
-                      book_id = 1, special_id = 1,article_session_id=0)
+                      book_id = 1, special_id = 1,article_session_id=1)
     db_session.add(article)
     db_session.commit()
 
 
+    ##测试文章会话id
+
+    from models import Article_session
+    article_session = Article_session()
+    db_session.add(article_session)
+    db_session.commit()
 
     
     ##测试评论
@@ -147,12 +153,4 @@ def test_db():
     product = Product(name = u"明信片", picture = u"URL for 产品图片",
                       number = 100, price = u"￥5.00")
     db_session.add(product)
-    db_session.commit()
-
-
-    ##测试文章会话id
-
-    from models import Article_session
-    article_session = Article_session()
-    db_session.add(article_session)
     db_session.commit()
