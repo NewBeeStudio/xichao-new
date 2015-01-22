@@ -167,6 +167,7 @@ class Article(Base):
     content = Column(Text, nullable = False)
     picture = Column(String(255), nullable = False)
     is_draft = Column(CHAR(1), nullable = False, default = '1')
+    
     #保存文章内容图片的文件夹号，便于删除
     article_session_id = Column(String(20),nullable=False)
     ########## Index/Unique索引 ##########
@@ -215,6 +216,23 @@ class Article(Base):
         return '<Article %r>' % (self.title)
         
         
+####################################  文章会话id表  ######################################
+
+class Article_session(Base):
+    __tablename__='article_session'
+    __table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+    ########## Primary索引 ##########
+    article_session_id = Column(Integer, primary_key=True, 
+                       autoincrement=True, nullable=False, index=True)
+    
+    def __init__(self):
+        pass
+    def __repr__(self):
+        return '<Article_session: %r>' % (self.article_session_id)
+
 ##################################  评论模型  ####################################
 
 class Comment(Base):
@@ -486,21 +504,3 @@ class Product(Base):
 
     def __repr__(self):
         return '<Product: %r>' % (self.name)
-####################################  文章会话id表  ######################################
-
-
-class Article_session(Base):
-    __tablename__='article_session'
-    __table_args__ = { 
-        'mysql_engine': 'InnoDB',
-        'mysql_charset': 'utf8'
-    }
-    ########## Primary索引 ##########
-    article_session_id = Column(Integer, primary_key=True, 
-                       autoincrement=True, nullable=False, index=True)
-    
-    def __init__(self):
-        pass
-    def __repr__(self):
-        return '<Article_session: %r>' % (self.article_session_id)
-
