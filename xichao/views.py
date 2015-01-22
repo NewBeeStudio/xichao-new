@@ -19,13 +19,6 @@ from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 import os
 
-
-#PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
-HOST='http://127.0.0.1:5000'
-ARTICLE_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_title')
-ARTICLE_CONTENT_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_content')
-ARTICLE_DEST= os.path.join(os.path.dirname(__file__),'upload/article')
-
 #######################################  图片裁剪器  #########################################
 ##TODO：通过传参，缩为一个
 @app.route('/upload/tailor/title_image')
@@ -40,7 +33,7 @@ def upload_avator():
 ##################################### 获取session nick #############################
 '''
 函数要放在functions.py模块，不能放在这里
-'''
+
 
 def getNick():
 	nick = None
@@ -49,19 +42,7 @@ def getNick():
 	elif request.cookies.get('user')!=None:
 		nick = request.cookies.get('user')
 	return nick
-
-
-
 '''
-这个路由是什么？，没有test.html啊，可以直接使用/test路由，渲染templates模板
-
-@app.route('/')
-def default():
-	return render_template('test.html')
-
-'''
-
-
 #######################################  美图秀秀配置文件  #########################################
 @app.route('/<filename>')
 def xiuxiu_config(filename):
@@ -100,28 +81,17 @@ def test():
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+	print request.form
 	form = RegistrationForm(request.form)
-	photo_error=None
 	if request.method == 'POST' and form.validate():
-		'''
-		photo = request.files['photo']
-		if photo:
-			if allowed_file(photo.filename):
-				photoname=get_secure_photoname(photo.filename)
-				photo_url=os.path.join(app.config['PHOTO_DEST'], photoname)
-				photo.save(photo_url)
-			else:
-				photo_error=u'文件名称不合法'
-				return render_template('register.html', nick=None, form=form, photo_error=photo_error)
-		'''
-		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0')
+		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0',request.form['avatar'])
 		db_session.add(user)
 		db_session.commit()
 		send_verify_email(form.nick.data,form.password.data,form.email.data)
 		session['user']=request.form['nick']
 		flash(u'注册成功，正在跳转')
 		return redirect(url_for('test'))
-	return render_template('register.html', nick=None, form=form, photo_error=photo_error)
+	return render_template('register.html', nick=None, form=form)
 
 #接收上传的头像文件，保存并返回路径
 @app.route('/upload/avatar',methods=['GET', 'POST'])
@@ -133,7 +103,7 @@ def save_avatar():
 			avatar_name=get_secure_photoname(avatar.filename)
 			avatar_url=os.path.join(app.config['PHOTO_DEST'],avatar_name)
 			avatar.save(avatar_url)
-	return HOST+'/upload/avatar/'+avatar_name
+	return app.config['HOST_NAME']+'/upload/avatar/'+avatar_name
 
 #为上传的头像文件提供服务
 @app.route('/upload/avatar/<filename>')
@@ -207,7 +177,7 @@ def save_title_image():
 			title_image_name=get_secure_photoname(title_image.filename)
 			title_image_url=os.path.join(app.config['ARTICLE_TITLE_DEST'], title_image_name)
 			title_image.save(title_image_url)
-	return HOST+'/upload/article/article_title_image/'+title_image_name
+	return app.config['HOST_NAME']+'/upload/article/article_title_image/'+title_image_name
 
 #获得文章题图
 @app.route('/upload/article/article_title_image/<filename>')
@@ -254,7 +224,7 @@ def upload():
         upfile.save(path)
         result = {
             "state": "SUCCESS",
-            "url": "%s/editor_upload/%s" % (HOST, photoname),
+            "url": "%s/editor_upload/%s" % (app.config['HOST_NAME'], photoname),
             "title": "article1.jpg",
             "original": "article1.jpg"
         }
@@ -297,6 +267,9 @@ def article_draft():
 def coloum_detail():
 	return render_template('column_detail.html', nick = getNick())
 
+@app.route('/upload/special/<filename>')
+def uploaded_column_image(filename):
+	return send_from_directory(app.config['SPECIAL_DEST'],filename)
 
 '''
 

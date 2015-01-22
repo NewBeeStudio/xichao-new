@@ -5,7 +5,7 @@
 	定义了表单
 	定义了验证器，验证器可以是内建验证器，也可以是定制验证器
 '''
-from wtforms import Form, BooleanField, TextField, PasswordField, validators, FileField
+from wtforms import Form, BooleanField, TextField, PasswordField, validators, FileField, HiddenField
 from myvalidators import *
 from wtforms.csrf.session import SessionCSRF
 from datetime import timedelta
@@ -20,6 +20,7 @@ class RegistrationForm(Form):
 	nick = TextField(u'昵称：',[validators.Required(u'昵称必须'),validators.Length(min=4,max=16,message=u'昵称长度需在4-16之间'),nick_validator])
 	password = PasswordField(u'密码：', [validators.Required(u'密码必须')])
 	confirm = PasswordField(u'确认密码：', [validators.Required(u'确认密码必须'),validators.EqualTo('password', message=u'密码不匹配')])
+	#avatar = HiddenField()
 	#photo = FileField(u'上传头像')
 
 #登录表单

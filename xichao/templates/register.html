@@ -20,18 +20,15 @@
         {{ render_register(form.confirm, 3) }}
         <input type="button" id="avatar_button" value="上传头像">
         <img id="avatar_user" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default.jpg">
+        <input name="avatar" type="hidden" value="http://127.0.0.1:5000/upload/avatar/default.jpg">
         选择图片
-        <img style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default.jpg">
-        <img style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default.jpg">
-        <img style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default.jpg">
-        <img style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default.jpg">
-
-        {% if photo_error != None%}
-            {{ photo_error }}
-        {% endif %}
+        <img class="default_avatar" id="avatar_default_1" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default1.jpg">
+        <img class="default_avatar" id="avatar_default_2" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default2.jpg">
+        <img class="default_avatar" id="avatar_default_3" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default3.jpg">
+        <img class="default_avatar" id="avatar_default_4" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default4.jpg">
         </dl>
       <input class="register-button" type="reset" value="取消">
-      <input class="register-button" type="submit" value="提交">
+      <input class="register-button" id="registration" type="submit" value="提交">
     </form>
 {% endblock %}
 
@@ -124,9 +121,28 @@
         iframe: {src: 'http://127.0.0.1:5000/upload/tailor/avatar'},
         close: function(index){
           $('#avatar_user').attr("src",layer.getChildFrame('#url',index).val())
+          $('#avatar').attr("value",layer.getChildFrame('#url',index).val())
         }
       });
     });
+    $(".default_avatar").click(function(){
+      $("#avatar_user").attr("src",$(this).attr("src"))
+      $("#avatar").attr("value",$(this).attr("src"))
+    });
+    /*
+    $("#registration").click(function(){
+      val_avatar=$("#avatar_user").attr("src");
+      alert(val_avatar)
+      $.post("http://127.0.0.1:5000/update/avatar",
+        {
+          avatar:val_avatar
+        },
+        function(data){
+          alert(data)
+          location.href ="http://127.0.0.1:5000/test"
+        });
+    })
+*/
   });
 </script>
 {% endblock %}

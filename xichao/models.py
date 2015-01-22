@@ -49,7 +49,7 @@ class User(Base):
     def __init__(self, nick = None, email = None, 
                        role = None, register_time = None,
                        last_login_time = None, password = None,
-                       state = None):
+                       state = None,photo=None):
         self.nick = nick
         self.email = email
         self.role = role
@@ -57,6 +57,7 @@ class User(Base):
         self.last_login_time = last_login_time
         self.password = password
         self.state = state
+        self.photo=photo
 
     def __repr__(self):
         return '<User %r>' % (self.nick)

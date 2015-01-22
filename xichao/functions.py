@@ -141,3 +141,12 @@ def get_special_information(special_id):
 def get_special_article(special_id,page_id):
 	pagination=db_session.query(Article).filter_by(special_id=special_id).paginate(page_id,5,False)
 	return pagination
+
+###################################  昵称函数  ####################################
+def getNick():
+	nick = None
+	if 'user' in session:
+		nick = session['user']
+	elif request.cookies.get('user')!=None:
+		nick = request.cookies.get('user')
+	return nick
