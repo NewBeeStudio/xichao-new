@@ -19,6 +19,9 @@ from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 import os
 
+
+GROUP=[u'广场',u'文章',u'专栏']
+CATEGORY=[u'书评',u'影评',u'杂文',u'专栏文章']
 #######################################  图片裁剪器  #########################################
 ##TODO：通过传参，缩为一个
 @app.route('/upload/tailor/title_image')
@@ -27,22 +30,9 @@ def upload_title_image():
 
 
 @app.route('/upload/tailor/avatar')
-def upload_avator():
+def upload_avatar():
 	return render_template('upload_avatar_tailor.html')
 
-##################################### 获取session nick #############################
-'''
-函数要放在functions.py模块，不能放在这里
-
-
-def getNick():
-	nick = None
-	if 'user' in session:
-		nick = session['user']
-	elif request.cookies.get('user')!=None:
-		nick = request.cookies.get('user')
-	return nick
-'''
 #######################################  美图秀秀配置文件  #########################################
 @app.route('/<filename>')
 def xiuxiu_config(filename):
@@ -107,7 +97,7 @@ def save_avatar():
 
 #为上传的头像文件提供服务
 @app.route('/upload/avatar/<filename>')
-def uploaded_file(filename):
+def uploaded_avatar(filename):
 	return send_from_directory(app.config['PHOTO_DEST'],filename)
 
 
@@ -185,9 +175,32 @@ def uploaded_article_title_image(filename):
 	return send_from_directory(app.config['ARTICLE_TITLE_DEST'],filename)
 
 #写文章页面显示
-@app.route('/article_upload')
-def article_upload():
+@app.route('/article_upload/group/<int:group_id>/category/<int:category_id>')
+def article_upload(group_id=3,category_id=4):
 	#未登录用户跳转到登录页面，已登录用户，跳转到发表文章页面
+	#判断请求链接是否合法
+	if group_id in [1,2,3] and category_id in [1,2,3,4]:
+		if category_id==4 and group_id!=3:
+			abort(404)
+		elif category_id<4 and group_id==3:
+			abort(404)
+		else:
+			#判断用户是否登录
+			if not 'user' in session:
+				return redirect(url_for('login'))
+			else:
+				group=GROUP[group_id-1]
+				category=CATEGORY[category_id-1]
+				article_session_id=get_article_session_id()
+				session['article_session_id']=str(article_session_id)
+				os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+				upload_url='/group/'+str(group_id)+'/category/'+str(category_id)
+				return render_template('test_article_upload.html',nick=session['user'],group=group,category=category,upload_url=upload_url)
+	else:
+		abort(404)
+
+
+	'''
 	if not 'user' in session:
 		return redirect(url_for('login'))
 	else:
@@ -195,8 +208,8 @@ def article_upload():
 		#将article_session_id放入session中，以访问该article_session_id下的文件夹下的文章内容图该值需要能够被写入文章的数据库表中
 		session['article_session_id']=str(article_session_id)
 		os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
-		return render_template('test_article_upload.html',nick=session['user'])
-
+		return render_template('test_article_upload.html',nick=session['user'],group=group,category=category)
+	'''
 #UEditor配置
 @app.route('/editor/', methods=['GET', 'POST'])
 def upload():
@@ -237,26 +250,26 @@ def editor_upload(filename):
 
 #文章完成时的提交路径
 ##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
-@app.route('/article/finish',methods=['POST'])
-def article_finish():
+@app.route('/article/finish/group/<group_id>/category/<category_id>',methods=['POST'])
+def article_finish(group_id,category_id):
     content = request.form['content']
     title = request.form['title']
     ##TODO 文章标题的安全性过滤
     title_image=request.form['title_image']
     user_id=get_user_id(session['user'])
 
-    create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0')
+    create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id)
     return u'文章保存成功'
 
 #文章草稿的提交路径
-@app.route('/article/draft',methods=['POST'])
-def article_draft():
+@app.route('/article/draft/group/<group_id>/category/<category_id>',methods=['POST'])
+def article_draft(group_id,category_id):
 	content=request.form['content']
 	title=request.form['title']
 	title_image=request.form['title_image']
 	user_id=get_user_id(session['user'])
 
-	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1')
+	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id)
 	return u'草稿保存成功'
 
 

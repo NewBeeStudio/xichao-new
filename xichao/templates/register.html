@@ -19,13 +19,14 @@
         {{ render_register(form.password, 2) }}
         {{ render_register(form.confirm, 3) }}
         <input type="button" id="avatar_button" value="上传头像">
-        <img id="avatar_user" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default.jpg">
-        <input name="avatar" type="hidden" value="http://127.0.0.1:5000/upload/avatar/default.jpg">
+        <img id="avatar_user" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default.jpg')}}">
+
+        <input name="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
         选择图片
-        <img class="default_avatar" id="avatar_default_1" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default1.jpg">
-        <img class="default_avatar" id="avatar_default_2" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default2.jpg">
-        <img class="default_avatar" id="avatar_default_3" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default3.jpg">
-        <img class="default_avatar" id="avatar_default_4" style="width:80px;height:80px;" src="http://127.0.0.1:5000/upload/avatar/default4.jpg">
+        <img class="default_avatar" id="avatar_default_1" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default1.jpg')}}">
+        <img class="default_avatar" id="avatar_default_2" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default2.jpg')}}">
+        <img class="default_avatar" id="avatar_default_3" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default3.jpg')}}">
+        <img class="default_avatar" id="avatar_default_4" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default4.jpg')}}">
         </dl>
       <input class="register-button" type="reset" value="取消">
       <input class="register-button" id="registration" type="submit" value="提交">
@@ -120,7 +121,7 @@
         closeBtn: false, 
         border:[0],
         area: ['90%', '90%'],
-        iframe: {src: 'http://127.0.0.1:5000/upload/tailor/avatar'},
+        iframe: {src: "{{url_for('upload_avatar')}}"},
       });
     });
     $(".default_avatar").click(function(){

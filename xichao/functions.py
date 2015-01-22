@@ -80,8 +80,8 @@ def get_article_session_id():
     return result[0]
 
 #添加文章
-def create_article(title,content,title_image,article_session_id,is_draft,user_id):
-	article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft)
+def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id):
+	article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id)
 	db_session.add(article)
 	db_session.commit()
 
