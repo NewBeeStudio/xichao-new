@@ -129,6 +129,11 @@ def article(article_id):
 	comment=get_article_comment(article_id)
 	return render_template('test_article.html',article=article,comment=comment)
 
+###################################	article_test ################################
+@app.route('/article/test')
+def article_test():
+	return render_template('test_article.html')
+
 ####################################  special  ##################################
 
 @app.route('/special/<int:special_id>/page/<int:page_id>',methods=['GET'])

@@ -3,15 +3,61 @@
 <!--css file used-->
 {% block css %}
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+	<link rel="stylesheet" type="text/css" href="/static/css/article.css" />
 {% endblock %}
 
 <!--content-->
 {% block content %}
-	<p id="title">&nbsp;首页&nbsp;>&nbsp;文章&nbsp;>书评&nbsp;>&nbsp;文章详情</p>
-	<div id="article_title"></div>
-	<div id="article_content"></div>
-	<div id="book_info"></div>
-	<div id="review"></div>
+	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;文章&nbsp;>书评&nbsp;>&nbsp;</p>
+	<p id="p_title_2">文章详情</p>
+	<div id="article_title">
+		<p id="p_article_title">XXXXX</p>
+		<p id="p_article_author_1">作者</p>
+		<p id="p_article_author_2">XXX</p>
+		<p id="p_article_time_1">发表时间</p>
+		<p id="p_article_time_2">2014.2.13</p>
+	</div>
+	<div id="article_content">
+		<p id="p_article_content">
+			XXXXXXXXXX
+		</p>
+	</div>
+	<hr>
+	<div id="book_info">
+		<div id="pic_book">
+			<img style="width:225px;height:205px;" src="http://127.0.0.1:5000/upload/article/article_title_image/test.jpg" />
+		</div>
+		<div id="p_book_info">
+			<p id="name">书名</p>
+			<p id="author">作者</p>
+			<p id="publish">出版社</p>
+			<p id="date">出版年份</p>
+			<p id="page">页数</p>
+			<p id="price">定价</p>
+			<p id="bind">装帧</p>
+			<p id="collection">丛书</p>
+			<p id="ISBN">ＩＳＢＮ</p>
+		</div>
+		<div id="p_book_info_content">
+			<p id="name_content">XXX</p>
+			<p id="author_content">XXX</p>
+			<p id="publish_content">XXX</p>
+			<p id="date_content">XXX</p>
+			<p id="page_content">XXX</p>
+			<p id="price_content">XXX</p>
+			<p id="bind_content">XXX</p>
+			<p id="collection_content">XXX</p>
+			<p id="ISBN_content">XXX</p>
+		</div>
+	</div>
+	<hr>
+	<div id="publish_review">
+		<p id="p_publish_review">发表评论</p>
+	</div>
+	<hr>
+	<div id="list_review">
+		<p id="p_list_review">评论列表</p>
+	</div>
 {% endblock %}
 
 

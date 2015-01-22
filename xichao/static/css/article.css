@@ -1,0 +1,92 @@
+#p_title_1 {
+	float: left;
+	font-family: 微软雅黑;
+}
+
+#p_title_2 {
+	color: #D9AE48;
+	font-family: 微软雅黑;
+}
+
+#article_title {
+	margin-top: 7%;
+	margin-right: 10%;
+	margin-left: 10%;
+}
+
+#p_article_title {
+	text-align: center;
+	font-family: 微软雅黑;
+	font-size: 25px;
+}
+
+#p_article_author_1 {
+	margin-top: 4%;
+	margin-left: 65%;
+	float: left;
+}
+
+#p_article_author_2 {
+	float: left;
+	margin-top: 4%;
+	margin-left: 2%;
+}
+
+#p_article_time_1 {
+	float: left;
+	margin-top: 4%;
+	margin-left: 4%;
+}
+
+#p_article_time_2 {
+	float: left;
+	margin-top: 4%;
+	margin-left: 2%;
+}
+
+#article_content {
+	margin-left: 10%;
+	margin-right: 9%;
+}
+
+#book_info {
+	margin-top: 3%;
+	margin-left: 10%;
+}
+
+#pic_book {
+	float: left;
+	margin-bottom: 10%;
+}
+
+#p_book_info {
+	float: left;
+	margin-left: 20%;
+	font-family: 微软雅黑;
+	line-height: 220%;
+}
+
+#p_book_info_content {
+	margin-left: 60%;
+	font-family: 微软雅黑;
+	line-height: 220%;
+}
+
+#p_publish_review {
+	margin-left: 10%;
+	margin-top: 3%;
+	margin-bottom: 1%;
+	font-family: 微软雅黑;
+	font-size: 20px;
+}
+
+#p_list_review {
+	margin-left: 10%;
+	margin-top: 3%;
+	margin-bottom: 1%;
+	font-family: 微软雅黑;
+	font-size: 20px;
+}
+
+
+
