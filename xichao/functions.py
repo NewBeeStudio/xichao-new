@@ -160,3 +160,9 @@ def getNick():
 	elif request.cookies.get('user')!=None:
 		nick = request.cookies.get('user')
 	return nick
+###################################  评论函数  ####################################
+def create_comment(content,to_user_id,article_id):
+	user_id=get_user_id(session['user'])
+	comment=Comment(article_id=article_id,content=content,user_id=user_id,to_user_id=to_user_id,time=datetime.now())
+	db_session.add(comment)
+	db_session.commit()

@@ -354,8 +354,21 @@ def ajax_register_validate():
 def uploaded_book_picture(filename):
 	return send_from_directory(app.config['BOOK_PICTURE_DEST'],filename)
 
-##################################	已废弃 ##################################
 
+
+##################################	评论处理 ##################################
+@app.route('/article/comment',methods=['POST'])
+def comment():
+	print request.form
+	content=request.form['content']
+	to_user_id=request.form['to_user_id']
+	article_id=request.form['article_id']
+	create_comment(content,to_user_id,article_id)
+	time=str(datetime.now()).rsplit('.',1)[0]
+	return time
+
+
+##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
 @app.route('/article/test')
