@@ -5,10 +5,6 @@
     margin-bottom: 30px;
 }
 
-/*.register-not-first-form{
-    margin-bottom: 30px;
-}*/
-
 
 td.register-label{
     width: 120px;
@@ -20,14 +16,6 @@ td.register-label{
     line-height: 40px;
 }
 
-/*错误提示信息*/
-td.register-warning{
-    padding-left: 20px;
-    color: #ff0000;
-    font-size: 18px;
-}
-
-
 input#email, input#nick, input#password, input#confirm{
     width: 300px;
     height: 40px;
@@ -36,14 +24,39 @@ input#email, input#nick, input#password, input#confirm{
     font-size: 20px;
 }
 
-/*override*/
-input#photo{
-    border-width: 0;
+img#avatar_user{
+    width: 200px;
+    height: 200px;
+    margin-left: 65px;
 }
 
+#register-avatar > div{
+    float: left;
+}
+
+#default-avatar-gallery{
+    margin-left: 50px; 
+    margin-top: 120px;
+    /*border: 1px solid #ff0000;*/
+}
+
+#avatar_button{
+    font-family: 微软雅黑;
+    font-size: 14px;
+
+    border-radius: 5px;
+    /*background-color: #D9AE48;*/
+    color: gray;
+}
+
+img.default_avatar{
+    width: 80px;
+    height: 80px;
+    border: 2px solid #ffffff;
+}
 
 .register-button{
-	margin: 18px auto 48px 120px;
+	margin: 48px auto 48px 120px;
     width: 118px;
     height: 38px;
 

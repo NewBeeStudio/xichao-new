@@ -18,18 +18,32 @@
         {{ render_register(form.nick, 1) }}
         {{ render_register(form.password, 2) }}
         {{ render_register(form.confirm, 3) }}
-        <input type="button" id="avatar_button" value="上传头像">
-        <img id="avatar_user" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default.jpg')}}">
+        <div id="register-avatar">
+          <div class="register-form-field register-label">
+            <label class>头像：</label>
+          </div>
 
-        <input name="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
-        选择图片
-        <img class="default_avatar" id="avatar_default_1" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default1.jpg')}}">
-        <img class="default_avatar" id="avatar_default_2" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default2.jpg')}}">
-        <img class="default_avatar" id="avatar_default_3" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default3.jpg')}}">
-        <img class="default_avatar" id="avatar_default_4" style="width:80px;height:80px;" src="{{url_for('uploaded_avatar',filename='default4.jpg')}}">
+          <div>
+            <img id="avatar_user" src="{{url_for('uploaded_avatar',filename='default.jpg')}}">
+            <input type="button" id="avatar_button" value="上传头像">
+          </div>
+
+          <div id="default-avatar-gallery">
+            <input name="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
+            <!-- <div id="label-default-avatar">
+              默认头像
+            </div> -->
+            <img class="default_avatar" id="avatar_default_1" src="{{url_for('uploaded_avatar',filename='default1.jpg')}}">
+            <img class="default_avatar" id="avatar_default_2" src="{{url_for('uploaded_avatar',filename='default2.jpg')}}">
+            <img class="default_avatar" id="avatar_default_3" src="{{url_for('uploaded_avatar',filename='default3.jpg')}}">
+            <img class="default_avatar" id="avatar_default_4" src="{{url_for('uploaded_avatar',filename='default4.jpg')}}">
+          </div>
+        </div>
         </dl>
-      <input class="register-button" type="reset" value="取消">
-      <input class="register-button" id="registration" type="submit" value="提交">
+      <div class="clear">
+        <input class="register-button" type="reset" value="取消">
+        <input class="register-button" id="registration" type="submit" value="提交">
+      </div>
     </form>
 {% endblock %}
 
@@ -38,6 +52,22 @@
 <script type="text/javascript">
   $(document).ready(function()
   {
+    /************************************************************/
+    /*图片强调*/
+    /************************************************************/
+    $(".default_avatar").click(function()
+    {
+      $(".default_avatar").each(function()
+      {
+        $(this).css("border","2px solid #ffffff");
+      });
+
+      $(this).css("border","2px solid #0000ff");
+    });
+
+    /************************************************************/
+    /*显示注册错误信息*/
+    /************************************************************/
     $(".register-error").each(function()
     {
       var warning = $(this).text().replace(/(^\s*)|(\s*$)/, ""); //获取warning区内容，去除空白字符
@@ -50,7 +80,7 @@
       
       
     /************************************************************/
-    /*input ajax*/
+    /*AJAX交互*/
     /************************************************************/
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
