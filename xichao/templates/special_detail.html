@@ -1,0 +1,209 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+	<link href="{{ url_for('static', filename='css/special_detail.css') }}" rel='stylesheet' type='text/css'/> 
+{% endblock %}
+
+<!--content-->
+{% block content %}
+
+<!--当前位置-->
+<div class="current-position">
+    <p>&nbsp;首页&nbsp;>&nbsp;专栏列表&nbsp;>&nbsp;专栏详情</p>
+</div>
+
+
+
+<!-- ===================专栏名称及作者====================== -->
+<div id="special-info-part">
+	<!-- 左侧专栏信息 -->
+	<div id="special-info">
+		<!-- 专栏名称和介绍 -->
+		<div id="special-name">
+			<!-- 专栏封面 -->
+			<div id="special-cover">
+				<img src="{{url_for('uploaded_special_image',filename = special_image )}}">
+			</div>
+
+			<!-- 专栏介绍 -->
+			<div id="special-introduction">
+				<h2>{{ special_title }}</h2>
+				<!-- 正文如果超过一定范围自动出现滑动条-->
+				<p> {{ special_introduction }}
+				</p>
+	
+				<table>
+ 				<tr>
+    				<td>作者</td>
+    				<td> {{ special_author }} </td>
+  				</tr>
+  				<tr>
+    				<td>类别</td>
+    				<td>饮食/专栏</td>
+  				</tr>
+  				<tr>
+    				<td>期数</td>
+    				<td>共11期，正在更新</td>
+  				</tr>
+				</table>
+	
+				<!-- 这个提交到哪？ -->
+				<input class="input-button" type="submit" value="阅读">
+	
+				<!-- 分享和订阅怎么实现 -->
+				<input style="float:right" class="input-button" type="submit" value="分享">
+			</div>
+		</div>
+	
+		<!-- 日程&订阅栏 -->
+		<div id="special-memo">
+			<img src="{{ url_for('static', filename='images/calendar-ico.png') }}">
+
+			<p>每周五更新</p>
+			<p>已发表4/11期</p>
+
+			<p style="margin-left:170px">100人订阅</p>
+
+			<!-- 分享和订阅怎么实现 -->
+			<input style="float:right" class="input-button" type="submit" value="订阅">
+		</div>
+	</div>
+
+	<!-- 右侧专栏作者介绍 -->
+	<div id="special-auther">
+		<!-- 外围圆 -->
+		<img src="{{ url_for('static', filename='images/white-circle-with-border.png') }}">
+
+		<!-- 作者信息 -->
+		<div id="special-auther-inner">
+			<img id="special-transparent-circle" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
+
+			<!-- 作者头像 -->
+			<img id="special-auther-pic" src="{{ special_author_avatar }}">
+
+			<h2> {{ special_author }} </h2>
+
+			<!-- 关注按钮 -->
+			<input class="special-button" type="submit" value="关注作者">
+
+			<p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。虽然是满月，天上却有一层淡淡的云，所以不能朗照；但我以为这恰是到了好处——酣眠固不可少，小睡也别有风味的。月光是隔了树照过来的，高处丛生的灌木，落下参差的斑驳的黑影，峭楞楞如鬼一般；弯弯的杨柳的稀疏的倩影，却又像是画在荷叶上。塘中的月色并不均匀；但光与影有着和谐的旋律，如梵婀玲上奏着的名曲。
+
+			</p>
+				
+		</div>
+	</div>
+</div>
+
+
+
+<!-- ===================专栏文章====================== -->
+<div id="special-article-part">
+	<!-- 左侧专栏文章信息 -->
+	<div id="special-article-info">
+
+		<!-- 专栏标题部分 -->
+		<div id="special-title">
+			<h3 style="float:left">专栏文章</h3>
+			<div style="float:right">
+			<input type="submit" value="按发表顺序">
+
+			<!-- 最新是什么东西 -->
+			<input type="submit" value="最新">
+			</div>
+		</div>
+
+		<hr/>
+		
+		<!-- 专栏文章 -->
+		<div id="special-article">
+			<h3>我的咖啡，你的故事</h3>
+			<p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。<!-- 虽然是满月，天上却有一层淡淡的云，所以不能朗照；但我以为这恰是到了好处——酣眠固不可少，小睡也别有风味的。月光是隔了树照过来的，高处丛生的灌木，落下参差的斑驳的黑影，峭楞楞如鬼一般；弯弯的杨柳的稀疏的倩影，却又像是画在荷叶上。塘中的月色并不均匀；但光与影有着和谐的旋律，如梵婀玲上奏着的名曲。 --></p>
+			<table>
+			<tr>
+			<td>2015.1.22</td>
+			<td>阅读(100000)</td>
+			<td>收藏(100000)</td>
+			<td>评论(100000)</td>
+			</tr>
+			</table>
+
+			<input class="special-button" type="submit" value="查看详情">
+			<hr />
+		</div>
+	
+		<!-- 重复 -->
+		<div id="special-article">
+			<h3>我的咖啡，你的故事</h3>
+			<p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。<!-- 虽然是满月，天上却有一层淡淡的云，所以不能朗照；但我以为这恰是到了好处——酣眠固不可少，小睡也别有风味的。月光是隔了树照过来的，高处丛生的灌木，落下参差的斑驳的黑影，峭楞楞如鬼一般；弯弯的杨柳的稀疏的倩影，却又像是画在荷叶上。塘中的月色并不均匀；但光与影有着和谐的旋律，如梵婀玲上奏着的名曲。 --></p>
+			<table>
+			<tr>
+				<td>2015.1.22</td>
+				<td>阅读(100000)</td>
+				<td>收藏(100000)</td>
+				<td>评论(100000)</td>
+			</tr>
+			</table>
+
+			<input class="special-button" type="submit" value="查看详情">
+			<hr />
+		</div>
+
+		<!-- 类似专栏 -->
+		<div id="special-related">
+			<div id="special-separate-block"></div>
+			<h3>类似专栏</h3>
+			<table>
+				<!-- 相关专栏图片 -->
+				<tr>
+					<td><img src="{{url_for('uploaded_special_image',filename='special_detail_pic_1.png')}}"></td>
+					<td><img src="{{url_for('uploaded_special_image',filename='special_detail_pic_1.png')}}"></td>
+					<td><img src="{{url_for('uploaded_special_image',filename='special_detail_pic_1.png')}}"></td>
+					<td><img src="{{url_for('uploaded_special_image',filename='special_detail_pic_1.png')}}"></td>
+				</tr>
+
+				<!-- 专栏名称 -->
+				<tr id="special-related-name">
+					<td>我的咖啡，你的故事</td>
+					<td>我的咖啡，你的故事</td>
+					<td>我的咖啡，你的故事</td>
+					<td>我的咖啡，你的故事</td>
+				</tr>
+
+				<!-- 专栏作者 -->
+				<tr id="special-related-auther">
+					<td> {{ special_author }} </td>
+					<td> {{ special_author }} </td>
+					<td> {{ special_author }} </td>
+					<td> {{ special_author }} </td>
+				</tr>
+
+				<!-- 专栏订阅数 -->
+				<tr id="special-related-subscription">
+					<td>10000人订阅</td>
+					<td>10000人订阅</td>
+					<td>10000人订阅</td>
+					<td>10000人订阅</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<!-- 右侧其他作品 -->
+	<div id="special-other-works">
+		<h3>其他作品</h3>
+		<ul>
+			<li>背影</li>
+			<li>荷塘月色</li>
+			<li>.......</li>
+		</ul>
+	</div>
+</div>
+
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+
+{% endblock %}

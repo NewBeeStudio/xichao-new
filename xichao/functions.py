@@ -141,6 +141,10 @@ def get_article_comments(article_id):
 	else:
 		return None
 ##################################  专栏函数  ####################################
+def get_special_author(nick):
+    result = db_session.query(User).filter_by(nick = nick)
+    return result[0]
+
 def get_special_information(special_id):
 	result=db_session.query(Special,User.nick).join(User).filter(Special.special_id==special_id).all()
 	if len(result)>0:
@@ -149,7 +153,7 @@ def get_special_information(special_id):
 		return None
 	
 def get_special_article(special_id,page_id):
-	pagination=db_session.query(Article).filter_by(special_id=special_id).paginate(page_id,5,False)
+	pagination = db_session.query(Article).filter_by(special_id = special_id).paginate(page_id, 5, False)
 	return pagination
 
 ###################################  昵称函数  ####################################

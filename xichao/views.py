@@ -182,20 +182,29 @@ def article(article_id):
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
 def special(special_id,page_id=1):
-	special=get_special_information(special_id)
+    special, author = get_special_information(special_id)
+    
+    author = get_special_author(author)
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
-	articles_pagination = get_special_article(special_id,page_id)
-	return render_template('special.html',special=special,articles_pagination=articles_pagination)
+    articles_pagination = get_special_article(special_id,page_id)
+    return render_template('special_detail.html',
+                            special_title = special.name,
+                            special_author = author.nick,
+                            special_introduction = special.introduction,
+                            special_image = special.picture,
+                            special_author_avatar = author.photo)
+#                            articles_pagination = articles_pagination)
 
 
 ##################################  专栏详情页面  ##################################
 #TODO 专栏详情尽量改成special detail
-@app.route('/column_detail')
+@app.route('/special_detail')
 def coloum_detail():
-	return render_template('column_detail.html', nick = getNick())
+	return render_template('special_detail.html', nick = getNick())
+
 
 @app.route('/upload/special/<filename>')
-def uploaded_column_image(filename):
+def uploaded_special_image(filename):
 	return send_from_directory(app.config['SPECIAL_DEST'],filename)
 
 
