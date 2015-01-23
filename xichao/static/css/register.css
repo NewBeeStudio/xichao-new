@@ -50,6 +50,7 @@ input#photo{
     font-family: 黑体;
     font-size: 20px;
 
+    border-radius: 10px;
     background-color: #D9AE48;
     color: #ffffff;
     float: left;
