@@ -181,12 +181,12 @@ def article(article_id):
 
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
-def special(special_id,page_id=1):
+def special(special_id, page_id=1):
     special, author = get_special_information(special_id)
     
     author = get_special_author(author)
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
-    articles_pagination = get_special_article(special_id,page_id)
+#    articles_pagination = get_special_article(special_id,page_id)
     return render_template('special_detail.html',
                             special_title = special.name,
                             special_author = author.nick,
