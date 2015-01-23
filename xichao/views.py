@@ -177,7 +177,7 @@ def article(article_id):
 	#comment初始显示5-6条，下拉显示全部
 	comments=get_article_comments(article_id)
 	comment_num=len(comments)
-	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],comment_num=comment_num,comments=comments,nick=getNick())
+	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comment_num=comment_num,comments=comments,nick=getNick())
 
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
