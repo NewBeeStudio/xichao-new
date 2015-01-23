@@ -14,7 +14,8 @@
 		<p id="p_article_title">{{article.title}}</p>
 	</div>
 	<div id="article_content">
-		<p id="p_article_author_1">{{author}}</p>
+		<p id="p_article_author_1">作者</p>
+		<p id="p_article_author_2">{{author}}</p>
 		<p id="p_article_time_1">发表时间</p>
 		<p id="p_article_time_2">{{article.time}}</p>
 		<p id="p_article_content">
@@ -32,7 +33,7 @@
 		<p id="p_read">阅读</p>
 		<p id="p_read_content">(xxx)</p>
 		<p id="p_review">评论</p>
-		<p id="p_review_content">(xxx)</p>
+		<p id="p_review_content">({{comment_num}})</p>
 		<p id="p_collection">收藏</p>
 		<p id="p_collection_content">({{article.favor}})</p>
 	</div>
@@ -62,7 +63,8 @@
 	</div>
 	<hr>
 	<div id="publish_review">
-		<p id="p_publish_review">发表评论</p>
+		<p id="p_publish_review">发表评论 :</p>
+		<input id="input_publish_review" type="text">
 	</div>
 	<hr>
 	<div id="list_review">
