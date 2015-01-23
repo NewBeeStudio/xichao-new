@@ -349,7 +349,7 @@ def ajax_register_validate():
 
 
 ##################################	书籍 ##################################
-
+#书籍图片的存储路径
 @app.route('/book/picture/<filename>')
 def uploaded_book_picture(filename):
 	return send_from_directory(app.config['BOOK_PICTURE_DEST'],filename)
