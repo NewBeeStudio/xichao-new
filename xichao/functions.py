@@ -127,16 +127,19 @@ def get_article_pagination(page,posts_per_page):
 #返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
 def get_article_information(article_id):
 	result=db_session.query(Article,User.nick,Book).join(User,Book).filter(Article.article_id==article_id).all()
-	print result[0]
+	#print result[0]
 	if len(result)>0:
 		return result[0]
 	else:
 		return None
 
-#返回一个列表，列表中的元素为元组，result[x][0]是Comment类的数据库实例，result[x][1]是该Comment所对应的用户昵称
-def get_article_comment(article_id):
-	result=db_session.query(Comment,User.nick).join(User).filter(Comment.article_id==article_id).order_by(desc(Comment.time)).all()
-	return result
+#返回一个列表，列表中的元素为元组，result[x][0]是Comment类的数据库实例，result[x][1]是该Comment所对应的用户昵称,result[x][2]是该Comment所对应的用户头像
+def get_article_comments(article_id):
+	result=db_session.query(Comment,User.nick,User.photo).join(User,Comment.user_id==User.user_id).filter(Comment.article_id==article_id).order_by(desc(Comment.time)).all()
+	if len(result)>0:
+		return result
+	else:
+		return None
 ##################################  专栏函数  ####################################
 def get_special_information(special_id):
 	result=db_session.query(Special,User.nick).join(User).filter(Special.special_id==special_id).all()

@@ -174,13 +174,10 @@ def verify():
 @app.route('/article/<int:article_id>',methods=['GET'])
 def article(article_id):
 	article=get_article_information(article_id)
-	print article[0].title
 	#comment初始显示5-6条，下拉显示全部
-	'''
-	comment=get_article_comment(article_id)
-	return render_template('test_article.html',article=article,comment=comment)
-	'''
-	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],comment=comment)
+	comments=get_article_comments(article_id)
+	comment_num=len(comments)
+	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],comment_num=comment_num,comments=comments,nick=getNick())
 
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
@@ -351,7 +348,11 @@ def ajax_register_validate():
 	return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0])
 
 
+##################################	书籍 ##################################
 
+@app.route('/book/picture/<filename>')
+def uploaded_book_picture(filename):
+	return send_from_directory(app.config['BOOK_PICTURE_DEST'],filename)
 
 ##################################	已废弃 ##################################
 
