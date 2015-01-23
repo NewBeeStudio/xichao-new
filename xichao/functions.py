@@ -126,7 +126,7 @@ def get_article_pagination(page,posts_per_page):
 '''
 #返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
 def get_article_information(article_id):
-	result=db_session.query(Article,User.nick,Book).join(User,Book).filter(Article.article_id==article_id).all()
+	result=db_session.query(Article,User.nick,Book,User.photo).join(User,Book).filter(Article.article_id==article_id).all()
 	#print result[0]
 	if len(result)>0:
 		return result[0]
@@ -164,3 +164,9 @@ def getNick():
 	elif request.cookies.get('user')!=None:
 		nick = request.cookies.get('user')
 	return nick
+###################################  评论函数  ####################################
+def create_comment(content,to_user_id,article_id):
+	user_id=get_user_id(session['user'])
+	comment=Comment(article_id=article_id,content=content,user_id=user_id,to_user_id=to_user_id,time=datetime.now())
+	db_session.add(comment)
+	db_session.commit()

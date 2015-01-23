@@ -177,7 +177,7 @@ def article(article_id):
 	#comment初始显示5-6条，下拉显示全部
 	comments=get_article_comments(article_id)
 	comment_num=len(comments)
-	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],comment_num=comment_num,comments=comments,nick=getNick())
+	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comment_num=comment_num,comments=comments,nick=getNick())
 
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
@@ -358,13 +358,26 @@ def ajax_register_validate():
 
 
 ##################################	书籍 ##################################
-
+#书籍图片的存储路径
 @app.route('/book/picture/<filename>')
 def uploaded_book_picture(filename):
 	return send_from_directory(app.config['BOOK_PICTURE_DEST'],filename)
 
-##################################	已废弃 ##################################
 
+
+##################################	评论处理 ##################################
+@app.route('/article/comment',methods=['POST'])
+def comment():
+	print request.form
+	content=request.form['content']
+	to_user_id=request.form['to_user_id']
+	article_id=request.form['article_id']
+	create_comment(content,to_user_id,article_id)
+	time=str(datetime.now()).rsplit('.',1)[0]
+	return time
+
+
+##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
 @app.route('/article/test')

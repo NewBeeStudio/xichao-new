@@ -64,7 +64,11 @@
 	<hr>
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
+		<img src="{{avatar}}">
 		<input id="input_publish_review" type="text">
+		<input id="comment_reset_button" type="button" value="取消">
+		<input id="comment_publish_button" type="button" value="确认">
+		<p id="comment_publish_time"></p>
 	</div>
 	<hr>
 	<div id="list_review">
@@ -83,5 +87,22 @@
 
 <!--js file used-->
 {% block js %}
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+
+<!--获取评论内容，更新数据库，返回评论时间-->
+<script type="text/javascript">
+$("#comment_publish_button").click(function(){
+	val_content=$("#input_publish_review").val();
+	$.post('http://127.0.0.1:5000/article/comment',
+		{
+			content:val_content,
+			article_id:{{article.article_id}},
+			to_user_id:{{article.user_id}}
+		},
+		function(data){
+			$("#comment_publish_time").text(data);
+		});
+});
+</script>
 
 {% endblock %}
