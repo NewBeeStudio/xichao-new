@@ -28,16 +28,16 @@
                     <ul id="nav-bar-button">
                         <li class="nav-bar-login nav-bar-login-first">
                             {% if nick!=None %}
-                                <a href="test">{{ nick }}</a>
+                                <a href="{{url_for('test')}}">{{ nick }}</a>
                             {% else %}
-                                <a href="login">登陆</a>
+                                <a href="{{url_for('login')}}">登陆</a>
                             {% endif %}                           
                         </li>
                         <li class="nav-bar-login">
                             {% if nick!=None %}
-                                <a href="logout">注销</a>
+                                <a href="{{url_for('logout')}}">注销</a>
                             {% else %}
-                                <a href="register">注册</a>
+                                <a href="{{url_for('register')}}">注册</a>
                             {% endif %}
                         </li>
                     </ul>
@@ -53,10 +53,10 @@
             <!--导航栏-->
             <ul id="nav-bar">
                 <hr/>
-                <li class="nav-bar-item"> <a href="test">首页</a> </li>
-                <li class="nav-bar-item"> <a href="column_detail">专栏</a> </li>
+                <li class="nav-bar-item"> <a href="{{url_for('test')}}">首页</a> </li>
+                <li class="nav-bar-item"> <a href="{{url_for('coloum_detail')}}">专栏</a> </li>
                 <li class="nav-bar-item"> <a href="#">活动</a> </li>
-                <li class="nav-bar-item"> <a href="article_upload">文章</a> </li>
+                <li class="nav-bar-item"> <a href="{{url_for('article_upload',group_id=3,category_id=4)}}">文章</a> </li>
                 <li class="nav-bar-item"> <a href="#">广场</a> </li>
                 <div class="clear"></div>
                 <hr/>
