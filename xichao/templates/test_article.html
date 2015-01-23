@@ -11,15 +11,14 @@
 	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;文章&nbsp;>书评&nbsp;>&nbsp;</p>
 	<p id="p_title_2">文章详情</p>
 	<div id="article_title">
-		<p id="p_article_title">XXXXX</p>
+		<p id="p_article_title">{{article.title}}</p>
 	</div>
 	<div id="article_content">
-		<p id="p_article_author_1">作者</p>
-		<p id="p_article_author_2">XXX</p>
+		<p id="p_article_author_1">{{author}}</p>
 		<p id="p_article_time_1">发表时间</p>
-		<p id="p_article_time_2">2014.2.13</p>
+		<p id="p_article_time_2">{{article.time}}</p>
 		<p id="p_article_content">
-			XXXXXXXXXX
+			{{article.content}}
 		</p>
 	</div>
 	<div id="share">
@@ -35,7 +34,7 @@
 		<p id="p_review">评论</p>
 		<p id="p_review_content">(xxx)</p>
 		<p id="p_collection">收藏</p>
-		<p id="p_collection_content">(xxx)</p>
+		<p id="p_collection_content">({{article.favor}})</p>
 	</div>
 	<hr>
 	<div id="book_info">
@@ -49,20 +48,16 @@
 			<p id="date">出版年份</p>
 			<p id="page">页数</p>
 			<p id="price">定价</p>
-			<p id="bind">装帧</p>
-			<p id="collection">丛书</p>
 			<p id="ISBN">ＩＳＢＮ</p>
 		</div>
 		<div id="p_book_info_content">
-			<p id="name_content">XXX</p>
-			<p id="author_content">XXX</p>
-			<p id="publish_content">XXX</p>
+			<p id="name_content">{{book.title}}</p>
+			<p id="author_content">{{book.author}}</p>
+			<p id="publish_content">{{book.press}}</p>
 			<p id="date_content">XXX</p>
-			<p id="page_content">XXX</p>
-			<p id="price_content">XXX</p>
-			<p id="bind_content">XXX</p>
-			<p id="collection_content">XXX</p>
-			<p id="ISBN_content">XXX</p>
+			<p id="page_content">{{book.page_num}}</p>
+			<p id="price_content">{{book.price}}</p>
+			<p id="ISBN_content">{{book.ISBN}}</p>
 		</div>
 	</div>
 	<hr>

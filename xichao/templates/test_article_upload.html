@@ -69,8 +69,9 @@
           title_image: val_title_image
         },
         function(data){
-          alert(data)
-          location.href ="http://127.0.0.1:5000/test"
+          layer.msg("文章保存成功",1,1,function(){
+            location.href ="http://127.0.0.1:5000/test";
+          });
         });
       });
       //保存草稿，上传到服务器
@@ -85,7 +86,7 @@
           title_image: val_title_image
         },
         function(data){
-          alert(data)
+          layer.msg("草稿保存成功",1,1);
         });
       });
       //选择默认图片
@@ -109,9 +110,6 @@
         area: ['90%', '90%'],
         //iframe: {src: 'http://127.0.0.1:5000/upload/tailor/title_image'},
         iframe: {src: "{{url_for('upload_title_image')}}"},
-        close: function(index){
-          $('#pic_4').attr("src",layer.getChildFrame('#url',index).val())
-        }
     });
   });
 </script>

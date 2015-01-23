@@ -174,10 +174,13 @@ def verify():
 @app.route('/article/<int:article_id>',methods=['GET'])
 def article(article_id):
 	article=get_article_information(article_id)
+	print article[0].title
 	#comment初始显示5-6条，下拉显示全部
+	'''
 	comment=get_article_comment(article_id)
 	return render_template('test_article.html',article=article,comment=comment)
-
+	'''
+	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],comment=comment)
 
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
@@ -307,7 +310,7 @@ def article_draft(group_id,category_id):
 	title=request.form['title']
 	title_image=request.form['title_image']
 	user_id=get_user_id(session['user'])
-
+	print '0000000000000000000000000000'
 	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id)
 	return u'草稿保存成功'
 

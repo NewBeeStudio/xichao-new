@@ -81,9 +81,19 @@ def get_article_session_id():
 
 #添加文章
 def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id):
-	article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id)
-	db_session.add(article)
-	db_session.commit()
+	result=db_session.query(Article).filter_by(article_session_id=article_session_id).all()
+	if len(result)>0:
+		article=db_session.query(Article).filter_by(article_session_id=article_session_id).scalar()
+		article.title=title
+		article.content=content
+		article.picture=title_image
+		article.time=datetime.now()
+		article.is_draft=is_draft
+		db_session.commit()
+	else:
+		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id)
+		db_session.add(article)
+		db_session.commit()
 
 def get_user_id(nick):
 	user_id=db_session.query(User.user_id).filter_by(nick=nick).first()
@@ -117,9 +127,6 @@ def get_article_pagination(page,posts_per_page):
 #返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
 def get_article_information(article_id):
 	result=db_session.query(Article,User.nick,Book).join(User,Book).filter(Article.article_id==article_id).all()
-	#result[0][0]
-	#result[0][1]
-	#result[0][2]
 	print result[0]
 	if len(result)>0:
 		return result[0]
