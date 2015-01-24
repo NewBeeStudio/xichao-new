@@ -66,7 +66,7 @@ def test_db():
     ##测试专栏
     from models import Special
     special = Special(name = u"Nick1的专栏", user_id = 1,
-                       picture = u"URL for Nick1的专栏.jpg", 
+                       picture = u"http://127.0.0.1:5000/upload/special/special_detail_pic_1.png", 
                        introduction = u"这里是Nick1的专栏",
                        time = datetime.now())
     db_session.add(special)
