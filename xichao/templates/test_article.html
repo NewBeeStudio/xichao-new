@@ -93,6 +93,7 @@
 <!--js file used-->
 {% block js %}
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 
 <!--获取评论内容，更新数据库，返回评论时间-->
 <script type="text/javascript">
@@ -106,6 +107,7 @@ $("#comment_publish_button").click(function(){
 		},
 		function(data){
 			$("#comment_publish_time").text(data);
+			layer.msg("评论成功",1,1);
 		});
 });
 </script>

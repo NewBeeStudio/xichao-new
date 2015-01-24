@@ -174,10 +174,13 @@ def verify():
 @app.route('/article/<int:article_id>',methods=['GET'])
 def article(article_id):
 	article=get_article_information(article_id)
-	#comment初始显示5-6条，下拉显示全部
-	comments=get_article_comments(article_id)
-	update_read_num(article_id)
-	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comments=comments,nick=getNick())
+	if article!=None:
+		#comment初始显示5-6条，下拉显示全部
+		comments=get_article_comments(article_id)
+		update_read_num(article_id)
+		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comments=comments,nick=getNick())
+	else:
+		abort(404)
 
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
@@ -300,14 +303,19 @@ def editor_upload(filename):
 ##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
 @app.route('/article/finish/group/<group_id>/category/<category_id>',methods=['POST'])
 def article_finish(group_id,category_id):
-    content = request.form['content']
-    title = request.form['title']
-    ##TODO 文章标题的安全性过滤
-    title_image=request.form['title_image']
-    user_id=get_user_id(session['user'])
-
-    create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id)
-    return u'文章保存成功'
+	content = request.form['content']
+	title = request.form['title']
+	##TODO 文章标题的安全性过滤
+	title_image=request.form['title_image']
+	abstract_abstract_with_img=request.form['abstract']
+	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)    
+	if len(abstract_plain_text)<191:
+		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
+	else:
+		abstract=abstract_plain_text[0:190]+'......'
+	user_id=get_user_id(session['user'])
+	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract)
+	return u'文章保存成功'
 
 #文章草稿的提交路径
 @app.route('/article/draft/group/<group_id>/category/<category_id>',methods=['POST'])
@@ -381,6 +389,47 @@ def comment():
 	time=str(datetime.now()).rsplit('.',1)[0]
 	return time
 
+##################################  文章组  ###################################
+@app.route('/article/order_time/group/<int:group_id>/category/<int:category_id>/page/<int:page_id>',methods=['GET'])
+def article_group_time(group_id,category_id,page_id=1):
+	if group_id in [1,2,3] and category_id in [1,2,3,4]:
+		if category_id==4 and group_id!=3:
+			abort(404)
+		elif category_id<4 and group_id==3:
+			abort(404)
+		else:
+			#判断用户是否登录
+			if not 'user' in session:
+				return redirect(url_for('login'))
+			else:
+				group=GROUP[group_id-1]
+				category=CATEGORY[category_id-1]
+				order='order_time'
+				article_pagination=get_article_pagination_by_time(str(group_id),str(category_id),page_id)
+
+				return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id)
+	else:
+		abort(404)
+
+@app.route('/article/order_favor/group/<int:group_id>/category/<int:category_id>/page/<int:page_id>',methods=['GET'])
+def article_group_favor(group_id,category_id,page_id=1):
+	if group_id in [1,2,3] and category_id in [1,2,3,4]:
+		if category_id==4 and group_id!=3:
+			abort(404)
+		elif category_id<4 and group_id==3:
+			abort(404)
+		else:
+			#判断用户是否登录
+			if not 'user' in session:
+				return redirect(url_for('login'))
+			else:
+				group=GROUP[group_id-1]
+				category=CATEGORY[category_id-1]
+				order='order_favor'
+				article_pagination=get_article_pagination_by_favor(str(group_id),str(category_id),page_id)
+				return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id,nick=getNick())
+	else:		
+		abort(404)
 
 ##################################	已废弃 ##################################
 
