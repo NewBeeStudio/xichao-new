@@ -16,6 +16,7 @@ from werkzeug import secure_filename
 from datetime import datetime
 from flask.ext.mail import Mail
 from flask.ext.mail import Message
+import re
 
 
 ##################################  注册函数  ####################################
@@ -80,7 +81,7 @@ def get_article_session_id():
     return result[0]
 
 #添加文章
-def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id):
+def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract):
 	result=db_session.query(Article).filter_by(article_session_id=article_session_id).all()
 	if len(result)>0:
 		article=db_session.query(Article).filter_by(article_session_id=article_session_id).scalar()
@@ -89,9 +90,10 @@ def create_article(title,content,title_image,article_session_id,is_draft,user_id
 		article.picture=title_image
 		article.time=datetime.now()
 		article.is_draft=is_draft
+		article.abstract=abstract
 		db_session.commit()
 	else:
-		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id)
+		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract)
 		db_session.add(article)
 		db_session.commit()
 
@@ -140,6 +142,11 @@ def get_article_comments(article_id):
 		return result
 	else:
 		return None
+
+def update_read_num(article_id):
+	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
+	article.read_num+=1
+	db_session.commit()
 ##################################  专栏函数  ####################################
 def get_special_author(nick):
     result = db_session.query(User).filter_by(nick = nick)
@@ -170,3 +177,14 @@ def create_comment(content,to_user_id,article_id):
 	comment=Comment(article_id=article_id,content=content,user_id=user_id,to_user_id=to_user_id,time=datetime.now())
 	db_session.add(comment)
 	db_session.commit()
+def update_comment_num(article_id):
+	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
+	article.comment_num+=1
+	db_session.commit()
+
+###################################  获取文章摘要函数  ###############################
+def get_abstract_plain_text(abstract):
+	img_list=re.findall('<img.*?>',abstract)
+	for img_r in img_list:
+		abstract=abstract.replace(img_r,'')
+	return abstract

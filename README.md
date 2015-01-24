@@ -50,3 +50,16 @@
 --------------------
  * 安装完mysql数据库后修改编码方式，统一采用utf8，否则中文会乱码或者无法存储
  * 在mysql中创建数据库要设定编码方式为utf8
+
+
+数据库建立过程：
+--------------------
+ * 建立名为'xichao'的数据库，命令如下：CREATE DATABASE `xichao` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;(如果数据库中已经有名为'xichao'的数据库，先将其删除)
+ * 将functions.py中的导入语句'from xichao import app'注释
+ * terminal进入到xichao-new，再进入到xichao
+ * 进入python shell（在terminal下运行'python'）
+ * 运行如下语句：from database import init_db
+ * 再运行导入的函数，语句为：init_db()
+ * 数据库创建好后，将functions中的'from xichao import app'解除注释
+ * 数据库就已经搭好了
+ * 在database.py文件中将DB_URL='mysql://root:@localhost/xichao?charset=utf8'中的用户名和密码改为你们自己的，我的用户名是root，密码为空，这样就能连接到数据库了

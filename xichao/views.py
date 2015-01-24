@@ -176,8 +176,8 @@ def article(article_id):
 	article=get_article_information(article_id)
 	#comment初始显示5-6条，下拉显示全部
 	comments=get_article_comments(article_id)
-	comment_num=len(comments)
-	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comment_num=comment_num,comments=comments,nick=getNick())
+	update_read_num(article_id)
+	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comments=comments,nick=getNick())
 
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
@@ -315,9 +315,14 @@ def article_draft(group_id,category_id):
 	content=request.form['content']
 	title=request.form['title']
 	title_image=request.form['title_image']
+	abstract_abstract_with_img=request.form['abstract']
+	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
+	if len(abstract_plain_text)<191:
+		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
+	else:
+		abstract=abstract_plain_text[0:190]+'......'
 	user_id=get_user_id(session['user'])
-	print '0000000000000000000000000000'
-	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id)
+	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
 	return u'草稿保存成功'
 
 
@@ -368,11 +373,11 @@ def uploaded_book_picture(filename):
 ##################################	评论处理 ##################################
 @app.route('/article/comment',methods=['POST'])
 def comment():
-	print request.form
 	content=request.form['content']
 	to_user_id=request.form['to_user_id']
 	article_id=request.form['article_id']
 	create_comment(content,to_user_id,article_id)
+	update_comment_num(article_id)
 	time=str(datetime.now()).rsplit('.',1)[0]
 	return time
 

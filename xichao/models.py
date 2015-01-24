@@ -82,6 +82,7 @@ class Book(Base):
     press = Column(String(50), nullable = False)
     page_num = Column(String(5), nullable = False)
     price = Column(String(10), nullable = False)
+    press_time = Column(String(50),nullable=False)
 
     ########## Index/Unique索引 ##########
     title = Column(String(50), nullable = False, 
@@ -92,7 +93,7 @@ class Book(Base):
     def __init__(self, title = None, ISBN = None,
                        picture = None, author = None,
                        press = None, page_num = None,
-                       price = None):
+                       price = None, press_time=None):
         self.title = title
         self.ISBN = ISBN
         self.picture = picture
@@ -100,6 +101,7 @@ class Book(Base):
         self.press = press
         self.page_num = page_num
         self.price = price
+        self.press_time=press_time
 
     def __repr__(self):
         return '<Book %r>' % (self.title)
@@ -168,6 +170,11 @@ class Article(Base):
     content = Column(Text, nullable = False)
     picture = Column(String(255), nullable = False)
     is_draft = Column(CHAR(1), nullable = False, default = '1')
+    ########## 新增 ###########
+    read_num = Column(Integer,nullable=False,default=0)
+    comment_num = Column(Integer,nullable=False,default=0)
+    abstract = Column(Text,nullable=False)
+
     
     #保存文章内容图片的文件夹号，便于删除
     article_session_id = Column(String(20),nullable=False)
@@ -195,7 +202,7 @@ class Article(Base):
                        content = None, is_draft = '1',
                        time = None, category = '0',
                        groups = '1', user_id = None,
-                       book_id = None, special_id = None,article_session_id=None):
+                       book_id = 1, special_id = 1,article_session_id=None,abstract=None):
         self.title = title
         self.content = content
         self.picture = picture
@@ -210,6 +217,7 @@ class Article(Base):
         
         self.user_id = user_id
         self.book_id = book_id
+        self.abstract = abstract
         if (special_id != None):
             self.special_id = special_id
 

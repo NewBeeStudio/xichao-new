@@ -42,7 +42,7 @@ def test_db():
     user = User(nick = "Nick1", email = "example1@exmample.com", 
                 role = 1, register_time = datetime.now(),
                 last_login_time = datetime.now(), password = encrypt("password"),
-                state = '0')
+                state = '0',photo=u'http://127.0.0.1:5000/upload/avatar/default.jpg')
     db_session.add(user)
     db_session.commit()
 
@@ -50,16 +50,16 @@ def test_db():
     user = User(nick = u"Nick2", email = u"example2@exmample.com", 
                 role = 1, register_time = datetime.now(),
                 last_login_time = datetime.now(), password = encrypt(u"password"),
-                state = u'0')
+                state = u'0',photo=u'http://127.0.0.1:5000/upload/avatar/default.jpg')
     db_session.add(user)
     db_session.commit()
     
     ##测试书籍
     from models import Book
     book = Book(title = u"算法导论", ISBN = u"7111407016",
-                       picture =u"URL for 算法导论.jpg", author = u"Thomas H.Cormen",
+                       picture =u"http://127.0.0.1:5000/book/picture/test.jpg", author = u"Thomas H.Cormen",
                        press = u"机械工业出版社", page_num = u"780",
-                       price = u"￥91.10")
+                       price = u"￥91.10", press_time=u"2012年12月")
     db_session.add(book)
     db_session.commit()
 
@@ -67,18 +67,18 @@ def test_db():
     from models import Special
     special = Special(name = u"Nick1的专栏", user_id = 1,
                        picture = u"URL for Nick1的专栏.jpg", 
-                       introduction = "这里是Nick1的专栏",
+                       introduction = u"这里是Nick1的专栏",
                        time = datetime.now())
     db_session.add(special)
     db_session.commit()
     
     ##测试文章
     from models import Article
-    article = Article(title = u"算法入门", picture = u"URL for 算法入门.jpg",
-                      content = "本文是算法入门文章", is_draft = '1',
+    article = Article(title = u"算法入门", picture = u"http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg",
+                      content = u"本文是算法入门文章", is_draft = '1',
                       time = datetime.now(), category = '0',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
                       groups = '1', user_id = 1,             ## 1表示 TODO
-                      book_id = 1, special_id = 1,article_session_id=1)
+                      book_id = 1, special_id = 1,article_session_id=1,abstract=u"本文是算法入门文章")
     db_session.add(article)
     db_session.commit()
 
