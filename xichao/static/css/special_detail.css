@@ -1,0 +1,323 @@
+/*********************专栏介绍*********************/
+#special-info-part{
+	width: 100%;
+	height: 420px;
+	/*border: 2px solid #000000;*/
+}
+
+/*左侧信息*/
+#special-info{
+	width: 55%;
+	height: 420px;
+	
+	float: left;
+	/*border: 1px solid #ff0000;*/
+}
+
+#special-name{
+	width: 100%;
+	height: 310px;
+	margin-top: 40px;
+
+	/*float: left;*/
+	/*border: 1px solid #ff0000;*/
+}
+
+
+#special-cover{
+	width: 234px;
+	height: 310px;
+
+	float: left;
+	/*border: 1px solid #000000;*/
+}
+
+#special-cover img{
+	width: 100%;
+	height: 100%;
+}
+
+#special-introduction{
+	width: 300px;
+	height: 100%;
+
+	margin-left: 45px;
+
+	float: left;
+	/*border: 1px solid #000000;*/
+}
+
+#special-introduction h2{
+	height: 30px;
+	text-align: center;	
+
+	overflow: auto;
+}
+
+#special-introduction p{
+	height: 80px;
+	font-size: 15px;
+	font-family: 黑体;
+
+	margin-top: 40px;
+	overflow: auto;
+}
+
+#special-introduction table{
+	margin-top: 20px;
+	width: 300px;
+	height: 60px;
+	font-size: 13px;
+	font-family: 黑体;
+
+	overflow: auto;
+}
+
+#special-introduction input{
+	margin-top: 45px;
+
+	width: 100px;
+    height: 38px;
+
+    float: left;
+}
+
+#special-memo{
+	margin-top: 40px;
+	height: 25px;
+	width: 100%;
+
+	/*border: 1px solid #0000ff;*/
+}
+
+#special-memo *{
+	float: left;
+}
+
+#special-memo p{
+	font-family: 黑体;
+	font-size: 15px;
+	margin-left: 20px;
+
+	line-height: 25px;
+}
+
+
+/*专栏作者信息*/
+#special-auther{
+	position: relative;
+	width: 420px;
+	height: 420px;
+
+	float: right;
+	/*border: 1px solid #00ff00;*/
+}
+
+#special-auther img{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+#special-auther-inner{
+	position: absolute;
+	margin: 50px 90px 80px 90px;
+
+	width: 242px;
+	height: 300px;
+
+	/*border: 1px solid #000000;*/
+}	
+
+#special-auther-inner img{
+	margin: 0 66px 0 66px;
+	width: 110px;
+	height: 110px;
+
+	/*z-index: 2;*/
+	/*border: 1px solid #000000;*/
+}
+
+#special-transparent-circle{
+	z-index: 2;
+}
+
+#special-auther-pic{
+	z-index: 1;
+	overflow: hidden;
+}
+
+#special-auther-inner h2{
+	margin: 120px 66px 0 66px;
+
+	font-family: 黑体;
+	font-size: 22px;
+
+	text-align: center;
+	overflow: auto;
+}
+
+#special-auther-inner input{
+	margin: 10px 66px 0 66px;
+	/*border: 1px solid #D9AE48;*/
+}
+
+.special-button{
+	font-family: 黑体;
+	font-size: 18px;
+
+	background-color: #ffffff;
+    color: #D9AE48;
+
+    width: 105px;
+    height: 33px;
+	text-align: center;
+}
+
+#special-auther-inner p{
+	margin-top: 20px;
+
+	height: 100px;
+	font-family: 微软雅黑;
+	font-size: 14px;
+
+	overflow: auto;
+}
+
+
+
+/**********************专栏文章信息**********************/
+#special-article-part{
+	margin-top: 40px;
+}
+
+/*左侧信息*/
+#special-article-info{
+	margin-top: 20px;
+	width: 666px;
+	float: left;
+	/*height: 1000px;*/
+	/*border: 1px solid #000000;*/
+}
+
+
+#special-title{
+	height: 40px;
+}
+
+#special-article h3{
+	margin-top: 36px;
+	margin-bottom: 30px;
+	color: #d19413;
+	font-size: 22px;
+}
+
+
+#special-article p{
+	font-family: 黑体;
+	font-size: 18px;
+}
+
+#special-article table{
+	padding-top: 20px;
+	padding-bottom: 30px;
+
+	float: left;
+	/*border: 1px solid #D9AE48;*/
+}
+
+#special-article td{
+	padding-right: 15px;
+	font-family: 黑体;
+	font-size: 15px;
+}
+
+#special-article input{
+	margin-top: 6px;
+	float: right;
+	/*border: 1px solid #D9AE48;*/
+}
+
+
+#special-article hr{
+	color: #d19413;
+
+	clear: both;
+}
+
+
+/*其他作品*/
+#special-other-works{
+	margin-left: 202px;
+	
+	padding-left: 18px;
+
+	height: 282px;
+
+	float: left;
+	border-left: 1px solid #D9AE48;
+	/*border: 1px solid #D9AE48;*/
+}
+
+#special-other-works h3{
+	font-family: 黑体;
+	font-size: 18px;
+	color: #D9AE48;
+}
+
+#special-other-works ul{
+	margin-top: 48px;
+	font-family: 微软雅黑;
+	font-size: 14px;
+}
+
+
+
+
+/**********************类似专栏*********************/
+#special-related{
+	width: 666px;
+}
+
+#special-separate-block{
+	height: 30px;
+	/*border: 1px solid #000000;*/
+	background-color: #ebce98;
+}
+
+#special-related h3{
+	margin: 27px auto 25px auto;
+}
+
+#special-related td{/*
+	width: 112px;
+	height: 160px;*/
+	padding-right: 60px;
+}
+
+#special-related img{
+	width: 122px;
+	height: 160px;
+}
+
+#special-related-name td{
+	padding-top: 10px;
+
+	padding-right: 0;
+	font-family: 黑体;
+	font-size: 16px;
+	/*border: 1px solid #000000;*/
+}
+
+#special-related-auther td, #special-related-subscription td{
+	/*padding-top: 10px;*/
+
+	padding-right: 0;
+	font-family: 黑体;
+	font-size: 13px;
+	/*border: 1px solid #000000;*/
+}
+
+#special-related-auther td{
+	color: #D9AE48;
+}
