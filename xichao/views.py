@@ -13,6 +13,8 @@
 	        注册  /register   /upload/avatar  /upload/avatar/<filename>
 	        登陆  /login
 	        注销  /logout
+	        忘记密码  /forgetPassword
+	        重置密码  /resetPassword
 	        邮箱验证    /verify
 	        文章页面    /article/<int:article_id>
 	        专栏页面    /special/<int:special_id>/page/<int:page_id>
@@ -44,7 +46,7 @@ from flask import redirect,url_for,render_template,request,flash,session,make_re
 from models import User
 from database import db_session
 from datetime import datetime
-from forms import RegistrationForm,LoginForm
+from forms import RegistrationForm,LoginForm,ForgetPasswordForm,ResetPasswordForm
 from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 from flask.ext.sqlalchemy import Pagination
@@ -109,10 +111,12 @@ def test():
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-	print request.form
+	# print request.form
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
+
 		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='哇哈哈哈')
+
 		db_session.add(user)
 		db_session.commit()
 		#需要增加异常处理，捕获异常，
@@ -162,7 +166,35 @@ def login():
 	return render_template('login.html', nick=None, form=form, error=error)
 
 
+##################################  忘记密码  ##################################
+@app.route('/forgetPassword',methods=['GET', 'POST'])
+def forgetPassword():
+	error = None
+	form = ForgetPasswordForm(request.form)
+
+	if request.method == 'POST' and form.validate():
+		nick = get_nick_by_email(form.email.data)
+		password = get_password_by_email(form.email.data)
+		send_resetpassword_email(nick, password, form.email.data) #待修改
+		flash(u'我们已向你的注册邮箱发送了一份密码重置邮件')
+		return redirect(url_for('test'))
+	return render_template('forgetPassword.html', nick = None, form = form, error = error)
 	
+##################################  重置密码  ##################################
+@app.route('/resetPassword/<nick>/<password>',methods=['GET', 'POST'])
+def resetPassword(nick, password):
+	if check_nickpassword_match(nick, password): #nick和password是否匹配
+		form = ResetPasswordForm(request.form)
+		if request.method == 'POST' and form.validate():
+			update_password(nick, form.password.data)
+			flash(u'密码修改成功，正在跳转')
+			return redirect(url_for('test'))
+		else:
+			return render_template('resetPassword.html', nick=None, form=form)
+	else:
+		return redirect(url_for('login'))
+
+
 ##################################  邮箱验证  ##################################
 ##TODO：邮箱验证成功的flash界面，验证失败的flash界面
 @app.route('/verify')
@@ -187,14 +219,19 @@ def article(article_id):
 		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comments=comments,nick=getNick())
 	else:
 		abort(404)
-
 ##################################  专栏页面  ##################################
-@app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
-def special(special_id, page_id=1):
+@app.route('/special', methods=['GET'])
+def special():
+    try:
+        special_id = int(request.args.get('id'))
+        page_id = int(request.args.get('page'))
+    except Exception:
+        abort(404)
+    
     special = get_special_information(special_id)
     if (special == None):
         abort(404)
-    author = get_special_author(Special.user_id)
+    author = get_special_author(special.user_id)
 
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
 
@@ -507,3 +544,7 @@ def activity_upload():
 @app.route('/article/test')
 def article_test():
 	return render_template('test_article.html')
+
+@app.route('/activity')
+def activity_test():
+	return render_template('test_activity.html')

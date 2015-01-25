@@ -20,3 +20,9 @@ def email_validator(form,field):
 	email=field.data
 	if email_exist(email):
 		raise ValidationError(message)
+
+def email_exist_validator(form, field):
+	message=u'邮箱不存在'
+	email=field.data
+	if not email_exist(email):
+		raise ValidationError(message)

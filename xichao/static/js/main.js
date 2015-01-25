@@ -64,8 +64,7 @@ $(document).ready(function(){
     /**************************************************************/
     $(".login-userinfo > #email").attr({"placeholder": "输入用户名/邮箱"});
     $(".login-userinfo > #password").attr({"placeholder": "密码"});
-
-
+    $(".login-userinfo > #confirm").attr({"placeholder": "确认密码"});
 
 
 

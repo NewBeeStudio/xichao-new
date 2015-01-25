@@ -4,6 +4,7 @@
 {% block css %}
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
 	<link rel="stylesheet" type="text/css" href="/static/css/article.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/button.css" />
 {% endblock %}
 
 <!--content-->
@@ -18,9 +19,9 @@
 		<p id="p_article_author_2">{{author}}</p>
 		<p id="p_article_time_1">发表时间</p>
 		<p id="p_article_time_2">{{article.time}}</p>
-		<p id="p_article_content" style="display:None;"><!--该div用于寄存文章内容-->
+		<div id="p_article_content" style="display:None;"><!--该div用于寄存文章内容-->
 			{{article.content}}
-		</p>
+		</div>
 	</div>
 	<div id="article_content_html"><!--该div用于显示文章内容-->
 	</div>
@@ -67,21 +68,22 @@
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
 		<img id="user_pic_1" src="{{avatar}}">
-		<input id="input_publish_review" type="text">
-		<input id="comment_reset_button" type="button" value="取消">
-		<input id="comment_publish_button" type="button" value="确认">
-		<p id="comment_publish_time"></p>
+		<iframe id="input_publish_review"></iframe>
+		<p id="p_user_name">{{nick}}</p>
+		<button  class="myButton" id="comment_reset_button">取消</button>
+		<button  class="myButton" id="comment_publish_button">确认</button>
 	</div>
 	<hr>
 	<div id="list_review">
 		<p id="p_list_review">评论列表</p>
+
 		<div id="comment_new">
 			
 		</div>
 
 		{% if comments!=None %}
 			{% for comment in comments %}
-				<div id="comment">
+				<div class="comment">
 					<!--{{comment[0]}}comment对象实例，不用显示，需要显示的是属性，比如content，time-->
 					<img class="user_pic_2" src="{{comment[2]}}">
 					<div class="line"></div>
@@ -93,6 +95,7 @@
 					<!--{{comment[1]}}该条comment的评论人-->
 					<!--{{comment[2]}}该条comment的评论人头像链接,可以不用显示，应该作为img标签的src属性，如下-->
 				</div>
+				<!--<hr>-->
 			{% endfor %}
 		{% endif %}
 	</div>
@@ -104,10 +107,24 @@
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 
+
+<script type="text/javascript">
+	$(function(){
+		$d = $("#input_publish_review")[0].contentWindow.document;
+		$d.designMode="on";
+    	$d.contentEditable= true;
+    	$d.open();
+    	$d.close();
+	});
+</script>  
+
+
 <!--获取评论内容，更新数据库，返回评论时间-->
 <script type="text/javascript">
 $("#comment_publish_button").click(function(){
-	val_content=$("#input_publish_review").val();
+	//val_content=$("#input_publish_review").text();
+	val_content = $('#input_publish_review').contents().find('body').html();
+	$('#input_publish_review').contents().find('body').empty();
 	$.post('http://127.0.0.1:5000/article/comment',
 		{
 			content:val_content,
@@ -117,9 +134,26 @@ $("#comment_publish_button").click(function(){
 		function(data){
 			$("#comment_publish_time").text(data);
 			layer.msg("评论成功",1,1);
+			/*var time = data;
+			var nick = "{{nick}}";
+			var avatar = "{{avatar}}";
+			var content = val_content;
+			var newdiv = $('<div><p>heelo</p></div>');*/
+			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
+			$('#comment_new').prepend('<div class="comment">'+
+				'<img class="user_pic_2" src="{{avatar}}">'+
+				'<div class="line"></div>'+
+				'<p class="p_review_author">{{nick}}</p>'+
+				'<div class="comment_content">'+val_content+'</div>'+
+				'<p class="p_publish_time">'+data+'</p></div><hr>');
 		});
 });
+
+$("#comment_reset_button").click(function(){
+	$('#input_publish_review').contents().find('body').empty();
+});
 </script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	val=$("#p_article_content").text();

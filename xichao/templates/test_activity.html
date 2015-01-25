@@ -1,25 +1,137 @@
 {% extends "layout.html" %}
+
 <!--css file used-->
 {% block css %}
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+	<link rel="stylesheet" type="text/css" href="/static/css/article.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/button.css" />
 {% endblock %}
 
 <!--content-->
 {% block content %}
-	{% if nick!=None %}
-		{{ nick }}
-	{% endif %}
-	{{activity.name}}
-	{% for comment in comments %}
-		{{comment[0].content}}
-		{{comment[1]}}
-		{{comment[2]}}
-	{% endfor %}
+
+	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;活动&nbsp;>&nbsp;</p>
+	<p id="p_title_2">活动详情</p>
+	<div id="article_title">
+		<p id="p_article_title">{{article.title}}</p>
+	</div>
+	<div id="article_content">
+		<p id="p_article_author_1">作者</p>
+		<p id="p_article_author_2">{{author}}</p>
+		<p id="p_article_time_1">发表时间</p>
+		<p id="p_article_time_2">{{article.time}}</p>
+		<div id="p_article_content" style="display:None;"><!--该div用于寄存文章内容-->
+			{{article.content}}
+		</div>
+	</div>
+	<div id="article_content_html"><!--该div用于显示文章内容-->
+	</div>
+	<div id="share">
+		<p id="p_share">分享</p>
+		<img src="/static/images/share_sinaweibo.png"/>
+		<img src="/static/images/share_qzone.png"/>
+		<img src="/static/images/share_renren.png"/>
+		<img src="/static/images/share_rss.png"/>
+	</div>
+	<div id="read">
+		<p id="p_read">阅读</p>
+		<p id="p_read_content">({{activity.read_num}})</p>
+		<p id="p_review">评论</p>
+		<p id="p_review_content">({{activity.comment_num}})</p>
+		<p id="p_collection">收藏</p>
+		<p id="p_collection_content">({{activity.favor}})</p>
+	</div>
+	
+	<hr>
+	<div id="publish_review">
+		<p id="p_publish_review">发表评论 :</p>
+		<img id="user_pic_1" src="{{avatar}}">
+		<iframe id="input_publish_review"></iframe>
+		<p id="p_user_name">{{nick}}</p>
+		<button  class="myButton" id="comment_reset_button">取消</button>
+		<button  class="myButton" id="comment_publish_button">确认</button>
+	</div>
+	<hr>
+	<div id="list_review">
+		<p id="p_list_review">评论列表</p>
+
+		<div id="comment_new">
+			
+		</div>
+
+		{% if comments!=None %}
+			{% for comment in comments %}
+				<div class="comment">
+					<img class="user_pic_2" src="{{comment[2]}}">
+					<div class="line"></div>
+					<p class="p_review_author">{{comment[1]}}</p>
+					<div class="comment_content">{{comment[0].content}}</div>
+					<p class="p_publish_time">{{comment[0].time}}</p>
+				</div>
+				<hr>
+			{% endfor %}
+		{% endif %}
+	</div>
 
 {% endblock %}
 
 
 <!--js file used-->
 {% block js %}
+
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+
+
+<script type="text/javascript">
+	$(function(){
+		$d = $("#input_publish_review")[0].contentWindow.document;
+		$d.designMode="on";
+    	$d.contentEditable= true;
+    	$d.open();
+    	$d.close();
+	});
+</script>  
+
+
+<!--获取评论内容，更新数据库，返回评论时间-->
+<script type="text/javascript">
+$("#comment_publish_button").click(function(){
+	//val_content=$("#input_publish_review").text();
+	val_content = $('#input_publish_review').contents().find('body').html();
+	$('#input_publish_review').contents().find('body').empty();
+	$.post('http://127.0.0.1:5000/article/comment',
+		{
+			content:val_content,
+			article_id:{{article.article_id}},
+			to_user_id:{{article.user_id}}
+		},
+		function(data){
+			$("#comment_publish_time").text(data);
+			/*var time = data;
+			var nick = "{{nick}}";
+			var avatar = "{{avatar}}";
+			var content = val_content;
+			var newdiv = $('<div><p>heelo</p></div>');*/
+			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
+			$('#comment_new').prepend('<div class="comment">'+
+				'<img class="user_pic_2" src="{{avatar}}">'+
+				'<div class="line"></div>'+
+				'<p class="p_review_author">{{nick}}</p>'+
+				'<div class="comment_content">'+val_content+'</div>'+
+				'<p class="p_publish_time">'+data+'</p></div><hr>');
+		});
+});
+
+$("#comment_reset_button").click(function(){
+	$('#input_publish_review').contents().find('body').empty();
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	val=$("#p_article_content").text();
+	$("#article_content_html").html(val);
+})
+</script>
 
 {% endblock %}

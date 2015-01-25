@@ -1,51 +1,24 @@
-{% extends "layout.html" %}
+{% extends "layout_login.html" %}
 
-{% block css %}
-<link href="{{ url_for('static', filename='css/login.css') }}" rel='stylesheet' type='text/css'/>
-{% endblock %}
-
-{% block content %}
-<!--当前位置-->
-<div class="current-position">
-    <p>登陆</p>
-</div>
-<!--登陆入口-->
-<div id="login-content">
-    <img src="{{ url_for('static', filename='images/login-lantern.jpg') }}" id="login-lantern"/>
-
-    <img src="{{ url_for('static', filename='images/login-white-circle.png') }}" id="login-outside-circle"/>
-
-    <div id="login-inside-circle">
-        {% from "test_formhelpers.html" import render_login, render_login_autologin %}
-        <form id="login-form-block" method="post" action="/login" accept-charset="utf-8">
-            <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
-            <dl>
-                {{ render_login(form.email) }}
-                {{ render_login(form.password) }}
-                {{ render_login_autologin(form.stay) }}
-            </dl>
-            {% if error!=None %}
-            <div class="error-tip login-error-not-match">
-                {{ error }}
+{% block login_content %}
+    {% from "test_formhelpers.html" import render_login, render_login_autologin %}
+    <form id="login-form-block" method="post" action="/login" accept-charset="utf-8">
+        <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+        <dl>
+            {{ render_login(form.email) }}
+            {{ render_login(form.password) }}
+            {{ render_login_autologin(form.stay) }}
+        </dl>
+        {% if error!=None %}
+        <div class="error-tip login-error-not-match">
+            {{ error }}
+        </div>
+        {% endif %}
+        <div id="login-submit">
+            <input type="submit" value="登陆">
+            <div class="clear" style="margin-top: 10px;">
+                <a href="{{url_for('register')}}">还没有账号？点击注册 >>></a>
             </div>
-            {% endif %}
-
-            <div id="login-submit">
-                <input type="submit" value="登陆">
-                <div class="clear" style="margin-top: 10px;">
-                    <a href="#">还没有账号？点击注册 >>></a>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-{% endblock %}
-
-{% block js %}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".error-tip").fadeOut(4000);
-    });
-</script>
+        </div>
+    </form>
 {% endblock %}
