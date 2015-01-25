@@ -9,8 +9,8 @@
 
 <!--content-->
 {% block content %}
-	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;文章&nbsp;>书评&nbsp;>&nbsp;</p>
-	<p id="p_title_2">文章详情</p>
+	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;活动&nbsp;>&nbsp;</p>
+	<p id="p_title_2">活动详情</p>
 	<div id="article_title">
 		<p id="p_article_title">{{article.title}}</p>
 	</div>
@@ -40,30 +40,7 @@
 		<p id="p_collection">收藏</p>
 		<p id="p_collection_content">({{article.favor}})</p>
 	</div>
-	<hr>
-	<div id="book_info">
-		<div id="pic_book">
-			<img style="width:225px;height:205px;" src="{{book.picture}}" />
-		</div>
-		<div id="p_book_info">
-			<p id="name">书名</p>
-			<p id="author">作者</p>
-			<p id="publish">出版社</p>
-			<p id="date">出版年份</p>
-			<p id="page">页数</p>
-			<p id="price">定价</p>
-			<p id="ISBN">ＩＳＢＮ</p>
-		</div>
-		<div id="p_book_info_content">
-			<p id="name_content">{{book.title}}</p>
-			<p id="author_content">{{book.author}}</p>
-			<p id="publish_content">{{book.press}}</p>
-			<p id="date_content">{{book.press_time}}</p>
-			<p id="page_content">{{book.page_num}}</p>
-			<p id="price_content">{{book.price}}</p>
-			<p id="ISBN_content">{{book.ISBN}}</p>
-		</div>
-	</div>
+	
 	<hr>
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
@@ -84,18 +61,13 @@
 		{% if comments!=None %}
 			{% for comment in comments %}
 				<div class="comment">
-					<!--{{comment[0]}}comment对象实例，不用显示，需要显示的是属性，比如content，time-->
 					<img class="user_pic_2" src="{{comment[2]}}">
 					<div class="line"></div>
 					<p class="p_review_author">{{comment[1]}}</p>
 					<div class="comment_content">{{comment[0].content}}</div>
 					<p class="p_publish_time">{{comment[0].time}}</p>
-					<!--{{comment[0].content}}<!--comment的内容-->
-					<!--{{comment[0].time}}<!--comment的时间-->
-					<!--{{comment[1]}}该条comment的评论人-->
-					<!--{{comment[2]}}该条comment的评论人头像链接,可以不用显示，应该作为img标签的src属性，如下-->
 				</div>
-				<!--<hr>-->
+				<hr>
 			{% endfor %}
 		{% endif %}
 	</div>

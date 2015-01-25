@@ -139,17 +139,23 @@
 }
 
 #user_pic_1 {
+	float: left;
 	margin-left: 10%;
+	margin-right: 3%;
 	margin-top: 1%;
 	width: 8%;
 }
 
+#p_user_name {
+	margin-left: 12%;
+}
+
 #input_publish_review {
+	display: block;
 	background-color: #ffcc99;
-	margin-left: 3%;
 	margin-right: 15%;
 	width: 60%;
-	height: 111px;
+	height: 100px;
 }
 
 #comment_reset_button{
@@ -175,10 +181,11 @@
 }
 
 #comment_new {
-	display: none;
 }
-#comment {
+
+.comment {
 	margin-top: 2%;
+	margin-bottom: 3%;
 	font-family: 微软雅黑;
 }
 

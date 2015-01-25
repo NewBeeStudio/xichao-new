@@ -207,6 +207,7 @@ def verify():
 def article(article_id):
 	article=get_article_information(article_id)
 	#comment初始显示5-6条，下拉显示全部
+
 	comments=get_article_comments(article_id)
 	update_read_num(article_id)
 	return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comments=comments,nick=getNick())
@@ -431,3 +432,7 @@ def comment():
 @app.route('/article/test')
 def article_test():
 	return render_template('test_article.html')
+
+@app.route('/activity')
+def activity_test():
+	return render_template('test_activity.html')
