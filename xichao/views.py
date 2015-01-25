@@ -576,6 +576,8 @@ def activity_upload():
 		os.makedirs(os.path.join(app.config['ACTIVITY_CONTENT_DEST'], str(activity_session_id)))
 		return render_template('test_activity_upload.html',nick=session['user'])
 
+
+
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################

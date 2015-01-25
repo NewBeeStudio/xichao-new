@@ -27,55 +27,22 @@
    		<input id="input_title" type="text">
 
       <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
-
-      <!--<div id="div_book_info">
-        <div class="div_info">
-        <p class="book_info" id="name">书名 :</p>
-        <input class="input_book_info" id="input_name">
-        </div>
-        <div class="div_info">
-        <p class="book_info" id="author">作者 :</p>
-        <input class="input_book_info" type="text" id="input_author">
-        </div>
-        <div class="div_info">
-        <p class="book_info" id="publish">出版社 :</p>
-        <input class="input_book_info" type="text" id="input_publish">
-        </div>
-        <div class="div_info">
-        <p class="book_info" id="date">出版年份 :</p>
-        <input class="input_book_info" type="text" id="input_date">
-        </div>
-        <div class="div_info">
-        <p class="book_info" id="page">页数 :</p>
-        <input class="input_book_info" type="text" id="input_page">
-        </div>
-        <div class="div_info">
-        <p class="book_info" id="price">定价 :</p>
-        <input class="input_book_info" type="text" id="input_price">
-        </div>
-        <div class="div_info">
-        <p class="book_info" id="ISBN">ＩＳＢＮ :</p>
-        <input class="input_book_info" type="text" id="input_ISBN">
-        </div>
-      </div>-->
-
-      <div id="book_info">
-        <p id="name">书名 :</p>
-        <p id="author">作者 :</p>
-        <p id="publish">出版社 :</p>
-        <p id="date">出版年份 :</p>
-        <p id="page">页数 :</p>
-        <p id="price">定价 :</p>
-        <p id="ISBN">ＩＳＢＮ :</p>
+      <div style="height:20px;">
+        <label>请输入书籍ISBN号</label>
+        <input id="book_isbn" type="text" style="height:20px;">
+        <input id="book_button" type="button" style="height:20px;" value="确定">
       </div>
-
-      <input class="input_book_info" id="input_name">
-      <input class="input_book_info" type="text" id="input_author">
-      <input class="input_book_info" type="text" id="input_publish">
-      <input class="input_book_info" type="text" id="input_date">
-      <input class="input_book_info" type="text" id="input_page">
-      <input class="input_book_info" type="text" id="input_price">
-      <input class="input_book_info" type="text" id="input_ISBN">
+      <div id="book_information" style="display:none;">
+        <p id="book_name"></p>
+        <p id="book_author"></p>
+        <p id="book_publisher"></p>
+        <p id="book_pubdate"></p>
+        <p id="book_pages"></p>
+        <p id="book_price"></p>
+        <p id="book_binding"></p>
+        <p id="book_isbn"></p>
+        <img id="book_image" src="">
+      </div>
       
       <a href="#" class="myButton" id="button_upload_cancel">取消</a>
       <a href="#" class="myButton" id="button_upload_draft">保存草稿</a>
@@ -112,26 +79,13 @@
         val_content = UE.getEditor('editor').getContent();
         val_abstract = UE.getEditor('editor').getPlainTxt();
         val_title_image=$('#pic_4').attr('src');
-        val_book_name = $("input_name").val();
-        val_book_author = $("input_author").val();
-        val_book_publish = $("input_publish").val();
-        val_book_date = $("input_date").val();
-        val_book_page = $("input_page").val();
-        val_book_price = $("input_price").val();
-        val_book_ISBN = $("input_ISBN").val();
+        
         $.post('http://127.0.0.1:5000/article/finish{{upload_url}}',
         {
           title: val_title,
           content: val_content,
           title_image: val_title_image,
           abstract: val_abstract
-          book_name: val_book_name,
-          book_author: val_book_author,
-          book_publish: val_book_publish,
-          book_date: val_book_date,
-          book_page: val_book_page,
-          book_price: val_book_price,
-          book_ISBN: val_book_ISBN
         },
         function(data){
           layer.msg("文章保存成功",1,1,function(){
@@ -175,8 +129,25 @@
         closeBtn: false, 
         border:[0],
         area: ['90%', '90%'],
-        //iframe: {src: 'http://127.0.0.1:5000/upload/tailor/title_image'},
         iframe: {src: "{{url_for('upload_title_image')}}"},
+    });
+  });
+</script>
+<script type="text/javascript">
+  $('#book_button').click(function(){
+    val_book_isbn=$('#book_isbn').val();
+    url='https://api.douban.com/v2/book/isbn/'+val_book_isbn+'?fields=title,author,publisher,pubdate,pages,price,binding,isbn13,images&callback=?';
+    $.getJSON(url,function(json){
+      $("#book_name").text(json.title);
+      $("#book_author").text(json.author);
+      $("#book_publisher").text(json.publisher);
+      $("#book_pubdate").text(json.pubdate);
+      $("#book_pages").text(json.pages);
+      $("#book_price").text(json.price);
+      $("#book_binding").text(json.binding);
+      $("#book_isbn").text(json.isbn13);
+      $("#book_image").attr("src",json.images.large);
+      $("#book_information").css('display','block');
     });
   });
 </script>
