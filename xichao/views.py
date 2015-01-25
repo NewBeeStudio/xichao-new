@@ -180,7 +180,8 @@ def resetPassword(nick, password):
 	if check_nickpassword_match(nick, password): #nick和password是否匹配
 		form = ResetPasswordForm(request.form)
 		if request.method == 'POST' and form.validate():
-			update_password(nick, form.password.data)
+			update_password(nick, form.password.data) #重设密码
+			session['user'] = nick #session增加用户
 			flash(u'密码修改成功，正在跳转')
 			return redirect(url_for('test'))
 		else:
