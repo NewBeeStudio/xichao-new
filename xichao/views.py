@@ -110,11 +110,8 @@ def register():
 	# print request.form
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
-<<<<<<< HEAD
-=======
 		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), 
 					last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'])
->>>>>>> da83a937d694a1dc52add6e4ec81b7c689273dc6
 		db_session.add(user)
 		db_session.commit()
 		send_verify_email(form.nick.data,form.password.data,form.email.data)
