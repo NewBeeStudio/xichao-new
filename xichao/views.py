@@ -110,7 +110,11 @@ def register():
 	# print request.form
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
-		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'])
+<<<<<<< HEAD
+=======
+		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), 
+					last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'])
+>>>>>>> da83a937d694a1dc52add6e4ec81b7c689273dc6
 		db_session.add(user)
 		db_session.commit()
 		send_verify_email(form.nick.data,form.password.data,form.email.data)
@@ -162,21 +166,24 @@ def login():
 ##################################  忘记密码  ##################################
 @app.route('/forgetPassword',methods=['GET', 'POST'])
 def forgetPassword():
-	error=None
-	form=ForgetPasswordForm(request.form)
+	error = None
+	form = ForgetPasswordForm(request.form)
+
 	if request.method == 'POST' and form.validate():
-		send_resetpassword_email("Frank",'1',form.email.data) #待修改
+		nick = get_nick_by_email(form.email.data)
+		password = get_password_by_email(form.email.data)
+		send_resetpassword_email(nick, password, form.email.data) #待修改
 		flash(u'我们已向你的注册邮箱发送了一份密码重置邮件')
 		return redirect(url_for('test'))
-	return render_template('forgetPassword.html', nick=None, form=form, error=error)
+	return render_template('forgetPassword.html', nick = None, form = form, error = error)
 	
 ##################################  重置密码  ##################################
 @app.route('/resetPassword/<nick>/<password>',methods=['GET', 'POST'])
 def resetPassword(nick, password):
-	if check_nickpassword_match(nick, password): #没有完成
+	if check_nickpassword_match(nick, password): #nick和password是否匹配
 		form = ResetPasswordForm(request.form)
 		if request.method == 'POST' and form.validate():
-			# resetPassword(form.password.data)
+			update_password(nick, form.password.data)
 			flash(u'密码修改成功，正在跳转')
 			return redirect(url_for('test'))
 		else:
