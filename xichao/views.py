@@ -47,8 +47,8 @@ from datetime import datetime
 from forms import RegistrationForm,LoginForm
 from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
+from flask.ext.sqlalchemy import Pagination
 import os
-
 
 
 GROUP=[u'广场',u'文章',u'专栏']
@@ -182,17 +182,22 @@ def article(article_id):
 ##################################  专栏页面  ##################################
 @app.route('/special/<int:special_id>/page/<int:page_id>', methods=['GET'])
 def special(special_id, page_id=1):
-    special, author = get_special_information(special_id)
-    
-    author = get_special_author(author)
+    special = get_special_information(special_id)
+    if (special == None):
+        abort(404)
+    author = get_special_author(Special.user_id)
+
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
-#    articles_pagination = get_special_article(special_id,page_id)
+
+    articles_pagination = get_special_article(special_id, page_id)
     return render_template('special_detail.html',
                             special_title = special.name,
                             special_author = author.nick,
+                            special_author_slogon = author.slogon,
                             special_introduction = special.introduction,
                             special_image = special.picture,
-                            special_author_avatar = author.photo)
+                            special_author_avatar = author.photo,
+                            articles_pagination = articles_pagination)
 #                            articles_pagination = articles_pagination)
 
 

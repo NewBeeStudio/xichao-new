@@ -16,6 +16,7 @@ from werkzeug import secure_filename
 from datetime import datetime
 from flask.ext.mail import Mail
 from flask.ext.mail import Message
+from flask.ext.sqlalchemy import Pagination
 import re
 
 
@@ -148,20 +149,35 @@ def update_read_num(article_id):
 	article.read_num+=1
 	db_session.commit()
 ##################################  专栏函数  ####################################
-def get_special_author(nick):
-    result = db_session.query(User).filter_by(nick = nick)
+def paginate(query,page,per_page=20,error_out=True):
+	if error_out and page < 1:
+		abort(404)
+	items = query.limit(per_page).offset((page - 1) * per_page).all()
+	if not items and page != 1 and error_out:
+		abort(404)
+	if page == 1 and len(items) < per_page:
+		total = len(items)
+	else:
+		total = query.order_by(None).count()
+	return Pagination(query, page, per_page, total, items)
+
+
+def get_special_author(userid):
+    result = db_session.query(User).filter_by(user_id = userid)
     return result[0]
 
 def get_special_information(special_id):
-	result=db_session.query(Special,User.nick).join(User).filter(Special.special_id==special_id).all()
-	if len(result)>0:
-		return result[0]
-	else:
-		return None
-	
-def get_special_article(special_id,page_id):
-	pagination = db_session.query(Article).filter_by(special_id = special_id).paginate(page_id, 5, False)
-	return pagination
+#	result=db_session.query(Special,User.nick).join(User).filter(Special.special_id==special_id).all()
+    result = db_session.query(Special).filter_by(special_id = special_id).all()
+    if len(result)>0:
+        return result[0]
+    else:
+        return None
+
+def get_special_article(special_id, page_id):
+    query = db_session.query(Article).filter_by(special_id = special_id)
+    pagination = paginate(query = query, page = page_id, per_page = 5, error_out = True)
+    return pagination
 
 ###################################  昵称函数  ####################################
 def getNick():
