@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+<link rel="stylesheet" type="text/css" href="/static/css/article_upload.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/button.css" />
+
+{% endblock %}
+
+<!--content-->
+{% block content %}
+ <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发布活动</p>
+    <div id="pics">
+        <img class="pics" id="pic_4" style="width:225px;height:205px;" src="{{url_for('uploaded_activity_title_image',filename='activity_upload_pic_4.png')}}" />
+       	<p class="p_triangle" id="triangle_left">◀</p>
+        <img class="pics" id="pic_1" src="{{url_for('uploaded_activity_title_image',filename='activity_upload_pic_1.jpg')}}" />
+        <img class="pics" id="pic_2" src="{{url_for('uploaded_activity_title_image',filename='activity_upload_pic_2.jpg')}}" />
+        <img class="pics" id="pic_3" src="{{url_for('uploaded_activity_title_image',filename='activity_upload_pic_3.jpg')}}" />
+        <p class="p_triangle" id="triangle_right">▶</p>
+
+        <a href="#" class="myButton" id="button_upload_pic">上传题图</a>
+    </div>
+
+   	<div id="article_editor">
+   		<p id="p_article_title">活动标题:</p>
+   		<input id="input_title" type="text">
+
+      <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+      
+      <a href="#" class="myButton" id="button_upload_cancel">取消</a>
+      <a href="#" class="myButton" id="button_upload_confirm">确定</a>
+   	</div>
+	
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+	<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.config.js') }}"></script>
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.all.min.js') }}"> </script>
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
+
+
+
+    <script type="text/javascript">
+    var ue = UE.getEditor('editor', {
+		serverUrl: "/editor/activity",
+    initialFrameWidth: 1058,
+    initialFrameHeight: 500
+	});
+
+    $(document).ready(function(){
+      //完成文章，上传到服务器
+      $("#button_upload_confirm").click(function(){
+        val_title = $("#input_title").val();
+        val_content = UE.getEditor('editor').getContent();
+        val_title_image=$('#pic_4').attr('src');
+        $.post('http://127.0.0.1:5000/activity/finish',
+        {
+          title: val_title,
+          content: val_content,
+          title_image: val_title_image
+        },
+        function(data){
+          layer.msg("活动保存成功",1,1,function(){
+            location.href ="http://127.0.0.1:5000/test";
+          });
+        });
+      });
+      //选择默认图片
+      $('.pics').click(function(){
+        $('#pic_4').attr("src",$(this).attr("src"))
+      });
+    });
+</script>
+<!--上传题图的页面框-->
+<script type="text/javascript">
+  $('#button_upload_pic').click(function(){
+    $.layer({
+        type: 2,
+        title: [
+            '上传活动题图', 
+            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+        ], 
+        shadeClose: true,
+        closeBtn: false, 
+        border:[0],
+        area: ['90%', '90%'],
+        //iframe: {src: 'http://127.0.0.1:5000/upload/tailor/title_image'},
+        iframe: {src: "{{url_for('upload_activity_title_image')}}"},
+    });
+  });
+</script>
+
+<script type="text/javascript">
+function update_title_image(data){
+  $('#pic_4').attr("src",data);
+}
+</script>
+
+{% endblock %}
+

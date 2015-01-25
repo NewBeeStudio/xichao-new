@@ -42,7 +42,7 @@ def test_db():
     user = User(nick = "Nick1", email = "example1@exmample.com", 
                 role = 1, register_time = datetime.now(),
                 slogon = u"我要吃遍大江南北！",
-                last_login_time = datetime.now(), password = encrypt("password"),
+                last_login_time = datetime.now(), password = encrypt(u"password"),
                 state = '0',photo=u'http://127.0.0.1:5000/upload/avatar/default.jpg')
     db_session.add(user)
     db_session.commit()
@@ -50,6 +50,7 @@ def test_db():
     
     user = User(nick = u"Nick2", email = u"example2@exmample.com", 
                 role = 1, register_time = datetime.now(),
+                slogon = u"我要吃遍大江南北！",
                 last_login_time = datetime.now(), password = encrypt(u"password"),
                 state = u'0',photo=u'http://127.0.0.1:5000/upload/avatar/default1.jpg')
     db_session.add(user)
@@ -81,6 +82,13 @@ def test_db():
     db_session.add(special)
     db_session.commit()
 
+    ##测试文章会话id
+
+    from models import Article_session
+    for i in range(20):
+      article_session = Article_session()
+      db_session.add(article_session)
+      db_session.commit()
     
     ##测试文章
     from models import Article
@@ -103,11 +111,13 @@ def test_db():
         db_session.commit()
 
 
-    ##测试文章会话id
 
-    from models import Article_session
-    article_session = Article_session()
-    db_session.add(article_session)
+
+    ##测试活动会话id
+
+    from models import Activity_session
+    activity_session=Activity_session()
+    db_session.add(activity_session)
     db_session.commit()
 
     
@@ -119,6 +129,8 @@ def test_db():
     db_session.add(comment)
     db_session.commit()
     
+    
+
     ##测试私信
     from models import Message
     message = Message(user_id = 1, to_user_id = 2,
@@ -130,9 +142,15 @@ def test_db():
     from models import Activity
     activity = Activity(name = u"曦潮童汇", content = u"小朋友们看过来",
                         create_time = datetime.now(), 
-                        activity_time = datetime.now()) 
+                        activity_time = datetime.now(),activity_session_id=1,picture='http://127.0.0.1:5000/upload/activity/activity_title_image/activity_upload_pic_1.jpg') 
                         ##注意这里活动时间不应该是now
     db_session.add(activity)
+    db_session.commit()
+
+    ##测试对活动的评论
+    from models import Comment_activity
+    comment_activity = Comment_activity(activity_id=1,content=u"这个活动真赞啊",user_id=1,time=datetime.now())
+    db_session.add(comment_activity)
     db_session.commit()
     
     ##测试活动收藏

@@ -36,6 +36,11 @@ HOST_NAME='http://127.0.0.1:5000'
 ARTICLE_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_title')
 #文章内容图片路径
 ARTICLE_CONTENT_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_content')
+#活动内容图片路径
+ACTIVITY_CONTENT_DEST = os.path.join(os.path.dirname(__file__), 'upload/activity/activity_content')
+#活动题图路径
+ACTIVITY_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/activity/activity_title')
+
 #专栏图片路径
 SPECIAL_DEST=os.path.join(os.path.dirname(__file__),'upload/special')
 #书籍图片路径

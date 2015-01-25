@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+{% endblock %}
+
+<!--content-->
+{% block content %}
+<div>{{group}}>>>{{category}}</div>
+<div class="pagination  "> 
+	<div>
+		{% for article in article_pagination.items %}
+			{{article.title}}
+		{% endfor %}
+	</div>
+    <div class="row-fluid"> 
+        <div class="span3 offset2"> 
+            {% if article_pagination.has_prev %} 
+                <a href="/article/{{order}}/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.prev_num }}">previous</a> 
+            {% endif %} 
+        </div> 
+        <div class="span3 "> 
+            <a href="">Page {{ article_pagination.page }} of {{ article_pagination.pages }}.</a> 
+        </div> 
+        <div class="span3 ">
+
+            {% if article_pagination.has_next %} 
+                <a href="/article/{{order}}/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.next_num }}">next</a> 
+            {% endif %} 
+        </div> 
+    </div> 
+</div>
+
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+
+{% endblock %}

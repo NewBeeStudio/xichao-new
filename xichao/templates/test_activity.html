@@ -9,6 +9,7 @@
 
 <!--content-->
 {% block content %}
+
 	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;活动&nbsp;>&nbsp;</p>
 	<p id="p_title_2">活动详情</p>
 	<div id="article_title">
@@ -34,11 +35,11 @@
 	</div>
 	<div id="read">
 		<p id="p_read">阅读</p>
-		<p id="p_read_content">({{article.read_num}})</p>
+		<p id="p_read_content">({{activity.read_num}})</p>
 		<p id="p_review">评论</p>
-		<p id="p_review_content">({{article.comment_num}})</p>
+		<p id="p_review_content">({{activity.comment_num}})</p>
 		<p id="p_collection">收藏</p>
-		<p id="p_collection_content">({{article.favor}})</p>
+		<p id="p_collection_content">({{activity.favor}})</p>
 	</div>
 	
 	<hr>
@@ -71,11 +72,13 @@
 			{% endfor %}
 		{% endif %}
 	</div>
+
 {% endblock %}
 
 
 <!--js file used-->
 {% block js %}
+
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 
 
