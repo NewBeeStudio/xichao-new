@@ -8,7 +8,7 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity
+from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User
 from database import db_session
 from flask import jsonify,render_template,request,session
 from sqlalchemy import or_, not_, and_, desc
@@ -251,8 +251,12 @@ def get_special_information(special_id):
     else:
         return None
 
-def get_special_article(special_id, page_id):
-    query = db_session.query(Article).filter_by(special_id = special_id)
+def get_special_article(special_id, page_id, sort):
+    if sort == "time":
+        query = db_session.query(Article).filter_by(special_id = special_id).order_by(Article.time.desc())
+    else:
+        query = db_session.query(Article).filter_by(special_id = special_id).order_by(Article.favor.desc())
+
     pagination = paginate(query = query, page = page_id, per_page = 5, error_out = True)
     return pagination
 
@@ -303,3 +307,34 @@ def get_article_pagination_by_favor(group_id,category_id,page_id):
 def get_article_pagination_by_time(group_id,category_id,page_id):
 	query=db_session.query(Article).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.time))
 	return paginate(query,page_id,5,False)
+	
+	
+##################################  收藏专栏  ####################################
+def collection_special(user_id, special_id):
+    query = db_session.query(Collection_Special).filter_by(user_id = user_id, special_id = special_id).all()
+    if len(query) == 0:
+        collect_spe = Collection_Special(user_id = user_id, 
+                                         special_id = special_id,
+                                         time = datetime.now())
+        db_session.add(collect_spe)
+        db_session.commit()
+    else:
+        raise Exception
+        
+##################################  收藏专栏作家  ####################################
+def collection_special_author(user_id, special_id):
+    query = db_session.query(Special).filter_by(special_id = special_id).all()
+    another_user_id = query[0].user_id
+    if (user_id == another_user_id):
+        return "self"
+    query = db_session.query(Collection_User).filter_by(user_id = user_id, another_user_id = another_user_id).all()
+    if len(query) == 0:
+        collect_usr = Collection_User(user_id = user_id, 
+                                      another_user_id = another_user_id,
+                                      time = datetime.now())
+                                      #用户user_id 收藏用户 another_user_id
+        db_session.add(collect_usr)
+        db_session.commit()
+    else:
+        return "already"
+    return "success"

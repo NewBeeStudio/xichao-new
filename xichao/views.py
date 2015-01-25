@@ -27,6 +27,7 @@
 	            获得文章中的图片    /editor_upload/<filename>
 	            完成文章编辑       /article/finish
 	            完成草稿编辑       /article/draft
+
 	            
 	    
 	    辅助URL：
@@ -35,6 +36,7 @@
 	        
         Ajax请求：
             注册信息验证  /ajax_register
+	        收藏用户    /collection_user
 
         已废弃：
             /article/test
@@ -222,11 +224,17 @@ def article(article_id):
 ##################################  专栏页面  ##################################
 @app.route('/special', methods=['GET'])
 def special():
+    #URL样式：http://127.0.0.1:5000/special?id=2&page=1&sort=time
     try:
         special_id = int(request.args.get('id'))
         page_id = int(request.args.get('page'))
+        sort = request.args.get('sort')
     except Exception:
         abort(404)
+
+    #只有favor和time两种排序方式
+    if (sort != 'favor'):
+        sort = 'time'
     
     special = get_special_information(special_id)
     if (special == None):
@@ -235,7 +243,7 @@ def special():
 
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
 
-    articles_pagination = get_special_article(special_id, page_id)
+    articles_pagination = get_special_article(special_id, page_id, sort)
     return render_template('special_detail.html',
                             special_title = special.name,
                             special_author = author.nick,
@@ -451,6 +459,36 @@ def ajax_register_validate():
 
 	return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0])
 
+
+# 收藏专栏
+@app.route('/collection_special', methods=['GET'])
+def ajax_collection_special():
+    try:
+        user_id = get_user_id(session['user'])
+    except Exception:
+        return "login"
+        
+    special_id = int(request.args.get('id'))
+
+    try:
+        collection_special(user_id, special_id)
+    except Exception:
+        return "already"
+        
+    return "success"
+
+# 收藏专栏作家
+@app.route('/collection_special_author', methods=['GET'])
+def ajax_collection_special_author():
+    try:
+        user_id = get_user_id(session['user'])
+    except Exception:
+        return "login"
+        
+    special_id = int(request.args.get('id'))
+
+    err = collection_special_author(user_id, special_id)
+    return err
 
 ##################################	书籍 ##################################
 #书籍图片的存储路径

@@ -66,7 +66,7 @@
 			<p style="margin-left:170px">100人订阅</p>
 
 			<!-- 分享和订阅怎么实现 -->
-			<input style="float:right" class="input-button" type="submit" value="订阅">
+			<input id="collection_special" style="float:right" class="input-button" type="submit" value="收藏">
 		</div>
 	</div>
 
@@ -85,7 +85,7 @@
 			<h2> {{ special_author }} </h2>
 
 			<!-- 关注按钮 -->
-			<input class="special-button" type="submit" value="关注作者">
+			<input id = "collection_user" class="special-button" type="submit" value="关注作者">
 
 			<p>{{ special_author_slogon }}
 
@@ -192,5 +192,69 @@
 
 <!--js file used-->
 {% block js %}
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script type="text/javascript">
+$("#collection_special").click(function () {
+//获得URL中id的函数
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    })(jQuery);
 
+    var id = $.getUrlParam('id');
+//    alert('http://127.0.0.1:5000/collection_special?id=' + id)
+
+    $.get('http://127.0.0.1:5000/collection_special?id=' + id, {},
+    function(data){
+           if (data == "success"){
+            layer.msg("您已成功收藏该专栏",1,1,function(){});
+           }
+           if (data == "already"){
+            layer.msg("对不起，您已经收藏过该专栏",1,3,function(){});
+           }
+           if (data == "login"){
+            layer.msg("请您先登陆",1,3,function(){
+               location.href ="http://127.0.0.1:5000/login";
+            });
+           }
+    });
+});
+
+$("#collection_user").click(function () {
+//获得URL中id的函数
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    })(jQuery);
+
+    var id = $.getUrlParam('id');
+//    alert('http://127.0.0.1:5000/collection_special?id=' + id)
+
+    $.get('http://127.0.0.1:5000/collection_special_author?id=' + id,
+    {
+    }, function(data){
+           if (data == "success"){
+            layer.msg("您已成功关注该用户",1,1,function(){});
+           }
+           if (data == "self"){
+            layer.msg("对不起，您不能关注自己",1,3,function(){});
+           }
+           if (data == "already"){
+            layer.msg("对不起，您已经关注了该用户",1,3,function(){});
+           }
+           if (data == "login"){
+            layer.msg("请您先登陆",1,3,function(){
+               location.href ="http://127.0.0.1:5000/login";
+            });
+           }
+       });
+});
+
+</script>
 {% endblock %}
