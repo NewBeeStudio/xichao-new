@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+<!--css file used-->
+{% block css %}
+<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+{% endblock %}
+
+<!--content-->
+{% block content %}
+	{% if nick!=None %}
+		{{ nick }}
+	{% endif %}
+	{{activity.name}}
+	{% for comment in comments %}
+		{{comment[0].content}}
+		{{comment[1]}}
+		{{comment[2]}}
+	{% endfor %}
+
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+
+{% endblock %}

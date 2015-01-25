@@ -64,6 +64,10 @@ def upload_title_image():
 def upload_avatar():
 	return render_template('upload_avatar_tailor.html')
 
+@app.route('/upload/tailor/activity/title_image')
+def upload_activity_title_image():
+	return render_template('upload_activity_title_image_tailor.html')
+
 
 ##################################  美图秀秀配置文件  ##################################
 
@@ -108,9 +112,10 @@ def register():
 	print request.form
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
-		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0',request.form['avatar'])
+		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='哇哈哈哈')
 		db_session.add(user)
 		db_session.commit()
+		#需要增加异常处理，捕获异常，
 		send_verify_email(form.nick.data,form.password.data,form.email.data)
 		session['user']=request.form['nick']
 		flash(u'注册成功，正在跳转')
@@ -176,6 +181,7 @@ def article(article_id):
 	article=get_article_information(article_id)
 	if article!=None:
 		#comment初始显示5-6条，下拉显示全部
+		session['article_session_id']=article[0].article_session_id
 		comments=get_article_comments(article_id)
 		update_read_num(article_id)
 		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comments=comments,nick=getNick())
@@ -234,10 +240,26 @@ def save_title_image():
 			title_image.save(title_image_url)
 	return app.config['HOST_NAME']+'/upload/article/article_title_image/'+title_image_name
 
+@app.route('/upload_activity_title_image',methods=['GET','POST'])
+def save_activity_title_image():
+	title_image=request.files['upload_file']
+	title_image_name = 'activity_upload_pic_4.png'
+	if title_image:
+		if allowed_file(title_image.filename):
+			title_image_name=get_secure_photoname(title_image.filename)
+			title_image_url=os.path.join(app.config['ACTIVITY_TITLE_DEST'], title_image_name)
+			title_image.save(title_image_url)
+	return app.config['HOST_NAME']+'/upload/activity/activity_title_image/'+title_image_name
+
 #获得文章题图
 @app.route('/upload/article/article_title_image/<filename>')
 def uploaded_article_title_image(filename):
 	return send_from_directory(app.config['ARTICLE_TITLE_DEST'],filename)
+
+#获得活动题图
+@app.route('/upload/activity/activity_title_image/<filename>')
+def uploaded_activity_title_image(filename):
+	return send_from_directory(app.config['ACTIVITY_TITLE_DEST'],filename)
 
 #写文章页面显示
 @app.route('/article_upload/group/<int:group_id>/category/<int:category_id>')
@@ -265,8 +287,8 @@ def article_upload(group_id=3,category_id=4):
 		abort(404)
 
 #UEditor配置
-@app.route('/editor/', methods=['GET', 'POST'])
-def upload():
+@app.route('/editor/<classfication>', methods=['GET', 'POST'])
+def upload(classfication):
     from flask import json
     action = request.args.get('action')
 
@@ -287,21 +309,35 @@ def upload():
         # upfile 为 FileStorage 对象
         # 这里保存文件并返回相应的URL
         photoname = get_secure_photoname(upfile.filename)
-        path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['article_session_id'] ,photoname)
-        upfile.save(path)
-        result = {
-            "state": "SUCCESS",
-            "url": "%s/editor_upload/%s" % (app.config['HOST_NAME'], photoname),
-            "title": "article1.jpg",
-            "original": "article1.jpg"
-        }
-        return json.dumps(result)
+        if classfication=='article':
+            path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['article_session_id'] ,photoname)
+            upfile.save(path)
+            result = {
+                "state": "SUCCESS",
+                "url": "%s/editor_upload/article_session_id/%s/article/%s" % (app.config['HOST_NAME'], str(session['article_session_id']), photoname),
+                "title": "article1.jpg",
+                "original": "article1.jpg"
+            }
+            return json.dumps(result)
+        else:
+            path = os.path.join(app.config['ACTIVITY_CONTENT_DEST'], session['activity_session_id'] ,photoname)
+            upfile.save(path)
+            result = {
+                "state": "SUCCESS",
+                "url": "%s/editor_upload/activity_session_id/%s/activity/%s" % (app.config['HOST_NAME'],str(session['activity_session_id']), photoname),
+                "title": "article1.jpg",
+                "original": "article1.jpg"
+            }
+            return json.dumps(result)
 
 
 #获得UEditor内的图片
-@app.route('/editor_upload/<filename>')
-def editor_upload(filename):
-    return send_from_directory(os.path.join(app.config['ARTICLE_CONTENT_DEST'],session['article_session_id']), filename)
+@app.route('/editor_upload/article_session_id/<article_session_id>/article/<filename>',methods=['GET'])
+def editor_upload_article(article_session_id,filename):
+	return send_from_directory(os.path.join(app.config['ARTICLE_CONTENT_DEST'],article_session_id), filename)
+@app.route('/editor_upload/activity_session_id/<activity_session_id>/activity/<filename>',methods=['GET'])
+def editor_upload_activity(activity_session_id,filename):
+	return send_from_directory(os.path.join(app.config['ACTIVITY_CONTENT_DEST'],activity_session_id), filename)
 
 
 #文章完成时的提交路径
@@ -337,9 +373,13 @@ def article_draft(group_id,category_id):
 	user_id=get_user_id(session['user'])
 	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
 	return u'草稿保存成功'
-
-
-
+@app.route('/activity/finish',methods=['POST'])
+def activity_finish():
+	content=request.form['content']
+	title=request.form['title']
+	title_image=request.form['title_image']	
+	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'])
+	return u'活动保存成功'
 '''
 
 		ajax请求处理模块
@@ -412,7 +452,7 @@ def article_group_time(group_id,category_id,page_id=1):
 				order='order_time'
 				article_pagination=get_article_pagination_by_time(str(group_id),str(category_id),page_id)
 
-				return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id)
+				return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id,nick=getNick())
 	else:
 		abort(404)
 
@@ -435,6 +475,31 @@ def article_group_favor(group_id,category_id,page_id=1):
 				return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id,nick=getNick())
 	else:		
 		abort(404)
+
+##################################	活动 ##################################
+##读取活动
+@app.route('/activity/<int:activity_id>')
+def activity(activity_id):
+	activity=get_activity_information(activity_id)
+	if activity!=None:
+		comments=get_activity_comments(activity_id)
+		print '000000000000000000000'
+		print comments
+		print '000000000000000000000'
+		return render_template('test_activity.html',activity=activity,nick=getNick(),comments=comments)
+	else:
+		abort(404)
+
+##发布活动
+@app.route('/activity_upload')
+def activity_upload():
+	if not 'user' in session:
+		return redirect(url_for('login'))
+	else:
+		activity_session_id=get_activity_session_id()
+		session['activity_session_id']=str(activity_session_id)
+		os.makedirs(os.path.join(app.config['ACTIVITY_CONTENT_DEST'], str(activity_session_id)))
+		return render_template('test_activity_upload.html',nick=session['user'])
 
 ##################################	已废弃 ##################################
 

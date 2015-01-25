@@ -8,7 +8,7 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User,Article,Special,Book,Comment,Article_session
+from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity
 from database import db_session
 from flask import jsonify,render_template,request,session
 from sqlalchemy import or_, not_, and_, desc
@@ -83,6 +83,12 @@ def get_article_session_id():
     db_session.commit()
     result=db_session.query(Article_session.article_session_id).order_by(desc(Article_session.article_session_id)).first()
     return result[0]
+def get_activity_session_id():
+	activity_session=Activity_session()
+	db_session.add(activity_session)
+	db_session.commit()
+	result=db_session.query(Activity_session.activity_session_id).order_by(desc(Activity_session.activity_session_id)).first()
+	return result[0]
 
 #添加文章
 def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract):
@@ -99,6 +105,19 @@ def create_article(title,content,title_image,article_session_id,is_draft,user_id
 	else:
 		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract)
 		db_session.add(article)
+		db_session.commit()
+def create_activity(title,content,title_image,activity_session_id):
+	result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).all()
+	if len(result)>0:
+		activity=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).scalar()
+		activity.name=title
+		activity.content=content
+		activity.picture=title_image
+		activity.create_time=datetime.now()
+		db_session.commit()
+	else:
+		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=datetime.now())
+		db_session.add(activity)
 		db_session.commit()
 
 def get_user_id(nick):
@@ -139,9 +158,25 @@ def get_article_information(article_id):
 	else:
 		return None
 
+
+
+def get_activity_information(activity_id):
+	result=db_session.query(Activity).filter_by(activity_id=activity_id).all()
+	if len(result)>0:
+		return result[0]
+	else:
+		return None
+
 #返回一个列表，列表中的元素为元组，result[x][0]是Comment类的数据库实例，result[x][1]是该Comment所对应的用户昵称,result[x][2]是该Comment所对应的用户头像
 def get_article_comments(article_id):
 	result=db_session.query(Comment,User.nick,User.photo).join(User,Comment.user_id==User.user_id).filter(Comment.article_id==article_id).order_by(desc(Comment.time)).all()
+	if len(result)>0:
+		return result
+	else:
+		return None
+
+def get_activity_comments(activity_id):
+	result=db_session.query(Comment_activity,User.nick,User.photo).join(User,Comment_activity.user_id==User.user_id).filter(Comment_activity.activity_id==activity_id).order_by(desc(Comment_activity.time)).all()
 	if len(result)>0:
 		return result
 	else:

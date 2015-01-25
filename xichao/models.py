@@ -37,8 +37,7 @@ class User(Base):
     password = Column(String(60), nullable = False)
     state = Column(CHAR(1), nullable = False)
     photo = Column(String(255), nullable = True)
-    slogon = Column(String(140), nullable = False, default = u"该用户还没写自我介绍哦，快去提醒ta吧~")
-
+    slogon = Column(String(255), nullable = False)
     ########## Index/Unique索引 ##########
     nick = Column(String(60), nullable = False, 
                               unique = True, index = True)
@@ -49,9 +48,8 @@ class User(Base):
 
     def __init__(self, nick = None, email = None, 
                        role = None, register_time = None,
-                       slogon = None,
                        last_login_time = None, password = None,
-                       state = None,photo=None):
+                       state = None,photo=None,slogon=None):
         self.nick = nick
         self.email = email
         self.role = role
@@ -60,8 +58,7 @@ class User(Base):
         self.password = password
         self.state = state
         self.photo=photo
-        if (slogon != None):
-            self.slogon = slogon
+        self.slogon=slogon
 
     def __repr__(self):
         return '<User %r>' % (self.nick)
@@ -246,6 +243,21 @@ class Article_session(Base):
     def __repr__(self):
         return '<Article_session: %r>' % (self.article_session_id)
 
+class Activity_session(Base):
+    __tablename__='activity_session'
+    __table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+    ########## Primary索引 ##########
+    activity_session_id = Column(Integer, primary_key=True, 
+                       autoincrement=True, nullable=False, index=True)
+    
+    def __init__(self):
+        pass
+    def __repr__(self):
+        return '<Activity_session: %r>' % (self.activity_session_id)
+
 ##################################  评论模型  ####################################
 
 class Comment(Base):
@@ -287,7 +299,36 @@ class Comment(Base):
     def __repr__(self):
         return '<Comment id: %r>' % (self.comment_id)
         
+##################################  活动评论模型  ####################################
+class Comment_activity(Base):
+    __tablename__ = 'comment_activity'
+    __table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
 
+    ########## Primary索引 ##########
+    comment_activity_id = Column(Integer, primary_key=True, autoincrement=True, 
+                                 nullable=False, index=True)
+    ########## 普通列 ##########
+    content = Column(String(255), nullable = False)
+    ########## Index/Unique索引 ##########
+    time = Column(DateTime, nullable = False, 
+                            unique = False, index = True)
+    isgood = Column(CHAR(1), nullable = False, 
+                             unique = False, index = True, default = '1')
+    ########## Foreign Key ##########
+    user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
+    activity_id = Column(Integer, ForeignKey('activity.activity_id'), index = True)
+    
+    def __init__(self, activity_id = None, content = None,
+                       user_id = None, time = None):
+        self.content = content
+        self.time = time
+        self.user_id = user_id
+        self.activity_id = activity_id   
+    def __repr__(self):
+        return '<Comment_activity id: %r>' % (self.comment_activity_id)                
 ##################################  私信模型  ####################################
 
 class Message(Base):
@@ -341,8 +382,15 @@ class Activity(Base):
     name = Column(String(40), nullable = False)
     content = Column(Text, nullable = False)
     create_time = Column(DateTime, nullable = False)
+    read_num=Column(Integer,nullable=False,default=0)
+    comment_num = Column(Integer,nullable=False,default=0)
+    picture=Column(String(255), nullable = False)
 
+    #保存活动内容图片的文件夹号，便于删除
+    activity_session_id = Column(String(20),nullable=False)
     ########## Index/Unique索引 ##########
+    favor = Column(Integer, nullable = False, 
+                            unique = False, index = True, default = 0)
     state = Column(CHAR(1), nullable = False, 
                    unique = False, index = True, default = '1')
     activity_time = Column(DateTime, nullable = False, 
@@ -350,11 +398,13 @@ class Activity(Base):
 
 
     def __init__(self, name = None, content = None,
-                       create_time = None, activity_time = None):
+                       create_time = None, activity_time = None,activity_session_id=None,picture=None):
         self.name = name
         self.content = content
         self.create_time = create_time
         self.activity_time = activity_time
+        self.activity_session_id=activity_session_id
+        self.picture=picture
 
     def __repr__(self):
         return '<Activity: %r>' % (self.name)
