@@ -41,6 +41,7 @@ def test_db():
     from models import User
     user = User(nick = "Nick1", email = "example1@exmample.com", 
                 role = 1, register_time = datetime.now(),
+                slogon = u"我要吃遍大江南北！",
                 last_login_time = datetime.now(), password = encrypt("password"),
                 state = '0',photo=u'http://127.0.0.1:5000/upload/avatar/default.jpg')
     db_session.add(user)
@@ -50,7 +51,7 @@ def test_db():
     user = User(nick = u"Nick2", email = u"example2@exmample.com", 
                 role = 1, register_time = datetime.now(),
                 last_login_time = datetime.now(), password = encrypt(u"password"),
-                state = u'0',photo=u'http://127.0.0.1:5000/upload/avatar/default.jpg')
+                state = u'0',photo=u'http://127.0.0.1:5000/upload/avatar/default1.jpg')
     db_session.add(user)
     db_session.commit()
     
@@ -65,12 +66,21 @@ def test_db():
 
     ##测试专栏
     from models import Special
-    special = Special(name = u"Nick1的专栏", user_id = 1,
+    special = Special(name = u"这里都是好吃的", user_id = 1,
                        picture = u"http://127.0.0.1:5000/upload/special/special_detail_pic_1.png", 
-                       introduction = u"这里是Nick1的专栏",
+                       introduction = u"带你吃遍上海美食^_^",
                        time = datetime.now())
     db_session.add(special)
     db_session.commit()
+
+    from models import Special
+    special = Special(name = u"算法学习指南", user_id = 2,
+                       picture = u"http://127.0.0.1:5000/upload/special/special_detail_pic_2.jpg", 
+                       introduction = u"算法很美大家一起学！起！来！",
+                       time = datetime.now())
+    db_session.add(special)
+    db_session.commit()
+
     
     ##测试文章
     from models import Article

@@ -190,6 +190,7 @@ def special(special_id, page_id=1):
     return render_template('special_detail.html',
                             special_title = special.name,
                             special_author = author.nick,
+                            special_author_slogon = author.slogon,
                             special_introduction = special.introduction,
                             special_image = special.picture,
                             special_author_avatar = author.photo)
