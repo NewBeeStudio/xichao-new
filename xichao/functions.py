@@ -65,6 +65,7 @@ def send_verify_email(nick,password,email):
 	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
 	with app.app_context():
 		mail.send(msg)
+
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
 	result=db_session.query(User).filter(and_(User.email==email,User.password==encrypt(password))).all()
@@ -72,6 +73,20 @@ def get_nick(email,password):
 		return result[0].nick
 	else:
 		return False
+
+##################################  忘记/重设密码 #################################
+def send_resetpassword_email(nick,password,email):
+	verify_url=app.config['HOST_NAME']+'/resetPassword/'+nick+'/'+encrypt(password) #/nick/MD5(password)
+	mail=Mail(app)
+	msg=Message(u'重置曦潮网站的密码',sender='xichao_test@163.com',recipients=[email])
+	msg.body='text body'
+	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
+	with app.app_context():
+		mail.send(msg)
+
+def check_nickpassword_match(nick, password):
+	return True
+
 ##################################  文章函数  ####################################
 def get_article_session_id():
     article_session = Article_session()

@@ -104,3 +104,15 @@
 .login-error-empty{
     margin-top: -95px;
 }
+
+#login-sendmail > input{
+    margin-left: 15%;
+    height: 38px;
+    width: 70%;
+
+    border-radius: 10px;
+    background-color: #D9AE48;
+    color: white;
+    font-family: 微软雅黑;
+    font-size: 20px;
+}

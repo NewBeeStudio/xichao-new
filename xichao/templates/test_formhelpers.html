@@ -29,6 +29,6 @@
   <div id="login-autologin">
     {{ field(**kwargs)|safe }}
     {{ field.label }}
-    <a href="#">忘记密码</a>
+    <a href="{{url_for('forgetPassword')}}">忘记密码</a>
   </div>
 {% endmacro %}

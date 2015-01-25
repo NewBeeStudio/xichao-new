@@ -13,6 +13,8 @@
 	        注册  /register   /upload/avatar  /upload/avatar/<filename>
 	        登陆  /login
 	        注销  /logout
+	        忘记密码  /forgetPassword
+	        重置密码  /resetPassword
 	        邮箱验证    /verify
 	        文章页面    /article/<int:article_id>
 	        专栏页面    /special/<int:special_id>/page/<int:page_id>
@@ -44,7 +46,7 @@ from flask import redirect,url_for,render_template,request,flash,session,make_re
 from models import User
 from database import db_session
 from datetime import datetime
-from forms import RegistrationForm,LoginForm
+from forms import RegistrationForm,LoginForm,ForgetPasswordForm,ResetPasswordForm
 from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 import os
@@ -105,7 +107,7 @@ def test():
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-	print request.form
+	# print request.form
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
 		user = User(form.nick.data, form.email.data, 1, datetime.now(), datetime.now(), encrypt(form.password.data),'0',request.form['avatar'])
@@ -157,7 +159,32 @@ def login():
 	return render_template('login.html', nick=None, form=form, error=error)
 
 
+##################################  忘记密码  ##################################
+@app.route('/forgetPassword',methods=['GET', 'POST'])
+def forgetPassword():
+	error=None
+	form=ForgetPasswordForm(request.form)
+	if request.method == 'POST' and form.validate():
+		send_resetpassword_email("Frank",'1',form.email.data) #待修改
+		flash(u'我们已向你的注册邮箱发送了一份密码重置邮件')
+		return redirect(url_for('test'))
+	return render_template('forgetPassword.html', nick=None, form=form, error=error)
 	
+##################################  重置密码  ##################################
+@app.route('/resetPassword/<nick>/<password>',methods=['GET', 'POST'])
+def resetPassword(nick, password):
+	if check_nickpassword_match(nick, password): #没有完成
+		form = ResetPasswordForm(request.form)
+		if request.method == 'POST' and form.validate():
+			# resetPassword(form.password.data)
+			flash(u'密码修改成功，正在跳转')
+			return redirect(url_for('test'))
+		else:
+			return render_template('resetPassword.html', nick=None, form=form)
+	else:
+		return redirect(url_for('login'))
+
+
 ##################################  邮箱验证  ##################################
 ##TODO：邮箱验证成功的flash界面，验证失败的flash界面
 @app.route('/verify')
