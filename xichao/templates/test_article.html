@@ -66,7 +66,7 @@
 	<hr>
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<img src="{{avatar}}">
+		<img id="user_pic_1" src="{{avatar}}">
 		<input id="input_publish_review" type="text">
 		<input id="comment_reset_button" type="button" value="取消">
 		<input id="comment_publish_button" type="button" value="确认">
@@ -75,15 +75,24 @@
 	<hr>
 	<div id="list_review">
 		<p id="p_list_review">评论列表</p>
+		<div id="comment_new">
+			
+		</div>
 
 		{% if comments!=None %}
 			{% for comment in comments %}
-				{{comment[0]}}<!--comment对象实例，不用显示，需要显示的是属性，比如content，time-->
-				{{comment[0].content}}<!--comment的内容-->
-				{{comment[0].time}}<!--comment的时间-->
-				{{comment[1]}}<!--该条comment的评论人-->
-				{{comment[2]}}<!--该条comment的评论人头像链接,可以不用显示，应该作为img标签的src属性，如下-->
-				<img src="{{comment[2]}}">
+				<div id="comment">
+					<!--{{comment[0]}}comment对象实例，不用显示，需要显示的是属性，比如content，time-->
+					<img class="user_pic_2" src="{{comment[2]}}">
+					<div class="line"></div>
+					<p class="p_review_author">{{comment[1]}}</p>
+					<div class="comment_content">{{comment[0].content}}</div>
+					<p class="p_publish_time">{{comment[0].time}}</p>
+					<!--{{comment[0].content}}<!--comment的内容-->
+					<!--{{comment[0].time}}<!--comment的时间-->
+					<!--{{comment[1]}}该条comment的评论人-->
+					<!--{{comment[2]}}该条comment的评论人头像链接,可以不用显示，应该作为img标签的src属性，如下-->
+				</div>
 			{% endfor %}
 		{% endif %}
 	</div>

@@ -27,9 +27,15 @@
 	font-family: 微软雅黑;
 }
 
+#article_content_html {
+	margin-left: 10%;
+	margin-right: 10%;
+	font-family: 微软雅黑;
+}
+
 #p_article_author_1 {
 	float: left;
-	margin-left: 65%;
+	margin-left: 55%;
 	margin-right: 2%;
 }
 
@@ -97,6 +103,7 @@
 #book_info {
 	margin-top: 3%;
 	margin-left: 10%;
+	margin-bottom: 7%;
 }
 
 #pic_book {
@@ -124,26 +131,85 @@
 	padding-bottom: 1%;
 
 }
+
 #p_publish_review {
 	margin-left: 10%;
 	font-family: 微软雅黑;
 	font-size: 20px;
 }
 
+#user_pic_1 {
+	margin-left: 10%;
+	margin-top: 1%;
+	width: 8%;
+}
+
 #input_publish_review {
 	background-color: #ffcc99;
-	margin-left: 20%;
+	margin-left: 3%;
+	margin-right: 15%;
 	width: 60%;
 	height: 111px;
 }
 
-#p_list_review {
+#comment_reset_button{
+	margin-top: 3%;
+	margin-left: 40%;
+}
+
+#comment_publish_button{
+	margin-top: 3%;
 	margin-left: 10%;
+}
+
+#list_review {
+	margin-left: 10%;
+	margin-right: 20%;
+}
+
+#p_list_review {
 	margin-top: 3%;
 	margin-bottom: 1%;
 	font-family: 微软雅黑;
 	font-size: 20px;
 }
 
+#comment_new {
+	display: none;
+}
+#comment {
+	margin-top: 2%;
+	font-family: 微软雅黑;
+}
+
+.user_pic_2 {
+	width: 10%;
+	margin-right: 3%;
+	float: left;
+}
+
+.line {
+	width: 1px;
+	height: 80px;
+	background-color: #ffcc99;
+	float: left;
+}
+
+.p_review_author {
+	margin-left: 16%;
+	color: #ffcc99;
+}
+
+.comment_content {
+	margin-left: 16%;
+	margin-top: 1%;
+}
+
+.p_publish_time {
+	margin-top: 1%;
+	margin-left: 16%;
+	color: gray;
+	font-size: 5px;
+}
 
 

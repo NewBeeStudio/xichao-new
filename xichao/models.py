@@ -37,6 +37,7 @@ class User(Base):
     password = Column(String(60), nullable = False)
     state = Column(CHAR(1), nullable = False)
     photo = Column(String(255), nullable = True)
+    slogon = Column(String(140), nullable = False, default = u"该用户还没写自我介绍哦，快去提醒ta吧~")
 
     ########## Index/Unique索引 ##########
     nick = Column(String(60), nullable = False, 
@@ -48,6 +49,7 @@ class User(Base):
 
     def __init__(self, nick = None, email = None, 
                        role = None, register_time = None,
+                       slogon = None,
                        last_login_time = None, password = None,
                        state = None,photo=None):
         self.nick = nick
@@ -58,6 +60,8 @@ class User(Base):
         self.password = password
         self.state = state
         self.photo=photo
+        if (slogon != None):
+            self.slogon = slogon
 
     def __repr__(self):
         return '<User %r>' % (self.nick)
