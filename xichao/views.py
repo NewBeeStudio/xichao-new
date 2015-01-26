@@ -419,6 +419,8 @@ def article_draft(group_id,category_id):
 	user_id=get_user_id(session['user'])
 	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
 	return u'草稿保存成功'
+
+
 @app.route('/activity/finish',methods=['POST'])
 def activity_finish():
 	content=request.form['content']
@@ -426,6 +428,8 @@ def activity_finish():
 	title_image=request.form['title_image']	
 	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'])
 	return u'活动保存成功'
+
+
 '''
 
 		ajax请求处理模块

@@ -24,6 +24,10 @@ a{
 }
 
 
+.main-color{
+    color: #D9AE48;
+}
+
 /*******************header*****************/
 ul{
     list-style:none; /*去黑点*/
@@ -145,6 +149,14 @@ input:focus{
 .current-position p{
     position: absolute;
     bottom: 0;
+}
+
+.current-position-2{
+    margin-top: 44px;
+    font-family: 微软雅黑;
+    font-size: 16.7px;
+
+    color: #727272;
 }
 
 .input-button{
