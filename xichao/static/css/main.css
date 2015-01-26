@@ -54,8 +54,6 @@ ul{
     width: 60px;
     float: left;
     text-align: center;
-    font-family: 微软雅黑;
-    /*margin-right: -5px;*/
 }
 
 .nav-bar-login-first{
@@ -68,6 +66,8 @@ ul{
 .nav-bar-login > a{
     text-decoration: none;
     color: #000000;
+    font-family: 微软雅黑;
+    font-size: 12.5px;
 }
 
 #nav-bar-search{
@@ -117,7 +117,7 @@ input:focus{
     float: left;
     
     font-family: 微软雅黑;
-    font-size: 20px;
+    font-size: 16.7px;
     text-align: center; /*水平居中*/
     line-height: 30px; /*垂直居中*/
 }
