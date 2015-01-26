@@ -92,6 +92,7 @@ def test_db():
     
     ##测试文章
     from models import Article
+    from time import sleep
     for i in range(10):
         article = Article(title = u"算法入门%d"%(i), picture = u"http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg",
                           content = u"本文是算法入门文章%d"%(i), is_draft = '1',
@@ -100,15 +101,17 @@ def test_db():
                           book_id = 1, special_id = 2,article_session_id = i+1, abstract = u"本文是算法入门文章")
         db_session.add(article)
         db_session.commit()
+        sleep(1)
 
     for i in range(10):
-        article = Article(title = u"吃货之家%d"%(i), picture = u"http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg",
+        article = Article(title = u"吃货之家%d"%(9-i), picture = u"http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg",
                           content = u"本文是吃货入门文章%d"%(i), is_draft = '1',
                           time = datetime.now(), category = '0',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
                           groups = '1', user_id = 1,             ## 1表示 TODO
                           book_id = 1, special_id = 1,article_session_id = i+11, abstract = u"本文是吃货入门文章")
         db_session.add(article)
         db_session.commit()
+        sleep(1)
 
 
 
