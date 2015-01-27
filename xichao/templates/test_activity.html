@@ -13,15 +13,13 @@
 	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;活动&nbsp;>&nbsp;</p>
 	<p id="p_title_2">活动详情</p>
 	<div id="article_title">
-		<p id="p_article_title">{{article.title}}</p>
+		<p id="p_article_title">{{ activity.name }}</p>
 	</div>
 	<div id="article_content">
-		<p id="p_article_author_1">作者</p>
-		<p id="p_article_author_2">{{author}}</p>
 		<p id="p_article_time_1">发表时间</p>
-		<p id="p_article_time_2">{{article.time}}</p>
+		<p id="p_article_time_2">{{ activity.activity_time }}</p>
 		<div id="p_article_content" style="display:None;"><!--该div用于寄存文章内容-->
-			{{article.content}}
+			{{ activity.content }}
 		</div>
 	</div>
 	<div id="article_content_html"><!--该div用于显示文章内容-->
@@ -35,19 +33,19 @@
 	</div>
 	<div id="read">
 		<p id="p_read">阅读</p>
-		<p id="p_read_content">({{activity.read_num}})</p>
+		<p id="p_read_content">({{ activity.read_num }})</p>
 		<p id="p_review">评论</p>
-		<p id="p_review_content">({{activity.comment_num}})</p>
+		<p id="p_review_content">({{ activity.comment_num }})</p>
 		<p id="p_collection">收藏</p>
-		<p id="p_collection_content">({{activity.favor}})</p>
+		<p id="p_collection_content">({{ activity.favor }})</p>
 	</div>
 	
 	<hr>
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<img id="user_pic_1" src="{{avatar}}">
+		<img id="user_pic_1" src="{{ photo }}">
 		<iframe id="input_publish_review"></iframe>
-		<p id="p_user_name">{{nick}}</p>
+		<p id="p_user_name">xxx</p>
 		<button  class="myButton" id="comment_reset_button">取消</button>
 		<button  class="myButton" id="comment_publish_button">确认</button>
 	</div>
@@ -59,7 +57,7 @@
 			
 		</div>
 
-		{% if comments!=None %}
+		<!--{#{% if comments!=None %}
 			{% for comment in comments %}
 				<div class="comment">
 					<img class="user_pic_2" src="{{comment[2]}}">
@@ -70,7 +68,7 @@
 				</div>
 				<hr>
 			{% endfor %}
-		{% endif %}
+		{% endif %}#}-->
 	</div>
 
 {% endblock %}
@@ -95,36 +93,7 @@
 
 <!--获取评论内容，更新数据库，返回评论时间-->
 <script type="text/javascript">
-$("#comment_publish_button").click(function(){
-	//val_content=$("#input_publish_review").text();
-	val_content = $('#input_publish_review').contents().find('body').html();
-	$('#input_publish_review').contents().find('body').empty();
-	$.post('http://127.0.0.1:5000/article/comment',
-		{
-			content:val_content,
-			article_id:{{article.article_id}},
-			to_user_id:{{article.user_id}}
-		},
-		function(data){
-			$("#comment_publish_time").text(data);
-			/*var time = data;
-			var nick = "{{nick}}";
-			var avatar = "{{avatar}}";
-			var content = val_content;
-			var newdiv = $('<div><p>heelo</p></div>');*/
-			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
-			$('#comment_new').prepend('<div class="comment">'+
-				'<img class="user_pic_2" src="{{avatar}}">'+
-				'<div class="line"></div>'+
-				'<p class="p_review_author">{{nick}}</p>'+
-				'<div class="comment_content">'+val_content+'</div>'+
-				'<p class="p_publish_time">'+data+'</p></div><hr>');
-		});
-});
 
-$("#comment_reset_button").click(function(){
-	$('#input_publish_review').contents().find('body').empty();
-});
 </script>
 
 <script type="text/javascript">

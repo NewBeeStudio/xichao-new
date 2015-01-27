@@ -268,6 +268,17 @@ def getNick():
 	elif request.cookies.get('user')!=None:
 		nick = request.cookies.get('user')
 	return nick
+
+def getPhoto():
+	photo = None
+	nick = getNick()
+	photo = db_session.query(User.photo).filter_by(nick=nick).first()
+	print "@@@@@@@@@@@@@@@@"
+	print nick
+	print photo
+	print "@@@@@@@@@@@@@@@@"
+	return photo
+
 ###################################  评论函数  ####################################
 def create_comment(content,to_user_id,article_id):
 	user_id=get_user_id(session['user'])

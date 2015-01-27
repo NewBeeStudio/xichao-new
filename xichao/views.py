@@ -561,7 +561,7 @@ def activity(activity_id):
 		print '000000000000000000000'
 		print comments
 		print '000000000000000000000'
-		return render_template('test_activity.html',activity=activity,nick=getNick(),comments=comments)
+		return render_template('test_activity.html',activity=activity,nick=getNick(),photo=getPhoto(),comments=comments)
 	else:
 		abort(404)
 

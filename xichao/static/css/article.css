@@ -126,7 +126,7 @@
 }
 
 #publish_review {
-	background-color: #ffcc99;
+	background-color: #f5ebd1;
 	padding-top: 3%;
 	padding-bottom: 1%;
 
@@ -152,7 +152,7 @@
 
 #input_publish_review {
 	display: block;
-	background-color: #ffcc99;
+	background-color: #f5ebd1;
 	margin-right: 15%;
 	width: 60%;
 	height: 100px;
