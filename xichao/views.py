@@ -563,14 +563,7 @@ def activity(activity_id):
 	activity=get_activity_information(activity_id)
 	if activity!=None:
 		comments=get_activity_comments(activity_id)
-<<<<<<< HEAD
-		print '000000000000000000000'
-		print comments
-		print '000000000000000000000'
-		return render_template('test_activity.html',activity=activity,nick=getNick(),photo=getPhoto(),comments=comments)
-=======
-		return render_template('test_activity.html',activity=activity,nick=getNick(),comments=comments)
->>>>>>> d7c8c4fefb6fa8118f6ca0b9d63a3c4b0b8cfedf
+		return render_template('test_activity.html',activity=activity,nick=getNick(),avatar=get_avatar(),comments=comments)
 	else:
 		abort(404)
 

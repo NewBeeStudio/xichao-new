@@ -16,8 +16,8 @@
 		<p id="p_article_title">{{ activity.name }}</p>
 	</div>
 	<div id="article_content">
-		<p id="p_article_time_1">发表时间</p>
-		<p id="p_article_time_2">{{ activity.activity_time }}</p>
+		<p id="p_activity_time_1">发表时间</p>
+		<p id="p_activity_time_2">{{ activity.activity_time }}</p>
 		<div id="p_article_content" style="display:None;"><!--该div用于寄存文章内容-->
 			{{ activity.content }}
 		</div>
@@ -43,9 +43,9 @@
 	<hr>
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<img id="user_pic_1" src="{{ photo }}">
+		<img id="user_pic_1" src="{{ avatar }}">
 		<iframe id="input_publish_review"></iframe>
-		<p id="p_user_name">xxx</p>
+		<p id="p_user_name">{{ nick }}</p>
 		<button  class="myButton" id="comment_reset_button">取消</button>
 		<button  class="myButton" id="comment_publish_button">确认</button>
 	</div>
