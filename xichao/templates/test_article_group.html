@@ -43,15 +43,15 @@
 			<div class="article-info">
 				<span> {{article.time}}</span>
 				<span> 阅读({{article.read_num}})</span>
-				<span> 收藏({{article.favor}})</span>
-				<span> 评论({{article.comment_num}})</span>
+				<span> <font color="#D9AE48">收藏</font>({{article.favor}})</span>
+				<span> <font color="#D9AE48">评论</font>({{article.comment_num}})</span>
 			</div>
 			<pre>{{article.abstract}} </pre>
 			<a href="/article/{{article.article_id}}">MORE></a>
 		</div>
 
 	</div>
-	<hr class="main-color clear"/>
+	<hr class="clear" style="border:1px solid #D9AE48"/>
 	{% endfor %}
 
     <div class="article-paging"> 

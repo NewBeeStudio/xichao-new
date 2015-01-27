@@ -42,13 +42,13 @@
 .article-content-full{
 	margin-top: 33px;
 	width: 936px;
-	height: 236px;
+	height: 250px; /*书评栏实际大小*/
 }
 
 .article-picture{
-	margin: 10px 70px auto 62px;
+	margin: 30px 70px auto 62px;
 	width: 130px;
-	height: 220px;
+	height: 185px;
 	float: left;
 }
 
@@ -59,7 +59,6 @@
 
 .article-content{
 	width: 648px;
-	height: 180px;
 	float: right;
 }
 
@@ -84,7 +83,9 @@
 .article-content pre{
 	margin-top: 22px;
 	font-size: 16.7px;
+	height: 150px;
 
+	overflow: hidden;	
 	white-space: pre-wrap;
 	word-wrap: break-word; /*自动换行*/
 }
