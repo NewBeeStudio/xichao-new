@@ -12,7 +12,7 @@ td.register-label{
 
 .register-label > label{
     font-family: 微软雅黑;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 40px;
 }
 
@@ -61,9 +61,9 @@ img.default_avatar{
     height: 38px;
 
     font-family: 黑体;
-    font-size: 20px;
+    font-size: 17px;
 
-    border-radius: 10px;
+    border-radius: 8px;
     background-color: #D9AE48;
     color: #ffffff;
     float: left;

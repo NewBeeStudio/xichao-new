@@ -2,31 +2,70 @@
 
 <!--css file used-->
 {% block css %}
-<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+<link href="{{ url_for('static', filename='css/article_group.css') }}" rel='stylesheet' type='text/css'/> 
 {% endblock %}
 
 <!--content-->
 {% block content %}
-<div>{{group}}>>>{{category}}</div>
-<div class="pagination  "> 
-	<div>
-		{% for article in article_pagination.items %}
-			{{article.title}}
-		{% endfor %}
+<!-- 导航栏 -->
+<div class="current-position-2" style="height:39px;">
+首页 > {{group}} > <span class="main-color">{{category}}</span>
+</div>
+
+<!-- 右侧排序下拉菜单 -->
+<div id="article-select-part">
+	<label>排序方式：</label>
+	<select name="sorting">
+		<option id="sorting-by-time" value="time" {%if order == 'order_time'%} selected="selected"{% endif %}>时 间</option>
+		<option id="sorting-by-heat" value="heat" {%if order != 'order_time'%} selected="selected"{% endif %}>热 度</option>
+	</select>
+
+</div>
+
+<!-- 左侧列表 -->
+<div id="article-group-part">
+	{{category}}列表
+</div>
+
+<!-- 分页内容 -->
+<div id="article-list-part"> 
+	<!-- 右侧内容 -->
+	<div style="margin-top: 47px"></div>
+	{% for article in article_pagination.items %}
+	<div class="article-content-full">
+		<!-- 图片 -->
+		<div class="article-picture">
+			<img src="{{article.picture}}"/>
+		</div>
+		<!-- 正文 -->
+		<div class="article-content">
+			<h3 class="main-color">{{article.title}}</h3>
+			<div class="article-info">
+				<span> {{article.time}}</span>
+				<span> 阅读({{article.read_num}})</span>
+				<span> 收藏({{article.favor}})</span>
+				<span> 评论({{article.comment_num}})</span>
+			</div>
+			<pre>{{article.abstract}} </pre>
+			<a href="/article/{{article.article_id}}">MORE></a>
+		</div>
+
 	</div>
-    <div class="row-fluid"> 
-        <div class="span3 offset2"> 
+	<hr class="main-color clear"/>
+	{% endfor %}
+
+    <div class="article-paging"> 
+        <div> 
             {% if article_pagination.has_prev %} 
-                <a href="/article/{{order}}/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.prev_num }}">previous</a> 
+                <a href="/article/{{order}}/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.prev_num }}">上一页</a> 
             {% endif %} 
         </div> 
-        <div class="span3 "> 
-            <a href="">Page {{ article_pagination.page }} of {{ article_pagination.pages }}.</a> 
+        <div> 
+            <p>Page {{ article_pagination.page }} / {{ article_pagination.pages }}</p> 
         </div> 
-        <div class="span3 ">
-
+        <div>
             {% if article_pagination.has_next %} 
-                <a href="/article/{{order}}/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.next_num }}">next</a> 
+                <a href="/article/{{order}}/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.next_num }}">下一页</a> 
             {% endif %} 
         </div> 
     </div> 
@@ -37,5 +76,21 @@
 
 <!--js file used-->
 {% block js %}
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$('select').change(function()
+		{
+			{%if order == 'order_time'%}
+				location.href = "/article/order_favor/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.page }}";
+			{% else %}
+				location.href = "/article/order_time/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.page }}";
+			{% endif %}
+		});
 
+
+	});
+
+
+</script>
 {% endblock %}

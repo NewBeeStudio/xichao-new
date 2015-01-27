@@ -13,9 +13,14 @@
 {% endmacro %}
 
 {% macro render_login(field) %}
-  <table>
+  <table class="login-userinfo">
     <tr>
-      <td class="login-userinfo">{{ field(**kwargs)|safe }}</td>
+      <td>
+          <div>
+            <label></label>
+          </div>
+          {{ field(**kwargs)|safe }}
+      </td>
     </tr>
   </table>
   {% if field.errors[0] %}
@@ -26,9 +31,9 @@
 {% endmacro %}
 
 {% macro render_login_autologin(field) %}
-  <div id="login-autologin">
+  <div class="login-yellow" id="login-autologin">
     {{ field(**kwargs)|safe }}
     {{ field.label }}
-    <a href="{{url_for('forgetPassword')}}">忘记密码</a>
+    <a class="login-yellow" href="{{url_for('forgetPassword')}}">忘记密码</a>
   </div>
 {% endmacro %}

@@ -50,21 +50,44 @@
     /*background-color: #aaaaaa;*/
 }
 
-.login-userinfo > input{
+.login-userinfo{
     width: 299px;
     height: 40px;
-    margin: 0 auto 24px auto;
 
-    font-size: 16px;
+    margin: 0 auto 24px auto;
+    background-color: white;
+    border: 1px solid gray;
+}
+
+.login-userinfo div{
+    float: left;
+    width: 90px;
+}
+
+.login-userinfo label{
+    margin-left: 10px;
     font-family: 微软雅黑;
-    background: #ffffff;
+    font-size: 16.7px;
+
+    line-height: 40px;
+}
+
+.login-userinfo input{
+    width: 200px;
+    height: 40px;
+
+    margin-right: 0px;
+
+    font-size: 12.5px;
+    font-family: 微软雅黑;
+    border-color: transparent;
 }
 
 #login-autologin{
     margin-top: 0;
     height: 62px;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     float: left;
     font-family: 微软雅黑;
 
@@ -82,11 +105,11 @@
     width: 118px;
     height: 38px;
 
-    border-radius: 10px;
+    border-radius: 8px;
     background-color: #D9AE48;
     color: white;
     font-family: 微软雅黑;
-    font-size: 20px;
+    font-size: 17px;
 }
 
 #login-submit a{
@@ -110,9 +133,13 @@
     height: 38px;
     width: 70%;
 
-    border-radius: 10px;
+    border-radius: 8px;
     background-color: #D9AE48;
     color: white;
     font-family: 微软雅黑;
-    font-size: 20px;
+    font-size: 17px;
+}
+
+.login-yellow{
+    color: #D9AE48;
 }
