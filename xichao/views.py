@@ -113,7 +113,7 @@ def test():
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-	# print request.form
+	print request.form
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
 
@@ -219,7 +219,7 @@ def article(article_id):
 		session['article_session_id']=article[0].article_session_id
 		comments=get_article_comments(article_id)
 		update_read_num(article_id)
-		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=article[3],comments=comments,nick=getNick())
+		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
 	else:
 		abort(404)
 ##################################  专栏页面  ##################################
@@ -563,10 +563,7 @@ def activity(activity_id):
 	activity=get_activity_information(activity_id)
 	if activity!=None:
 		comments=get_activity_comments(activity_id)
-		print '000000000000000000000'
-		print comments
-		print '000000000000000000000'
-		return render_template('test_activity.html',activity=activity,nick=getNick(),comments=comments)
+		return render_template('test_activity.html',activity=activity,nick=getNick(),avatar=get_avatar(),comments=comments)
 	else:
 		abort(404)
 
