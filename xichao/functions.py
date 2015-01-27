@@ -197,8 +197,6 @@ def get_article_information(article_id):
 	else:
 		return None
 
-
-
 def get_activity_information(activity_id):
 	result=db_session.query(Activity).filter_by(activity_id=activity_id).all()
 	if len(result)>0:
@@ -271,10 +269,10 @@ def getNick():
 
 def getPhoto():
 	photo = None
-	nick = getNick()
-	photo = db_session.query(User.photo).filter_by(nick=nick).first()
+	user_id=get_user_id(session['user'])
+	
 	print "@@@@@@@@@@@@@@@@"
-	print nick
+	print user_id
 	print photo
 	print "@@@@@@@@@@@@@@@@"
 	return photo
