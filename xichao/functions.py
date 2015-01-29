@@ -258,6 +258,10 @@ def get_special_article(special_id, page_id, sort):
 
     pagination = paginate(query = query, page = page_id, per_page = 5, error_out = True)
     return pagination
+    
+def get_special_author_other(user_id):
+    query = db_session.query(Special.name).filter_by(user_id = user_id).all()
+    return query
 
 ###################################  昵称函数  ####################################
 def getNick():
