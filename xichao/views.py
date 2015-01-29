@@ -236,7 +236,10 @@ def special():
     #只有favor和time两种排序方式
     if (sort != 'favor'):
         sort = 'time'
-    
+        sort_change_url = "/special?id=%d&page=%d&sort=favor" % (special_id, page_id)
+    else:
+        sort_change_url = "/special?id=%d&page=%d&sort=time" % (special_id, page_id)
+
     special = get_special_information(special_id)
     if (special == None):
         abort(404)
@@ -246,6 +249,11 @@ def special():
 
     articles_pagination = get_special_article(special_id, page_id, sort)
     return render_template('special_detail.html',
+                            sort_change_url = sort_change_url,
+                            special_id = special_id,
+                            sort = sort,
+                            nick = getNick(),
+                            special_favor = special.favor,
                             special_title = special.name,
                             special_author = author.nick,
                             special_author_slogon = author.slogon,

@@ -47,10 +47,7 @@
     				<td>共11期，正在更新</td>
   				</tr>
 				</table>
-	
-				<!-- 这个提交到哪？ -->
-				<input class="input-button" type="submit" value="阅读">
-	
+		
 				<!-- 分享和订阅怎么实现 -->
 				<input style="float:right" class="input-button" type="submit" value="分享">
 			</div>
@@ -63,7 +60,7 @@
 			<p>每周五更新</p>
 			<p>已发表4/11期</p>
 
-			<p style="margin-left:170px">100人订阅</p>
+			<p style="margin-left:170px">{{special_favor}}人收藏</p>
 
 			<!-- 分享和订阅怎么实现 -->
 			<input id="collection_special" style="float:right" class="input-button" type="submit" value="收藏">
@@ -106,11 +103,17 @@
 		<div id="special-title">
 			<h3 style="float:left">专栏文章</h3>
 			<div style="float:right">
-			<input type="submit" value="按发表顺序">
+			
+            	<label>排序方式：</label>
+	            <select id="sort">
+                    <option id="sort_by_time" value="time" {%if order == 'order_time'%} selected="selected"{% endif %}>时 间</option>
+                    <option id="sort_by_favor" value="heat" {%if order != 'order_time'%} selected="selected"{% endif %}>收藏人数</option>
+                </select>
+<!--
+			<input type="submit" value="按发表时间顺序" id = "sort_by_time">
 
-			<!-- 最新是什么东西 -->
-			<input type="submit" value="最新">
-			</div>
+			<input type="submit" value="按收藏人数排序" id = "sort_by_favor">
+-->			</div>
 		</div>
 
 		<hr/>
@@ -134,8 +137,24 @@
                 </div>
             
             {%- endfor %}
-		</div>
 
+    <div id="special-paging" style="float:right"> 
+        <div> 
+            {% if articles_pagination.has_prev %}
+                <a href="/special?id={{special_id}}&page={{ articles_pagination.prev_num }}&sort={{sort}}">上一页</a> 
+            {% endif %} 
+        </div> 
+        <div> 
+            <p>Page {{ articles_pagination.page }} / {{articles_pagination.pages }}</p> 
+        </div> 
+        <div>
+            {% if articles_pagination.has_next %} 
+                <a href="/special?id={{special_id}}&page={{ articles_pagination.next_num }}&sort={{sort}}">下一页</a> 
+            {% endif %} 
+        </div> 
+    </div> 
+
+		</div>
 		<!-- 类似专栏 -->
 		<div id="special-related">
 			<div id="special-separate-block"></div>
@@ -194,6 +213,24 @@
 {% block js %}
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
+
+$(document).ready(function(){
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    })(jQuery);
+    
+    var Order = $.getUrlParam('sort');
+    if (Order == "time"){
+        $("#sort_by_time").attr("selected", "selected");
+    } else{
+        $("#sort_by_favor").attr("selected", "selected");
+    }
+});
+
 $("#collection_special").click(function () {
 //获得URL中id的函数
     (function ($) {
@@ -205,9 +242,8 @@ $("#collection_special").click(function () {
     })(jQuery);
 
     var id = $.getUrlParam('id');
-//    alert('http://127.0.0.1:5000/collection_special?id=' + id)
 
-    $.get('http://127.0.0.1:5000/collection_special?id=' + id, {},
+    $.get('/collection_special?id=' + id, {},
     function(data){
            if (data == "success"){
             layer.msg("您已成功收藏该专栏",1,1,function(){});
@@ -217,7 +253,7 @@ $("#collection_special").click(function () {
            }
            if (data == "login"){
             layer.msg("请您先登陆",1,3,function(){
-               location.href ="http://127.0.0.1:5000/login";
+               location.href ="/login";
             });
            }
     });
@@ -236,7 +272,7 @@ $("#collection_user").click(function () {
     var id = $.getUrlParam('id');
 //    alert('http://127.0.0.1:5000/collection_special?id=' + id)
 
-    $.get('http://127.0.0.1:5000/collection_special_author?id=' + id,
+    $.get('/collection_special_author?id=' + id,
     {
     }, function(data){
            if (data == "success"){
@@ -250,11 +286,17 @@ $("#collection_user").click(function () {
            }
            if (data == "login"){
             layer.msg("请您先登陆",1,3,function(){
-               location.href ="http://127.0.0.1:5000/login";
+               location.href ="/login";
             });
            }
        });
 });
+
+
+$("#sort").change(function(){
+    location.href = "{{sort_change_url | safe}}";
+});
+
 
 </script>
 {% endblock %}
