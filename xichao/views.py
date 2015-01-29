@@ -236,15 +236,17 @@ def special():
     #只有favor和time两种排序方式
     if (sort != 'favor'):
         sort = 'time'
-        sort_change_url = "/special?id=%d&page=%d&sort=favor" % (special_id, page_id)
+        sort_change_url = "/special?id=%d&page=1&sort=favor" % (special_id)
     else:
-        sort_change_url = "/special?id=%d&page=%d&sort=time" % (special_id, page_id)
+        sort_change_url = "/special?id=%d&page=1&sort=time" % (special_id)
 
     special = get_special_information(special_id)
     if (special == None):
         abort(404)
     author = get_special_author(special.user_id)
-
+    
+    other = get_special_author_other(special.user_id)
+#    print ddd
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
 
     articles_pagination = get_special_article(special_id, page_id, sort)
@@ -253,6 +255,7 @@ def special():
                             special_id = special_id,
                             sort = sort,
                             nick = getNick(),
+                            other = other,
                             special_favor = special.favor,
                             special_title = special.name,
                             special_author = author.nick,

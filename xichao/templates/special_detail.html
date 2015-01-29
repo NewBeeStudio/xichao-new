@@ -197,11 +197,12 @@
 
 	<!-- 右侧其他作品 -->
 	<div id="special-other-works">
-		<h3>其他作品</h3>
+		<h3>所有作品</h3>
+
 		<ul>
-			<li>背影</li>
-			<li>荷塘月色</li>
-			<li>.......</li>
+        {%- for item in other %}
+			<li>{{ item.name }}</li>
+        {%- endfor %}
 		</ul>
 	</div>
 </div>
