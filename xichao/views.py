@@ -307,6 +307,8 @@ def uploaded_article_title_image(filename):
 def uploaded_activity_title_image(filename):
 	return send_from_directory(app.config['ACTIVITY_TITLE_DEST'],filename)
 
+
+'''
 #写文章页面显示
 @app.route('/article_upload/group/<int:group_id>/category/<int:category_id>')
 def article_upload(group_id=3,category_id=4):
@@ -331,6 +333,34 @@ def article_upload(group_id=3,category_id=4):
 				return render_template('test_article_upload.html',nick=session['user'],group=group,category=category,upload_url=upload_url)
 	else:
 		abort(404)
+'''
+#写文章页面显示
+@app.route('/article_upload')
+def article_upload():
+	#判断用户是否登录
+	if not 'user' in session:
+		return redirect(url_for('login'))
+	else:
+		article_session_id=get_article_session_id()
+		session['article_session_id']=str(article_session_id)
+		os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+		role=get_role(session['user'])
+		if role==1:
+			upload_url='/group/1/category/'
+		else:
+			upload_url='/group/2/category/'
+		return render_template('test_article_upload.html',nick=session['user'],upload_url=upload_url)
+
+
+
+
+@app.route('/article_modify/article/<int:article_id>')
+def article_modify(article_id):
+	article=get_article_information(article_id)
+	session['article_session_id']=str(article[0].article_session_id)
+	upload_url='/group/'+article[0].groups+'/category/'
+	return render_template('test_article_modify.html',nick=session['user'],article=article[0],book=article[2],upload_url=upload_url)
+
 
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
@@ -395,30 +425,52 @@ def article_finish(group_id,category_id):
 	##TODO 文章标题的安全性过滤
 	title_image=request.form['title_image']
 	abstract_abstract_with_img=request.form['abstract']
+	book_picture=request.form['book_picture']
+	book_author=request.form['book_author']
+	book_press=request.form['book_press']
+	book_page_num=request.form['book_page_num']
+	book_price=request.form['book_price']
+	book_press_time=request.form['book_press_time']
+	book_title=request.form['book_title']
+	book_ISBN=request.form['book_ISBN']
+	book_binding=request.form['book_binding']
 	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)    
 	if len(abstract_plain_text)<191:
 		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
 	else:
 		abstract=abstract_plain_text[0:190]+'......'
 	user_id=get_user_id(session['user'])
-	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract)
-	return u'文章保存成功'
+	book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
+	article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
+	return str(article_id)
 
 #文章草稿的提交路径
 @app.route('/article/draft/group/<group_id>/category/<category_id>',methods=['POST'])
 def article_draft(group_id,category_id):
 	content=request.form['content']
+	##TODO 文章标题的安全性过滤
 	title=request.form['title']
 	title_image=request.form['title_image']
 	abstract_abstract_with_img=request.form['abstract']
+	book_picture=request.form['book_picture']
+	book_author=request.form['book_author']
+	book_press=request.form['book_press']
+	book_page_num=request.form['book_page_num']
+	book_price=request.form['book_price']
+	book_press_time=request.form['book_press_time']
+	book_title=request.form['book_title']
+	book_ISBN=request.form['book_ISBN']
+	book_binding=request.form['book_binding']
 	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
 	if len(abstract_plain_text)<191:
 		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
 	else:
 		abstract=abstract_plain_text[0:190]+'......'
 	user_id=get_user_id(session['user'])
-	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
-	return u'草稿保存成功'
+	#create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
+	book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
+	article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
+	return str(article_id)
 
 
 @app.route('/activity/finish',methods=['POST'])

@@ -61,7 +61,7 @@ def test_db():
     book = Book(title = u"算法导论", ISBN = u"7111407016",
                        picture =u"http://127.0.0.1:5000/book/picture/test.jpg", author = u"Thomas H.Cormen",
                        press = u"机械工业出版社", page_num = u"780",
-                       price = u"￥91.10", press_time=u"2012年12月")
+                       price = u"￥91.10", press_time=u"2012年12月",binding="平装")
     db_session.add(book)
     db_session.commit()
 

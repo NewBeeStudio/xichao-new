@@ -18,8 +18,6 @@ from flask.ext.mail import Mail
 from flask.ext.mail import Message
 from flask.ext.sqlalchemy import Pagination
 import re
-
-from flask.ext.sqlalchemy import Pagination
 #from sqlalchemy.orm import query
 
 
@@ -97,7 +95,10 @@ def send_resetpassword_email(nick,password,email):
 	msg.body='text body'
 	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
 	with app.app_context():
-		mail.send(msg)
+		try:
+			mail.send(msg)
+		except:
+			pass
 
 #是否存在该用户名，用户名和密码是否匹配
 def check_nickpassword_match(nick, password):
@@ -130,7 +131,7 @@ def get_activity_session_id():
 	return result[0]
 
 #添加文章
-def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract):
+def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract,book_id):
 	result=db_session.query(Article).filter_by(article_session_id=article_session_id).all()
 	if len(result)>0:
 		article=db_session.query(Article).filter_by(article_session_id=article_session_id).scalar()
@@ -140,11 +141,30 @@ def create_article(title,content,title_image,article_session_id,is_draft,user_id
 		article.time=datetime.now()
 		article.is_draft=is_draft
 		article.abstract=abstract
+		article.book_id=book_id
 		db_session.commit()
+		return result[0].article_id
 	else:
-		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract)
+		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract,book_id=book_id)
 		db_session.add(article)
 		db_session.commit()
+		result=db_session.query(Article).filter_by(article_session_id=article_session_id).first()
+		return result.article_id
+
+def create_book(book_picture,book_author,book_press,book_page_num,book_price,book_press_time,book_title,book_ISBN,book_binding):
+	result=db_session.query(Book).filter_by(ISBN=book_ISBN).all()
+	if len(result)>0:
+		book=db_session.query(Book).filter_by(ISBN=book_ISBN).scalar()
+		book.favor+=1
+		db_session.commit()
+		return result[0].book_id
+	else:
+		book=Book(title=book_title,ISBN=book_ISBN,picture=book_picture,author=book_author,press=book_press,page_num=book_page_num,price=book_price,press_time=book_press_time,binding=book_binding)
+		db_session.add(book)
+		db_session.commit()
+		result=db_session.query(Book).filter_by(ISBN=book_ISBN).first()
+		return result.book_id
+
 def create_activity(title,content,title_image,activity_session_id):
 	result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).all()
 	if len(result)>0:
@@ -168,26 +188,7 @@ def get_article_pagination(page,posts_per_page):
 	pagination=db_session.query(Article).paginate(page,posts_per_page,False)#获得分页对象
 	return pagination
 	#pagination.items是分页好的数据
-'''
-<div class="pagination  "> 
-    <div class="row-fluid"> 
-        <div class="span3 offset2"> 
-            {% if pagination.has_prev %} 
-                <a href="/index/{{ pagination.prev_num }}">previous</a> 
-            {% endif %} 
-        </div> 
-        <div class="span3 "> 
-            <a href="">Page {{ pagination.page }} of {{ pagination.pages }}.</a> 
-        </div> 
-        <div class="span3 ">
 
-            {% if pagination.has_next %} 
-                <a href="/index/{{ pagination.next_num }}">next</a> 
-            {% endif %} 
-        </div> 
-    </div> 
-</div>
-'''
 #返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
 def get_article_information(article_id):
 	result=db_session.query(Article,User.nick,Book).join(User,Book).filter(Article.article_id==article_id).all()
@@ -342,3 +343,9 @@ def collection_special_author(user_id, special_id):
     else:
         return "already"
     return "success"
+
+##################################  获取用户角色函数  ####################################
+def get_role(nick):
+	result=db_session.query(User.role).filter_by(nick=nick).first()
+	return result[0]
+
