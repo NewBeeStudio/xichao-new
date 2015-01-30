@@ -10,12 +10,15 @@ from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy import String, CHAR, Text, SmallInteger, Date, DateTime
 from database import Base
 
+from flask.ext.login import UserMixin
+from xichao import login_serializer
+from hashlib import md5
 
 ## 格式: Column(type, nullable, unique, index)
 
 ##################################  用户模型  ####################################
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'user'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -62,6 +65,15 @@ class User(Base):
 
     def __repr__(self):
         return '<User %r>' % (self.nick)
+
+    #override
+    def get_id(self):
+        return unicode(self.user_id)
+
+    #override, 产生cookie token
+    def get_auth_token(self):
+        data = (self.user_id, md5(self.password).hexdigest())
+        return login_serializer.dumps(data)
         
 
 ##################################  书籍模型  ####################################
