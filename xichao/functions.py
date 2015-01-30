@@ -66,7 +66,10 @@ def send_verify_email(nick,password,email):
 	msg.body='text body'
 	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
 	with app.app_context():
-		mail.send(msg)
+		try:
+			mail.send(msg)
+		except:
+			pass
 
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
