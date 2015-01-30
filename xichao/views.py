@@ -124,6 +124,7 @@ def register():
 		#需要增加异常处理，捕获异常，
 		send_verify_email(form.nick.data,form.password.data,form.email.data)
 		# session['user']=request.form['nick']
+		user=User.query.filter_by(email=form.email.data).first()
 		login_user(user)
 		flash(u'注册成功，正在跳转')
 		return redirect(url_for('test'))

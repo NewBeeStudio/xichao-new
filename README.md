@@ -12,8 +12,10 @@
  * flask-wtforms     //表单渲染和验证，安装：`pip install WTForms`
  * flask.ext.mail    //安装：`pip install flask-mail`
  * flask.ext.wtf     //安装：`pip install flask_wtf`
+
  * flask.ext.admin   //安装：`pip install flask-admin`
- * flask.ext.login   //安装：`pip install flask-login`
+ * flask.ext.login   //登录相关，安装：`pip install flask-login`
+ * itsdangerous       //登录安全相关，安装：`pip install itsdangerous` 
 
 
 框架：
@@ -57,7 +59,7 @@
 数据库建立过程：
 --------------------
  * 建立名为'xichao'的数据库，命令如下：CREATE DATABASE `xichao` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;(如果数据库中已经有名为'xichao'的数据库，先将其删除)
- * 将functions.py中的导入语句'from xichao import app'注释
+ * 将functions.py中的导入语句'from xichao import app'注释， models.py中'from xichao import login_serializer'注释
  * terminal进入到xichao-new，再进入到xichao
  * 进入python shell（在terminal下运行'python'）
  * 运行如下语句：from database import init_db
