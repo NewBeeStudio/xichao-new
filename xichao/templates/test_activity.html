@@ -69,6 +69,23 @@
 				<hr>
 			{% endfor %}
 		{% endif %}#}-->
+		{% if comments!=None %}
+			{% for comment in comments %}
+				<div class="comment">
+					<!--{{comment[0]}}comment对象实例，不用显示，需要显示的是属性，比如content，time-->
+					<img class="user_pic_2" src="{{comment[2]}}">
+					<div class="line"></div>
+					<p class="p_review_author">{{comment[1]}}</p>
+					<div class="comment_content">{{comment[0].content}}</div>
+					<p class="p_publish_time">{{comment[0].time}}</p>
+					<!--{{comment[0].content}}<!--comment的内容-->
+					<!--{{comment[0].time}}<!--comment的时间-->
+					<!--{{comment[1]}}该条comment的评论人-->
+					<!--{{comment[2]}}该条comment的评论人头像链接,可以不用显示，应该作为img标签的src属性，如下-->
+				</div>
+				<!--<hr>-->
+			{% endfor %}
+		{% endif %}
 	</div>
 
 {% endblock %}
@@ -78,7 +95,7 @@
 {% block js %}
 
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
-
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 
 <script type="text/javascript">
 	$(function(){
@@ -93,7 +110,36 @@
 
 <!--获取评论内容，更新数据库，返回评论时间-->
 <script type="text/javascript">
+$("#comment_publish_button").click(function(){
+	//val_content=$("#input_publish_review").text();
+	val_content = $('#input_publish_review').contents().find('body').html();
+	$('#input_publish_review').contents().find('body').empty();
+	$.post('http://127.0.0.1:5000/activity/comment',
+		{
+			content:val_content,
+			activity_id:{{activity.activity_id}}
+		},
+		function(data){
+			$("#comment_publish_time").text(data);
+			layer.msg("评论成功",1,1);
+			/*var time = data;
+			var nick = "{{nick}}";
+			var avatar = "{{avatar}}";
+			var content = val_content;
+			var newdiv = $('<div><p>heelo</p></div>');*/
+			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
+			$('#comment_new').prepend('<div class="comment">'+
+				'<img class="user_pic_2" src="{{avatar}}">'+
+				'<div class="line"></div>'+
+				'<p class="p_review_author">{{nick}}</p>'+
+				'<div class="comment_content">'+val_content+'</div>'+
+				'<p class="p_publish_time">'+data+'</p></div><hr>');
+		});
+});
 
+$("#comment_reset_button").click(function(){
+	$('#input_publish_review').contents().find('body').empty();
+});
 </script>
 
 <script type="text/javascript">

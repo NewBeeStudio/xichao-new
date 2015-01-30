@@ -12,6 +12,8 @@
  * flask-wtforms     //表单渲染和验证，安装：`pip install WTForms`
  * flask.ext.mail    //安装：`pip install flask-mail`
  * flask.ext.wtf     //安装：`pip install flask_wtf`
+ * flask.ext.admin   //安装：`pip install flask-admin`
+ * flask.ext.login   //安装：`pip install flask-login`
 
 
 框架：

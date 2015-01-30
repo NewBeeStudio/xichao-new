@@ -268,11 +268,16 @@ def get_special_author_other(user_id):
 
 ###################################  昵称函数  ####################################
 def getNick():
-	nick = None
-	if 'user' in session:
-		nick = session['user']
-	elif request.cookies.get('user')!=None:
-		nick = request.cookies.get('user')
+	nick=None
+	if 'user_id' in session:
+		result = db_session.query(User.nick).filter_by(user_id=int(session['user_id'])).first()
+		nick = result[0]
+	
+	# nick = None
+	# if 'user' in session:
+	# 	nick = session['user']
+	# elif request.cookies.get('user')!=None:
+	# 	nick = request.cookies.get('user')
 	return nick
 
 ###################################  头像函数  ####################################
@@ -282,7 +287,7 @@ def get_avatar():
 	return avatar[0]
 ###################################  评论函数  ####################################
 def create_comment(content,to_user_id,article_id):
-	user_id=get_user_id(session['user'])
+	user_id=int(session['user_id'])
 	comment=Comment(article_id=article_id,content=content,user_id=user_id,to_user_id=to_user_id,time=datetime.now())
 	db_session.add(comment)
 	db_session.commit()
@@ -290,6 +295,17 @@ def update_comment_num(article_id):
 	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
 	article.comment_num+=1
 	db_session.commit()
+
+def create_activity_comment(content,activity_id):
+	user_id=int(session['user_id'])
+	comment_activity=Comment_activity(activity_id=activity_id,content=content,user_id=user_id,time=datetime.now())
+	db_session.add(comment_activity)
+	db_session.commit()
+def update_activity_comment_num(activity_id):
+	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
+	activity.comment_num+=1
+	db_session.commit()
+
 
 ###################################  获取文章摘要函数  ###############################
 def get_abstract_plain_text(abstract):
@@ -352,7 +368,7 @@ def collection_special_author(user_id, special_id):
     return "success"
 
 ##################################  获取用户角色函数  ####################################
-def get_role(nick):
-	result=db_session.query(User.role).filter_by(nick=nick).first()
+def get_role(user_id):
+	result=db_session.query(User.role).filter_by(user_id=user_id).first()
 	return result[0]
 
