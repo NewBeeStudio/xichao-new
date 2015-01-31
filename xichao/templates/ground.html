@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+{% endblock %}
+
+<!--content-->
+{% block content %}
+	{% for article_information in hot_ground_article_list %}
+		<div>
+			标题：{{article_information[0].title}}
+			作者：{{article_information[1]}}
+		</div>
+	{% endfor %}
+
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+
+{% endblock %}

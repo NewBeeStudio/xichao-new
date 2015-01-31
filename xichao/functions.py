@@ -168,7 +168,7 @@ def create_book(book_picture,book_author,book_press,book_page_num,book_price,boo
 		result=db_session.query(Book).filter_by(ISBN=book_ISBN).first()
 		return result.book_id
 
-def create_activity(title,content,title_image,activity_session_id):
+def create_activity(title,content,title_image,activity_session_id,activity_time):
 	result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).all()
 	if len(result)>0:
 		activity=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).scalar()
@@ -176,9 +176,10 @@ def create_activity(title,content,title_image,activity_session_id):
 		activity.content=content
 		activity.picture=title_image
 		activity.create_time=datetime.now()
+		activity.activity_time=activity_time
 		db_session.commit()
 	else:
-		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=datetime.now())
+		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=activity_time)
 		db_session.add(activity)
 		db_session.commit()
 
@@ -226,6 +227,12 @@ def get_activity_comments(activity_id):
 def update_read_num(article_id):
 	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
 	article.read_num+=1
+	db_session.commit()
+
+
+def update_read_num_activity(activity_id):
+	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
+	activity.read_num+=1
 	db_session.commit()
 ##################################  专栏函数  ####################################
 def paginate(query,page,per_page=20,error_out=True):
@@ -372,3 +379,26 @@ def get_role(user_id):
 	result=db_session.query(User.role).filter_by(user_id=user_id).first()
 	return result[0]
 
+
+def get_user_by_nick(nick):
+	result=db_session.query(User).filter_by(nick=nick).first()
+	return result
+
+def examine_user_id(user_id):
+	result=db_session.query(User).filter_by(user_id=user_id).all()
+	if len(result)>0:
+		return True
+	else:
+		return False
+def create_user_collection(another_user_id,user_id):
+	collection=Collection_User(user_id=user_id,another_user_id=another_user_id,time=datetime.now())
+	db_session.add(collection)
+	db_session.commit()
+
+def get_hot_ground_acticle():
+	result=db_session.query(Article,User.nick).join(User).filter(Article.groups=='1').order_by(desc(Article.coins)).limit(10).all()
+	return result
+
+def get_article_group_by_coin(groups,category):
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category)).order_by(desc(Article.coins)).limit(10).all()
+	return result

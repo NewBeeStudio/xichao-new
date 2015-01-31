@@ -509,8 +509,10 @@ def article_draft(group_id,category_id):
 def activity_finish():
 	content=request.form['content']
 	title=request.form['title']
-	title_image=request.form['title_image']	
-	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'])
+	title_image=request.form['title_image']
+	activity_time=request.form['activity_time']
+	formatted_time=datetime.strptime(activity_time,"%m/%d/%Y %H:%M")
+	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time)
 	return u'活动保存成功'
 
 
@@ -642,6 +644,18 @@ def article_group_favor(group_id,category_id,page_id=1):
 	else:		
 		abort(404)
 
+@app.route('/ground')
+def ground():
+	hot_ground_article_list=get_hot_ground_acticle()
+	##参数1表示广场
+	ground_book_review_list=get_article_group_by_coin('1','1')
+	ground_film_review_list=get_article_group_by_coin('1','2')
+	ground_essay_list=get_article_group_by_coin('1','3')
+	return render_template('ground.html',hot_ground_article_list=hot_ground_article_list,ground_book_review_list=ground_book_review_list,ground_film_review_list=ground_film_review_list,ground_essay_list=ground_essay_list)
+
+
+
+
 ##################################	活动 ##################################
 ##读取活动
 @app.route('/activity/<int:activity_id>')
@@ -649,6 +663,7 @@ def article_group_favor(group_id,category_id,page_id=1):
 def activity(activity_id):
 	activity=get_activity_information(activity_id)
 	if activity!=None:
+		update_read_num_activity(activity_id)
 		comments=get_activity_comments(activity_id)
 		return render_template('test_activity.html',activity=activity,avatar=get_avatar(),comments=comments)
 	else:
@@ -658,13 +673,43 @@ def activity(activity_id):
 @app.route('/activity_upload')
 @login_required
 def activity_upload():
-	activity_session_id=get_activity_session_id()
-	session['activity_session_id']=str(activity_session_id)
-	os.makedirs(os.path.join(app.config['ACTIVITY_CONTENT_DEST'], str(activity_session_id)))
-	return render_template('test_activity_upload.html')
+	if current_user.role!=3:
+		abort(404)
+	else:
+		activity_session_id=get_activity_session_id()
+		session['activity_session_id']=str(activity_session_id)
+		os.makedirs(os.path.join(app.config['ACTIVITY_CONTENT_DEST'], str(activity_session_id)))
+		return render_template('test_activity_upload.html')
 
 
+##个人主页
+@app.route('/homepage')
+@login_required
+def home_page():
+	return render_template('home_page.html')
 
+@app.route('/user/<nick>')
+@login_required
+def view_home_page(nick):
+	user=get_user_by_nick(nick)
+	if user==None:
+		abort(404)
+	elif user.user_id==current_user.user_id:
+		return redirect(url_for('home_page'))
+	else:
+		return render_template('view_home_page.html',user=user)
+
+
+@app.route('/collection/user',methods=['POST'])
+def collection_user():
+	user_id=request.form['user_id']
+	if user_id==current_user.user_id:
+		return 'fail'
+	elif examine_user_id(user_id):
+		create_user_collection(another_user_id=user_id,user_id=current_user.user_id)
+		return 'success'
+	else:
+		return 'fail'
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
@@ -672,6 +717,6 @@ def activity_upload():
 def article_test():
 	return render_template('test_article.html')
 
-@app.route('/activity')
+@app.route('/activity') 
 def activity_test():
 	return render_template('test_activity.html')
