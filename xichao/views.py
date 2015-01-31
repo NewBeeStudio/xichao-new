@@ -27,6 +27,7 @@
 	            获得文章中的图片    /editor_upload/<filename>
 	            完成文章编辑       /article/finish
 	            完成草稿编辑       /article/draft
+	        广场页   /square
 
 	            
 	    
@@ -663,6 +664,12 @@ def activity_upload():
 	os.makedirs(os.path.join(app.config['ACTIVITY_CONTENT_DEST'], str(activity_session_id)))
 	return render_template('test_activity_upload.html')
 
+
+##################################	广场 ##################################
+#广场主页
+@app.route('/square')
+def square():
+	return render_template('square.html')
 
 
 ##################################	已废弃 ##################################

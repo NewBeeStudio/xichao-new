@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<link href="{{ url_for('static', filename='css/square.css') }}" rel='stylesheet' type='text/css'/> 
+{% endblock %}
+
+<!--content-->
+{% block content %}
+<div style="width:100%; height:670px;">
+<!-- 热门文章 -->
+<div class="square-headline">
+	<h2>热门文章</h2>
+	<div id="square-hot">
+		<div style="height:466px">
+			<div style="margin-top:13px"></div>
+			<table id="square-hot-article">
+			{% for i in range(1, 10) %}
+				<tr>
+					<td class="square-col-1">{{i}}、如何快速有效地克服拖延症？</td>
+					<td class="square-col-2">艾小玛</td>
+					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td>39</td>
+				</tr>
+			{% endfor %}
+			</table>
+		</div>
+		<a class="square-more" href="#">MORE&gt;</a>
+	</div>
+</div>
+
+<!-- 今日推荐 -->
+<div class="square-headline square-recommend">
+	<h2>今日推荐</h2>
+	<div id="recommend-content">
+		<h3 class="main-color">一条路，在河之上</h3>
+		<div id="recommend-title">
+			<span> 2015-01-30 </span>
+			<span> 阅读(100)</span>
+			<span> <font color="#D9AE48">收藏</font>(10000)</span>
+			<span> <font color="#D9AE48">评论</font>(10000)</span>
+			<span> <font color="#D9AE48">曦潮币</font>(10000)</span>
+		</div>
+		<pre>
+			哈哈哈哈哈!
+		</pre>
+
+		<img src="{{url_for('uploaded_avatar',filename='default1.jpg')}}"/>
+		<a class="square-more" href="#">MORE></a>
+	</div>
+</div>
+</div>
+
+<!-- 书评 -->
+<div class="square-part1" style="margin-top:145px;">
+	<!-- 标题图片 -->
+	<div class="square-part1-left">
+		<h2>书评</h2>
+		<img id="square-part1-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
+		<div></div>
+	</div>
+	
+	<!-- 内容 -->
+	<div class="square-part1-right">
+		<table id="square-part1-content" >
+		{% for i in range(1,10) %}
+			<tr>
+				<td class="square-col-1">{{i}}、如何快速有效地克服拖延症？</td>
+				<td class="square-col-2" style="width:160px">艾小玛</td>
+				<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+				<td class="square-col-4">39</td>
+				<td>14-12-30</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
+
+</div>
+
+<!-- 影评 -->
+<div class="square-part2">
+	<!-- 内容 -->
+	<div class="square-part2-left">
+		<table id="square-part1-content" >
+		{% for i in range(1,10) %}
+			<tr>
+				<td class="square-col-1">{{i}}、如何快速有效地克服拖延症？</td>
+				<td class="square-col-2" style="width:160px">艾小玛</td>
+				<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+				<td class="square-col-4">39</td>
+				<td>14-12-30</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
+
+	<!-- 标题图片 -->
+	<div class="square-part2-right">
+		<h2>影评</h2>
+		<img id="square-part2-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
+		<div></div>
+	</div>
+
+</div>
+
+<!-- 杂文 -->
+<div class="square-part1">
+	<!-- 标题图片 -->
+	<div class="square-part1-left">
+		<h2>杂文</h2>
+		<img id="square-part3-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
+		<div></div>
+	</div>
+	
+	<!-- 内容 -->
+	<div class="square-part1-right">
+		<table id="square-part1-content" >
+		{% for i in range(1,10) %}
+			<tr>
+				<td class="square-col-1">{{i}}、如何快速有效地克服拖延症？</td>
+				<td class="square-col-2" style="width:160px">艾小玛</td>
+				<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+				<td class="square-col-4">39</td>
+				<td>14-12-30</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
+
+</div>
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+
+{% endblock %}
