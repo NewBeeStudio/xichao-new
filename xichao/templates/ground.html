@@ -8,6 +8,7 @@
 <!--content-->
 {% block content %}
 	{% for article_information in hot_ground_article_list %}
+	<!--article_information并不是article的实例。它是一个元组，元组的第0个元素是article实例，第一个元素是该文章对应的作者-->
 		<div>
 			标题：{{article_information[0].title}}
 			作者：{{article_information[1]}}

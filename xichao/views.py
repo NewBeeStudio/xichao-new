@@ -27,6 +27,7 @@
 	            获得文章中的图片    /editor_upload/<filename>
 	            完成文章编辑       /article/finish
 	            完成草稿编辑       /article/draft
+	        广场页   /square
 
 	            
 	    
@@ -644,15 +645,6 @@ def article_group_favor(group_id,category_id,page_id=1):
 	else:		
 		abort(404)
 
-@app.route('/ground')
-def ground():
-	hot_ground_article_list=get_hot_ground_acticle()
-	##参数1表示广场
-	ground_book_review_list=get_article_group_by_coin('1','1')
-	ground_film_review_list=get_article_group_by_coin('1','2')
-	ground_essay_list=get_article_group_by_coin('1','3')
-	return render_template('ground.html',hot_ground_article_list=hot_ground_article_list,ground_book_review_list=ground_book_review_list,ground_film_review_list=ground_film_review_list,ground_essay_list=ground_essay_list)
-
 
 
 
@@ -682,11 +674,27 @@ def activity_upload():
 		return render_template('test_activity_upload.html')
 
 
+
 ##个人主页
 @app.route('/homepage')
 @login_required
 def home_page():
 	return render_template('home_page.html')
+##################################	广场 ##################################
+#广场主页
+@app.route('/square')
+def square():
+	return render_template('square.html')
+
+@app.route('/ground')
+def ground():
+	hot_ground_article_list=get_hot_ground_acticle()
+	##参数1表示广场
+	ground_book_review_list=get_article_group_by_coin('1','1')
+	ground_film_review_list=get_article_group_by_coin('1','2')
+	ground_essay_list=get_article_group_by_coin('1','3')
+	return render_template('ground.html',hot_ground_article_list=hot_ground_article_list,ground_book_review_list=ground_book_review_list,ground_film_review_list=ground_film_review_list,ground_essay_list=ground_essay_list)
+
 
 @app.route('/user/<nick>')
 @login_required
