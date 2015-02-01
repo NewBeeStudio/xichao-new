@@ -10,12 +10,13 @@
 		<div style="height:466px">
 			<div style="margin-top:13px"></div>
 			<table id="square-hot-article">
-			{% for i in range(1, 10) %}
+			<!-- 热门文章2~10 -->
+			{% for (i, article) in hot_ground_article_list[1:]|zip %}
 				<tr>
-					<td class="square-col-1">{{i}}、如何快速有效地克服拖延症？</td>
-					<td class="square-col-2">艾小玛</td>
+					<td class="square-col-1">{{i}}、{{article[0].title}}</td>
+					<td class="square-col-2">{{article[1]}}</td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-					<td class="square-col-final">39</td>
+					<td class="square-col-final">{{article[0].coins}}</td>
 				</tr>
 			{% endfor %}
 			</table>
@@ -28,19 +29,17 @@
 <div class="square-headline square-recommend">
 	<h2>今日推荐</h2>
 	<div id="recommend-content">
-		<h3 class="main-color">一条路，在河之上</h3>
+		<h3 class="main-color">{{hot_ground_article_list[0][0].title}}</h3>
 		<div id="recommend-title">
-			<span> 2015-01-30 </span>
-			<span> 阅读(100)</span>
-			<span> <font color="#D9AE48">收藏</font>(10000)</span>
-			<span> <font color="#D9AE48">评论</font>(10000)</span>
-			<span> <font color="#D9AE48">曦潮币</font>(10000)</span>
+			<span> {{hot_ground_article_list[0][0].time|time_split}} </span>
+			<span> 阅读({{hot_ground_article_list[0][0].read_num}})</span>
+			<span> <font color="#D9AE48">收藏</font>({{hot_ground_article_list[0][0].favor}})</span>
+			<span> <font color="#D9AE48">评论</font>({{hot_ground_article_list[0][0].comment_num}})</span>
+			<span> <font color="#D9AE48">曦潮币</font>({{hot_ground_article_list[0][0].coins}})</span>
 		</div>
-		<pre>
-			哈哈哈哈哈!
-		</pre>
+		<pre>{{hot_ground_article_list[0][0].abstract}}</pre>
 
-		<img src="{{url_for('uploaded_avatar',filename='default1.jpg')}}"/>
+		<img src="{{hot_ground_article_list[0][0].picture}}"/>
 		<a class="square-more" href="#">MORE></a>
 	</div>
 </div>
