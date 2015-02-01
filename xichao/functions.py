@@ -424,3 +424,23 @@ def create_message(to_user_id,user_id,content):
 	message=Message(user_id=user_id,to_user_id=to_user_id,content=content,time=datetime.now())
 	db_session.add(message)
 	db_session.commit()
+
+def user_coin_add(user_id,num):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	user.coin+=num
+	db_session.commit()
+def user_coin_sub(user_id,num):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	user.coin-=num
+	db_session.commit()
+def article_coin_add(article_id,num):
+	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
+	article.coins+=num
+	db_session.commit()
+	article=db_session.query(Article).filter_by(article_id=article_id).first()
+	user_coin_add(user_id=article.user_id,num=num)
+
+def process_article_award(user_id,article_id,award_num):
+	user_coin_sub(user_id=user_id,num=award_num)
+	article_coin_add(article_id=article_id,num=award_num)
+	return 'ok'
