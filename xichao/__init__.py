@@ -67,6 +67,8 @@ BOOK_PICTURE_DEST=os.path.join(os.path.dirname(__file__),'upload/book')
 app.config.from_object(__name__)
 
 
+
+
 ##############################  csrf  ##################################
 @app.before_request
 def csrf_protect():

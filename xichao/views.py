@@ -402,6 +402,11 @@ def article_modify(article_id):
 	return render_template('test_article_modify.html',article=article[0],book=article[2],upload_url=upload_url)
 
 
+#打赏作者弹窗
+@app.route('/pay_author')
+def pay_author():
+	return render_template('pay_author.html')
+
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
 def upload(classfication):
@@ -712,10 +717,12 @@ def view_home_page(nick):
 	elif user.user_id==current_user.user_id:
 		return redirect(url_for('home_page'))
 	else:
-		return render_template('view_home_page.html',user=user)
+		collection=has_collected(user_id=current_user.user_id,another_user_id=user.user_id)
+		return render_template('view_home_page.html',user=user,collection=collection)
 
 
 @app.route('/collection/user',methods=['POST'])
+@login_required
 def collection_user():
 	user_id=request.form['user_id']
 	if user_id==current_user.user_id:
@@ -725,13 +732,39 @@ def collection_user():
 		return 'success'
 	else:
 		return 'fail'
+
+
+@app.route('/collection_cancle/user',methods=['POST'])
+@login_required
+def cancle_collection_user():
+	user_id=request.form['user_id']
+	if user_id==current_user.user_id:
+		return 'fail'
+	elif examine_user_id(user_id):
+		delete_user_collection(another_user_id=user_id,user_id=current_user.user_id)
+		return 'success'
+	else:
+		return 'fail'
+
+@app.route('/message',methods=['POST'])
+@login_required
+def message():
+	user_id=request.form['user_id']
+	content=request.form['content']
+	if user_id==current_user.user_id:
+		return 'fail'
+	elif examine_user_id(user_id):
+		create_message(to_user_id=user_id,user_id=current_user.user_id,content=content)
+		return 'success'
+	else:
+		return 'fail'
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
 @app.route('/article/test')
 def article_test():
-	return render_template('test_article.html')
+	return render_template('security/login_user.html')
 
 @app.route('/activity') 
 def activity_test():
-	return render_template('test_activity.html')
+	return render_template('pay_author.html')
