@@ -169,6 +169,7 @@ $(document).ready(function(){
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		url = "{{ url_for('pay_author', article_id=article.article_id) }}"
 		$("#pay_button").click(function(){
 			$.layer({
 				type: 2,
@@ -178,7 +179,7 @@ $(document).ready(function(){
 				closeBtn: false,
 				border: [2, 1, '#D9AE48'],
 				area: ['760px', '258px'],
-				iframe: {src: "{{url_for('pay_author')}}"},
+				iframe: {src: url},
 			});
 		});
 	});
