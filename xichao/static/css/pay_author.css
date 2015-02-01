@@ -1,0 +1,41 @@
+#my_xichao {
+	margin-left: 78px;
+}
+
+#p_my_xichao {
+	float: left;
+	margin: 0px;
+}
+
+#num_xichao {
+	margin-left: 100px;
+}
+
+#pay {
+	margin-left: 78px;
+}
+
+#num_pay {
+	float: left;
+	margin: 0px;
+}
+
+#input_review {
+	margin-left: 78px;
+	margin-top: 15px;
+	width: 604px;
+	height: 84px;
+}
+
+#push_review {
+	margin-left: 450px;
+}
+
+#input_push_review {
+	margin-left: 46px;
+}
+
+#button {
+	margin-left: 380px;
+	margin-top: 25px;
+}

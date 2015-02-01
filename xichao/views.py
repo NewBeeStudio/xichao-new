@@ -16,6 +16,7 @@
 	        忘记密码  /forgetPassword
 	        重置密码  /resetPassword
 	        邮箱验证    /verify
+	        文章首页    /article
 	        文章页面    /article/<int:article_id>
 	        专栏页面    /special/<int:special_id>/page/<int:page_id>
 	        专栏详情    /column_detail    /upload/special/<filename>
@@ -237,7 +238,13 @@ def verify():
 		update_state(nick)
 	return redirect(url_for('test'))
 	
-	
+
+##################################  文章首页  ##################################
+@app.route('/article',methods=['GET', 'POST'])
+@login_required
+def article_main():
+	return render_template('article.html')
+
 ##################################  文章页面  ##################################
 @app.route('/article/<int:article_id>',methods=['GET'])
 @login_required
@@ -394,6 +401,14 @@ def article_modify(article_id):
 	upload_url='/group/'+article[0].groups+'/category/'
 	return render_template('test_article_modify.html',article=article[0],book=article[2],upload_url=upload_url)
 
+
+#打赏作者弹窗
+@app.route('/pay_author/<int:article_id>')
+def pay_author(article_id):
+	print "!!!!!!!"
+	print article_id
+	print "!!!!!!"
+	return render_template('pay_author.html', article_id=article_id)
 
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
@@ -705,10 +720,12 @@ def view_home_page(nick):
 	elif user.user_id==current_user.user_id:
 		return redirect(url_for('home_page'))
 	else:
-		return render_template('view_home_page.html',user=user)
+		collection=has_collected(user_id=current_user.user_id,another_user_id=user.user_id)
+		return render_template('view_home_page.html',user=user,collection=collection)
 
 
 @app.route('/collection/user',methods=['POST'])
+@login_required
 def collection_user():
 	user_id=request.form['user_id']
 	if user_id==current_user.user_id:
@@ -718,13 +735,48 @@ def collection_user():
 		return 'success'
 	else:
 		return 'fail'
+
+
+@app.route('/collection_cancle/user',methods=['POST'])
+@login_required
+def cancle_collection_user():
+	user_id=request.form['user_id']
+	if user_id==current_user.user_id:
+		return 'fail'
+	elif examine_user_id(user_id):
+		delete_user_collection(another_user_id=user_id,user_id=current_user.user_id)
+		return 'success'
+	else:
+		return 'fail'
+
+@app.route('/message',methods=['POST'])
+@login_required
+def message():
+	user_id=request.form['user_id']
+	content=request.form['content']
+	if user_id==current_user.user_id:
+		return 'fail'
+	elif examine_user_id(user_id):
+		create_message(to_user_id=user_id,user_id=current_user.user_id,content=content)
+		return 'success'
+	else:
+		return 'fail'
+
+
+@app.route('/award',methods=['POST'])
+@login_required
+def award_article():
+	article_id=request.form['article_id']
+	award_num=int(request.form['award_num'])
+	result=process_article_award(user_id=current_user.user_id,article_id=article_id,award_num=award_num)
+	return result
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
 @app.route('/article/test')
 def article_test():
-	return render_template('test_article.html')
+	return render_template('security/login_user.html')
 
 @app.route('/activity') 
 def activity_test():
-	return render_template('test_activity.html')
+	return render_template('pay_author.html')

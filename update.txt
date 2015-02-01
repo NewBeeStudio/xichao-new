@@ -1,4 +1,7 @@
-﻿2015.1.30，姚方杰
+﻿2015.2.1，姚方杰
+    广场页和文章页前端完成，由于文章页的内容为广场页一部分，所以在layout_article.html中保存共用部分（layout前缀的页面一般都有不同程度的共用）。
+
+2015.1.30，姚方杰
     flask-login引入session['user_id']（保存unicode类型的user_id，使用时进行转换），以前使用session['user']的地方已经统一删去，后续功能添加时注意
     登陆判断统一使用@login_required装饰器，不在函数中进行判断
     在templates页面引用用户信息，直接使用current_user.属性，不需要作为参数传给页面

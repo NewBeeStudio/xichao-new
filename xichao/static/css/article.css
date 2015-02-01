@@ -33,9 +33,19 @@
 	font-family: 微软雅黑;
 }
 
+#p_num_xichao {
+	float: left;
+	margin-left: 40%;
+}
+
+#p_num_xichao_content {
+	margin-left: 2%;
+	float: left;
+}
+
 #p_article_author_1 {
 	float: left;
-	margin-left: 55%;
+	margin-left: 2%;
 	margin-right: 2%;
 }
 

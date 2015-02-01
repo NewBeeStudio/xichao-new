@@ -392,8 +392,16 @@ def examine_user_id(user_id):
 	else:
 		return False
 def create_user_collection(another_user_id,user_id):
-	collection=Collection_User(user_id=user_id,another_user_id=another_user_id,time=datetime.now())
-	db_session.add(collection)
+	result=db_session.query(Collection_User).filter(and_(Collection_User.user_id==user_id,Collection_User.another_user_id==another_user_id)).all()
+	if len(result)>0:
+		pass
+	else:
+		collection=Collection_User(user_id=user_id,another_user_id=another_user_id,time=datetime.now())
+		db_session.add(collection)
+		db_session.commit()
+
+def delete_user_collection(another_user_id,user_id):
+	db_session.query(Collection_User).filter(and_(Collection_User.user_id==user_id,Collection_User.another_user_id==another_user_id)).delete()
 	db_session.commit()
 
 def get_hot_ground_acticle():
@@ -403,3 +411,41 @@ def get_hot_ground_acticle():
 def get_article_group_by_coin(groups,category):
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category)).order_by(desc(Article.coins)).limit(10).all()
 	return result
+
+
+def has_collected(user_id,another_user_id):
+	result=db_session.query(Collection_User).filter(and_(Collection_User.user_id==user_id,Collection_User.another_user_id==another_user_id)).all()
+	if len(result)>0:
+		return 'yes'
+	else:
+		return 'no'
+
+
+def create_message(to_user_id,user_id,content):
+	message=Message(user_id=user_id,to_user_id=to_user_id,content=content,time=datetime.now())
+	db_session.add(message)
+	db_session.commit()
+
+def user_coin_add(user_id,num):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	user.coin+=num
+	db_session.commit()
+def user_coin_sub(user_id,num):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	user.coin-=num
+	db_session.commit()
+def article_coin_add(article_id,num):
+	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
+	article.coins+=num
+	db_session.commit()
+	article=db_session.query(Article).filter_by(article_id=article_id).first()
+	user_coin_add(user_id=article.user_id,num=num)
+
+def process_article_award(user_id,article_id,award_num):
+	article=db_session.query(Article).filter_by(article_id=article_id).first()
+	if article.user_id==user_id:
+		return 'fail'
+	else:
+		user_coin_sub(user_id=user_id,num=award_num)
+		article_coin_add(article_id=article_id,num=award_num)
+		return 'success'
