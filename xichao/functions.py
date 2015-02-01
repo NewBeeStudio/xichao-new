@@ -441,6 +441,10 @@ def article_coin_add(article_id,num):
 	user_coin_add(user_id=article.user_id,num=num)
 
 def process_article_award(user_id,article_id,award_num):
-	user_coin_sub(user_id=user_id,num=award_num)
-	article_coin_add(article_id=article_id,num=award_num)
-	return 'ok'
+	article=db_session.query(Article).filter_by(article_id=article_id).first()
+	if article.user_id==user_id:
+		return 'fail'
+	else:
+		user_coin_sub(user_id=user_id,num=award_num)
+		article_coin_add(article_id=article_id,num=award_num)
+		return 'success'

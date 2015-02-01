@@ -16,6 +16,7 @@
 	        忘记密码  /forgetPassword
 	        重置密码  /resetPassword
 	        邮箱验证    /verify
+	        文章首页    /article
 	        文章页面    /article/<int:article_id>
 	        专栏页面    /special/<int:special_id>/page/<int:page_id>
 	        专栏详情    /column_detail    /upload/special/<filename>
@@ -237,7 +238,13 @@ def verify():
 		update_state(nick)
 	return redirect(url_for('test'))
 	
-	
+
+##################################  文章首页  ##################################
+@app.route('/article',methods=['GET', 'POST'])
+@login_required
+def article_main():
+	return render_template('article.html')
+
 ##################################  文章页面  ##################################
 @app.route('/article/<int:article_id>',methods=['GET'])
 @login_required
@@ -396,9 +403,12 @@ def article_modify(article_id):
 
 
 #打赏作者弹窗
-@app.route('/pay_author')
-def pay_author():
-	return render_template('pay_author.html')
+@app.route('/pay_author/<int:article_id>')
+def pay_author(article_id):
+	print "!!!!!!!"
+	print article_id
+	print "!!!!!!"
+	return render_template('pay_author.html', article_id=article_id)
 
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
