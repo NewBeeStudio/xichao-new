@@ -18,6 +18,7 @@ from flask.ext.mail import Mail
 from flask.ext.mail import Message
 from flask.ext.sqlalchemy import Pagination
 import re
+import models
 #from sqlalchemy.orm import query
 
 
@@ -247,6 +248,12 @@ def paginate(query,page,per_page=20,error_out=True):
 		total = query.order_by(None).count()
 	return Pagination(query, page, per_page, total, items)
 
+def get_userid_from_session():
+	nick=None
+	if 'user_id' in session:
+		result = db_session.query(User).filter_by(user_id=int(session['user_id'])).all()
+		return result[0].user_id
+	return 0
 
 def get_special_author(userid):
     result = db_session.query(User).filter_by(user_id = userid)
@@ -259,9 +266,18 @@ def get_special_information(special_id):
         return result[0]
     else:
         return None
+        
+def get_special_collect_info(user_id, special_id):
+    query = db_session.query(Collection_Special).filter_by(user_id = user_id, special_id = special_id).all()
+    return len(query)
+    
+def get_author_collect_info(user_id, author_id):
+    query = db_session.query(Collection_User).filter_by(user_id = user_id, another_user_id = author_id).all()
+    return len(query)
 
 def get_special_article(special_id, page_id, sort):
     if sort == "time":
+#        print ddd
         query = db_session.query(Article).filter_by(special_id = special_id).order_by(Article.time.desc())
     else:
         query = db_session.query(Article).filter_by(special_id = special_id).order_by(Article.favor.desc())
@@ -344,19 +360,35 @@ def get_article_pagination_by_time(group_id,category_id,page_id):
 	return paginate(query,page_id,5,False)
 	
 	
-##################################  收藏专栏  ####################################
+##################################  收藏/取消收藏 专栏  ####################################
 def collection_special(user_id, special_id):
     query = db_session.query(Collection_Special).filter_by(user_id = user_id, special_id = special_id).all()
     if len(query) == 0:
         collect_spe = Collection_Special(user_id = user_id, 
                                          special_id = special_id,
                                          time = datetime.now())
+        query = db_session.query(Special).filter_by(special_id = special_id).all()[0]
+        query.favor += 1
+        
         db_session.add(collect_spe)
         db_session.commit()
+        
     else:
         raise Exception
+
+def collection_special_cancel(user_id, special_id):
+    query = db_session.query(Collection_Special).filter_by(user_id = user_id, special_id = special_id).all()
+    if len(query) != 0:
+        db_session.delete(query[0])
+        query = db_session.query(Special).filter_by(special_id = special_id).all()[0]
+        query.favor -= 1
+        db_session.commit()
         
-##################################  收藏专栏作家  ####################################
+    else:
+        raise Exception
+
+        
+##################################  收藏/取消收藏 专栏作家  ####################################
 def collection_special_author(user_id, special_id):
     query = db_session.query(Special).filter_by(special_id = special_id).all()
     another_user_id = query[0].user_id
@@ -369,6 +401,20 @@ def collection_special_author(user_id, special_id):
                                       time = datetime.now())
                                       #用户user_id 收藏用户 another_user_id
         db_session.add(collect_usr)
+        db_session.commit()
+    else:
+        return "already"
+    return "success"
+
+
+def collection_special_author_cancel(user_id, special_id):
+    query = db_session.query(Special).filter_by(special_id = special_id).all()
+    another_user_id = query[0].user_id
+    if (user_id == another_user_id):
+        return "self"
+    query = db_session.query(Collection_User).filter_by(user_id = user_id, another_user_id = another_user_id).all()
+    if len(query) == 1:
+        db_session.delete(query[0])
         db_session.commit()
     else:
         return "already"
@@ -421,7 +467,8 @@ def has_collected(user_id,another_user_id):
 
 
 def create_message(to_user_id,user_id,content):
-	message=Message(user_id=user_id,to_user_id=to_user_id,content=content,time=datetime.now())
+	message=models.Message(user_id=user_id,to_user_id=to_user_id,content=content,time=datetime.now())
+	#message=models.Message(user_id,to_user_id,content,datetime.now())
 	db_session.add(message)
 	db_session.commit()
 
