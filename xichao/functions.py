@@ -195,7 +195,7 @@ def get_article_pagination(page,posts_per_page):
 
 #返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
 def get_article_information(article_id):
-	result=db_session.query(Article,User.nick,Book).join(User,Book).filter(Article.article_id==article_id).all()
+	result=db_session.query(Article,User,Book).join(User,Book).filter(Article.article_id==article_id).all()
 	#print result[0]
 	if len(result)>0:
 		return result[0]

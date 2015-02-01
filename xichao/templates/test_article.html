@@ -19,7 +19,7 @@
 		<p id="p_num_xichao">曦潮币</p>
 		<p id="p_num_xichao_content">{{article.coins}}</p>
 		<p id="p_article_author_1">作者</p>
-		<p id="p_article_author_2">{{author}}</p>
+		<p id="p_article_author_2">{{author.nick}}</p>
 		<p id="p_article_time_1">发表时间</p>
 		<p id="p_article_time_2">{{article.time}}</p>
 		<div id="p_article_content" style="display:None;"><!--该div用于寄存文章内容-->
@@ -166,7 +166,6 @@ $(document).ready(function(){
 })
 </script>
 
-
 <script type="text/javascript">
 	$(document).ready(function(){
 		url = "{{ url_for('pay_author', article_id=article.article_id) }}"
@@ -183,5 +182,20 @@ $(document).ready(function(){
 			});
 		});
 	});
+</script>
+
+</script>
+
+<script type="text/javascript">
+function update_xichao(data){
+	var tmp = parseInt(data) + parseInt($('#p_num_xichao_content').text());
+  	$('#p_num_xichao_content').html(tmp);
+}
+</script>
+
+<script type="text/javascript">
+function get_author_id() {
+	return {{ author.user_id }};
+}
 </script>
 {% endblock %}
