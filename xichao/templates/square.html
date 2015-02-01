@@ -1,12 +1,7 @@
-{% extends "layout.html" %}
-
-<!--css file used-->
-{% block css %}
-<link href="{{ url_for('static', filename='css/square.css') }}" rel='stylesheet' type='text/css'/> 
-{% endblock %}
+{% extends "article-content.html" %}
 
 <!--content-->
-{% block content %}
+{% block square_content %}
 <div style="width:100%; height:670px;">
 <!-- 热门文章 -->
 <div class="square-headline">
@@ -51,87 +46,6 @@
 </div>
 </div>
 
-<!-- 书评 -->
-<div class="square-part1" style="margin-top:145px;">
-	<!-- 标题图片 -->
-	<div class="square-part1-left">
-		<h2>书评</h2>
-		<img id="square-part1-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
-		<div></div>
-	</div>
-	
-	<!-- 内容 -->
-	<div class="square-part1-right">
-		<table id="square-part1-content" style="width:703px">
-		{% for i in range(1,10) %}
-			<tr>
-				<td class="square-col-1">{{i}}、如何快速有效地克服拖延症？</td>
-				<td class="square-col-2" style="width:160px">艾小玛</td>
-				<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-				<td class="square-col-4">39</td>
-				<td class="square-col-final">14-12-30</td>
-			</tr>
-		{% endfor %}
-		</table>
-	</div>
-
-</div>
-
-<!-- 影评 -->
-<div class="square-part2">
-	<!-- 内容 -->
-	<div class="square-part2-left">
-		<table id="square-part1-content" style="width:703px">
-		{% for i in range(1,10) %}
-			<tr>
-				<td class="square-col-1">{{i}}、如何快速有效地克服拖延症？</td>
-				<td class="square-col-2" style="width:160px">艾小玛</td>
-				<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-				<td class="square-col-4">39</td>
-				<td class="square-col-final">14-12-30</td>
-			</tr>
-		{% endfor %}
-		</table>
-	</div>
-
-	<!-- 标题图片 -->
-	<div class="square-part2-right">
-		<h2>影评</h2>
-		<img id="square-part2-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
-		<div></div>
-	</div>
-
-</div>
-
-<!-- 杂文 -->
-<div class="square-part1">
-	<!-- 标题图片 -->
-	<div class="square-part1-left">
-		<h2>杂文</h2>
-		<img id="square-part3-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
-		<div></div>
-	</div>
-	
-	<!-- 内容 -->
-	<div class="square-part1-right">
-		<table id="square-part1-content" style="width:703px">
-		{% for i in range(1,10) %}
-			<tr>
-				<td class="square-col-1">{{i}}、如何快速有效地克服拖延症？</td>
-				<td class="square-col-2" style="width:160px">艾小玛</td>
-				<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-				<td class="square-col-4">39</td>
-				<td class="square-col-final">14-12-30</td>
-			</tr>
-		{% endfor %}
-		</table>
-	</div>
-
-</div>
-{% endblock %}
-
-
-<!--js file used-->
-{% block js %}
-
+<!-- 两个模块距离 -->
+<div style="margin-top: 145px;">
 {% endblock %}
