@@ -755,11 +755,14 @@ def message():
 	user_id=request.form['user_id']
 	content=request.form['content']
 	if user_id==current_user.user_id:
+		print 'ooooooooooooooooo'
 		return 'fail'
 	elif examine_user_id(user_id):
+		print 'yyyyyyyyyyyyyyyyy'
 		create_message(to_user_id=user_id,user_id=current_user.user_id,content=content)
 		return 'success'
 	else:
+		print 'lllllllllllllllll'
 		return 'fail'
 
 
