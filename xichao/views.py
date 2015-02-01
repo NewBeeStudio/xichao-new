@@ -247,7 +247,7 @@ def article_main():
 	book_review_list=get_article_group_by_coin('2','1')
 	film_review_list=get_article_group_by_coin('2','2')
 	essay_list=get_article_group_by_coin('2','3')
-	return render_template('article.html',book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list)
+	return render_template('article.html',type=2,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list)
 
 
 ##################################  文章页面  ##################################
@@ -711,7 +711,7 @@ def square():
 	book_review_list=get_article_group_by_coin('1','1')
 	film_review_list=get_article_group_by_coin('1','2')
 	essay_list=get_article_group_by_coin('1','3')
-	return render_template('square.html',hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list)
+	return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list)
 
 
 @app.route('/user/<nick>')

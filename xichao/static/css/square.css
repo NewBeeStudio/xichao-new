@@ -116,7 +116,7 @@ a.square-more{
 	height: 180px;
 }
 
-#square-part1-content{
+#square-part1-content, .square-part1-right > a, .square-part2-left > a{
 	font-family: 宋体;
 	font-size: 16.7px;
 }
@@ -223,3 +223,7 @@ img#square-part3-img
 	float: left;
 }
 
+.square-part1-right > a, .square-part2-left > a{
+	margin-top: 25px;
+	float: right;
+}

@@ -13,15 +13,14 @@
 			<!-- 热门文章2~10 -->
 			{% for (i, article) in hot_ground_article_list[1:]|zip %}
 				<tr>
-					<td class="square-col-1">{{i}}、{{article[0].title}}</td>
-					<td class="square-col-2">{{article[1]}}</td>
+					<td class="square-col-1"><a href="/article/{{article[0].article_id}}">{{i}}、{{article[0].title}}</a></td>
+					<td class="square-col-2"><a href="/user/{{article[1]}}">{{article[1]}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-final">{{article[0].coins}}</td>
 				</tr>
 			{% endfor %}
 			</table>
 		</div>
-		<a class="square-more" href="#">MORE&gt;</a>
 	</div>
 </div>
 
@@ -31,7 +30,7 @@
 	<div id="recommend-content">
 		<h3 class="main-color">{{hot_ground_article_list[0][0].title}}</h3>
 		<div id="recommend-title">
-			<span> {{hot_ground_article_list[0][0].time|time_split}} </span>
+			<span> {{hot_ground_article_list[0][0].time|time_split_2}} </span>
 			<span> 阅读({{hot_ground_article_list[0][0].read_num}})</span>
 			<span> <font color="#D9AE48">收藏</font>({{hot_ground_article_list[0][0].favor}})</span>
 			<span> <font color="#D9AE48">评论</font>({{hot_ground_article_list[0][0].comment_num}})</span>
@@ -40,7 +39,7 @@
 		<pre>{{hot_ground_article_list[0][0].abstract}}</pre>
 
 		<img src="{{hot_ground_article_list[0][0].picture}}"/>
-		<a class="square-more" href="#">MORE></a>
+		<a class="square-more" href="/article/{{hot_ground_article_list[0][0].article_id}}">MORE&gt;</a>
 	</div>
 </div>
 </div>

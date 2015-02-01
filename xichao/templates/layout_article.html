@@ -23,14 +23,15 @@
 			<table id="square-part1-content" style="width:703px">
 			{% for (article) in (book_review_list) %}
 				<tr>
-					<td class="square-col-1">{{article[0].title}}</td>
-					<td class="square-col-2" style="width:160px">{{article[1]}}</td>
+					<td class="square-col-1"><a href="/article/{{article[0].article_id}}">{{article[0].title}}</a></td>
+					<td class="square-col-2" style="width:160px"><a href="/user/{{article[1]}}">{{article[1]}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-4">{{article[0].coins}}</td>
 					<td class="square-col-final">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
 			</table>
+			<a href="/article/order_time/group/{{type}}/category/1/page/1">MORE&gt;</a>
 		</div>
 	
 	</div>
@@ -42,14 +43,15 @@
 			<table id="square-part1-content" style="width:703px">
 			{% for (article) in (film_review_list) %}
 				<tr>
-					<td class="square-col-1">{{article[0].title}}</td>
-					<td class="square-col-2" style="width:160px">{{article[1]}}</td>
+					<td class="square-col-1"><a href="/article/{{article[0].article_id}}">{{article[0].title}}</a></td>
+					<td class="square-col-2" style="width:160px"><a href="/user/{{article[1]}}">{{article[1]}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-4">{{article[0].coins}}</td>
 					<td class="square-col-final">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
 			</table>
+			<a href="/article/order_time/group/{{type}}/category/2/page/1">MORE&gt;</a>
 		</div>
 	
 		<!-- 标题图片 -->
@@ -75,14 +77,15 @@
 			<table id="square-part1-content" style="width:703px">
 			{% for (article) in (essay_list) %}
 				<tr>
-					<td class="square-col-1">{{article[0].title}}</td>
-					<td class="square-col-2" style="width:160px">{{article[1]}}</td>
+					<td class="square-col-1"><a href="/article/{{article[0].article_id}}">{{article[0].title}}</a></td>
+					<td class="square-col-2" style="width:160px"><a href="/user/{{article[1]}}">{{article[1]}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-4">{{article[0].coins}}</td>
 					<td class="square-col-final">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
 			</table>
+			<a href="/article/order_time/group/{{type}}/category/3/page/1">MORE&gt;</a>
 		</div>
 	
 	</div>

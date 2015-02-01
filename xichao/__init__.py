@@ -23,6 +23,10 @@ DEBUG = True
 #获取日期
 @app.template_filter('time_split')
 def time_split_filter(s):
+    return str(s).split(' ')[0][2:]
+
+@app.template_filter('time_split_2')
+def time_split_filter(s):
     return str(s).split(' ')[0]
 
 #zip
