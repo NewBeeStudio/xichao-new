@@ -3,16 +3,37 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="/static/css/pay_author.css" />
 	<meta charset="UTF-8" />
+	<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#button").click(function(){
+				val_award_num=$("#award_num").val();
+				//val a=parent.document.getElementByIdx('article_id').value;
+				//alert(a);
+				if (val_award_num=='') {alert("打赏值不能为空");}
+				else{
+					$.post('127.0.0.1:5000/award',
+						{
+
+						},
+						function(data){
+
+						});
+				}
+			});
+		});
+	</script>
 </head>
 <body>
 	<div id="my_xichao">
 		<p id="p_my_xichao">我的曦潮币 : </p>
-		<P id="num_xichao">xxx</P>
+		<P id="num_xichao">{{current_user.coin}}</P>
+		<p id="author"></p>
 	</div>
 
 	<div id="pay">
 		<p id="num_pay">打赏数额 ：</p>
-		<input type="text">
+		<input type="text" id="award_num">
 	</div>
 
 	<div id="review">
@@ -21,12 +42,15 @@
 	</div>
 
 	<div id="push_review">
-		<input type="checkbox" id="to_author" />
-		打赏作者
-		<input type="checkbox" id="input_push_review" />
+		<input type="checkbox" id="message_author" />
+		私信作者
+		<input type="checkbox" id="comment_article" />
 		同时评论
 	</div>
+	<div>
+		<button class="myButton" id="button">打赏作者</button>
+	</div>
 
-	<button class="myButton" id="button">打赏作者</button>
+	
 </body>
 </html>
