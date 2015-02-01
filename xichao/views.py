@@ -284,9 +284,13 @@ def special():
     other = get_special_author_other(special.user_id)
 #    print ddd
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
-
+    login_user = get_userid_from_session()
+    
     articles_pagination = get_special_article(special_id, page_id, sort)
     return render_template('special_detail.html',
+                            author_itself = (special.user_id == login_user),
+                            has_collected_special = get_special_collect_info(login_user, special_id),
+                            has_collected_author = get_author_collect_info(login_user, special.user_id),
                             sort_change_url = sort_change_url,
                             special_id = special_id,
                             sort = sort,
@@ -579,10 +583,30 @@ def ajax_collection_special():
 
     try:
         collection_special(user_id, special_id)
+
     except Exception:
         return "already"
         
     return "success"
+
+# 取消收藏专栏
+@app.route('/collection_special_cancel', methods=['GET'])
+def ajax_collection_special_cancel():
+    try:
+        user_id = int(session['user_id'])
+    except Exception:
+        return "login"
+        
+    special_id = int(request.args.get('id'))
+
+    try:
+        collection_special_cancel(user_id, special_id)
+
+    except Exception:
+        return "already"
+        
+    return "success"
+
 
 # 收藏专栏作家
 @app.route('/collection_special_author', methods=['GET'])
@@ -597,6 +621,18 @@ def ajax_collection_special_author():
     err = collection_special_author(user_id, special_id)
     return err
 
+# 取消收藏专栏作家
+@app.route('/collection_special_author_cancel', methods=['GET'])
+def ajax_collection_special_author_cancel():
+    try:
+        user_id = int(session['user_id'])
+    except Exception:
+        return "login"
+        
+    special_id = int(request.args.get('id'))
+
+    err = collection_special_author_cancel(user_id, special_id)
+    return err
 ##################################	书籍 ##################################
 #书籍图片的存储路径
 @app.route('/book/picture/<filename>')
