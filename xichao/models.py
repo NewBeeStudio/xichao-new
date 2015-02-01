@@ -10,12 +10,15 @@ from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy import String, CHAR, Text, SmallInteger, Date, DateTime
 from database import Base
 
+from flask.ext.login import UserMixin
+from xichao import login_serializer
+from hashlib import md5
 
 ## 格式: Column(type, nullable, unique, index)
 
 ##################################  用户模型  ####################################
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'user'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -62,6 +65,15 @@ class User(Base):
 
     def __repr__(self):
         return '<User %r>' % (self.nick)
+
+    #override
+    def get_id(self):
+        return unicode(self.user_id)
+
+    #override, 产生cookie token
+    def get_auth_token(self):
+        data = (self.user_id, md5(self.password).hexdigest())
+        return login_serializer.dumps(data)
         
 
 ##################################  书籍模型  ####################################
@@ -84,7 +96,9 @@ class Book(Base):
     page_num = Column(String(5), nullable = False)
     price = Column(String(10), nullable = False)
     press_time = Column(String(50),nullable=False)
-
+    binding=Column(String(10),nullable=False)
+    #被关联的次数
+    favor=Column(Integer,nullable=False,index=True,default=1)
     ########## Index/Unique索引 ##########
     title = Column(String(50), nullable = False, 
                    unique = True, index = True)
@@ -94,7 +108,7 @@ class Book(Base):
     def __init__(self, title = None, ISBN = None,
                        picture = None, author = None,
                        press = None, page_num = None,
-                       price = None, press_time=None):
+                       price = None, press_time=None,binding=None):
         self.title = title
         self.ISBN = ISBN
         self.picture = picture
@@ -103,6 +117,7 @@ class Book(Base):
         self.page_num = page_num
         self.price = price
         self.press_time=press_time
+        self.binding=binding
 
     def __repr__(self):
         return '<Book %r>' % (self.title)
@@ -131,6 +146,7 @@ class Special(Base):
     ########## Index/Unique索引 ##########
     favor = Column(Integer, nullable = False, 
                    unique = False, index = True, default = 0)
+    coin = Column(Integer, nullable = False, unique=False, index=True,default=0)
     last_modified = Column(String(50), nullable = False, 
                    unique = False, index = True)
 
@@ -195,7 +211,7 @@ class Article(Base):
 
     ########## Foreign Key ##########
     user_id = Column(Integer, ForeignKey('user.user_id'), index = True,nullable = False)
-    book_id = Column(Integer, ForeignKey('book.book_id'), index = True,nullable = True)
+    book_id = Column(Integer, ForeignKey('book.book_id'), index = True,nullable = False)
     special_id = Column(Integer, ForeignKey('special.special_id'),
                         index = True, nullable = True)
 
@@ -203,7 +219,7 @@ class Article(Base):
                        content = None, is_draft = '1',
                        time = None, category = '0',
                        groups = '1', user_id = None,
-                       book_id = 1, special_id = 1,article_session_id=None,abstract=None):
+                       book_id = 1, special_id = None,article_session_id=None,abstract=None):
         self.title = title
         self.content = content
         self.picture = picture

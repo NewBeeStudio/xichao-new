@@ -7,6 +7,13 @@
 	
 '''
 from xichao import app
+import sys
+default_encoding = 'utf-8'
+if sys.getdefaultencoding() != default_encoding:
+    reload(sys)
+    sys.setdefaultencoding(default_encoding)
+
+
 
 if __name__ == '__main__':
 	app.run()

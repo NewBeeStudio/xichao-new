@@ -277,6 +277,7 @@
 /**********************类似专栏*********************/
 #special-related{
 	width: 666px;
+	margin-top: 40px;
 }
 
 #special-separate-block{
@@ -320,4 +321,21 @@
 
 #special-related-auther td{
 	color: #D9AE48;
+}
+
+
+/**********************换页*********************/
+
+#special-paging{
+	margin-top: 0px;
+	margin-right: 0px;
+	float: right;
+}
+
+#special-paging > div{
+	float: left;
+	margin-left: 50px;
+	text-align: center;
+	font-family: 微软雅黑;
+	font-size: 16.7px;
 }

@@ -4,6 +4,12 @@
     {% from "test_formhelpers.html" import render_login, render_login_autologin %}
     <form id="login-form-block" method="post" action="/login" accept-charset="utf-8">
         <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+        <!-- 跳转页面参数 -->
+        {% if request_url %}
+        <input name="request_url" type=hidden value="{{ request_url }}" />
+        {% elif request.args.get('next') %}
+        <input name="request_url" type=hidden value="{{ request.args.get('next') }}" />
+        {% endif %}
         <dl>
             {{ render_login(form.email) }}
             {{ render_login(form.password) }}

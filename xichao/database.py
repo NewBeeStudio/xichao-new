@@ -61,7 +61,7 @@ def test_db():
     book = Book(title = u"算法导论", ISBN = u"7111407016",
                        picture =u"http://127.0.0.1:5000/book/picture/test.jpg", author = u"Thomas H.Cormen",
                        press = u"机械工业出版社", page_num = u"780",
-                       price = u"￥91.10", press_time=u"2012年12月")
+                       price = u"￥91.10", press_time=u"2012年12月",binding="平装")
     db_session.add(book)
     db_session.commit()
 
@@ -96,7 +96,7 @@ def test_db():
     for i in range(10):
         article = Article(title = u"算法入门%d"%(i), picture = u"http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg",
                           content = u"本文是算法入门文章%d"%(i), is_draft = '1',
-                          time = datetime.now(), category = '0',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
+                          time = datetime.now(), category = '1',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
                           groups = '1', user_id = 1,             ## 1表示 TODO
                           book_id = 1, special_id = 2,article_session_id = i+1, abstract = u"本文是算法入门文章")
         db_session.add(article)
@@ -106,7 +106,7 @@ def test_db():
     for i in range(10):
         article = Article(title = u"吃货之家%d"%(9-i), picture = u"http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg",
                           content = u"本文是吃货入门文章%d"%(i), is_draft = '1',
-                          time = datetime.now(), category = '0',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
+                          time = datetime.now(), category = '1',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
                           groups = '1', user_id = 1,             ## 1表示 TODO
                           book_id = 1, special_id = 1,article_session_id = i+11, abstract = u"本文是吃货入门文章")
         db_session.add(article)

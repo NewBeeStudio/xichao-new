@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+{% endblock %}
+
+<!--content-->
+{% block content %}
+	{{user.nick}}
+	{{user.user_id}}
+	<input type="button" value="关注" id="collection_user">
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+<script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#collection_user").click(function(){
+		  $.post('http://127.0.0.1:5000/collection/user',
+          {
+            user_id: {{user.user_id}}
+          },
+          function(data){
+            if (data=='success') {layer.msg("关注成功",1,1);}
+            else {layer.msg("关注失败",1,3);}
+          });  
+		});
+	});
+</script>
+
+{% endblock %}

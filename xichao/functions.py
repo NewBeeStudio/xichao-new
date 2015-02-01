@@ -18,8 +18,6 @@ from flask.ext.mail import Mail
 from flask.ext.mail import Message
 from flask.ext.sqlalchemy import Pagination
 import re
-
-from flask.ext.sqlalchemy import Pagination
 #from sqlalchemy.orm import query
 
 
@@ -68,7 +66,10 @@ def send_verify_email(nick,password,email):
 	msg.body='text body'
 	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
 	with app.app_context():
-		mail.send(msg)
+		try:
+			mail.send(msg)
+		except:
+			pass
 
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
@@ -97,7 +98,10 @@ def send_resetpassword_email(nick,password,email):
 	msg.body='text body'
 	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
 	with app.app_context():
-		mail.send(msg)
+		try:
+			mail.send(msg)
+		except:
+			pass
 
 #是否存在该用户名，用户名和密码是否匹配
 def check_nickpassword_match(nick, password):
@@ -130,7 +134,7 @@ def get_activity_session_id():
 	return result[0]
 
 #添加文章
-def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract):
+def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract,book_id):
 	result=db_session.query(Article).filter_by(article_session_id=article_session_id).all()
 	if len(result)>0:
 		article=db_session.query(Article).filter_by(article_session_id=article_session_id).scalar()
@@ -140,12 +144,31 @@ def create_article(title,content,title_image,article_session_id,is_draft,user_id
 		article.time=datetime.now()
 		article.is_draft=is_draft
 		article.abstract=abstract
+		article.book_id=book_id
 		db_session.commit()
+		return result[0].article_id
 	else:
-		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract)
+		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract,book_id=book_id)
 		db_session.add(article)
 		db_session.commit()
-def create_activity(title,content,title_image,activity_session_id):
+		result=db_session.query(Article).filter_by(article_session_id=article_session_id).first()
+		return result.article_id
+
+def create_book(book_picture,book_author,book_press,book_page_num,book_price,book_press_time,book_title,book_ISBN,book_binding):
+	result=db_session.query(Book).filter_by(ISBN=book_ISBN).all()
+	if len(result)>0:
+		book=db_session.query(Book).filter_by(ISBN=book_ISBN).scalar()
+		book.favor+=1
+		db_session.commit()
+		return result[0].book_id
+	else:
+		book=Book(title=book_title,ISBN=book_ISBN,picture=book_picture,author=book_author,press=book_press,page_num=book_page_num,price=book_price,press_time=book_press_time,binding=book_binding)
+		db_session.add(book)
+		db_session.commit()
+		result=db_session.query(Book).filter_by(ISBN=book_ISBN).first()
+		return result.book_id
+
+def create_activity(title,content,title_image,activity_session_id,activity_time):
 	result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).all()
 	if len(result)>0:
 		activity=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).scalar()
@@ -153,9 +176,10 @@ def create_activity(title,content,title_image,activity_session_id):
 		activity.content=content
 		activity.picture=title_image
 		activity.create_time=datetime.now()
+		activity.activity_time=activity_time
 		db_session.commit()
 	else:
-		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=datetime.now())
+		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=activity_time)
 		db_session.add(activity)
 		db_session.commit()
 
@@ -168,26 +192,7 @@ def get_article_pagination(page,posts_per_page):
 	pagination=db_session.query(Article).paginate(page,posts_per_page,False)#获得分页对象
 	return pagination
 	#pagination.items是分页好的数据
-'''
-<div class="pagination  "> 
-    <div class="row-fluid"> 
-        <div class="span3 offset2"> 
-            {% if pagination.has_prev %} 
-                <a href="/index/{{ pagination.prev_num }}">previous</a> 
-            {% endif %} 
-        </div> 
-        <div class="span3 "> 
-            <a href="">Page {{ pagination.page }} of {{ pagination.pages }}.</a> 
-        </div> 
-        <div class="span3 ">
 
-            {% if pagination.has_next %} 
-                <a href="/index/{{ pagination.next_num }}">next</a> 
-            {% endif %} 
-        </div> 
-    </div> 
-</div>
-'''
 #返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
 def get_article_information(article_id):
 	result=db_session.query(Article,User.nick,Book).join(User,Book).filter(Article.article_id==article_id).all()
@@ -223,6 +228,12 @@ def update_read_num(article_id):
 	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
 	article.read_num+=1
 	db_session.commit()
+
+
+def update_read_num_activity(activity_id):
+	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
+	activity.read_num+=1
+	db_session.commit()
 ##################################  专栏函数  ####################################
 def paginate(query,page,per_page=20,error_out=True):
 	if error_out and page < 1:
@@ -257,14 +268,23 @@ def get_special_article(special_id, page_id, sort):
 
     pagination = paginate(query = query, page = page_id, per_page = 5, error_out = True)
     return pagination
+    
+def get_special_author_other(user_id):
+    query = db_session.query(Special.name).filter_by(user_id = user_id).all()
+    return query
 
 ###################################  昵称函数  ####################################
 def getNick():
-	nick = None
-	if 'user' in session:
-		nick = session['user']
-	elif request.cookies.get('user')!=None:
-		nick = request.cookies.get('user')
+	nick=None
+	if 'user_id' in session:
+		result = db_session.query(User.nick).filter_by(user_id=int(session['user_id'])).first()
+		nick = result[0]
+	
+	# nick = None
+	# if 'user' in session:
+	# 	nick = session['user']
+	# elif request.cookies.get('user')!=None:
+	# 	nick = request.cookies.get('user')
 	return nick
 
 ###################################  头像函数  ####################################
@@ -274,7 +294,7 @@ def get_avatar():
 	return avatar[0]
 ###################################  评论函数  ####################################
 def create_comment(content,to_user_id,article_id):
-	user_id=get_user_id(session['user'])
+	user_id=int(session['user_id'])
 	comment=Comment(article_id=article_id,content=content,user_id=user_id,to_user_id=to_user_id,time=datetime.now())
 	db_session.add(comment)
 	db_session.commit()
@@ -282,6 +302,17 @@ def update_comment_num(article_id):
 	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
 	article.comment_num+=1
 	db_session.commit()
+
+def create_activity_comment(content,activity_id):
+	user_id=int(session['user_id'])
+	comment_activity=Comment_activity(activity_id=activity_id,content=content,user_id=user_id,time=datetime.now())
+	db_session.add(comment_activity)
+	db_session.commit()
+def update_activity_comment_num(activity_id):
+	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
+	activity.comment_num+=1
+	db_session.commit()
+
 
 ###################################  获取文章摘要函数  ###############################
 def get_abstract_plain_text(abstract):
@@ -342,3 +373,32 @@ def collection_special_author(user_id, special_id):
     else:
         return "already"
     return "success"
+
+##################################  获取用户角色函数  ####################################
+def get_role(user_id):
+	result=db_session.query(User.role).filter_by(user_id=user_id).first()
+	return result[0]
+
+
+def get_user_by_nick(nick):
+	result=db_session.query(User).filter_by(nick=nick).first()
+	return result
+
+def examine_user_id(user_id):
+	result=db_session.query(User).filter_by(user_id=user_id).all()
+	if len(result)>0:
+		return True
+	else:
+		return False
+def create_user_collection(another_user_id,user_id):
+	collection=Collection_User(user_id=user_id,another_user_id=another_user_id,time=datetime.now())
+	db_session.add(collection)
+	db_session.commit()
+
+def get_hot_ground_acticle():
+	result=db_session.query(Article,User.nick).join(User).filter(Article.groups=='1').order_by(desc(Article.coins)).limit(10).all()
+	return result
+
+def get_article_group_by_coin(groups,category):
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category)).order_by(desc(Article.coins)).limit(10).all()
+	return result

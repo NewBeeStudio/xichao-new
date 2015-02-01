@@ -45,6 +45,7 @@
 				<span> 阅读({{article.read_num}})</span>
 				<span> <font color="#D9AE48">收藏</font>({{article.favor}})</span>
 				<span> <font color="#D9AE48">评论</font>({{article.comment_num}})</span>
+				<span> <font color="#D9AE48">曦潮币</font>({{article.coins}})</span>
 			</div>
 			<pre>{{article.abstract}} </pre>
 			<a href="/article/{{article.article_id}}">MORE></a>
@@ -82,9 +83,9 @@
 		$('select').change(function()
 		{
 			{%if order == 'order_time'%}
-				location.href = "/article/order_favor/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.page }}";
+				location.href = "/article/order_favor/group/{{group_id}}/category/{{category_id}}/page/1";
 			{% else %}
-				location.href = "/article/order_time/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.page }}";
+				location.href = "/article/order_time/group/{{group_id}}/category/{{category_id}}/page/1";
 			{% endif %}
 		});
 

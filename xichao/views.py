@@ -27,6 +27,7 @@
 	            获得文章中的图片    /editor_upload/<filename>
 	            完成文章编辑       /article/finish
 	            完成草稿编辑       /article/draft
+	        广场页   /square
 
 	            
 	    
@@ -42,7 +43,7 @@
             /article/test
             
 '''
-from xichao import app
+from xichao import app, login_manager, login_serializer
 from functions import *
 from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify,abort
 from models import User
@@ -54,6 +55,9 @@ from werkzeug.datastructures import ImmutableMultiDict
 from flask.ext.sqlalchemy import Pagination
 import os
 
+from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
+from itsdangerous import constant_time_compare, BadData
+from hashlib import md5
 
 GROUP=[u'广场',u'文章',u'专栏']
 CATEGORY=[u'书评',u'影评',u'杂文',u'专栏文章']
@@ -83,13 +87,15 @@ def xiuxiu_config():
 #######################################  注销  #########################################
 
 @app.route('/logout')
+@login_required
 def logout():
-	#弹出session
-	session.pop('user', None)
+	#弹出sessio
+	# session.pop('user', None)
+	logout_user()
 	response=make_response(redirect(url_for('test')))
-	#删除cookie
-	if request.cookies.get('user')!=None:
-		response.set_cookie('user','',expires=datetime.now())
+	#删除cookie，flask-login已完成相应操作
+	#if request.cookies.get('user')!=None:
+	#	response.set_cookie('user','',expires=datetime.now())
 	flash('你已退出')
 	return response
 
@@ -99,21 +105,16 @@ def logout():
 
 
 @app.route('/test')
+@login_required
 def test():
-	nick=None
-	#先从session中获取，若session中没有，再从cookie中获取，若都没有，则为默认值None
-	if 'user' in session:
-		nick=session['user']
-	elif request.cookies.get('user')!=None:
-		nick=request.cookies.get('user')
-	return render_template('template.html', nick=nick)
+	return render_template('template.html')
 	
 	
 ####################################  注册  ##################################
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-	print request.form
+	# print request.form
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
 
@@ -123,10 +124,12 @@ def register():
 		db_session.commit()
 		#需要增加异常处理，捕获异常，
 		send_verify_email(form.nick.data,form.password.data,form.email.data)
-		session['user']=request.form['nick']
+		# session['user']=request.form['nick']
+		user=User.query.filter_by(email=form.email.data).first()
+		login_user(user)
 		flash(u'注册成功，正在跳转')
 		return redirect(url_for('test'))
-	return render_template('register.html', nick=None, form=form)
+	return render_template('register.html', form=form)
 
 #接收上传的头像文件，保存并返回路径
 @app.route('/upload/avatar',methods=['GET', 'POST'])
@@ -146,6 +149,27 @@ def uploaded_avatar(filename):
 	return send_from_directory(app.config['PHOTO_DEST'],filename)
 
 
+##############################cookie session相关#######################################
+@login_manager.user_loader
+def load_user(user_id):
+	return User.query.get(int(user_id))
+
+#cookie token加密
+@login_manager.token_loader
+def load_token(token):
+    try:
+        max_age = app.config['REMEMBER_COOKIE_DURATION'].total_seconds()
+        user_id, hash_a = login_serializer.loads(token, max_age=max_age)
+    except BadData:
+        return None
+    user = User.query.get(user_id)
+    if user is not None:
+        hash_a = hash_a.encode('utf-8')
+        hash_b = md5(user.password).hexdigest()
+        if constant_time_compare(hash_a, hash_b):
+            return user
+    return None
+	
 ##################################  登陆  ##################################
 ##TODO：cookie的过期时间
 @app.route('/login',methods=['GET','POST'])
@@ -157,15 +181,17 @@ def login():
 		password=form.password.data
 		nick=get_nick(email,password)
 		if nick:
-			session['user']=nick
+			# session['user']=nick
+			user=User.query.filter_by(email=form.email.data).first()
+			login_user(user, remember=form.stay.data) #参数2：是否保存cookie
 			flash(u'登陆成功，正在跳转')
-			response=make_response(redirect(url_for('test')))
-			if form.stay.data:
-				response.set_cookie('user',nick)
+			response=make_response(redirect(request.form.get("request_url") or url_for("test")))
+			#if form.stay.data:
+			#	response.set_cookie('user',nick)
 			return response
 		else:
 			error=u'邮箱或密码错误'
-	return render_template('login.html', nick=None, form=form, error=error)
+	return render_template('login.html', request_url=request.form.get("request_url"), form=form, error=error)
 
 
 ##################################  忘记密码  ##################################
@@ -180,7 +206,7 @@ def forgetPassword():
 		send_resetpassword_email(nick, password, form.email.data) #待修改
 		flash(u'我们已向你的注册邮箱发送了一份密码重置邮件')
 		return redirect(url_for('test'))
-	return render_template('forgetPassword.html', nick = None, form = form, error = error)
+	return render_template('forgetPassword.html', form = form, error = error)
 	
 ##################################  重置密码  ##################################
 @app.route('/resetPassword/<nick>/<password>',methods=['GET', 'POST'])
@@ -189,11 +215,13 @@ def resetPassword(nick, password):
 		form = ResetPasswordForm(request.form)
 		if request.method == 'POST' and form.validate():
 			update_password(nick, form.password.data) #重设密码
-			session['user'] = nick #session增加用户
+			# session['user'] = nick #session增加用户
+			user=User.query.filter_by(nick=nick).first()
+			login_user(user)
 			flash(u'密码修改成功，正在跳转')
 			return redirect(url_for('test'))
 		else:
-			return render_template('resetPassword.html', nick=None, form=form)
+			return render_template('resetPassword.html', form=form)
 	else:
 		return redirect(url_for('login'))
 
@@ -212,6 +240,7 @@ def verify():
 	
 ##################################  文章页面  ##################################
 @app.route('/article/<int:article_id>',methods=['GET'])
+@login_required
 def article(article_id):
 	article=get_article_information(article_id)
 	if article!=None:
@@ -219,7 +248,7 @@ def article(article_id):
 		session['article_session_id']=article[0].article_session_id
 		comments=get_article_comments(article_id)
 		update_read_num(article_id)
-		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
+		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments)
 	else:
 		abort(404)
 ##################################  专栏页面  ##################################
@@ -236,16 +265,26 @@ def special():
     #只有favor和time两种排序方式
     if (sort != 'favor'):
         sort = 'time'
-    
+        sort_change_url = "/special?id=%d&page=1&sort=favor" % (special_id)
+    else:
+        sort_change_url = "/special?id=%d&page=1&sort=time" % (special_id)
+
     special = get_special_information(special_id)
     if (special == None):
         abort(404)
     author = get_special_author(special.user_id)
-
+    
+    other = get_special_author_other(special.user_id)
+#    print ddd
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
 
     articles_pagination = get_special_article(special_id, page_id, sort)
     return render_template('special_detail.html',
+                            sort_change_url = sort_change_url,
+                            special_id = special_id,
+                            sort = sort,
+                            other = other,
+                            special_favor = special.favor,
                             special_title = special.name,
                             special_author = author.nick,
                             special_author_slogon = author.slogon,
@@ -260,7 +299,7 @@ def special():
 #TODO 专栏详情尽量改成special detail
 @app.route('/special_detail')
 def coloum_detail():
-	return render_template('special_detail.html', nick = getNick())
+	return render_template('special_detail.html')
 
 
 @app.route('/upload/special/<filename>')
@@ -307,8 +346,11 @@ def uploaded_article_title_image(filename):
 def uploaded_activity_title_image(filename):
 	return send_from_directory(app.config['ACTIVITY_TITLE_DEST'],filename)
 
+
+'''
 #写文章页面显示
 @app.route('/article_upload/group/<int:group_id>/category/<int:category_id>')
+@
 def article_upload(group_id=3,category_id=4):
 	#未登录用户跳转到登录页面，已登录用户，跳转到发表文章页面
 	#判断请求链接是否合法
@@ -318,19 +360,40 @@ def article_upload(group_id=3,category_id=4):
 		elif category_id<4 and group_id==3:
 			abort(404)
 		else:
-			#判断用户是否登录
-			if not 'user' in session:
-				return redirect(url_for('login'))
-			else:
-				group=GROUP[group_id-1]
-				category=CATEGORY[category_id-1]
-				article_session_id=get_article_session_id()
-				session['article_session_id']=str(article_session_id)
-				os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
-				upload_url='/group/'+str(group_id)+'/category/'+str(category_id)
-				return render_template('test_article_upload.html',nick=session['user'],group=group,category=category,upload_url=upload_url)
+			group=GROUP[group_id-1]
+			category=CATEGORY[category_id-1]
+			article_session_id=get_article_session_id()
+			session['article_session_id']=str(article_session_id)
+			os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+			upload_url='/group/'+str(group_id)+'/category/'+str(category_id)
+			return render_template('test_article_upload.html',nick=session['user'],group=group,category=category,upload_url=upload_url)
 	else:
 		abort(404)
+'''
+#写文章页面显示
+@app.route('/article_upload')
+@login_required
+def article_upload():
+	article_session_id=get_article_session_id()
+	session['article_session_id']=str(article_session_id)
+	os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+	role=get_role(int(session['user_id']))
+	if role==1:
+		upload_url='/group/1/category/'
+	else:
+		upload_url='/group/2/category/'
+	return render_template('test_article_upload.html', upload_url=upload_url)
+
+
+
+
+@app.route('/article_modify/article/<int:article_id>')
+def article_modify(article_id):
+	article=get_article_information(article_id)
+	session['article_session_id']=str(article[0].article_session_id)
+	upload_url='/group/'+article[0].groups+'/category/'
+	return render_template('test_article_modify.html',article=article[0],book=article[2],upload_url=upload_url)
+
 
 #打赏作者弹窗
 @app.route('/pay_author')
@@ -400,38 +463,62 @@ def article_finish(group_id,category_id):
 	##TODO 文章标题的安全性过滤
 	title_image=request.form['title_image']
 	abstract_abstract_with_img=request.form['abstract']
+	book_picture=request.form['book_picture']
+	book_author=request.form['book_author']
+	book_press=request.form['book_press']
+	book_page_num=request.form['book_page_num']
+	book_price=request.form['book_price']
+	book_press_time=request.form['book_press_time']
+	book_title=request.form['book_title']
+	book_ISBN=request.form['book_ISBN']
+	book_binding=request.form['book_binding']
 	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)    
 	if len(abstract_plain_text)<191:
 		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
 	else:
 		abstract=abstract_plain_text[0:190]+'......'
-	user_id=get_user_id(session['user'])
-	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract)
-	return u'文章保存成功'
+	user_id=int(session['user_id'])
+	book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
+	article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
+	return str(article_id)
 
 #文章草稿的提交路径
 @app.route('/article/draft/group/<group_id>/category/<category_id>',methods=['POST'])
 def article_draft(group_id,category_id):
 	content=request.form['content']
+	##TODO 文章标题的安全性过滤
 	title=request.form['title']
 	title_image=request.form['title_image']
 	abstract_abstract_with_img=request.form['abstract']
+	book_picture=request.form['book_picture']
+	book_author=request.form['book_author']
+	book_press=request.form['book_press']
+	book_page_num=request.form['book_page_num']
+	book_price=request.form['book_price']
+	book_press_time=request.form['book_press_time']
+	book_title=request.form['book_title']
+	book_ISBN=request.form['book_ISBN']
+	book_binding=request.form['book_binding']
 	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
 	if len(abstract_plain_text)<191:
 		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
 	else:
 		abstract=abstract_plain_text[0:190]+'......'
-	user_id=get_user_id(session['user'])
-	create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
-	return u'草稿保存成功'
+	user_id=int(session['user_id'])
+	#create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
+	book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
+	article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
+	return str(article_id)
 
 
 @app.route('/activity/finish',methods=['POST'])
 def activity_finish():
 	content=request.form['content']
 	title=request.form['title']
-	title_image=request.form['title_image']	
-	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'])
+	title_image=request.form['title_image']
+	activity_time=request.form['activity_time']
+	formatted_time=datetime.strptime(activity_time,"%m/%d/%Y %H:%M")
+	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time)
 	return u'活动保存成功'
 
 
@@ -474,7 +561,7 @@ def ajax_register_validate():
 @app.route('/collection_special', methods=['GET'])
 def ajax_collection_special():
     try:
-        user_id = get_user_id(session['user'])
+        user_id = int(session['user_id'])
     except Exception:
         return "login"
         
@@ -491,7 +578,7 @@ def ajax_collection_special():
 @app.route('/collection_special_author', methods=['GET'])
 def ajax_collection_special_author():
     try:
-        user_id = get_user_id(session['user'])
+        user_id = int(session['user_id'])
     except Exception:
         return "login"
         
@@ -519,8 +606,18 @@ def comment():
 	time=str(datetime.now()).rsplit('.',1)[0]
 	return time
 
+@app.route('/activity/comment',methods=['POST'])
+def comment_activity():
+	content=request.form['content']
+	activity_id=request.form['activity_id']
+	create_activity_comment(content,activity_id)
+	update_activity_comment_num(activity_id)
+	time=str(datetime.now()).rsplit('.',1)[0]
+	return time
+
 ##################################  文章组  ###################################
 @app.route('/article/order_time/group/<int:group_id>/category/<int:category_id>/page/<int:page_id>',methods=['GET'])
+@login_required
 def article_group_time(group_id,category_id,page_id=1):
 	if group_id in [1,2,3] and category_id in [1,2,3,4]:
 		if category_id==4 and group_id!=3:
@@ -528,20 +625,16 @@ def article_group_time(group_id,category_id,page_id=1):
 		elif category_id<4 and group_id==3:
 			abort(404)
 		else:
-			#判断用户是否登录
-			if not 'user' in session:
-				return redirect(url_for('login'))
-			else:
-				group=GROUP[group_id-1]
-				category=CATEGORY[category_id-1]
-				order='order_time'
-				article_pagination=get_article_pagination_by_time(str(group_id),str(category_id),page_id)
-
-				return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id,nick=getNick())
+			group=GROUP[group_id-1]
+			category=CATEGORY[category_id-1]
+			order='order_time'
+			article_pagination=get_article_pagination_by_time(str(group_id),str(category_id),page_id)
+			return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id)
 	else:
 		abort(404)
 
 @app.route('/article/order_favor/group/<int:group_id>/category/<int:category_id>/page/<int:page_id>',methods=['GET'])
+@login_required
 def article_group_favor(group_id,category_id,page_id=1):
 	if group_id in [1,2,3] and category_id in [1,2,3,4]:
 		if category_id==4 and group_id!=3:
@@ -549,42 +642,87 @@ def article_group_favor(group_id,category_id,page_id=1):
 		elif category_id<4 and group_id==3:
 			abort(404)
 		else:
-			#判断用户是否登录
-			if not 'user' in session:
-				return redirect(url_for('login'))
-			else:
-				group=GROUP[group_id-1]
-				category=CATEGORY[category_id-1]
-				order='order_favor'
-				article_pagination=get_article_pagination_by_favor(str(group_id),str(category_id),page_id)
-				return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id,nick=getNick())
+			group=GROUP[group_id-1]
+			category=CATEGORY[category_id-1]
+			order='order_favor'
+			article_pagination=get_article_pagination_by_favor(str(group_id),str(category_id),page_id)
+			return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id)
 	else:		
 		abort(404)
+
+
+
 
 ##################################	活动 ##################################
 ##读取活动
 @app.route('/activity/<int:activity_id>')
+@login_required
 def activity(activity_id):
 	activity=get_activity_information(activity_id)
 	if activity!=None:
+		update_read_num_activity(activity_id)
 		comments=get_activity_comments(activity_id)
-		return render_template('test_activity.html',activity=activity,nick=getNick(),avatar=get_avatar(),comments=comments)
+		return render_template('test_activity.html',activity=activity,avatar=get_avatar(),comments=comments)
 	else:
 		abort(404)
 
 ##发布活动
 @app.route('/activity_upload')
+@login_required
 def activity_upload():
-	if not 'user' in session:
-		return redirect(url_for('login'))
+	if current_user.role!=3:
+		abort(404)
 	else:
 		activity_session_id=get_activity_session_id()
 		session['activity_session_id']=str(activity_session_id)
 		os.makedirs(os.path.join(app.config['ACTIVITY_CONTENT_DEST'], str(activity_session_id)))
-		return render_template('test_activity_upload.html',nick=session['user'])
+		return render_template('test_activity_upload.html')
 
 
 
+##个人主页
+@app.route('/homepage')
+@login_required
+def home_page():
+	return render_template('home_page.html')
+##################################	广场 ##################################
+#广场主页
+@app.route('/square')
+def square():
+	return render_template('square.html')
+
+@app.route('/ground')
+def ground():
+	hot_ground_article_list=get_hot_ground_acticle()
+	##参数1表示广场
+	ground_book_review_list=get_article_group_by_coin('1','1')
+	ground_film_review_list=get_article_group_by_coin('1','2')
+	ground_essay_list=get_article_group_by_coin('1','3')
+	return render_template('ground.html',hot_ground_article_list=hot_ground_article_list,ground_book_review_list=ground_book_review_list,ground_film_review_list=ground_film_review_list,ground_essay_list=ground_essay_list)
+
+
+@app.route('/user/<nick>')
+@login_required
+def view_home_page(nick):
+	user=get_user_by_nick(nick)
+	if user==None:
+		abort(404)
+	elif user.user_id==current_user.user_id:
+		return redirect(url_for('home_page'))
+	else:
+		return render_template('view_home_page.html',user=user)
+
+
+@app.route('/collection/user',methods=['POST'])
+def collection_user():
+	user_id=request.form['user_id']
+	if user_id==current_user.user_id:
+		return 'fail'
+	elif examine_user_id(user_id):
+		create_user_collection(another_user_id=user_id,user_id=current_user.user_id)
+		return 'success'
+	else:
+		return 'fail'
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
@@ -592,6 +730,6 @@ def activity_upload():
 def article_test():
 	return render_template('test_article.html')
 
-@app.route('/activity')
+@app.route('/activity') 
 def activity_test():
 	return render_template('pay_author.html')

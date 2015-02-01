@@ -1,0 +1,105 @@
+{% extends "layout_login.html" %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+<div id="base_view">
+	<div>
+		<label>头像:</label><img src="{{current_user.photo}}" style="width:50px;height:50px;">
+	</div>
+	<div>
+		<label>昵称:</label>{{current_user.nick}}
+	</div>
+
+	<div>
+		<label>用户身份:</label>
+		{% if current_user.role==1 %}
+		普通用户
+		{% elif current_user.role==2 %}
+		专栏作家
+		{% else %}
+		管理员
+		{% endif %}
+	</div>
+	<div>
+		<label>性别:</label>
+		{% if current_user.gender==None %}
+		尚未填写
+		{% else %}
+		{{current_user.gender}}
+		{% endif %}
+	</div>
+	<div>
+		<label>生日:</label>
+		{% if current_user.birthday==None %}
+		尚未填写
+		{% else %}
+		{{current_user.birthday}}
+		{% endif %}
+	</div>
+	<div>
+		<input type="button" value="修改" id="modify">
+	</div>
+</div>
+
+<div id="base_modify" style="display:none;">
+	<div>
+		<label>头像:</label><img src="{{current_user.photo}}" style="width:50px;height:50px;">
+	</div>
+	<div>
+		<label>昵称:</label><input type="text" value="{{current_user.nick}}">
+	</div>
+
+	<div>
+		<label>用户身份:</label>
+		{% if current_user.role==1 %}
+		普通用户
+		{% elif current_user.role==2 %}
+		专栏作家
+		{% else %}
+		管理员
+		{% endif %}
+	</div>
+	<div>
+		<label>性别:</label>	
+		{% if current_user.gender==None %}
+		<input type="text">
+		{% else %}
+		<input type="text" value="{{current_user.gender}}">
+		{% endif %}
+	</div>
+	<div>
+		<label>生日:</label>
+		{% if current_user.birthday==None %}
+		<input type="text">
+		{% else %}
+		<input type="text" value="{{current_user.birthday}}">
+		{% endif %}
+	</div>
+	<div>
+		<input type="button" value="保存" id="save">
+	</div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#modify").click(function(){
+			$("#base_view").css("display","none");
+			$("#base_modify").css("display","block");
+			$("#save").click(function(){
+			});
+		});
+	});
+</script>
+
+{% endblock %}

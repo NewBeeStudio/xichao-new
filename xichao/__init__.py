@@ -5,13 +5,31 @@ import os
 from flask_wtf.csrf import CsrfProtect
 from datetime import datetime
 from hashlib import md5
+from flask.ext.login import LoginManager
+from itsdangerous import URLSafeTimedSerializer
+from datetime import timedelta
+
 
 app = Flask(__name__)
-import views
+
+
+
 
 # 配置，之后可以考虑单独放在一个文件中
 SECRET_KEY = '\x18\xd1\x81cU\xb9j%\xb9\x00\xf5\xf3\xe9r\xcb\x82lq\x9e\xa8\xe3\x14@\x96'
 DEBUG = True
+#flask-login登陆配置
+login_manager = LoginManager()
+login_manager.login_view = 'login'
+login_manager.login_message = u"请先登录"
+login_manager.session_protection = "strong"
+login_manager.init_app(app)
+login_serializer = URLSafeTimedSerializer(SECRET_KEY)
+import views
+import admins
+# cookie和session持续时间
+PERMANENT_SESSION_LIFETIME = timedelta(minutes=20)
+REMEMBER_COOKIE_DURATION = timedelta(days=7)
 
 
 # email server
@@ -50,7 +68,6 @@ app.config.from_object(__name__)
 
 
 ##############################  csrf  ##################################
-
 @app.before_request
 def csrf_protect():
     if request.method == "POST":
