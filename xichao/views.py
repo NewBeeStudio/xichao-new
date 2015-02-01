@@ -761,6 +761,15 @@ def message():
 		return 'success'
 	else:
 		return 'fail'
+
+
+@app.route('/award',methods=['POST'])
+@login_required
+def award_article():
+	article_id=request.form['article_id']
+	award_num=int(request.form['award_num'])
+	result=process_article_award(user_id=current_user.user_id,article_id=article_id,award_num=award_num)
+	return result
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
