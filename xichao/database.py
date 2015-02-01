@@ -77,7 +77,24 @@ def test_db():
     from models import Special
     special = Special(name = u"算法学习指南", user_id = 2,
                        picture = u"http://127.0.0.1:5000/upload/special/special_detail_pic_2.jpg", 
-                       introduction = u"算法很美大家一起学！起！来！",
+                       introduction = u"""
+                       <div>
+                       本专栏专门用来引导算法初学者，让大家更多的体会到算法之美
+                       </div>
+                       <table>
+ 				<tr>
+    				<td>作者</td>
+    				<td> Nick2 </td>
+  				</tr>
+  				<tr>
+    				<td>类别</td>
+    				<td>饮食/专栏</td>
+  				</tr>
+  				<tr>
+    				<td>期数</td>
+    				<td>共11期，正在更新</td>
+  				</tr>
+				</table>""",
                        time = datetime.now())
     db_session.add(special)
     db_session.commit()

@@ -30,35 +30,29 @@
 			<div id="special-introduction">
 				<h2>{{ special_title }}</h2>
 				<!-- 正文如果超过一定范围自动出现滑动条-->
-				<p> {{ special_introduction }}
-				</p>
+				<div id="special-introduction-content"> {{ special_introduction | safe }}
+				</div>
 	
-				<table>
- 				<tr>
-    				<td>作者</td>
-    				<td> {{ special_author }} </td>
-  				</tr>
-  				<tr>
-    				<td>类别</td>
-    				<td>饮食/专栏</td>
-  				</tr>
-  				<tr>
-    				<td>期数</td>
-    				<td>共11期，正在更新</td>
-  				</tr>
-				</table>
+
 		
 				<!-- 分享和订阅怎么实现 -->
-				<input style="float:right" class="input-button" type="submit" value="分享">
-			</div>
-		</div>
+<!--				<input style="float:right" class="input-button" type="submit" value="分享">
+-->
+					<div id="special-introduction-share" style="float:right">
+                		<p id="p_share">分享</p>
+                		<img src="/static/images/share_sinaweibo.png"/>
+                		<img src="/static/images/share_qzone.png"/>
+                		<img src="/static/images/share_renren.png"/>
+                		<img src="/static/images/share_rss.png"/>
+                    </div>
+            </div>
+	    </div>
 	
 		<!-- 日程&订阅栏 -->
 		<div id="special-memo">
 			<img src="{{ url_for('static', filename='images/calendar-ico.png') }}">
 
-			<p>每周五更新</p>
-			<p>已发表4/11期</p>
+			<p>已发表 {{articles_pagination.total}} 篇文章</p>
 
 			<p style="margin-left:170px">{{special_favor}}人收藏</p>
 

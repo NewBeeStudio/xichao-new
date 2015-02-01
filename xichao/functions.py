@@ -353,6 +353,7 @@ def collection_special(user_id, special_id):
                                          time = datetime.now())
         db_session.add(collect_spe)
         db_session.commit()
+        
     else:
         raise Exception
         
