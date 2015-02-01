@@ -1,0 +1,165 @@
+#activity-headline-img{
+	margin: 66px auto auto auto;
+	width: 1028px;
+}
+
+#activity-headline-img > img{
+	width: 1028px; 
+	height: 380px;
+}
+
+
+/*当前活动*/
+#activity-current, #activity-past{
+	margin: auto;
+	width: 955px;
+}
+
+#activity-current{
+	margin-top: 124px;
+}
+
+#activity-current h2, #activity-past h2{
+	font-family: 黑体;
+	font-size: 29.2px;
+}
+
+#activity-current h2{
+	margin-top: -45px;
+}
+
+#activity-current > div{
+	border-top: 2px solid gray;
+	border-bottom: 2px solid gray;
+}
+
+#activity-current h3{
+	margin: 30px auto 30px auto;
+	font-family: 尚黑;
+	font-size: 45.8px;
+
+	text-align: center;
+}
+
+#activity-current-info{
+	margin: auto;
+	width: 889px;
+	height: 324px;
+}
+
+img#activity-left-arrow, img#activity-right-arrow{
+	margin-top: 50px;
+
+	width: 57px;
+	height: 89px;
+}
+
+img#activity-left-arrow{
+	margin-left: -110px;
+	float: left;
+}
+
+img#activity-right-arrow{
+	margin-right: -110px;
+	float: right;
+}
+
+img#activity-info-img{
+	width: 264px;
+	height: 264px;
+
+	float: left;
+}
+
+#activity-current-info > div, #activity-current-info > p{
+	margin-left: 312px;
+	font-family: 黑体;
+	font-size: 25px;
+	color: #000000;
+
+	overflow: auto;
+}
+
+#activity-current-info > div{
+	width: 573px;
+	height: 180px;
+}
+
+#activity-current-info > p{
+	height: 30px;
+}
+
+#activity-current-info > a{
+	margin-top: 20px;
+	color: gray;
+
+	font-family: 黑体;
+
+	letter-spacing: 3px;
+	font-size: 30px;
+	float: right;
+}
+
+/*过去活动*/
+#activity-past{
+	margin-top: 86px;
+}
+
+#activity-select-part{
+	margin-top: 46px;
+	float: right;
+}
+
+#activity-select-part > label{
+	font-family: 黑体;
+	font-size: 16.7px;
+}
+
+#activity-select-part > select{
+	margin-right: -20px;
+	height: 22px;
+	width: 120px;
+	font-family: 黑体;
+	font-size: 12.5px;
+	color: gray;
+}
+
+#activity-past-info{
+	margin-top: 98px;
+	margin-left: -30px;
+	height: 500px;
+
+	/*border: 1px solid #ff0000;*/
+}
+
+#activity-row-1{
+	height: 215px;
+}
+
+#activity-row-1 td, #activity-row-2 td, #activity-row-3 td{
+	padding-right: 50px;
+	text-align: center;
+}
+
+#activity-row-1 td{
+	background-size: 215px 215px;
+	background-repeat: no-repeat;
+}
+
+
+td > img{
+	width: 215px;
+	height: 215px;
+}
+
+#activity-row-2 td{
+	padding-top: 25px;
+	font-family: 宋体;
+	font-size: 25px;
+}
+
+#activity-row-3 td{
+	padding-top: 12px;
+	font-family: 宋体;
+	font-size: 16.7px;
+}

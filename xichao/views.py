@@ -30,6 +30,7 @@
 	            完成草稿编辑       /article/draft
 	        广场页   /square
 
+	        活动页   /activity
 	            
 	    
 	    辅助URL：
@@ -667,8 +668,13 @@ def article_group_favor(group_id,category_id,page_id=1):
 
 
 
-
 ##################################	活动 ##################################
+##活动主页
+@app.route('/activity')
+@login_required
+def activity_main():
+	return render_template('activity.html')
+
 ##读取活动
 @app.route('/activity/<int:activity_id>')
 @login_required
@@ -780,6 +786,3 @@ def award_article():
 def article_test():
 	return render_template('security/login_user.html')
 
-@app.route('/activity') 
-def activity_test():
-	return render_template('pay_author.html')
