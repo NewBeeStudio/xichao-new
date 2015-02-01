@@ -23,6 +23,22 @@
 					 });
 				};
 
+				var val_article_id = parent.window.get_article_id();
+				var val_user_id = parent.window.get_user_id();
+				alert(val_article_id);
+				alert(val_user_id);
+				if($("[name='comment_article']").attr("checked")){
+					$.post('http://127.0.0.1:5000/article/comment',
+					{
+						content:val_content,
+						article_id:val_article_id,
+						to_user_id:val_user_id
+					},
+					function(data){
+						parent.window.add_commit(data, val_content);
+					});
+				}
+
 				if (val_award_num=='') 
 					{alert("打赏值不能为空");}
 				else if (!re.test(val_award_num))

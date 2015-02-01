@@ -145,12 +145,13 @@ $("#comment_publish_button").click(function(){
 			var content = val_content;
 			var newdiv = $('<div><p>heelo</p></div>');*/
 			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
-			$('#comment_new').prepend('<div class="comment">'+
+			/*$('#comment_new').prepend('<div class="comment">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
 				'<p class="p_review_author">{{nick}}</p>'+
 				'<div class="comment_content">'+val_content+'</div>'+
-				'<p class="p_publish_time">'+data+'</p></div><hr>');
+				'<p class="p_publish_time">'+data+'</p></div><hr>');*/
+			add_commit(data, val_content);
 		});
 });
 
@@ -196,6 +197,23 @@ function update_xichao(data){
 <script type="text/javascript">
 function get_author_id() {
 	return {{ author.user_id }};
+}
+
+function get_article_id() {
+	return {{ article.article_id }};
+}
+
+function get_user_id() {
+	return {{ article.user_id }};
+}
+
+function add_commit(data, val_content) {
+	$('#comment_new').prepend('<div class="comment">'+
+				'<img class="user_pic_2" src="{{avatar}}">'+
+				'<div class="line"></div>'+
+				'<p class="p_review_author">{{nick}}</p>'+
+				'<div class="comment_content">'+val_content+'</div>'+
+				'<p class="p_publish_time">'+data+'</p></div><hr>');
 }
 </script>
 {% endblock %}
