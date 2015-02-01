@@ -15,6 +15,8 @@
 		<p id="p_article_title">{{article.title}}</p>
 	</div>
 	<div id="article_content">
+		<p id="p_num_xichao">曦潮币</p>
+		<p id="p_num_xichao_content">XXX</p>
 		<p id="p_article_author_1">作者</p>
 		<p id="p_article_author_2">{{author}}</p>
 		<p id="p_article_time_1">发表时间</p>
@@ -39,6 +41,7 @@
 		<p id="p_review_content">({{article.comment_num}})</p>
 		<p id="p_collection">收藏</p>
 		<p id="p_collection_content">({{article.favor}})</p>
+		<button  class="myButton" id="pay_button">打赏作者</button>
 	</div>
 	<hr>
 	<div id="book_info">
@@ -161,4 +164,21 @@ $(document).ready(function(){
 })
 </script>
 
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#pay_button").click(function(){
+			$.layer({
+				type: 2,
+				title: ['打赏曦潮币'],
+				shade: [0.65, '#000'],
+				shadeClose: true,
+				closeBtn: false,
+				border: [2, 1, '#D9AE48'],
+				area: ['760px', '258px'],
+				iframe: {src: "{{url_for('pay_author')}}"},
+			});
+		});
+	});
+</script>
 {% endblock %}

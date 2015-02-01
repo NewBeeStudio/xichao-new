@@ -332,6 +332,11 @@ def article_upload(group_id=3,category_id=4):
 	else:
 		abort(404)
 
+#打赏作者弹窗
+@app.route('/pay_author')
+def pay_author():
+	return render_template('pay_author.html')
+
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
 def upload(classfication):
@@ -589,4 +594,4 @@ def article_test():
 
 @app.route('/activity')
 def activity_test():
-	return render_template('test_activity.html')
+	return render_template('pay_author.html')
