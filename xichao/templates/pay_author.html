@@ -8,13 +8,13 @@
 		$(document).ready(function(){
 			$("#button").click(function(){
 				val_award_num=$("#award_num").val();
-				//val a=parent.document.getElementByIdx('article_id').value;
-				//alert(a);
+				alert('{{article_id}}');
 				if (val_award_num=='') {alert("打赏值不能为空");}
 				else{
 					$.post('127.0.0.1:5000/award',
 						{
-
+							award_num: val_award_num,
+							article_id: {{article_id}}
 						},
 						function(data){
 

@@ -396,9 +396,12 @@ def article_modify(article_id):
 
 
 #打赏作者弹窗
-@app.route('/pay_author')
-def pay_author():
-	return render_template('pay_author.html')
+@app.route('/pay_author/<int:article_id>')
+def pay_author(article_id):
+	print "!!!!!!!"
+	print article_id
+	print "!!!!!!"
+	return render_template('pay_author.html', article_id=article_id)
 
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
