@@ -84,8 +84,10 @@ a.square-more{
 }
 
 #recommend-title{
-	margin-top: 16px;
+	margin: 16px auto auto auto;
+	text-align: center;
 }
+
 
 #recommend-title span{
 	margin-left: 8px;
@@ -96,11 +98,14 @@ a.square-more{
 
 #recommend-content pre{
 	margin-top: 16px;
-	width: 433px;
 	height: 182px;
 
 	font-family: 宋体;
 	font-size: 16.7px;
+
+	overflow: hidden;	
+	white-space: pre-wrap;
+	word-wrap: break-word; /*自动换行*/
 }
 
 #recommend-content img{
@@ -111,7 +116,7 @@ a.square-more{
 	height: 180px;
 }
 
-#square-part1-content{
+#square-part1-content, .square-part1-right > a, .square-part2-left > a{
 	font-family: 宋体;
 	font-size: 16.7px;
 }
@@ -218,3 +223,7 @@ img#square-part3-img
 	float: left;
 }
 
+.square-part1-right > a, .square-part2-left > a{
+	margin-top: 25px;
+	float: right;
+}

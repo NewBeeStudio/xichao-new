@@ -2,6 +2,7 @@
 
 <!--css file used-->
 {% block css %}
+<link rel="stylesheet" type="text/css" href="/static/jquery-ui-1.11.2/jquery-ui.css" />
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
 {% endblock %}
 
@@ -13,8 +14,9 @@
 	{% else %}
 		<input type="button" value="关注" id="collection_user">
 	{% endif %}
-
-	<input type="button" value="发送私信" id="message">
+	<input type="text" id="measage">
+	<input type="button" value="发送私信" id="message_button">
+	<span class="ui-icon ui-icon-mail-closed"></span>
 {% endblock %}
 
 
@@ -60,6 +62,28 @@
 			}
 			});  
 		});
+		$("#message_button").click(function(){
+			val_message=$("#measage").val();
+			if (val_message==''){
+				layer.msg("私信内容不能为空",1,3);
+			}
+			else{
+				$.post("{{url_for('message')}}",
+					{
+						user_id: {{user.user_id}},
+						content: val_message
+					},
+					function(data){
+						if (data=="fail"){
+							layer.msg("私信失败",1,3);
+						}
+						else{
+							layer.msg("私信成功",1,1);
+						}
+					});
+			}
+		});
+
 	});
 </script>
 

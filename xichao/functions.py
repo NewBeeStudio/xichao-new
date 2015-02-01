@@ -18,6 +18,7 @@ from flask.ext.mail import Mail
 from flask.ext.mail import Message
 from flask.ext.sqlalchemy import Pagination
 import re
+import models
 #from sqlalchemy.orm import query
 
 
@@ -466,7 +467,8 @@ def has_collected(user_id,another_user_id):
 
 
 def create_message(to_user_id,user_id,content):
-	message=Message(user_id=user_id,to_user_id=to_user_id,content=content,time=datetime.now())
+	message=models.Message(user_id=user_id,to_user_id=to_user_id,content=content,time=datetime.now())
+	#message=models.Message(user_id,to_user_id,content,datetime.now())
 	db_session.add(message)
 	db_session.commit()
 
