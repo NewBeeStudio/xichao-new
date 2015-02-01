@@ -8,9 +8,15 @@
 		$(document).ready(function(){
 			$("#button").click(function(){
 				val_award_num=$("#award_num").val();
-				alert('{{article_id}}');
-				if (val_award_num=='') {alert("打赏值不能为空");}
+				var re = /^[0-9]+.?[0-9]*$/;  
+				if (val_award_num=='') 
+					{alert("打赏值不能为空");}
+				else if (!re.test(val_award_num))
+					{alert("打赏数额应为数字")}
+				else if ( val_award_num > {{current_user.coin}} )
+					{alert("您的曦潮币余值不够");}
 				else{
+					$("#num_xichao").html({{current_user.coin}} - val_award_num);
 					$.post('127.0.0.1:5000/award',
 						{
 							award_num: val_award_num,
@@ -33,7 +39,7 @@
 
 	<div id="pay">
 		<p id="num_pay">打赏数额 ：</p>
-		<input type="text" id="award_num">
+		<input type="text" id="award_num" oonkeyup=”this.value=this.value.replace(/\D/g,”)” style=”ime-mode:disabled”>
 	</div>
 
 	<div id="review">
