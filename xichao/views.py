@@ -395,6 +395,11 @@ def article_modify(article_id):
 	return render_template('test_article_modify.html',article=article[0],book=article[2],upload_url=upload_url)
 
 
+#打赏作者弹窗
+@app.route('/pay_author')
+def pay_author():
+	return render_template('pay_author.html')
+
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
 def upload(classfication):
@@ -755,4 +760,4 @@ def article_test():
 
 @app.route('/activity') 
 def activity_test():
-	return render_template('test_activity.html')
+	return render_template('pay_author.html')
