@@ -55,7 +55,14 @@ def test_db():
                 state = u'0',photo=u'http://127.0.0.1:5000/upload/avatar/default1.jpg')
     db_session.add(user)
     db_session.commit()
-    
+
+    user = User(nick = u"曦潮", email = u"xichao@xichao.com", 
+                role = 3, register_time = datetime.now(),
+                slogon = u"我是管理员！",
+                last_login_time = datetime.now(), password = encrypt(u"xichao"),
+                state = u'1',photo=u'http://127.0.0.1:5000/upload/avatar/default1.jpg')
+    db_session.add(user)
+    db_session.commit()    
     ##测试书籍
     from models import Book
     book = Book(title = u"算法导论", ISBN = u"7111407016",
@@ -145,7 +152,7 @@ def test_db():
     from models import Activity
     activity = Activity(name = u"曦潮童汇", content = u"小朋友们看过来",
                         create_time = datetime.now(), 
-                        activity_time = datetime.now(),activity_session_id=1,picture='http://127.0.0.1:5000/upload/activity/activity_title_image/activity_upload_pic_1.jpg') 
+                        activity_time = datetime.now(),activity_session_id=1,picture='http://127.0.0.1:5000/upload/activity/activity_title_image/activity_upload_pic_1.jpg',abstract=u"小朋友们看过来......",place=u"曦潮书店") 
                         ##注意这里活动时间不应该是now
     db_session.add(activity)
     db_session.commit()

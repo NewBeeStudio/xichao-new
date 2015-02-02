@@ -36,7 +36,7 @@
 		<p id="p_read_content">({{ activity.read_num }})</p>
 		<p id="p_review">评论</p>
 		<p id="p_review_content">({{ activity.comment_num }})</p>
-		<p id="p_collection">收藏</p>
+		<a id="p_collection" href="#">收藏</a>
 		<p id="p_collection_content">({{ activity.favor }})</p>
 	</div>
 	
@@ -140,6 +140,27 @@ $("#comment_publish_button").click(function(){
 $("#comment_reset_button").click(function(){
 	$('#input_publish_review').contents().find('body').empty();
 });
+
+$("#p_collection").click(function(){
+	$.post("{{url_for('ajax_collection_activity')}}",
+		{
+			activity_id: {{activity.activity_id}}
+		},
+		function(data){
+			if (data=="fail"){
+				layer.msg("你是管理员，不能收藏该活动",1,3);
+			}
+			else if (data=="already") {
+				layer.msg("你已收藏该活动",1,3);
+			}
+			else{
+				layer.msg("收藏成功",1,1);
+			}
+	});
+});
+
+
+
 </script>
 
 <script type="text/javascript">

@@ -41,7 +41,9 @@
       <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
       
 
-      
+      <div>
+        <label>请输入活动地点:</label><input type="text" id="activity_place">
+      </div>
       
       <a href="#" class="myButton" id="button_upload_cancel">取消</a>
       <a href="#" class="myButton" id="button_upload_confirm">确定</a>
@@ -79,19 +81,31 @@
         val_activity_time=$("#activity_time").val();
         val_title = $("#input_title").val();
         val_content = UE.getEditor('editor').getContent();
+        val_abstract = UE.getEditor('editor').getPlainTxt();
+        val_place=$("#activity_place").val();
         val_title_image=$('#pic_4').attr('src');
-        $.post('http://127.0.0.1:5000/activity/finish',
-        {
-          title: val_title,
-          content: val_content,
-          title_image: val_title_image,
-          activity_time: val_activity_time
-        },
-        function(data){
-          layer.msg("活动保存成功",1,1,function(){
-            location.href ="http://127.0.0.1:5000/test";
+        if (val_activity_time==''){alert("活动时间不能为空");}
+        else if (val_title==''){alert("活动标题不能为空");}
+        else if (val_content=='') {alert("活动内容不能为空");}
+        else if (val_place=='') {alert("活动地点不能为空");}
+        else{
+          $.post('http://127.0.0.1:5000/activity/finish',
+          {
+            title: val_title,
+            content: val_content,
+            title_image: val_title_image,
+            activity_time: val_activity_time,
+            abstract: val_abstract,
+            place: val_place
+          },
+          function(data){
+            layer.msg("活动保存成功",1,1,function(){
+              location.href ="http://127.0.0.1:5000/test";
+            });
           });
-        });
+        }
+
+        
       });
       //选择默认图片
       $('.pics').click(function(){

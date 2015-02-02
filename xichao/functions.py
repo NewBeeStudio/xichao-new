@@ -8,7 +8,7 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User
+from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity
 from database import db_session
 from flask import jsonify,render_template,request,session
 from sqlalchemy import or_, not_, and_, desc
@@ -169,7 +169,7 @@ def create_book(book_picture,book_author,book_press,book_page_num,book_price,boo
 		result=db_session.query(Book).filter_by(ISBN=book_ISBN).first()
 		return result.book_id
 
-def create_activity(title,content,title_image,activity_session_id,activity_time):
+def create_activity(title,content,title_image,activity_session_id,activity_time,abstract,place):
 	result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).all()
 	if len(result)>0:
 		activity=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).scalar()
@@ -178,9 +178,11 @@ def create_activity(title,content,title_image,activity_session_id,activity_time)
 		activity.picture=title_image
 		activity.create_time=datetime.now()
 		activity.activity_time=activity_time
+		activity.abstract=abstract
+		activity.place=place
 		db_session.commit()
 	else:
-		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=activity_time)
+		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=activity_time,abstract=abstract,place=place)
 		db_session.add(activity)
 		db_session.commit()
 
@@ -450,3 +452,43 @@ def process_article_award(user_id,article_id,award_num):
 		user_coin_sub(user_id=user_id,num=award_num)
 		article_coin_add(article_id=article_id,num=award_num)
 		return 'success'
+
+def examine_article_id(article_id):
+	result=db_session.query(Article).filter_by(article_id=article_id).all()
+	if len(result)>0:
+		return True
+	else:
+		return False
+
+def collection_article(user_id,article_id):
+	article=db_session.query(Article).filter_by(article_id=article_id).first()
+	result=db_session.query(Collection_Article).filter(and_(Collection_Article.user_id==user_id,Collection_Article.article_id==article_id)).all()
+	if article.user_id==user_id:
+		return 'fail'
+	elif len(result)>0:
+		return 'already'
+	else:
+		collection_article=Collection_Article(user_id=user_id,article_id=article_id,time=datetime.now())
+		db_session.add(collection_article)
+		db_session.commit()
+		return 'success'
+
+def collection_activity(user_id,activity_id):
+	result=db_session.query(Collection_Activity).filter(and_(Collection_Activity.activity_id==activity_id,Collection_Activity.user_id==user_id)).all()
+	if len(result)>0:
+		return 'already'
+	else:
+		collection_activity=Collection_Activity(user_id=user_id,activity_id=activity_id,time=datetime.now())
+		db_session.add(collection_activity)
+		db_session.commit()
+		return 'success'
+
+def update_article_favor(article_id):
+	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
+	article.favor+=1
+	db_session.commit()
+
+def update_activity_favor(activity_id):
+	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
+	activity.favor+=1
+	db_session.commit()

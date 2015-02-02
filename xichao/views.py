@@ -532,8 +532,15 @@ def activity_finish():
 	title=request.form['title']
 	title_image=request.form['title_image']
 	activity_time=request.form['activity_time']
+	place=request.form['place']
+	abstract_abstract_with_img=request.form['abstract']
+	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
+	if len(abstract_plain_text)<100:
+		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
+	else:
+		abstract=abstract_plain_text[0:100]+'......'	
 	formatted_time=datetime.strptime(activity_time,"%m/%d/%Y %H:%M")
-	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time)
+	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time,abstract=abstract,place=place)
 	return u'活动保存成功'
 
 
@@ -601,6 +608,31 @@ def ajax_collection_special_author():
 
     err = collection_special_author(user_id, special_id)
     return err
+
+@app.route('/collection_article',methods=['POST'])
+@login_required
+def ajax_collection_article():
+	article_id=request.form['article_id']
+	result=collection_article(user_id=current_user.user_id,article_id=article_id)
+	if result=="success":
+		update_article_favor(article_id)
+	return result
+
+
+@app.route('/collection_activity',methods=['POST'])
+@login_required
+def ajax_collection_activity():
+	if current_user.role==3:
+		return 'fail'
+	else:
+		activity_id=request.form['activity_id']
+		result=collection_activity(user_id=current_user.user_id,activity_id=activity_id)
+		if result=="success":
+			update_activity_favor(activity_id)
+		return result
+
+
+
 
 ##################################	书籍 ##################################
 #书籍图片的存储路径
