@@ -1,17 +1,28 @@
+#p_title {
+	margin-top: 45px;
+	font-size: 16.67px;
+	letter-spacing: 2px;
+}
+
 #p_title_1 {
 	float: left;
-	font-family: 微软雅黑;
+	font-family: 黑体;
+	color: rgb(114, 114, 114);
 }
 
 #p_title_2 {
+	padding-top: 2.5px;
 	color: #D9AE48;
-	font-family: 微软雅黑;
+	font-family: 黑体;
+} 
+
+#article {
+	margin-left: 100px;
+	margin-right: 100px;
 }
 
 #article_title {
-	margin-top: 7%;
-	margin-right: 10%;
-	margin-left: 10%;
+	margin-top: 74px;
 }
 
 #p_article_title {
@@ -21,54 +32,54 @@
 }
 
 #article_content {
-	margin-top: 4%;
-	margin-left: 10%;
-	margin-right: 10%;
+	margin-top: 50px;
 	font-family: 微软雅黑;
 }
 
 #article_content_html {
-
-	margin-left: 10%;
-	margin-right: 10%;
 	font-family: 微软雅黑;
 }
 
 #p_num_xichao {
-	float: left;
-	margin-left: 40%;
+	float: right;
+	color: #D9AE48;
+	margin-right: 30px;
 }
 
 #p_num_xichao_content {
-	margin-left: 2%;
 	float: left;
+	color: #D9AE48;
 }
 
 #p_article_author_1 {
-	float: left;
-	margin-left: 2%;
-	margin-right: 2%;
+	float: right;
+	margin-right: 18px;
 }
 
 #p_article_author_2 {
-	float: left;
-	margin-right: 4%;
+	float: right;
+	color: #D9AE48;
+	margin-right: 50px;
 }
 
-#p_article_time_1 {
-	float: left;
-	margin-right: 2%;
+#p_article_time {
+	float: right;
+	/*text-align: right;*/
+	color: rgb(114, 114, 114);
 }
 
 #share {
-	margin-top: 10%;
-	margin-left: 70%;
+	text-align: right;
+	margin-top: 100px;
 	font-family: 微软雅黑;
 }
 
 #p_share {
 	float: left;
-	margin-right: 5%;
+	padding-left: 765px;
+	padding-top: 2px;
+	font-family: 微软雅黑;
+	font-size: 12.5px;
 }
 
 #read {
@@ -78,37 +89,36 @@
 }
 
 #p_read {
-	float: left;
-	margin-right: 2%;
+	padding-left: 80px;
 }
 
 #p_read_content {
-	float: left;
-	color: gray;
-	margin-right: 10%;
+	float: right;
+	color: rgb(114, 114, 114);
+	margin-right: 30px;
+	margin-left: 2px;
 }
 
 #p_review {
-	float: left;
-	margin-right: 2%;
+	float: right;
 	color: #D9AE48;
-}
-
-#p_review_content {
-	float: left;
-	margin-right: 10%;
-	color: #D9AE48;
+	margin-right: 30px;
 }
 
 #p_collection {
-	float: left;
-	margin-right: 2%;
+	float: right;
 	color: #D9AE48;
+	margin-right: 40px;
 }
 
-#p_collection_content {
-	margin-right: 10%;
-	color: #D9AE48;
+.img_share {
+	text-align: right;
+}
+
+#button_pay_to {
+	margin-top: 20px;
+	margin-bottom: 15px;
+	text-align: right;
 }
 
 #book_info {
@@ -191,8 +201,6 @@
 	font-size: 20px;
 }
 
-#comment_new {
-}
 
 .comment {
 	margin-top: 2%;
@@ -203,6 +211,7 @@
 .user_pic_2 {
 	width: 10%;
 	margin-right: 3%;
+	display: block;
 	float: left;
 }
 
@@ -234,6 +243,18 @@
 	margin-left: 70%;
 	margin-right: 2%;
 	float: left;
+}
+
+.register-button{
+    width: 118px;
+    height: 38px;
+
+    font-family: 黑体;
+    font-size: 17px;
+
+    border-radius: 8px;
+    background-color: #D9AE48;
+    color: #ffffff;
 }
 
 

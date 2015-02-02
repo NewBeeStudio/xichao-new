@@ -9,38 +9,42 @@
 
 <!--content-->
 {% block content %}
-	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;文章&nbsp;>书评&nbsp;>&nbsp;</p>
-	<p id="p_title_2">文章详情</p>
+	<div id="p_title">
+		<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;文章&nbsp;>&nbsp;书评&nbsp;>&nbsp;</p>
+		<p id="p_title_2">文章详情</p>
+	</div>
+	
+	<div id="article">
 	<input type="hidden" id="article_id" value="{{article.article_id}}">
+
 	<div id="article_title">
 		<p id="p_article_title">{{article.title}}</p>
 	</div>
+
 	<div id="article_content">
-		<p id="p_num_xichao">曦潮币</p>
-		<p id="p_num_xichao_content">{{article.coins}}</p>
-		<p id="p_article_author_1">作者</p>
+		<p id="p_article_time">发表时间&nbsp;&nbsp;{{article.time}}</p>
 		<p id="p_article_author_2">{{author.nick}}</p>
-		<p id="p_article_time_1">发表时间</p>
-		<p id="p_article_time_2">{{article.time}}</p>
+		<p id="p_article_author_1">作者</p>
+		<a id="p_collection" href="#">收藏 ({{article.favor}})</a>
+		<p id="p_review">评论 ({{article.comment_num}})</p>
+		<p id="p_num_xichao">曦潮币 ({{article.coins}})</p>
+		<p id="p_read_content">({{article.read_num}})</p>
+		<p id="p_read">阅读</p>
 	</div>
 	<div id="article_content_html"></br>{{article.content|safe}}</div>
 	<div id="share">
+		<img class="img_share" src="/static/images/share_sinaweibo.png"/>
+		<img class="img_share" src="/static/images/share_qzone.png"/>
+		<img class="img_share" src="/static/images/share_renren.png"/>
+		<img class="img_share" src="/static/images/share_rss.png"/>
 		<p id="p_share">分享</p>
-		<img src="/static/images/share_sinaweibo.png"/>
-		<img src="/static/images/share_qzone.png"/>
-		<img src="/static/images/share_renren.png"/>
-		<img src="/static/images/share_rss.png"/>
 	</div>
-	<div id="read">
-		<p id="p_read">阅读</p>
-		<p id="p_read_content">({{article.read_num}})</p>
-		<p id="p_review">评论</p>
-		<p id="p_review_content">({{article.comment_num}})</p>
-		<a id="p_collection" href="#">收藏</a>
-		<p id="p_collection_content">({{article.favor}})</p>
 
-		<button id="pay_button">打赏作者</button>		
+	<div id="button_pay_to">
+		<button class="register-button" id="pay_button">打赏作者</button>	
 	</div>
+	</div>
+
 	<hr>
 	<div id="book_info">
 		<div id="pic_book">
@@ -71,34 +75,27 @@
 		<img id="user_pic_1" src="{{avatar}}">
 		<iframe id="input_publish_review"></iframe>
 		<p id="p_user_name">{{nick}}</p>
-		<button  class="myButton" id="comment_reset_button">取消</button>
-		<button  class="myButton" id="comment_publish_button">确认</button>
+		<button  class="register-button" id="comment_reset_button">取消</button>
+		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
 	<hr>
 	<div id="list_review">
 		<p id="p_list_review">评论列表</p>
 
 		<div id="comment_new">
-			
-		</div>
 
 		{% if comments!=None %}
 			{% for comment in comments %}
 				<div class="comment">
-					<!--{{comment[0]}}comment对象实例，不用显示，需要显示的是属性，比如content，time-->
 					<img class="user_pic_2" src="{{comment[2]}}">
 					<div class="line"></div>
 					<p class="p_review_author">{{comment[1]}}</p>
 					<div class="comment_content">{{comment[0].content}}</div>
 					<p class="p_publish_time">{{comment[0].time}}</p>
-					<!--{{comment[0].content}}<!--comment的内容-->
-					<!--{{comment[0].time}}<!--comment的时间-->
-					<!--{{comment[1]}}该条comment的评论人-->
-					<!--{{comment[2]}}该条comment的评论人头像链接,可以不用显示，应该作为img标签的src属性，如下-->
 				</div>
-				<!--<hr>-->
 			{% endfor %}
 		{% endif %}
+		</div>
 	</div>
 {% endblock %}
 
@@ -125,6 +122,9 @@
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
 	val_content = $('#input_publish_review').contents().find('body').html();
+	if (val_content == '')
+		{alert("评论不能为空");}
+	else {
 	$('#input_publish_review').contents().find('body').empty();
 	$.post('http://127.0.0.1:5000/article/comment',
 		{
@@ -135,20 +135,9 @@ $("#comment_publish_button").click(function(){
 		function(data){
 			$("#comment_publish_time").text(data);
 			layer.msg("评论成功",1,1);
-			/*var time = data;
-			var nick = "{{nick}}";
-			var avatar = "{{avatar}}";
-			var content = val_content;
-			var newdiv = $('<div><p>heelo</p></div>');*/
-			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
-			/*$('#comment_new').prepend('<div class="comment">'+
-				'<img class="user_pic_2" src="{{avatar}}">'+
-				'<div class="line"></div>'+
-				'<p class="p_review_author">{{nick}}</p>'+
-				'<div class="comment_content">'+val_content+'</div>'+
-				'<p class="p_publish_time">'+data+'</p></div><hr>');*/
 			add_commit(data, val_content);
 		});
+	}
 });
 
 $("#comment_reset_button").click(function(){
@@ -219,9 +208,9 @@ function add_commit(data, val_content) {
 	$('#comment_new').prepend('<div class="comment">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
-				'<p class="p_review_author">{{nick}}</p>'+
+				'<p class="p_review_author">'+ {{nick}} +'</p>'+
 				'<div class="comment_content">'+val_content+'</div>'+
-				'<p class="p_publish_time">'+data+'</p></div><hr>');
+				'<p class="p_publish_time">'+data+'</p></div>');
 }
 </script>
 {% endblock %}
