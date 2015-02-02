@@ -266,6 +266,7 @@ def article(article_id):
 		abort(404)
 ##################################  专栏页面  ##################################
 @app.route('/special', methods=['GET'])
+@login_required
 def special():
     #URL样式：http://127.0.0.1:5000/special?id=2&page=1&sort=time
     try:
@@ -311,6 +312,106 @@ def special():
                             articles_pagination = articles_pagination)
 #                            articles_pagination = articles_pagination)
 
+## 编辑专栏文章
+@app.route('/special_article_upload', methods=['GET'])
+@login_required
+def special_article_upload():
+    try:
+        special_id = int(request.args.get('id'))
+    except Exception:
+        abort(404)
+
+    author = get_special_information(special_id).user_id
+    login_user = get_userid_from_session()
+    if (author != login_user):
+        abort(404)
+
+    article_session_id = get_article_session_id()
+    session['special_article_session_id'] = str(article_session_id)
+    session['special_id'] = str(special_id)
+    os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+
+    return render_template('special_article_upload.html')
+    
+## 上传专栏文章
+##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
+@app.route('/special_article_finish', methods=['POST'])
+def special_article_finish():
+    content = request.form['content']
+    title = request.form['title']
+    ##TODO 文章标题的安全性过滤
+    title_image=request.form['title_image']
+    abstract_abstract_with_img=request.form['abstract']
+    book_picture=request.form['book_picture']
+    book_author=request.form['book_author']
+    book_press=request.form['book_press']
+    book_page_num=request.form['book_page_num']
+    book_price=request.form['book_price']
+    book_press_time=request.form['book_press_time']
+    book_title=request.form['book_title']
+    book_ISBN=request.form['book_ISBN']
+    book_binding=request.form['book_binding']
+    
+
+    abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)    
+    if len(abstract_plain_text)<191:
+        abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
+    else:
+        abstract=abstract_plain_text[0:190]+'......'
+    user_id = int(session['user_id'])
+    book_id = create_book(book_picture = book_picture,
+                                  book_author = book_author,
+                                  book_press = book_press, 
+                                  book_page_num = book_page_num,
+                                  book_price = book_price,
+                                  book_press_time = book_press_time,
+                                  book_title = book_title,
+                                  book_ISBN = book_ISBN,
+                                  book_binding = book_binding)
+    article_id=create_article(title = title, content = content,
+	                          title_image = title_image, user_id = user_id, 
+	                          article_session_id = session['special_article_session_id'],
+	                          is_draft ='0', special_id = int(session['special_id']),
+	                          group_id = '3', category_id = '0',
+	                          abstract = abstract,
+	                          book_id = book_id)
+    session.pop('special_id', None)
+    session.pop('special_article_session_id', None)
+    return str(article_id)
+    
+# 上传专栏草稿
+@app.route('/special_article_draft',methods=['POST'])
+def special_article_draft():
+    content=request.form['content']
+    ##TODO 文章标题的安全性过滤
+    title=request.form['title']
+    title_image=request.form['title_image']
+    abstract_abstract_with_img=request.form['abstract']
+    book_picture=request.form['book_picture']
+    book_author=request.form['book_author']
+    book_press=request.form['book_press']
+    book_page_num=request.form['book_page_num']
+    book_price=request.form['book_price']
+    book_press_time=request.form['book_press_time']
+    book_title=request.form['book_title']
+    book_ISBN=request.form['book_ISBN']
+    book_binding=request.form['book_binding']
+    abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
+    if len(abstract_plain_text)<191:
+        abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
+    else:
+        abstract=abstract_plain_text[0:190]+'......'
+    user_id=int(session['user_id'])
+    #create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
+    book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
+    article_id=create_article(title = title, content = content,
+	                          title_image = title_image, user_id = user_id, 
+	                          article_session_id = session['special_article_session_id'],
+	                          is_draft ='1', special_id = int(session['special_id']),
+	                          group_id = '3', category_id = '0',
+	                          abstract = abstract,
+	                          book_id = book_id)
+    return str(article_id)
 
 ##################################  专栏详情页面  ##################################
 #TODO 专栏详情尽量改成special detail
@@ -325,9 +426,6 @@ def uploaded_special_image(filename):
 
 
 ##################################  写文章  ##################################
-
-
-
 
 ##文章题图上传路径
 @app.route('/upload_article_title_image', methods=['GET', 'POST'])
