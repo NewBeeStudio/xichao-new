@@ -41,6 +41,9 @@ class User(Base, UserMixin):
     state = Column(CHAR(1), nullable = False)
     photo = Column(String(255), nullable = True)
     slogon = Column(String(255), nullable = False)
+
+    follow_num=Column(Integer,nullable=False,default=0)
+    be_followed_num=Column(Integer,nullable=False,default=0)
     ########## Index/Unique索引 ##########
     nick = Column(String(60), nullable = False, 
                               unique = True, index = True)

@@ -802,7 +802,9 @@ def view_home_page(nick):
 		return redirect(url_for('home_page'))
 	else:
 		collection=has_collected(user_id=current_user.user_id,another_user_id=user.user_id)
-		return render_template('view_home_page.html',user=user,collection=collection)
+		article_pagination=get_article_pagination_by_user_id(user.user_id,True,1)
+		collection_author_list=get_collection_author_list(user.user_id)
+		return render_template('view_home_page.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list)
 
 
 @app.route('/collection/user',methods=['POST'])
@@ -854,6 +856,8 @@ def award_article():
 	award_num=int(request.form['award_num'])
 	result=process_article_award(user_id=current_user.user_id,article_id=article_id,award_num=award_num)
 	return result
+
+
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################

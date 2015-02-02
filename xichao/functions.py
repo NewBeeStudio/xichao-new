@@ -190,11 +190,6 @@ def get_user_id(nick):
 	user_id=db_session.query(User.user_id).filter_by(nick=nick).first()
 	return user_id[0]
 
-#文章分页显示函数
-def get_article_pagination(page,posts_per_page):
-	pagination=db_session.query(Article).paginate(page,posts_per_page,False)#获得分页对象
-	return pagination
-	#pagination.items是分页好的数据
 
 #返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
 def get_article_information(article_id):
@@ -238,17 +233,7 @@ def update_read_num_activity(activity_id):
 	activity.read_num+=1
 	db_session.commit()
 ##################################  专栏函数  ####################################
-def paginate(query,page,per_page=20,error_out=True):
-	if error_out and page < 1:
-		abort(404)
-	items = query.limit(per_page).offset((page - 1) * per_page).all()
-	if not items and page != 1 and error_out:
-		abort(404)
-	if page == 1 and len(items) < per_page:
-		total = len(items)
-	else:
-		total = query.order_by(None).count()
-	return Pagination(query, page, per_page, total, items)
+
 
 def get_userid_from_session():
 	nick=None
@@ -353,6 +338,9 @@ def paginate(query,page,per_page=20,error_out=True):
 	else:
 		total = query.order_by(None).count()
 	return Pagination(query, page, per_page, total, items)
+
+
+
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
 	query=db_session.query(Article).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.favor))
@@ -446,9 +434,23 @@ def create_user_collection(another_user_id,user_id):
 		collection=Collection_User(user_id=user_id,another_user_id=another_user_id,time=datetime.now())
 		db_session.add(collection)
 		db_session.commit()
+		update_collection_num(user_id,another_user_id,True)
+
 
 def delete_user_collection(another_user_id,user_id):
 	db_session.query(Collection_User).filter(and_(Collection_User.user_id==user_id,Collection_User.another_user_id==another_user_id)).delete()
+	db_session.commit()
+	update_collection_num(user_id,another_user_id,False)
+
+def update_collection_num(user_id,another_user_id,is_add):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	another_user=db_session.query(User).filter_by(user_id=another_user_id).scalar()
+	if is_add:
+		user.follow_num+=1
+		another_user.be_followed_num+=1
+	else:
+		user.follow_num-=1
+		another_user.be_followed_num-=1		
 	db_session.commit()
 
 def get_hot_ground_acticle():
@@ -546,3 +548,25 @@ def get_current_activity_list(time):
 def get_passed_activity_list(time):
 	result=db_session.query(Activity).filter(Activity.activity_time<time).limit(4).all()
 	return result
+
+def get_follow_num(user_id):
+	result=db_session.query(Collection_User).filter_by(user_id=user_id).all()
+	return len(result)
+
+def get_be_followed_num(user_id):
+	result=db_session.query(Collection_User).filter_by(another_user_id=user_id).all()
+	return len(result)
+
+
+def get_article_pagination_by_user_id(user_id,by_time,page_id):
+	if by_time:
+		query=db_session.query(Article).filter(Article.user_id==user_id).order_by(desc(Article.time))
+	else:
+		query=db_session.query(Article).filter(Article.user_id==user_id).order_by(desc(Article.coins))
+	return paginate(query,page_id,10,False)
+
+def get_collection_author_list(user_id):
+	result=db_session.query(User).join(Collection_User,Collection_User.another_user_id==User.user_id).filter(Collection_User.user_id==user_id).all()
+	return result
+
+
