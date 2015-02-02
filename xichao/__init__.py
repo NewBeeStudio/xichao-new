@@ -20,14 +20,30 @@ DEBUG = True
 
 
 #Jinja2过滤器配置
-#获取日期
+#获取日期: 2014-02-02 xx:xx:xx—> 14-02-02
 @app.template_filter('time_split')
 def time_split_filter(s):
     return str(s).split(' ')[0][2:]
 
+#获取日期: 2014-02-02 xx:xx:xx—> 2014-02-02
 @app.template_filter('time_split_2')
-def time_split_filter(s):
+def time_split_filter_2(s):
     return str(s).split(' ')[0]
+
+#获取日期: 2014-02-02 xx:xx:xx—> 2014年2月 xx:xx
+@app.template_filter('time_split_3')
+def time_split_filter_3(s):
+    (date, time) = str(s).split(' ') #2014-02-02
+    date = date.split('-')
+    time = time.split(':')
+    return date[0] + u'年' + date[1] + u'月' + date[2] + u'日  ' + time[0] + ':' + time[1]
+
+
+#获取日期: 2014-02-02 xx:xx:xx—> 2014年2月
+@app.template_filter('time_split_4')
+def time_split_filter_4(s):
+    date = str(s).split(' ')[0].split('-') #2014-02-02
+    return date[0] + u'年' + date[1] + u'月'
 
 #zip
 @app.template_filter('zip')

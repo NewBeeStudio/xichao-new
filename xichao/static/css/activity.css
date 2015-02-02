@@ -28,30 +28,24 @@
 	margin-top: -45px;
 }
 
-#activity-current > div{
+#activity-current{
 	border-top: 2px solid gray;
 	border-bottom: 2px solid gray;
+	height: 432px;
 }
 
-#activity-current h3{
-	margin: 30px auto 30px auto;
-	font-family: 尚黑;
-	font-size: 45.8px;
-
-	text-align: center;
-}
-
-#activity-current-info{
-	margin: auto;
-	width: 889px;
-	height: 324px;
-}
-
+/*左右箭头*/
 img#activity-left-arrow, img#activity-right-arrow{
-	margin-top: 50px;
+	margin-top: 170px;
 
 	width: 57px;
 	height: 89px;
+
+	/*opacity: 0.5;*/
+}
+
+.display-none{
+	display: none;
 }
 
 img#activity-left-arrow{
@@ -64,39 +58,65 @@ img#activity-right-arrow{
 	float: right;
 }
 
-img#activity-info-img{
+
+div#activity-slide{
+	position: relative;
+	width: 955px;
+	height: 432px;
+
+	overflow: hidden;
+}
+
+/*当前活动*/
+.activity-current-info{
+	position: absolute;
+	margin: auto;
+	left: 33px;
+	width: 889px;
+	height: 324px;
+}
+
+.activity-current-info > h3{
+	margin: 30px auto 30px auto;
+	font-family: 尚黑;
+	font-size: 45.8px;
+
+	text-align: center;
+}
+
+img.activity-info-img{
 	width: 264px;
 	height: 264px;
 
 	float: left;
 }
 
-#activity-current-info > div, #activity-current-info > p{
+.activity-current-info > div, .activity-current-info > p{
 	margin-left: 312px;
 	font-family: 黑体;
-	font-size: 25px;
+	font-size: 22.9px;
 	color: #000000;
 
 	overflow: auto;
 }
 
-#activity-current-info > div{
+.activity-current-info > div{
 	width: 573px;
 	height: 180px;
 }
 
-#activity-current-info > p{
+.activity-current-info > p{
 	height: 30px;
 }
 
-#activity-current-info > a{
-	margin-top: 20px;
+.activity-current-info > a{
+	margin-top: 30px;
 	color: gray;
 
 	font-family: 黑体;
 
 	letter-spacing: 3px;
-	font-size: 30px;
+	font-size: 22.9px;
 	float: right;
 }
 
@@ -125,7 +145,7 @@ img#activity-info-img{
 }
 
 #activity-past-info{
-	margin-top: 98px;
+	margin-top: 48px;
 	margin-left: -30px;
 	height: 350px;
 
