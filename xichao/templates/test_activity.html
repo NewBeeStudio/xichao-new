@@ -18,11 +18,9 @@
 	<div id="article_content">
 		<p id="p_activity_time_1">活动时间</p>
 		<p id="p_activity_time_2">{{ activity.activity_time }}</p>
-		<div id="p_article_content" style="display:None;"><!--该div用于寄存文章内容-->
-			{{ activity.content }}
-		</div>
 	</div>
 	<div id="article_content_html"><!--该div用于显示文章内容-->
+		<br/>{{ activity.content|safe }}
 	</div>
 	<div id="share">
 		<p id="p_share">分享</p>
@@ -161,13 +159,6 @@ $("#p_collection").click(function(){
 
 
 
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	val=$("#p_article_content").text();
-	$("#article_content_html").html(val);
-})
 </script>
 
 {% endblock %}

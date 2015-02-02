@@ -53,7 +53,14 @@
 
 	overflow: auto;
 }
+#special-introduction-content{
+	height: 160px;
+	font-size: 15px;
 
+	margin-top: 40px;
+	overflow: auto;
+}
+/*
 #special-introduction p{
 	height: 80px;
 	font-size: 15px;
@@ -72,8 +79,8 @@
 
 	overflow: auto;
 }
-
-#special-introduction input{
+*/
+#special-introduction-share{
 	margin-top: 45px;
 
 	width: 100px;

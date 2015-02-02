@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<link href="{{ url_for('static', filename='css/activity.css') }}" rel='stylesheet' type='text/css'/> 
+{% endblock %}
+
+<!--content-->
+{% block content %}
+<div id="activity-headline-img">
+	<img src="{{url_for('uploaded_activity_title_image', filename='headline.jpg')}}">
+</div>
+
+<div id="activity-current">
+	<!-- 活动细节 -->
+	<div>
+		<h2 class="main-color">当前活动</h2>
+		<h3>本然如初，当下即是</h3>
+		<div id="activity-current-info">
+			<img id="activity-left-arrow" src="{{ url_for('static', filename='images/arrow-left.png') }}">
+			<img id="activity-right-arrow" src="{{ url_for('static', filename='images/arrow-right.png') }}">
+
+			<img id="activity-info-img" src="{{ url_for('static', filename='images/square-2.jpg') }}">
+
+			<div>
+				活动介绍：剪一段时光缓缓流淌,流进了月色中微微荡漾,弹一首小荷淡淡的香,美丽的琴音就落在我身旁,萤火虫点亮夜的星光,谁为我添一件梦的衣裳,推开那扇心窗远远地望,谁采下那一朵,昨日的忧伤,我像只鱼儿,在你的荷塘,只为和你守候
+			</div>
+
+			<p style="margin-top: 20px;">活动地点：流进了月色中微微荡漾,弹一首小荷淡淡的香</p>
+			<p>活动时间：流进了月色中微微荡漾,弹一首小荷淡淡的香</p>
+			<a href="#">MORE&gt;</a>
+		</div>
+		
+	</div>
+
+</div>
+
+<div id="activity-past">
+	<h2 class="main-color">以往活动</h2>
+	<!-- 右侧排序下拉菜单 -->
+	<div id="activity-select-part">
+		<label>排序方式：</label>
+		<select name="sorting">
+			<option id="sorting-by-time" value="time" {%if order == 'order_time'%} selected="selected"{% endif %}>时 间</option>
+			<option id="sorting-by-heat" value="heat" {%if order != 'order_time'%} selected="selected"{% endif %}>热 度</option>
+		</select>
+	</div>
+	<!-- 图片 -->
+	<div id="activity-past-info">
+		<table>
+			<tr id="activity-row-1">
+				<td style="background-image: url('/static/images/square-1.jpg');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('/static/images/square-2.jpg');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('/static/images/square-3.jpg');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('/static/images/square-1.jpg');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+			</tr>
+			<tr id="activity-row-2">
+				<td>献给最爱的你</td>
+				<td>文字里的歌</td>
+				<td>梦境与真实</td>
+				<td>远方，从未到达</td>
+			</tr>
+			<tr  id="activity-row-3">
+				<td>2014年8月</td>
+				<td>2014年9月</td>
+				<td>2014年9月</td>
+				<td>2014年11月</td>
+			</tr>
+		</table>
+		
+	</div>
+</div>
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+
+{% endblock %}

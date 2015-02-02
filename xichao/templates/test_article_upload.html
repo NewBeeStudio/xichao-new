@@ -140,7 +140,7 @@
         else if(val_content==''){alert("文章内容不能为空！");}
         else if(val_book_title==''){alert("请关联书籍");}
         else{
-          $.post('http://127.0.0.1:5000/article/finish{{upload_url}}'+val_category,
+          $.post('/article/draft{{upload_url}}'+val_category,
           {
             title: val_title,
             content: val_content,
@@ -157,9 +157,7 @@
             book_binding: val_book_binding
           },
           function(data){
-            layer.msg("文章保存成功",1,1,function(){
-              location.href ="http://127.0.0.1:5000/test";
-            });
+            layer.msg("草稿保存成功",1,1);
           });          
         }
       });

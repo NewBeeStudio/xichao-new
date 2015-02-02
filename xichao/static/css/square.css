@@ -65,6 +65,8 @@ a.square-more{
 	font-size: 20px;
 	margin-right: 20px;
 	color: gray;
+
+	letter-spacing: 1px;
 }
 
 .square-recommend{
@@ -108,11 +110,13 @@ a.square-more{
 	word-wrap: break-word; /*自动换行*/
 }
 
-#recommend-content img{
-	margin-top: 22px;
-	margin-left: 95px;
+#recommend-img{
+	margin: 22px auto auto auto;
+	width: 180px;
+}
 
-	width: 312px;
+#recommend-img img{
+	width: 180px;
 	height: 180px;
 }
 
@@ -225,5 +229,7 @@ img#square-part3-img
 
 .square-part1-right > a, .square-part2-left > a{
 	margin-top: 25px;
+
+	letter-spacing: 1px;
 	float: right;
 }
