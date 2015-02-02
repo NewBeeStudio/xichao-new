@@ -41,14 +41,14 @@
 		<div class="article-content">
 			<h3 class="main-color">{{article.title}}</h3>
 			<div class="article-info">
-				<span> {{article.time}}</span>
+				<span> {{article.time|time_split_2}}</span>
 				<span> 阅读({{article.read_num}})</span>
 				<span> <font color="#D9AE48">收藏</font>({{article.favor}})</span>
 				<span> <font color="#D9AE48">评论</font>({{article.comment_num}})</span>
 				<span> <font color="#D9AE48">曦潮币</font>({{article.coins}})</span>
 			</div>
 			<pre>{{article.abstract}} </pre>
-			<a href="/article/{{article.article_id}}">MORE></a>
+			<a href="{{url_for('article', article_id = article.article_id)}}">MORE></a>
 		</div>
 
 	</div>
@@ -58,7 +58,11 @@
     <div class="article-paging"> 
         <div> 
             {% if article_pagination.has_prev %} 
-                <a href="/article/{{order}}/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.prev_num }}">上一页</a> 
+            	{% if order == 'order_time' %}
+                	<a href="{{url_for('article_group_time', group_id = group_id, category_id = category_id, page_id = article_pagination.prev_num)}}">上一页</a> 
+                {% else %}
+                	<a href="{{url_for('article_group_favor', group_id = group_id, category_id = category_id, page_id = article_pagination.prev_num)}}">上一页</a> 
+                {% endif %}
             {% endif %} 
         </div> 
         <div> 
@@ -66,7 +70,11 @@
         </div> 
         <div>
             {% if article_pagination.has_next %} 
-                <a href="/article/{{order}}/group/{{group_id}}/category/{{category_id}}/page/{{ article_pagination.next_num }}">下一页</a> 
+            	{% if order == 'order_time' %}
+            	<a href="{{url_for('article_group_time', group_id = group_id, category_id = category_id, page_id = article_pagination.next_num)}}">下一页</a> 
+                {% else %}
+                <a href="{{url_for('article_group_favor', group_id = group_id, category_id = category_id, page_id = article_pagination.next_num)}}">下一页</a> 
+                {% endif %}
             {% endif %} 
         </div> 
     </div> 
@@ -83,9 +91,9 @@
 		$('select').change(function()
 		{
 			{%if order == 'order_time'%}
-				location.href = "/article/order_favor/group/{{group_id}}/category/{{category_id}}/page/1";
+				location.href = "{{url_for('article_group_favor', group_id = group_id, category_id = category_id, page_id = 1)}}"
 			{% else %}
-				location.href = "/article/order_time/group/{{group_id}}/category/{{category_id}}/page/1";
+				location.href = "{{url_for('article_group_time', group_id = group_id, category_id = category_id, page_id = 1)}}";
 			{% endif %}
 		});
 
