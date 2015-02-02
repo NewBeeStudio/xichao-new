@@ -28,6 +28,12 @@ a{
     color: #D9AE48;
 }
 
+/*******************字体*****************/
+@font-face { 
+  font-family: 尚黑; /*这里是说明调用来的字体名字*/ 
+  src: url('/static/font/MFShangHei_Noncommercial-Regular.otf'); /*这里是字体文件路径*/ 
+} 
+
 /*******************header*****************/
 ul{
     list-style:none; /*去黑点*/

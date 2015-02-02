@@ -33,7 +33,7 @@ class User(Base, UserMixin):
     gender = Column(CHAR(1), nullable = True)
     birthday = Column(Date, nullable = True)
     phone = Column(String(15), nullable = True)
-    coin = Column(Integer, nullable = True)
+    coin = Column(Integer, nullable = False, default=0)
     role = Column(SmallInteger, nullable = False, default = 1)
     register_time = Column(DateTime, nullable = False)
     last_login_time = Column(DateTime, nullable = False)
@@ -404,6 +404,8 @@ class Activity(Base):
 
     #保存活动内容图片的文件夹号，便于删除
     activity_session_id = Column(String(20),nullable=False)
+    abstract = Column(Text,nullable=False)
+    place=Column(String(255),nullable=False)
     ########## Index/Unique索引 ##########
     favor = Column(Integer, nullable = False, 
                             unique = False, index = True, default = 0)
@@ -414,13 +416,15 @@ class Activity(Base):
 
 
     def __init__(self, name = None, content = None,
-                       create_time = None, activity_time = None,activity_session_id=None,picture=None):
+                       create_time = None, activity_time = None,activity_session_id=None,picture=None,abstract=None,place=None):
         self.name = name
         self.content = content
         self.create_time = create_time
         self.activity_time = activity_time
         self.activity_session_id=activity_session_id
         self.picture=picture
+        self.abstract=abstract
+        self.place=place
 
     def __repr__(self):
         return '<Activity: %r>' % (self.name)

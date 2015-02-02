@@ -13,8 +13,8 @@
 			<!-- 热门文章2~10 -->
 			{% for (i, article) in hot_ground_article_list[1:]|zip %}
 				<tr>
-					<td class="square-col-1"><a href="/article/{{article[0].article_id}}">{{i}}、{{article[0].title}}</a></td>
-					<td class="square-col-2"><a href="/user/{{article[1]}}">{{article[1]}}</a></td>
+					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{i}}、{{article[0].title}}</a></td>
+					<td class="square-col-2"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-final">{{article[0].coins}}</td>
 				</tr>
@@ -37,9 +37,10 @@
 			<span> <font color="#D9AE48">曦潮币</font>({{hot_ground_article_list[0][0].coins}})</span>
 		</div>
 		<pre>{{hot_ground_article_list[0][0].abstract}}</pre>
-
-		<img src="{{hot_ground_article_list[0][0].picture}}"/>
-		<a class="square-more" href="/article/{{hot_ground_article_list[0][0].article_id}}">MORE&gt;</a>
+		<div id="recommend-img">
+			<img src="{{hot_ground_article_list[0][0].picture}}"/>
+		</div>
+		<a class="square-more" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">MORE&gt;</a>
 	</div>
 </div>
 </div>

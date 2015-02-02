@@ -30,6 +30,7 @@
 	            完成草稿编辑       /article/draft
 	        广场页   /square
 
+	        活动页   /activity
 	            
 	    
 	    辅助URL：
@@ -289,9 +290,13 @@ def special():
     other = get_special_author_other(special.user_id)
 #    print ddd
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
-
+    login_user = get_userid_from_session()
+    
     articles_pagination = get_special_article(special_id, page_id, sort)
     return render_template('special_detail.html',
+                            author_itself = (special.user_id == login_user),
+                            has_collected_special = get_special_collect_info(login_user, special_id),
+                            has_collected_author = get_author_collect_info(login_user, special.user_id),
                             sort_change_url = sort_change_url,
                             special_id = special_id,
                             sort = sort,
@@ -392,8 +397,10 @@ def article_upload():
 	role=get_role(int(session['user_id']))
 	if role==1:
 		upload_url='/group/1/category/'
-	else:
+	elif role==2:
 		upload_url='/group/2/category/'
+	else:
+		abort(404)
 	return render_template('test_article_upload.html', upload_url=upload_url)
 
 
@@ -529,8 +536,15 @@ def activity_finish():
 	title=request.form['title']
 	title_image=request.form['title_image']
 	activity_time=request.form['activity_time']
+	place=request.form['place']
+	abstract_abstract_with_img=request.form['abstract']
+	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
+	if len(abstract_plain_text)<100:
+		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
+	else:
+		abstract=abstract_plain_text[0:100]+'......'	
 	formatted_time=datetime.strptime(activity_time,"%m/%d/%Y %H:%M")
-	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time)
+	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time,abstract=abstract,place=place)
 	return u'活动保存成功'
 
 
@@ -581,10 +595,30 @@ def ajax_collection_special():
 
     try:
         collection_special(user_id, special_id)
+
     except Exception:
         return "already"
         
     return "success"
+
+# 取消收藏专栏
+@app.route('/collection_special_cancel', methods=['GET'])
+def ajax_collection_special_cancel():
+    try:
+        user_id = int(session['user_id'])
+    except Exception:
+        return "login"
+        
+    special_id = int(request.args.get('id'))
+
+    try:
+        collection_special_cancel(user_id, special_id)
+
+    except Exception:
+        return "already"
+        
+    return "success"
+
 
 # 收藏专栏作家
 @app.route('/collection_special_author', methods=['GET'])
@@ -599,6 +633,43 @@ def ajax_collection_special_author():
     err = collection_special_author(user_id, special_id)
     return err
 
+
+@app.route('/collection_article',methods=['POST'])
+@login_required
+def ajax_collection_article():
+	article_id=request.form['article_id']
+	result=collection_article(user_id=current_user.user_id,article_id=article_id)
+	if result=="success":
+		update_article_favor(article_id)
+	return result
+
+
+@app.route('/collection_activity',methods=['POST'])
+@login_required
+def ajax_collection_activity():
+	if current_user.role==3:
+		return 'fail'
+	else:
+		activity_id=request.form['activity_id']
+		result=collection_activity(user_id=current_user.user_id,activity_id=activity_id)
+		if result=="success":
+			update_activity_favor(activity_id)
+		return result
+
+
+
+# 取消收藏专栏作家
+@app.route('/collection_special_author_cancel', methods=['GET'])
+def ajax_collection_special_author_cancel():
+    try:
+        user_id = int(session['user_id'])
+    except Exception:
+        return "login"
+        
+    special_id = int(request.args.get('id'))
+
+    err = collection_special_author_cancel(user_id, special_id)
+    return err
 ##################################	书籍 ##################################
 #书籍图片的存储路径
 @app.route('/book/picture/<filename>')
@@ -664,8 +735,18 @@ def article_group_favor(group_id,category_id,page_id=1):
 
 
 
-
 ##################################	活动 ##################################
+##活动主页
+@app.route('/activity')
+@login_required
+def activity_main():
+	current_activity_list=get_current_activity_list(datetime.now())
+	passed_activity_list=get_passed_activity_list(datetime.now())
+	
+	while len(passed_activity_list) < 4:
+		passed_activity_list.append([])
+	return render_template('activity.html',current_activity_list=current_activity_list,passed_activity_list=passed_activity_list)
+
 ##读取活动
 @app.route('/activity/<int:activity_id>')
 @login_required
@@ -780,6 +861,3 @@ def award_article():
 def article_test():
 	return render_template('security/login_user.html')
 
-@app.route('/activity') 
-def activity_test():
-	return render_template('pay_author.html')

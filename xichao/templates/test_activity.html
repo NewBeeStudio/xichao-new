@@ -18,11 +18,9 @@
 	<div id="article_content">
 		<p id="p_activity_time_1">活动时间</p>
 		<p id="p_activity_time_2">{{ activity.activity_time }}</p>
-		<div id="p_article_content" style="display:None;"><!--该div用于寄存文章内容-->
-			{{ activity.content }}
-		</div>
 	</div>
 	<div id="article_content_html"><!--该div用于显示文章内容-->
+		<br/>{{ activity.content|safe }}
 	</div>
 	<div id="share">
 		<p id="p_share">分享</p>
@@ -36,7 +34,7 @@
 		<p id="p_read_content">({{ activity.read_num }})</p>
 		<p id="p_review">评论</p>
 		<p id="p_review_content">({{ activity.comment_num }})</p>
-		<p id="p_collection">收藏</p>
+		<a id="p_collection" href="#">收藏</a>
 		<p id="p_collection_content">({{ activity.favor }})</p>
 	</div>
 	
@@ -140,13 +138,27 @@ $("#comment_publish_button").click(function(){
 $("#comment_reset_button").click(function(){
 	$('#input_publish_review').contents().find('body').empty();
 });
-</script>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	val=$("#p_article_content").text();
-	$("#article_content_html").html(val);
-})
+$("#p_collection").click(function(){
+	$.post("{{url_for('ajax_collection_activity')}}",
+		{
+			activity_id: {{activity.activity_id}}
+		},
+		function(data){
+			if (data=="fail"){
+				layer.msg("你是管理员，不能收藏该活动",1,3);
+			}
+			else if (data=="already") {
+				layer.msg("你已收藏该活动",1,3);
+			}
+			else{
+				layer.msg("收藏成功",1,1);
+			}
+	});
+});
+
+
+
 </script>
 
 {% endblock %}

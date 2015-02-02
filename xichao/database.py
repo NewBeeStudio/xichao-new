@@ -55,7 +55,14 @@ def test_db():
                 state = u'0',photo=u'http://127.0.0.1:5000/upload/avatar/default1.jpg')
     db_session.add(user)
     db_session.commit()
-    
+
+    user = User(nick = u"曦潮", email = u"xichao@xichao.com", 
+                role = 3, register_time = datetime.now(),
+                slogon = u"我是管理员！",
+                last_login_time = datetime.now(), password = encrypt(u"xichao"),
+                state = u'1',photo=u'http://127.0.0.1:5000/upload/avatar/default1.jpg')
+    db_session.add(user)
+    db_session.commit()    
     ##测试书籍
     from models import Book
     book = Book(title = u"算法导论", ISBN = u"7111407016",
@@ -77,7 +84,24 @@ def test_db():
     from models import Special
     special = Special(name = u"算法学习指南", user_id = 2,
                        picture = u"http://127.0.0.1:5000/upload/special/special_detail_pic_2.jpg", 
-                       introduction = u"算法很美大家一起学！起！来！",
+                       introduction = u"""
+                       <div>
+                       本专栏专门用来引导算法初学者，让大家更多的体会到算法之美
+                       </div>
+                       <table>
+ 				<tr>
+    				<td>作者</td>
+    				<td> Nick2 </td>
+  				</tr>
+  				<tr>
+    				<td>类别</td>
+    				<td>饮食/专栏</td>
+  				</tr>
+  				<tr>
+    				<td>期数</td>
+    				<td>共11期，正在更新</td>
+  				</tr>
+				</table>""",
                        time = datetime.now())
     db_session.add(special)
     db_session.commit()
@@ -145,7 +169,7 @@ def test_db():
     from models import Activity
     activity = Activity(name = u"曦潮童汇", content = u"小朋友们看过来",
                         create_time = datetime.now(), 
-                        activity_time = datetime.now(),activity_session_id=1,picture='http://127.0.0.1:5000/upload/activity/activity_title_image/activity_upload_pic_1.jpg') 
+                        activity_time = datetime.now(),activity_session_id=1,picture='http://127.0.0.1:5000/upload/activity/activity_title_image/activity_upload_pic_1.jpg',abstract=u"小朋友们看过来......",place=u"曦潮书店") 
                         ##注意这里活动时间不应该是now
     db_session.add(activity)
     db_session.commit()
