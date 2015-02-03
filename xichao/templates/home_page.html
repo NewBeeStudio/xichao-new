@@ -1,3 +1,38 @@
+{% extends "layout_home_page.html" %}
+
+{% block home_page_content %}
+	
+
+	<div style="margin-top: 87px;"></div>
+	<!-- 个人简介 -->
+	<div class="square-part1">
+		<!-- 头像 -->
+		<div class="square-part1-left">
+			<h2 style="line-height: 40px">个人简介</h2>
+			<img id="square-part1-img" style="background-image: url('{{current_user.photo}}')" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
+			<div></div>
+		</div>
+
+		<!-- 介绍 -->
+		<div class="home-introduction">
+			<table>
+				<tr>
+					<td class="home-col-1">{{user.nick}}</td>
+				</tr>
+			</table>
+
+			<div>
+				{{current_user.slogon}}
+			</div>
+		</div>
+	
+	</div>
+{% endblock %}
+
+
+{#
+
+
 {% extends "layout_login.html" %}
 
 {% block css %}
@@ -117,3 +152,7 @@
 </script>
 
 {% endblock %}
+
+
+
+#}

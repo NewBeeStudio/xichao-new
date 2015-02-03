@@ -894,7 +894,7 @@ def home_page():
 		article_collection_pagination=article_collection_pagination,activity_collection_pagination=activity_collection_pagination,
 		user_collection_pagination=user_collection_pagination,special_collection_pagination=special_collection_pagination,
 		fans_pagination=fans_pagination,message_pagination=message_pagination,received_comment_pagination=received_comment_pagination,
-		notification_pagination=notification_pagination)
+		notification_pagination=notification_pagination,user=current_user)
 
 
 ##################################	广场 ##################################
