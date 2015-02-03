@@ -21,14 +21,16 @@
 		{% for (i,activity) in current_activity_list|zip %}
 		<div class="activity-current-info" data-index='{{i-1}}'>
 			<h3>{{activity.name}}</h3>
+			
 			<img class="activity-info-img" src="{{activity.picture}}">
-		
+			
 			<div>
-				<strong>活动介绍：</strong>{{activity.abstract}}
+				<div style="height: 150px;"><strong>活动介绍：</strong>{{activity.abstract}}</div>
+				<div style="margin-top: 30px;"></div>
+				<div><strong>活动时间：</strong>{{activity.activity_time|time_split_3}}</div>
+				<div><strong>活动地点：</strong>{{activity.place}}</div>
 			</div>
-		
-			<p style="margin-top: 20px;"><strong>活动时间：</strong>{{activity.activity_time|time_split_3}}</p>
-			<p><strong>活动地点：</strong>{{activity.place}}</p>
+			
 			<a href="{{url_for('activity', activity_id = activity.activity_id)}}">MORE&gt;</a>
 		</div>
 		{% endfor %}
