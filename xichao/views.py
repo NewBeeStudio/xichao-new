@@ -335,6 +335,7 @@ def save_special_title_image():
 			title_image.save(title_image_url)
 	return app.config['HOST_NAME']+'/upload/special/'+title_image_name
 
+# 调用美图秀秀
 @app.route('/upload/tailor/special_title_image')
 def upload_special_title_image():
 	return render_template('upload_special_title_image_tailor.html')
