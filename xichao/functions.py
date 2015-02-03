@@ -6,7 +6,7 @@
 	实现一些数据库基本的功能，被高层次代码所调用
 
 '''
-from xichao import app
+#from xichao import app
 from hashlib import md5
 from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity
 from database import db_session
@@ -611,3 +611,15 @@ def get_received_comment_pagination(user_id,page_id):
 def get_notification_pagination(user_id,page_id):
 	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id==3))
 	return paginate(query,page_id,10,False)
+
+
+def get_has_prev(pagination):
+	if pagination.has_prev:
+		return 'yes'
+	else:
+		return 'no'
+def get_has_next(pagination):
+	if pagination.has_next:
+		return 'yes'
+	else:
+		return 'no'

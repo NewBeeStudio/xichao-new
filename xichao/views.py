@@ -47,7 +47,7 @@
 '''
 from xichao import app, login_manager, login_serializer
 from functions import *
-from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify,abort
+from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify,abort,json
 from models import User
 from database import db_session
 from datetime import datetime
@@ -928,13 +928,21 @@ def view_home_page(nick):
 @login_required
 def ajax_article_pagination_by_coins(user_id,page_id):
 	article_pagination=get_article_pagination_by_user_id(user_id,False,page_id)
-	return article_pagination
+	has_prev=get_has_prev(article_pagination)
+	has_next=get_has_next(article_pagination)
+	page=str(article_pagination.page)
+	pages=str(article_pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[article.get_serialize() for article in article_pagination.items])
 
 @app.route('/user/<int:user_id>/article/pagination/by_time/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_article_pagination_by_time(user_id,page_id):
 	article_pagination=get_article_pagination_by_user_id(user_id,True,page_id)
-	return article_pagination
+	has_prev=get_has_prev(article_pagination)
+	has_next=get_has_next(article_pagination)
+	page=str(article_pagination.page)
+	pages=str(article_pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[article.get_serialize() for article in article_pagination.items])
 
 
 
