@@ -77,7 +77,7 @@
 				{% endif %}
 
 				{% if article_pagination.pages %}
-				Page&nbsp;{{ article_pagination.page }}&nbsp;/&nbsp;{{ article_pagination.pages }}
+				Page&nbsp;<font id="home-current-page">{{ article_pagination.page }}</font>&nbsp;/&nbsp;{{ article_pagination.pages }}
 				{% endif %}
 				
 				{% if article_pagination.has_next %}
@@ -212,6 +212,8 @@
     				$('#home-right-arrow').css("display", "none");
     			else
     				$('#home-right-arrow').css("display", "inline");
+
+    			$('#home-current-page').html(current_page);
   			});
 		});
 
@@ -248,6 +250,8 @@
     				$('#home-right-arrow').css("display", "none");
     			else
     				$('#home-right-arrow').css("display", "inline");
+
+    			$('#home-current-page').html(current_page);
     			
   			});
 		});
@@ -285,6 +289,8 @@
     				$('#home-right-arrow').css("display", "none");
     			else
     				$('#home-right-arrow').css("display", "inline");
+
+    			$('#home-current-page').html(current_page);
     			
   			});
 		});
