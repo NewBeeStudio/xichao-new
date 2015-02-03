@@ -37,15 +37,32 @@
         <input  class="register-button" id="book_button" type="button"value="确定">
       </div>
       <div id="book_information" style="display:none;">
-        <p id="book_name"></p>
-        <p id="book_author"></p>
-        <p id="book_publisher"></p>
-        <p id="book_pubdate"></p>
-        <p id="book_pages"></p>
-        <p id="book_price"></p>
-        <p id="book_binding"></p>
-        <p id="book_isbn"></p>
-        <img id="book_image" src="">
+        <img id="book_image" style="width:200px;height:293px;" src="">
+        <div id="div_book_info">
+          <p class="p_book_info">书名</p>
+          <p class="p_book_info">作者</p>
+          <p class="p_book_info">出版社</p>
+          <p class="p_book_info">出版时间</p>
+          <p class="p_book_info">页数</p>
+          <p class="p_book_info">价格</p>
+          <p class="p_book_info">装帧</p>
+        </div>
+        <!--<p class="p_book_info">书名</p>
+        <p class="p_book_info">作者</p>
+        <p class="p_book_info">出版社</p>
+        <p class="p_book_info">出版时间</p>
+        <p class="p_book_info">页数</p>
+        <p class="p_book_info">价格</p>
+        <p class="p_book_info">装帧</p>-->
+
+        <p class="p_book_info_content" id="book_name"></p>
+        <p class="p_book_info_content" id="book_author"></p>
+        <p class="p_book_info_content" id="book_publisher"></p>
+        <p class="p_book_info_content" id="book_pubdate"></p>
+        <p class="p_book_info_content" id="book_pages"></p>
+        <p class="p_book_info_content" id="book_price"></p>
+        <p class="p_book_info_content" id="book_binding"></p>
+        <p class="p_book_info_content" id="book_isbn"></p>
       </div>
       
       <div id="buttons">
@@ -212,6 +229,55 @@
 function update_title_image(data){
   $('#pic_4').attr("src",data);
 }
+</script>
+
+<script type="text/javascript">
+var cur_index = 2;
+var arr = new Array();
+arr[0] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}";
+arr[1] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}";
+arr[2] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}";
+arr[3] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}";
+arr[4] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_5.jpg')}}";
+arr[5] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}";
+
+  $('#triangle_left').click(function(){
+    var pic_1 = document.getElementById("pic_1");
+    var pic_2 = document.getElementById("pic_2");
+    var pic_3 = document.getElementById("pic_3");
+
+    if (cur_index == arr.length - 1)
+      {cur_index = 0;}
+    else 
+      {cur_index += 1;}
+
+    pic_1.src = pic_2.src;
+    pic_2.src = pic_3.src;
+    pic_3.src = arr[cur_index];
+  })
+
+  $('#triangle_right').click(function(){
+    var pic_1 = document.getElementById("pic_1");
+    var pic_2 = document.getElementById("pic_2");
+    var pic_3 = document.getElementById("pic_3");
+
+    var tmp = 0;
+
+    if (cur_index - 3 < 0)
+      {tmp = arr.length + cur_index - 3;}
+    else {
+      tmp = cur_index - 3;
+    }
+
+    if (cur_index == 0)
+      {cur_index = arr.length - 1;}
+    else 
+      {cur_index -= 1;}
+
+    pic_3.src = pic_2.src;
+    pic_2.src = pic_1.src;
+    pic_1.src = arr[tmp];
+  })
 </script>
 
 {% endblock %}
