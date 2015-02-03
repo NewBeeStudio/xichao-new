@@ -243,6 +243,7 @@ def create_special_authorized():
 		## 专栏作家或者管理员
 	else:
 	    return False
+
 def create_new_special(name, user_id, picture, introduction):
     special = Special(name = name, user_id = user_id,
                        picture = picture, introduction = introduction,
