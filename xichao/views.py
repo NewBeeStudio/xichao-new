@@ -359,7 +359,7 @@ def create_special_finish():
                        picture = title_image,
                        introduction = content)
                        
-    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
+#    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
     return str(special_id)
 
 ## 编辑专栏文章
