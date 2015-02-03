@@ -21,14 +21,16 @@
 		{% for (i,activity) in current_activity_list|zip %}
 		<div class="activity-current-info" data-index='{{i-1}}'>
 			<h3>{{activity.name}}</h3>
+			
 			<img class="activity-info-img" src="{{activity.picture}}">
-		
+			
 			<div>
-				<strong>活动介绍：</strong>{{activity.abstract}}
+				<div style="height: 150px;"><strong>活动介绍：</strong>{{activity.abstract}}</div>
+				<div style="margin-top: 30px;"></div>
+				<div><strong>活动时间：</strong>{{activity.activity_time|time_split_3}}</div>
+				<div><strong>活动地点：</strong>{{activity.place}}</div>
 			</div>
-		
-			<p style="margin-top: 20px;"><strong>活动时间：</strong>{{activity.activity_time|time_split_3}}</p>
-			<p><strong>活动地点：</strong>{{activity.place}}</p>
+			
 			<a href="{{url_for('activity', activity_id = activity.activity_id)}}">MORE&gt;</a>
 		</div>
 		{% endfor %}
@@ -57,16 +59,16 @@
 	<div id="activity-past-info">
 		<table>
 			<tr id="activity-row-1">
-				<td style="background-image: url('{{passed_activity_list[0].picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
-				<td style="background-image: url('{{passed_activity_list[1].picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
-				<td style="background-image: url('{{passed_activity_list[2].picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
-				<td style="background-image: url('{{passed_activity_list[3].picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('{{passed_activity_list[0].picture if passed_activity_list[0]}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('{{passed_activity_list[1].picture if passed_activity_list[1]}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('{{passed_activity_list[2].picture if passed_activity_list[2]}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('{{passed_activity_list[3].picture if passed_activity_list[3]}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
 			</tr>
 			<tr id="activity-row-2">
-				<td>{{passed_activity_list[0].name}}</td>
-				<td>{{passed_activity_list[1].name}}</td>
-				<td>{{passed_activity_list[2].name}}</td>
-				<td>{{passed_activity_list[3].name}}</td>
+				<td>{{passed_activity_list[0].name if passed_activity_list[0]}}</td>
+				<td>{{passed_activity_list[1].name if passed_activity_list[1]}}</td>
+				<td>{{passed_activity_list[2].name if passed_activity_list[2]}}</td>
+				<td>{{passed_activity_list[3].name if passed_activity_list[3]}}</td>
 			</tr>
 			<tr  id="activity-row-3">
 				<td>{{passed_activity_list[0].activity_time|time_split_4 if passed_activity_list[0]}}</td>

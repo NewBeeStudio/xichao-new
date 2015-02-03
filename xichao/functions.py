@@ -19,7 +19,6 @@ from flask.ext.mail import Message
 from flask.ext.sqlalchemy import Pagination
 import re
 import models
-#from sqlalchemy.orm import query
 
 
 ##################################  注册函数  ####################################
@@ -236,6 +235,22 @@ def update_read_num_activity(activity_id):
 	db_session.commit()
 ##################################  专栏函数  ####################################
 
+def create_special_authorized():
+	nick=None
+	if 'user_id' in session:
+		result = db_session.query(User).filter_by(user_id=int(session['user_id'])).all()[0]
+		return result.role == 3
+		## 专栏作家或者管理员
+	else:
+	    return False
+
+def create_new_special(name, user_id, picture, introduction):
+    special = Special(name = name, user_id = user_id,
+                       picture = picture, introduction = introduction,
+                       time = datetime.now())
+    db_session.add(special)
+    db_session.commit()
+    return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
 
 def get_userid_from_session():
 	nick=None
@@ -611,3 +626,15 @@ def get_received_comment_pagination(user_id,page_id):
 def get_notification_pagination(user_id,page_id):
 	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id==3))
 	return paginate(query,page_id,10,False)
+
+
+def get_has_prev(pagination):
+	if pagination.has_prev:
+		return 'yes'
+	else:
+		return 'no'
+def get_has_next(pagination):
+	if pagination.has_next:
+		return 'yes'
+	else:
+		return 'no'

@@ -13,12 +13,53 @@ from database import Base
 from flask.ext.login import UserMixin
 from xichao import login_serializer
 from hashlib import md5
+import datetime
 
 ## 格式: Column(type, nullable, unique, index)
 
+
+class AutoSerialize(object):
+    '''
+    Mixin for retrieving public fields of model in json-compatible format
+    '''
+    __allowed_in_json__ = None
+
+    def get_serialize(self, exclude=()):
+        '''Returns model's PUBLIC data for jsonify'''
+        data = {}
+        keys = self._sa_class_manager.mapper.mapped_table.columns
+        public = self.__allowed_in_json__
+        for col in keys:
+            if public is not None:
+                if col.name not in public:
+                    continue
+            if col.name in exclude:
+                continue
+            data[col.name] = self._serialize(getattr(self, col.name))
+        return data
+
+    @classmethod
+    def _serialize(cls, value):
+        if type(value) in (int, float, long, bool):
+            ret = str(value)
+        elif type(value) is unicode:
+            ret = value.encode('utf-8')
+        elif isinstance(value, datetime.date):
+            ret = value.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(value, datetime.time) or isinstance(value, datetime.datetime):
+            ret = value.isoformat()
+        elif isinstance(value, decimal.Decimal):
+            ret = str(value)
+        else:
+            ret = value
+
+        return ret
+
+
+
 ##################################  用户模型  ####################################
 
-class User(Base, UserMixin):
+class User(Base, UserMixin, AutoSerialize):
     __tablename__ = 'user'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -81,7 +122,7 @@ class User(Base, UserMixin):
 
 ##################################  书籍模型  ####################################
 
-class Book(Base):
+class Book(Base,AutoSerialize):
     __tablename__ = 'book'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -128,7 +169,7 @@ class Book(Base):
 
 ##################################  专栏模型  ####################################
 
-class Special(Base):
+class Special(Base,AutoSerialize):
     __tablename__ = 'special'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -174,7 +215,7 @@ class Special(Base):
 
 ##################################  文章模型  ####################################
 
-class Article(Base):
+class Article(Base,AutoSerialize):
     __tablename__ = 'article'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -247,7 +288,7 @@ class Article(Base):
         
 ####################################  文章会话id表  ######################################
 
-class Article_session(Base):
+class Article_session(Base,AutoSerialize):
     __tablename__='article_session'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -262,7 +303,7 @@ class Article_session(Base):
     def __repr__(self):
         return '<Article_session: %r>' % (self.article_session_id)
 
-class Activity_session(Base):
+class Activity_session(Base,AutoSerialize):
     __tablename__='activity_session'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -279,7 +320,7 @@ class Activity_session(Base):
 
 ##################################  评论模型  ####################################
 
-class Comment(Base):
+class Comment(Base,AutoSerialize):
     __tablename__ = 'comment'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -319,7 +360,7 @@ class Comment(Base):
         return '<Comment id: %r>' % (self.comment_id)
         
 ##################################  活动评论模型  ####################################
-class Comment_activity(Base):
+class Comment_activity(Base,AutoSerialize):
     __tablename__ = 'comment_activity'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -350,7 +391,7 @@ class Comment_activity(Base):
         return '<Comment_activity id: %r>' % (self.comment_activity_id)                
 ##################################  私信模型  ####################################
 
-class Message(Base):
+class Message(Base,AutoSerialize):
     __tablename__ = 'message'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -386,7 +427,7 @@ class Message(Base):
         
 ##################################  活动模型  ####################################
 
-class Activity(Base):
+class Activity(Base,AutoSerialize):
     __tablename__ = 'activity'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -434,7 +475,7 @@ class Activity(Base):
         
 ##################################  活动收藏模型  ####################################
 
-class Collection_Activity(Base):
+class Collection_Activity(Base,AutoSerialize):
     __tablename__ = 'collection_activity'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -466,7 +507,7 @@ class Collection_Activity(Base):
 
 ##################################  文章收藏模型  ####################################
 
-class Collection_Article(Base):
+class Collection_Article(Base,AutoSerialize):
     __tablename__ = 'collection_article'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -498,7 +539,7 @@ class Collection_Article(Base):
 
 ##################################  专栏收藏模型  ####################################
 
-class Collection_Special(Base):
+class Collection_Special(Base,AutoSerialize):
     __tablename__ = 'collection_special'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -529,7 +570,7 @@ class Collection_Special(Base):
 
 ##################################  用户收藏模型  ####################################
 
-class Collection_User(Base):
+class Collection_User(Base,AutoSerialize):
     __tablename__ = 'collection_user'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',
@@ -561,7 +602,7 @@ class Collection_User(Base):
 
 ##################################  曦潮记产品模型  ####################################
 
-class Product(Base):
+class Product(Base,AutoSerialize):
     __tablename__ = 'product'
     __table_args__ = { 
         'mysql_engine': 'InnoDB',

@@ -63,6 +63,8 @@ td.square-col-3{
 a.square-more{
 	text-align: right;
 	font-size: 20px;
+
+	margin-top: 10px;
 	margin-right: 20px;
 	color: gray;
 
@@ -113,11 +115,12 @@ a.square-more{
 #recommend-img{
 	margin: 22px auto auto auto;
 	width: 180px;
+	height: 180px;
 }
 
 #recommend-img img{
-	width: 180px;
-	height: 180px;
+	width: 100%;
+	height: 100%;
 }
 
 #square-part1-content, .square-part1-right > a, .square-part2-left > a{

@@ -1,0 +1,126 @@
+.home-introduction{
+	margin-top: 160px;
+	width: 700px;
+	height: 500px;
+
+	float: right;
+}
+
+.home-introduction tr{
+	height: 60px;
+	text-align: center;
+	font-family: 微软雅黑;
+}
+
+
+.home-col-1{
+	width: 180px;
+	letter-spacing: 5px;
+
+	font-size: 29.2px;
+}
+
+.home-col-2, .home-col-3{
+	width: 120px;
+	line-height: 30px;
+	letter-spacing: 5px;
+
+	font-size: 16.7px;
+	border-left: 1px solid #000000;
+}
+
+.home-col-4{
+	padding-left: 30px;
+	padding-right: 10px;
+}
+
+.home-col-4 > input, .home-col-5 > input{
+	width: 100px;
+	height: 40px;
+
+	font-family: 微软雅黑;
+	font-size: 20.8px;
+
+	border-radius: 5px;
+
+	background-color: #D9AE48;
+}
+
+/*个人介绍*/
+.home-introduction div{
+	margin: 40px auto;
+
+	width: 670px;
+	height: 300px;
+	letter-spacing: 2px;
+	text-align: center;
+
+	line-height: 25px;
+	font-family: 微软雅黑;
+	font-size: 18.7px;
+}
+
+#home-select{
+	font-family: 宋体;
+	float: right;
+}
+
+#home-select select{
+	width: 100px;
+}
+
+#home-paging{
+	margin-top: 50px;
+	text-align: center;
+
+	font-family: 微软雅黑;
+	font-size: 12.5px;
+}
+
+#home-paging a{
+	display: inline;
+}
+
+
+#home-star{
+	clear: both;
+}
+
+#home-star h2{
+	font-family: 黑体;
+	font-size: 25px;
+	letter-spacing: 4px;
+}
+
+.home-star-row{
+	margin-top: 10px;
+	height: 250px;
+
+	text-align: center;
+}
+
+.home-star-row > div{
+	margin: 10px 12px;
+	width: 180px;
+
+	float: left;
+}
+
+.home-star-row img{
+	width: 180px;
+	height: 180px;
+
+	background-size: 180px 180px;
+}
+
+div.home-star-name{
+	margin-top: 10px;
+	font-family: 微软雅黑;
+	font-size: 16.7px;
+
+	letter-spacing: 2px;
+}
+
+#ajax-inner-field{
+	height: 350px;
+}
