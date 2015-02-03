@@ -7,7 +7,10 @@
 }
 
 #title {
-	font-family: 微软雅黑;
+	margin-top: 45px;
+	font-family: 黑体;
+	font-size: 16px;
+	color: rgb(114, 114, 114);
 	font-size: 17px;
 }
 
@@ -15,30 +18,33 @@
 	margin-top: 4%;
 }
 
-#pics {
+#div_pics {
 	margin-top: 4%;
 }
 
-.pics {
+#pic_4 {
 	float: left;
 }
 
 #pic_1 {
 	margin-left: 1%;
+	float: left;
 }
 
 #pic_2 {
 	margin-left: 2%;
+	float: left;
 }
 
 #pic_3 {
 	margin-left: 2%;
+	float: left;
 }
 
 
 .p_triangle {
-	float: left;
-	margin-top: 8%;
+	padding-top: 8%;
+	padding-bottom: 6%;
 	color: #ff9900;
 	font-size: 35px;
 	text-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
@@ -55,10 +61,11 @@
 
 #triangle_left {
 	margin-left: 6%;
+	float: left;
 }
 
 #triangle_right {
-	margin-left: 1%;
+	margin-left: 96%;
 }
 
 #button_upload_pic {
@@ -69,6 +76,7 @@
 
 #article_editor {
 	margin-top: 5%;
+	font-family: 微软雅黑;
 }
 
 #p_article_title {
@@ -89,15 +97,22 @@
 	margin-bottom: 4%;
 }
 
-#div_book_info {
-	margin-top: 3%;
-}
-
 #book_info {
 	color: #D9AE48;
 	margin-left: 30%;
 	font-family: 微软雅黑;
 	line-height: 250%;
+}
+
+#book_isbn {
+	height: 20px;
+}
+
+#book_button {
+	height: 30px;
+	width: 50px;
+	line-height: 30px;
+	margin-left: 3%;
 }
 
 .input_book_info {
@@ -132,18 +147,34 @@
 	margin-top: 18%;
 }
 
-#button_upload_cancel {
-	margin-left: 15%;
+#buttons {
 	margin-top: 5%;
 }
 
+#button_upload_cancel {
+	margin-left: 15%;
+	float: left;
+}
+
 #button_upload_confirm {
-	margin-left: 18%;
-	margin-right: 15%;
-	margin-top: 5%;
+	margin-left: 76%;
 }
 
 #button_upload_draft {
 	margin-left: 19%;
-	margin-top: 5%;
+	float: left;
+}
+
+.register-button{
+    width: 118px;
+    height: 38px;
+
+    font-family: 黑体;
+    font-size: 17px;
+    text-align: center;
+    line-height: 35px;
+
+    border-radius: 8px;
+    background-color: #D9AE48;
+    color: #ffffff;
 }

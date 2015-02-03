@@ -11,7 +11,7 @@
 <!--content-->
 {% block content %}
  <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发表文章</p>
-    <div id="pics">
+    <div id="div_pics">
         <img class="pics" id="pic_4" style="width:225px;height:205px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}" />
        	<p class="p_triangle" id="triangle_left">◀</p>
         <img class="pics" id="pic_1" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
@@ -19,7 +19,7 @@
         <img class="pics" id="pic_3" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
         <p class="p_triangle" id="triangle_right">▶</p>
 
-        <a href="#" class="myButton" id="button_upload_pic">上传题图</a>
+        <a href="#" class="register-button" id="button_upload_pic">上传题图</a>
     </div>
 
    	<div id="article_editor">
@@ -30,12 +30,13 @@
       <input type="radio" name="category" value="2">影评
       <input type="radio" name="category" value="3">杂文
       <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
-      <div style="height:20px;">
+
+      <div id="book_info">
         <label>请输入书籍ISBN号</label>
-        <input id="book_isbn" type="text" style="height:20px;">
-        <input id="book_button" type="button" style="height:20px;" value="确定">
+        <input id="book_isbn" type="text">
+        <input  class="register-button" id="book_button" type="button"value="确定">
       </div>
-      <div id="book_information" style="display:none;">
+      <!--<div id="book_information" style="display:none;">
         <p id="book_name"></p>
         <p id="book_author"></p>
         <p id="book_publisher"></p>
@@ -45,11 +46,14 @@
         <p id="book_binding"></p>
         <p id="book_isbn"></p>
         <img id="book_image" src="">
-      </div>
+      </div>-->
       
-      <a href="#" class="myButton" id="button_upload_cancel">取消</a>
-      <a href="#" class="myButton" id="button_upload_draft">保存草稿</a>
-      <a href="#" class="myButton" id="button_upload_confirm">确定</a>
+      <div id="buttons">
+        <a href="#" class="register-button" id="button_upload_cancel">取消</a>
+        <a href="#" class="register-button" id="button_upload_draft">保存草稿</a>
+        <a href="#" class="register-button" id="button_upload_confirm">确定</a>
+      </div>
+  
    	</div>
 	
 {% endblock %}
