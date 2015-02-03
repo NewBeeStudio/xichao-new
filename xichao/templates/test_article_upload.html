@@ -36,7 +36,7 @@
         <input id="book_isbn" type="text">
         <input  class="register-button" id="book_button" type="button"value="确定">
       </div>
-      <!--<div id="book_information" style="display:none;">
+      <div id="book_information" style="display:none;">
         <p id="book_name"></p>
         <p id="book_author"></p>
         <p id="book_publisher"></p>
@@ -46,7 +46,7 @@
         <p id="book_binding"></p>
         <p id="book_isbn"></p>
         <img id="book_image" src="">
-      </div>-->
+      </div>
       
       <div id="buttons">
         <a href="#" class="register-button" id="button_upload_cancel">取消</a>
@@ -191,6 +191,7 @@
 <script type="text/javascript">
   $('#book_button').click(function(){
     val_book_isbn=$('#book_isbn').val();
+    alert(val_book_isbn);
     url='https://api.douban.com/v2/book/isbn/'+val_book_isbn+'?fields=title,author,publisher,pubdate,pages,price,binding,isbn13,images&callback=?';
     $.getJSON(url,function(json){
       $("#book_name").text(json.title);
