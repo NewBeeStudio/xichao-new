@@ -104,7 +104,7 @@ class Book(Base):
     favor=Column(Integer,nullable=False,index=True,default=1)
     ########## Index/Unique索引 ##########
     title = Column(String(50), nullable = False, 
-                   unique = True, index = True)
+                   unique = False, index = True)
     ISBN = Column(String(50), nullable = False,
                    unique = True, index = True)
 

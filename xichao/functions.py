@@ -135,7 +135,7 @@ def get_activity_session_id():
 	return result[0]
 
 #添加文章
-def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract,book_id):
+def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract,book_id,special_id):
 	result=db_session.query(Article).filter_by(article_session_id=article_session_id).all()
 	if len(result)>0:
 		article=db_session.query(Article).filter_by(article_session_id=article_session_id).scalar()
@@ -149,11 +149,12 @@ def create_article(title,content,title_image,article_session_id,is_draft,user_id
 		db_session.commit()
 		return result[0].article_id
 	else:
-		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract,book_id=book_id)
+		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract,book_id=book_id,special_id=special_id)
 		db_session.add(article)
 		db_session.commit()
 		result=db_session.query(Article).filter_by(article_session_id=article_session_id).first()
 		return result.article_id
+		
 
 def create_book(book_picture,book_author,book_press,book_page_num,book_price,book_press_time,book_title,book_ISBN,book_binding):
 	result=db_session.query(Book).filter_by(ISBN=book_ISBN).all()
@@ -193,7 +194,7 @@ def get_user_id(nick):
 
 #返回1个元组，result[0][0]是Article类的数据库实例，result[0][1]是该Article实例所对应的User.nick,是字符串,result[0][2]是该Article实例所对应的Book实例
 def get_article_information(article_id):
-	result=db_session.query(Article,User.nick,Book).join(User,Book).filter(Article.article_id==article_id).all()
+	result=db_session.query(Article,User,Book).join(User,Book).filter(Article.article_id==article_id).all()
 	#print result[0]
 	if len(result)>0:
 		return result[0]

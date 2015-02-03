@@ -9,8 +9,42 @@
 		$(document).ready(function(){
 			$("#button").click(function(){
 				val_award_num=$("#award_num").val();
-				//val_article_id=$("#article_id",parent.document).val();
-				if (val_award_num=='') {alert("打赏值不能为空");}
+				var re = /^[0-9]+.?[0-9]*$/;
+
+				var val_author_id = parent.window.get_author_id();
+				var val_content = $("#input_review").val();
+				if($("[name='message_author']").attr("checked")){
+					$.post("{{url_for('message')}}",
+					 {
+					 	user_id: val_author_id,
+					 	content: val_content
+					 }, 
+					 function(data){
+					 });
+				};
+
+				var val_article_id = parent.window.get_article_id();
+				var val_user_id = parent.window.get_user_id();
+				alert(val_article_id);
+				alert(val_user_id);
+				if($("[name='comment_article']").attr("checked")){
+					$.post('http://127.0.0.1:5000/article/comment',
+					{
+						content:val_content,
+						article_id:val_article_id,
+						to_user_id:val_user_id
+					},
+					function(data){
+						parent.window.add_commit(data, val_content);
+					});
+				}
+
+				if (val_award_num=='') 
+					{alert("打赏值不能为空");}
+				else if (!re.test(val_award_num))
+					{alert("打赏数额应为数字")}
+				else if ( val_award_num > {{current_user.coin}} )
+					{alert("您的曦潮币余值不够");}
 				else{
 					$.post("{{url_for('award_article')}}",
 						{
@@ -23,7 +57,9 @@
 							}
 							else{
 								var index=parent.layer.getFrameIndex(window.name);
+								$("#num_xichao").html({{current_user.coin}} - val_award_num);
 								layer.msg('打赏成功！',1,1,function(){
+									parent.window.update_xichao(val_award_num);
 									parent.layer.close(index);
 								});
 							}
@@ -42,18 +78,18 @@
 
 	<div id="pay">
 		<p id="num_pay">打赏数额 ：</p>
-		<input type="text" id="award_num">
+		<input type="text" id="award_num" oonkeyup=”this.value=this.value.replace(/\D/g,”)” style=”ime-mode:disabled”>
 	</div>
 
 	<div id="review">
-		<input id="input_review">
-		</input>
+		<textarea id="input_review">
+		</textarea>
 	</div>
 
 	<div id="push_review">
-		<input type="checkbox" id="message_author" />
+		<input type="checkbox" name="message_author" id="message_author" />
 		私信作者
-		<input type="checkbox" id="comment_article" />
+		<input type="checkbox" name="comment_article" id="comment_article" />
 		同时评论
 	</div>
 	<div>
