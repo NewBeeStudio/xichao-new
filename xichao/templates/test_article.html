@@ -69,16 +69,20 @@
 			<p id="ISBN_content">{{book.ISBN}}</p>
 		</div>
 	</div>
-	<hr>
+
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<img id="user_pic_1" src="{{avatar}}">
+		<div id="img_user">
+			<img id="transparent-circle" src="{{ url_for('static', filename='images/transparent-circle-pink.png') }}">
+			<img id="user_pic_1" src="{{avatar}}">
+		</div>
+
 		<iframe id="input_publish_review"></iframe>
 		<p id="p_user_name">{{nick}}</p>
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
-	<hr>
+
 	<div id="list_review">
 		<p id="p_list_review">评论列表</p>
 
@@ -87,6 +91,7 @@
 		{% if comments!=None %}
 			{% for comment in comments %}
 				<div class="comment">
+					<img class="transparent-circle-white" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
 					<img class="user_pic_2" src="{{comment[2]}}">
 					<div class="line"></div>
 					<p class="p_review_author">{{comment[1]}}</p>
@@ -206,6 +211,7 @@ function get_user_id() {
 
 function add_commit(data, val_content) {
 	$('#comment_new').prepend('<div class="comment">'+
+				'<img class="transparent-circle-white" src="{{ url_for("static", filename="images/transparent-circle.png") }}">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
 				'<p class="p_review_author">'+ {{nick}} +'</p>'+

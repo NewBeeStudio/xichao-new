@@ -157,14 +157,27 @@
 	margin-left: 10%;
 	font-family: 微软雅黑;
 	font-size: 20px;
+	margin-bottom: 1%;
+}
+
+#img_user {
+	margin-left: 9%;
+	margin-right: 3%;
+	float: left;
 }
 
 #user_pic_1 {
-	float: left;
-	margin-left: 10%;
-	margin-right: 3%;
-	margin-top: 1%;
-	width: 8%;
+	z-index: 1;
+	overflow: hidden;
+	width: 90px;
+	height: 90px;
+}
+
+#transparent-circle {
+	position: absolute;
+	z-index: 2;
+	width: 90px;
+	height: 90px;
 }
 
 #p_user_name {
@@ -209,10 +222,19 @@
 }
 
 .user_pic_2 {
-	width: 10%;
+	width: 80px;
+	height: 80px;
 	margin-right: 3%;
 	display: block;
 	float: left;
+	z-index: 1;
+}
+
+.transparent-circle-white {
+	width: 80px;
+	height: 80px;
+	position: absolute;
+	z-index: 2;
 }
 
 .line {
