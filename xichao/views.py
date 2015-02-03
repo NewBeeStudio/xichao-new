@@ -928,7 +928,7 @@ def view_home_page(nick):
 @login_required
 def ajax_article_pagination_by_coins(user_id,page_id):
 	article_pagination=get_article_pagination_by_user_id(user_id,False,page_id)
-	return article_pagination
+	return jsonify(article_pagination=article_pagination)
 
 @app.route('/user/<int:user_id>/article/pagination/by_time/page/<int:page_id>',methods=['GET'])
 @login_required
@@ -951,7 +951,7 @@ def collection_user():
 		return 'fail'
 
 
-@app.route('/collection_cancle/user',methods=['POST'])
+@app.route('/collection_cancel/user',methods=['POST'])
 @login_required
 def cancle_collection_user():
 	user_id=request.form['user_id']
@@ -996,3 +996,8 @@ def award_article():
 def article_test():
 	return render_template('security/login_user.html')
 
+@app.route('/message_page/<int:to_user_id>/')
+@login_required
+def message_page(to_user_id):
+	return render_template('message_page.html', to_user_id=to_user_id)
+	

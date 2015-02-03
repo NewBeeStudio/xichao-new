@@ -62,7 +62,7 @@ img#activity-right-arrow{
 div#activity-slide{
 	position: relative;
 	width: 955px;
-	height: 432px;
+	height: 100%;
 
 	overflow: hidden;
 }
@@ -73,7 +73,7 @@ div#activity-slide{
 	margin: auto;
 	left: 33px;
 	width: 889px;
-	height: 324px;
+	height: 100%;
 }
 
 .activity-current-info > h3{
@@ -91,22 +91,18 @@ img.activity-info-img{
 	float: left;
 }
 
-.activity-current-info > div, .activity-current-info > p{
+.activity-current-info > div{
 	margin-left: 312px;
 	font-family: 黑体;
 	font-size: 22.9px;
 	color: #000000;
 
-	overflow: auto;
+	height: 240px;
 }
 
-.activity-current-info > div{
+.activity-current-info div{
 	width: 573px;
-	height: 180px;
-}
-
-.activity-current-info > p{
-	height: 30px;
+	overflow: auto;
 }
 
 .activity-current-info > a{
