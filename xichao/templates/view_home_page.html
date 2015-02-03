@@ -56,24 +56,34 @@
 			</div>
 
 			<div id="ajax-field">
+			<div id="ajax-inner-field">
 			<table id="square-part1-content" style="width:703px; margin-top: 60px;">
 				{% for article in article_pagination.items %}
 				<tr>
-					<td class="square-col-1" style="width:500px;"><a href="#">{{article.title}}</a></td>
+					<td class="square-col-1" style="width:500px;"><a href="{{url_for('article', article_id = article.article_id)}}">{{article.title}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-4" style="width: 80px;">{{article.coins}}</td>
 					<td class="square-col-final">{{article.time|time_split}}</td>
 				</tr>
 				{% endfor %}
 			</table>
+			</div>
 
 			<div id="home-paging">
-				{%if article_pagination.has_prev %}
-				<a href="#home-article-list" id="home-left-arrow">&lt;&lt;</a>&nbsp;&nbsp;&nbsp;
+				{% if article_pagination.has_prev %}
+				<a href="javascript:void(0);" id="home-left-arrow">&lt;&lt;</a>&nbsp;&nbsp;&nbsp;
+				{% else %}
+				<a href="javascript:void(0);" id="home-left-arrow" style="display:none;">&lt;&lt;</a>&nbsp;&nbsp;&nbsp;
 				{% endif %}
+
+				{% if article_pagination.pages %}
 				Page&nbsp;{{ article_pagination.page }}&nbsp;/&nbsp;{{ article_pagination.pages }}
-				{%if article_pagination.has_next %}
-				&nbsp;&nbsp;&nbsp;<a href="#home-article-list" id="home-right-arrow">&gt;&gt;</a>
+				{% endif %}
+				
+				{% if article_pagination.has_next %}
+				&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="home-right-arrow">&gt;&gt;</a>
+				{% else %}
+				&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="home-right-arrow" style="display:none;">&gt;&gt;</a>
 				{% endif %}
 			</div>
 			</div>
@@ -168,38 +178,114 @@
 			});
 		});
 
-		// $("#home-left-arrow").click(function()
-		// {
-			
-		// 	var url = "";
-		// 	if($("#sorting-by-time").attr('selected') == 'selected')
-		// 		url = {{url_for('ajax_article_pagination_by_time', user_id = user.user_id, page_id = article_pagination.prev_num)}};
-		// 	else
-		// 		url = {{url_for('ajax_article_pagination_by_coins', user_id = user.user_id, page_id = article_pagination.prev_num)}};
+		var current_page = 1;
 
-			// $.get(url, function(result)
-			// {
-   //  			$("div").html(result);
-  	// 		});
-		// });
+		$("#home-left-arrow").click(function()
+		{
+			var url = "";
+			current_page -= 1;
+			if($("#sorting-by-time").attr('selected') == 'selected'){
+				url = "/user/{{user.user_id}}/article/pagination/by_time/page/"+current_page;
+			}
+			else{
+				url = "/user/{{user.user_id}}/article/pagination/by_coins/page/"+current_page;
+			}
+
+			$.get(url, function(data)
+			{
+    			text = '<div id="ajax-inner-field"><table id="square-part1-content" style="width:703px; margin-top: 60px;">'
+    			var article = data.rows;
+    			for(var i = 0; i < article.length; ++i){
+    				var time = article[i].time.split(' ')[0].substr(2);
+    				text += '<tr><td class="square-col-1" style="width:500px;"><a href="/article/' + article[i].article_id + '">'+ article[i].title + '</a></td><td class="square-col-3"><img src="/static/images/coins.png"></td><td class="square-col-4" style="width: 80px;">' + article[i].coins + '</td><td class="square-col-final">' + time + '</td></tr>';
+				};
+    			text += '</table>';
+    			text += '</div>';
+
+    			$('#ajax-inner-field').remove();
+    			$('#ajax-field').prepend(text);
+    			if(data.has_prev == 'no')
+    				$('#home-left-arrow').css("display", "none");
+    			else
+    				$('#home-left-arrow').css("display", "inline");
+    			if(data.has_next == 'no')
+    				$('#home-right-arrow').css("display", "none");
+    			else
+    				$('#home-right-arrow').css("display", "inline");
+  			});
+		});
 
 		$("#home-right-arrow").click(function()
 		{
 			var url = "";
+			current_page += 1;
 			if($("#sorting-by-time").attr('selected') == 'selected'){
-				url = "{{url_for('ajax_article_pagination_by_time', user_id = user.user_id, page_id = article_pagination.next_num)}}";
+				url = "/user/{{user.user_id}}/article/pagination/by_time/page/"+current_page;
 			}
 			else{
-				url = "{{url_for('ajax_article_pagination_by_coins', user_id = user.user_id, page_id = article_pagination.next_num)}}";
+				url = "/user/{{user.user_id}}/article/pagination/by_coins/page/"+current_page;
 			}
-			// alert(url);
 
-			// alert($("#sorting-by-time").attr('selected'));
-			
-			$.get(url, function(result)
+			$.get(url, function(data)
 			{
-    			$('#ajax-field').remove();
-    			// $("div").html(result);
+    			text = '<div id="ajax-inner-field"><table id="square-part1-content" style="width:703px; margin-top: 60px;">'
+    			var article = data.rows;
+    			for(var i = 0; i < article.length; ++i){
+    				var time = article[i].time.split(' ')[0].substr(2);
+    				text += '<tr><td class="square-col-1" style="width:500px;"><a href="/article/' + article[i].article_id + '">'+ article[i].title + '</a></td><td class="square-col-3"><img src="/static/images/coins.png"></td><td class="square-col-4" style="width: 80px;">' + article[i].coins + '</td><td class="square-col-final">' + time + '</td></tr>';
+				};
+    			text += '</table>';
+    			text += '</div>';
+
+    			$('#ajax-inner-field').remove();
+    			$('#ajax-field').prepend(text);
+
+    			if(data.has_prev == 'no')
+    				$('#home-left-arrow').css("display", "none");
+    			else
+    				$('#home-left-arrow').css("display", "inline");
+    			if(data.has_next == 'no')
+    				$('#home-right-arrow').css("display", "none");
+    			else
+    				$('#home-right-arrow').css("display", "inline");
+    			
+  			});
+		});
+
+		$('select').change(function()
+		{
+			var url = "";
+			current_page = 1;
+			if($("#sorting-by-time").attr('selected') == 'selected'){
+				url = "/user/{{user.user_id}}/article/pagination/by_time/page/"+current_page;
+			}
+			else{
+				url = "/user/{{user.user_id}}/article/pagination/by_coins/page/"+current_page;
+			}
+
+			$.get(url, function(data)
+			{
+    			text = '<div id="ajax-inner-field"><table id="square-part1-content" style="width:703px; margin-top: 60px;">'
+    			var article = data.rows;
+    			for(var i = 0; i < article.length; ++i){
+    				var time = article[i].time.split(' ')[0].substr(2);
+    				text += '<tr><td class="square-col-1" style="width:500px;"><a href="/article/' + article[i].article_id + '">'+ article[i].title + '</a></td><td class="square-col-3"><img src="/static/images/coins.png"></td><td class="square-col-4" style="width: 80px;">' + article[i].coins + '</td><td class="square-col-final">' + time + '</td></tr>';
+				};
+    			text += '</table>';
+    			text += '</div>';
+
+    			$('#ajax-inner-field').remove();
+    			$('#ajax-field').prepend(text);
+
+    			if(data.has_prev == 'no')
+    				$('#home-left-arrow').css("display", "none");
+    			else
+    				$('#home-left-arrow').css("display", "inline");
+    			if(data.has_next == 'no')
+    				$('#home-right-arrow').css("display", "none");
+    			else
+    				$('#home-right-arrow').css("display", "inline");
+    			
   			});
 		});
 
