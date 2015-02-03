@@ -239,7 +239,7 @@ def create_special_authorized():
 	nick=None
 	if 'user_id' in session:
 		result = db_session.query(User).filter_by(user_id=int(session['user_id'])).all()[0]
-		return result.role == 2 or result.role == 3
+		return result.role == 3
 		## 专栏作家或者管理员
 	else:
 	    return False
