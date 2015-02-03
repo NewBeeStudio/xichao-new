@@ -780,7 +780,26 @@ def activity_upload():
 @app.route('/homepage')
 @login_required
 def home_page():
-	return render_template('home_page.html')
+	article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
+	##元组构成的list
+	comment_pagination=get_comment_pagination_by_user_id(current_user.user_id,1)
+	article_draft_pagination=get_article_draft_pagination(current_user.user_id,1)
+	article_collection_pagination=get_article_collection_pagination(current_user.user_id,1)
+	activity_collection_pagination=get_activity_collection_pagination(current_user.user_id,1)
+	user_collection_pagination=get_user_collection_pagination(current_user.user_id,1)
+	special_collection_pagination=get_special_collection_pagination(current_user.user_id,1)
+	fans_pagination=get_fans_pagination(current_user.user_id,1)
+	##元组构成的list
+	message_pagination=get_message_pagination(current_user.user_id,1)
+	##元组构成的list
+	received_comment_pagination=get_received_comment_pagination(current_user.user_id,1)
+	notification_pagination=get_notification_pagination(current_user.user_id,1)
+	return render_template('home_page.html',article_pagination=article_pagination,
+		comment_pagination=comment_pagination,article_draft_pagination=article_draft_pagination,
+		article_collection_pagination=article_collection_pagination,activity_collection_pagination=activity_collection_pagination,
+		user_collection_pagination=user_collection_pagination,special_collection_pagination=special_collection_pagination,
+		fans_pagination=fans_pagination,message_pagination=message_pagination,received_comment_pagination=received_comment_pagination,
+		notification_pagination=notification_pagination)
 
 
 ##################################	广场 ##################################
@@ -805,9 +824,23 @@ def view_home_page(nick):
 		return redirect(url_for('home_page'))
 	else:
 		collection=has_collected(user_id=current_user.user_id,another_user_id=user.user_id)
+		##默认按时间排序
 		article_pagination=get_article_pagination_by_user_id(user.user_id,True,1)
 		collection_author_list=get_collection_author_list(user.user_id)
 		return render_template('view_home_page.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list)
+
+@app.route('/user/<int:user_id>/article/pagination/by_coins/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_article_pagination_by_coins(user_id,page_id):
+	article_pagination=get_article_pagination_by_user_id(user_id,False,page_id)
+	return article_pagination
+
+@app.route('/user/<int:user_id>/article/pagination/by_time/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_article_pagination_by_time(user_id,page_id):
+	article_pagination=get_article_pagination_by_user_id(user_id,True,page_id)
+	return article_pagination
+
 
 
 @app.route('/collection/user',methods=['POST'])
