@@ -178,3 +178,31 @@
     background-color: #D9AE48;
     color: #ffffff;
 }
+
+#book_information {
+	margin-top: 30px;
+}
+
+#book_image {
+	margin-left: 200px;
+	margin-right: 100px;
+	float: left;
+}
+
+#div_book_info {
+	float: left;
+	margin-right: 100px;
+}
+
+.p_book_info {
+	font-family: 微软雅黑;
+	font-size: 20px;
+	line-height: 200%;
+	color: #D9AE48;
+}
+
+.p_book_info_content {
+	font-family: 微软雅黑;
+	font-size: 20px;
+	line-height: 200%;
+}
