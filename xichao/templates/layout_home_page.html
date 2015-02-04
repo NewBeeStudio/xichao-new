@@ -68,6 +68,7 @@
 	
 	</div>
 
+	{% if current_user != user %}
 	<!-- 关注作者 -->
 	<div id="home-star">
 		<h2>关注的作者：</h2>
@@ -79,6 +80,8 @@
 		</div>
 
 	</div>
+
+	{% endif %}
 {% endblock %}
 
 <!--js file used-->
