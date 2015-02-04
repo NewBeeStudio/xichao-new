@@ -904,7 +904,7 @@ def activity(activity_id):
 	if activity!=None:
 		update_read_num_activity(activity_id)
 		comments=get_activity_comments(activity_id)
-		return render_template('test_activity.html',activity=activity,avatar=get_avatar(),comments=comments)
+		return render_template('test_activity.html',activity=activity,avatar=get_avatar(),comments=comments, nick=getNick())
 	else:
 		abort(404)
 

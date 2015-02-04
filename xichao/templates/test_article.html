@@ -95,8 +95,8 @@
 					<img class="user_pic_2" src="{{comment[2]}}">
 					<div class="line"></div>
 					<p class="p_review_author">{{comment[1]}}</p>
-					<div class="comment_content">{{comment[0].content}}</div>
-					<p class="p_publish_time">{{comment[0].time}}</p>
+					<div class="comment_content"><font size="3px">{{comment[0].content}}</font></div>
+					<p class="p_publish_time"><font size="2px">{{comment[0].time}}</font></p>
 				</div>
 			{% endfor %}
 		{% endif %}
@@ -215,8 +215,8 @@ function add_commit(data, val_content) {
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
 				'<p class="p_review_author">'+ {{nick}} +'</p>'+
-				'<div class="comment_content">'+val_content+'</div>'+
-				'<p class="p_publish_time">'+data+'</p></div>');
+				'<div class="comment_content"><font size="3px">'+val_content+'</font></div>'+
+				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
 }
 </script>
 {% endblock %}
