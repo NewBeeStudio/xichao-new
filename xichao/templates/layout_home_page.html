@@ -39,7 +39,7 @@
 			</table>
 			</div>
 
-			<div id="home-paging">
+			<div class="home-paging">
 				{% if article_pagination.has_prev %}
 				<a href="javascript:void(0);" id="home-left-arrow">&lt;&lt;</a>&nbsp;&nbsp;&nbsp;
 				{% else %}
@@ -157,15 +157,14 @@
 
 		var current_page = 1;
 
-		$("#home-left-arrow").click(function()
-		{
+		//第二块文章的分页操作
+		var onHomeArrowClick = function(page){
 			var url = "";
-			current_page -= 1;
 			if($("#sorting-by-time").attr('selected') == 'selected'){
-				url = "/user/{{user.user_id}}/article/pagination/by_time/page/"+current_page;
+				url = "/user/{{user.user_id}}/article/pagination/by_time/page/"+page;
 			}
 			else{
-				url = "/user/{{user.user_id}}/article/pagination/by_coins/page/"+current_page;
+				url = "/user/{{user.user_id}}/article/pagination/by_coins/page/"+page;
 			}
 
 			$.get(url, function(data)
@@ -190,86 +189,27 @@
     			else
     				$('#home-right-arrow').css("display", "inline");
 
-    			$('#home-current-page').html(current_page);
+    			$('#home-current-page').html(page);
   			});
+		};
+
+		$("#home-left-arrow").click(function()
+		{
+			current_page -= 1;
+			onHomeArrowClick(current_page);
+			
 		});
 
 		$("#home-right-arrow").click(function()
 		{
-			var url = "";
 			current_page += 1;
-			if($("#sorting-by-time").attr('selected') == 'selected'){
-				url = "/user/{{user.user_id}}/article/pagination/by_time/page/"+current_page;
-			}
-			else{
-				url = "/user/{{user.user_id}}/article/pagination/by_coins/page/"+current_page;
-			}
-
-			$.get(url, function(data)
-			{
-    			text = '<div id="ajax-inner-field"><table id="square-part1-content" style="width:703px; margin-top: 60px;">'
-    			var article = data.rows;
-    			for(var i = 0; i < article.length; ++i){
-    				var time = article[i].time.split(' ')[0].substr(2);
-    				text += '<tr><td class="square-col-1" style="width:500px;"><a href="/article/' + article[i].article_id + '">'+ article[i].title + '</a></td><td class="square-col-3"><img src="/static/images/coins.png"></td><td class="square-col-4" style="width: 80px;">' + article[i].coins + '</td><td class="square-col-final">' + time + '</td></tr>';
-				};
-    			text += '</table>';
-    			text += '</div>';
-
-    			$('#ajax-inner-field').remove();
-    			$('#ajax-field').prepend(text);
-
-    			if(data.has_prev == 'no')
-    				$('#home-left-arrow').css("display", "none");
-    			else
-    				$('#home-left-arrow').css("display", "inline");
-    			if(data.has_next == 'no')
-    				$('#home-right-arrow').css("display", "none");
-    			else
-    				$('#home-right-arrow').css("display", "inline");
-
-    			$('#home-current-page').html(current_page);
-    			
-  			});
+			onHomeArrowClick(current_page);
 		});
 
 		$('select').change(function()
 		{
-			var url = "";
 			current_page = 1;
-			if($("#sorting-by-time").attr('selected') == 'selected'){
-				url = "/user/{{user.user_id}}/article/pagination/by_time/page/"+current_page;
-			}
-			else{
-				url = "/user/{{user.user_id}}/article/pagination/by_coins/page/"+current_page;
-			}
-
-			$.get(url, function(data)
-			{
-    			text = '<div id="ajax-inner-field"><table id="square-part1-content" style="width:703px; margin-top: 60px;">'
-    			var article = data.rows;
-    			for(var i = 0; i < article.length; ++i){
-    				var time = article[i].time.split(' ')[0].substr(2);
-    				text += '<tr><td class="square-col-1" style="width:500px;"><a href="/article/' + article[i].article_id + '">'+ article[i].title + '</a></td><td class="square-col-3"><img src="/static/images/coins.png"></td><td class="square-col-4" style="width: 80px;">' + article[i].coins + '</td><td class="square-col-final">' + time + '</td></tr>';
-				};
-    			text += '</table>';
-    			text += '</div>';
-
-    			$('#ajax-inner-field').remove();
-    			$('#ajax-field').prepend(text);
-
-    			if(data.has_prev == 'no')
-    				$('#home-left-arrow').css("display", "none");
-    			else
-    				$('#home-left-arrow').css("display", "inline");
-    			if(data.has_next == 'no')
-    				$('#home-right-arrow').css("display", "none");
-    			else
-    				$('#home-right-arrow').css("display", "inline");
-
-    			$('#home-current-page').html(current_page);
-    			
-  			});
+			onHomeArrowClick(current_page);
 		});
 
 	});
@@ -299,6 +239,7 @@
 
 </script>
 
+<!-- 个人信息修改 -->
 <script type="text/javascript">
 	$('.one1-new').addClass('display-none'); //默认不显示修改信息;
 
@@ -318,8 +259,20 @@
 
 </script>
 
+<!-- 图片触碰操作 -->
 <script type="text/javascript">
-		
+	$('.img-operable').hover(function()
+	{
+		$(this).attr('src', "{{url_for('static', filename='images/transparent-circle-cancel.png')}}");
+	}, function()
+	{
+		$(this).attr('src', "{{url_for('static', filename='images/transparent-circle.png')}}");
+	});
+
+</script>
+
+<script type="text/javascript">
+		var seven3_page = 1;
 		var seven3_refresh=function (page_id){
 			$("#seven3 .overflow-handle").empty();
 			$.get("/homepage/pagination/notification/page/"+page_id,function(data){
@@ -328,6 +281,18 @@
 					text="<div><p style='clear:both;'>"+items[i].content+"</p><table style='float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;'><tr><td style='width: 180px;'>"+items[i].time+"</td><td><u><a href='javascript:void(0);' onClick='seven3_a_click("+items[i].message_id+")'>删除</a></u></td></tr></table></div>";
 					$("#seven3 .overflow-handle").append(text);
 				}
+
+				if(data.has_prev == 'no')
+    				$('#seven3-left-arrow').css("display", "none");
+    			else
+    				$('#seven3-left-arrow').css("display", "inline");
+    			if(data.has_next == 'no')
+    				$('#seven3-right-arrow').css("display", "none");
+    			else
+    				$('#seven3-right-arrow').css("display", "inline");
+    			$('#seven3-current-page').html(data.page);
+    			$('#seven3-all-page').html(data.pages);
+
 			});
 		}
 		function seven3_a_click(id){
@@ -340,6 +305,8 @@
 				function(data){
 					if (data=='fail') {alert('fail');}
 					else{
+
+						seven3_page = 1;
 						seven3_refresh(1)
 
 					}
@@ -347,6 +314,14 @@
 		}
 		//私信的显示功能
 		$("#a-seven3").click(seven3_refresh(1));
+		$("#seven3-left-arrow").click(function(){
+			seven3_page -= 1;
+			seven3_refresh(seven3_page);
+		});
+		$("#seven3-right-arrow").click(function(){
+			seven3_page += 1;
+			seven3_refresh(seven3_page);
+		});
 </script>
 {% endif %}
 {% endblock %}

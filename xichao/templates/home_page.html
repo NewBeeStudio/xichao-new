@@ -216,7 +216,7 @@
 					<div id="four1">
 					<div class="home-photo-row">
 					{% for i in range(7)%}
-						<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
+						<div><a href="javascript:void(0);"><img class="img-operable" src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/></a>
 						<div class="home-star-name"><a href="#">HAHA</a></div></div>
 					{% endfor %}
 					</div>
@@ -226,7 +226,7 @@
 					<div id="four2">
 					<div class="home-photo-row">
 					{% for i in range(3)%}
-						<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
+						<div><a href="javascript:void(0);"><img class="img-operable" src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/></a>
 						<div class="home-star-name"><a href="#">HEHE</a></div></div>
 					{% endfor %}
 					</div>
@@ -310,11 +310,18 @@
 							</table>
 						{% endfor %}
 						</div>
+
+
 					</div>
 
 
 					<div id="seven3" class="home-text">
 						<div class="overflow-handle">
+						</div>
+						<div class="home-paging" id="seven3-paging">
+							<a href="javascript:void(0);" id="seven3-left-arrow">&lt;&lt;</a>&nbsp;&nbsp;&nbsp;
+							Page&nbsp;<font id="seven3-current-page"></font>&nbsp;/&nbsp;<font id="seven3-all-page"></font>
+							&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="seven3-right-arrow">&gt;&gt;</a>
 						</div>
 					</div>
 				</div>
