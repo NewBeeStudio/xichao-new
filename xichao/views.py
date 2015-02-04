@@ -50,7 +50,7 @@ from functions import *
 from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify,abort,json
 from models import User
 from database import db_session
-from datetime import datetime
+from datetime import datetime,date
 from forms import RegistrationForm,LoginForm,ForgetPasswordForm,ResetPasswordForm
 from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
@@ -895,6 +895,193 @@ def home_page():
 		user_collection_pagination=user_collection_pagination,special_collection_pagination=special_collection_pagination,
 		fans_pagination=fans_pagination,message_pagination=message_pagination,received_comment_pagination=received_comment_pagination,
 		notification_pagination=notification_pagination)
+
+@app.route('/homepage/pagination/article/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_article(page_id):
+	pagination=get_article_pagination_by_user_id(current_user.user_id,True,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/comment/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_comment(page_id):
+	pagination=get_comment_pagination_by_user_id(current_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/article_draft/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_article_draft(page_id):
+	pagination=get_article_draft_pagination(current_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/article_collection/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_article_collection(page_id):
+	pagination=get_article_collection_pagination(current_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/activity_collection/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_activity_collection(page_id):
+	pagination=get_activity_collection_pagination(current_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+
+@app.route('/homepage/pagination/user_collection/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_user_collection(page_id):
+	pagination=get_user_collection_pagination(urrent_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/special_collection/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_special_collection(page_id):
+	pagination=get_special_collection_pagination(urrent_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/fans/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_fans(page_id):
+	pagination=get_fans_pagination(current_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/message/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_message(page_id):
+	pagination=get_message_pagination(current_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/received_comment/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_received_comment(page_id):
+	pagination=get_received_comment_pagination(current_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/pagination/notification/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_notification(page_id):
+	pagination=get_notification_pagination(current_user.user_id,1)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+@app.route('/homepage/modify/basic_information',methods=['POST'])
+@login_required
+def ajax_home_page_modify_basic_information():
+	user_id=current_user.user_id
+	nick=request.form['nick']
+	gender=request.form['gender']
+	try:
+		birthday_year=int(request.form['birthday_year'])
+		birthday_month=int(request.form['birthday_month'])
+		birthday_day=int(request.form['birthday_day'])
+	except:
+		return 'birthday_error'
+	phone=request.form['phone']
+	avatar=request.form['avatar']
+	if nick_exist(nick):
+		return 'nick_error'
+	else:
+		birthday=date(birthday_year,birthday_month,birthday_day)
+		result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone,avatar)
+		return result
+@app.route('/homepage/modify/slogon',methods=['POST'])
+@login_required
+def ajax_home_page_modify_slogon():
+	slogon=request.form['slogon']
+	result=update_user_slogon(current_user.user_id,slogon)
+	return result
+
+@app.route('/homepage/modify/member_id',methods=['POST'])
+@login_required
+def ajax_home_page_modify_member_id():
+	member_id=request.form['member_id']
+	result=update_member_id(current_user.user_id,member_id)
+	return result
+
+@app.route('/homepage/delete/article',methods=['POST'])
+@login_required
+def ajax_home_page_delete_article():
+	article_id=request.form['article_id']
+	result=delete_article_by_article_id(article_id,current_user.user_id)
+	return result
+
+@app.route('/homepage/delete/comment',methods=['POST'])
+def ajax_home_page_delete_comment():
+	comment_id=request.form['comment_id']
+	result=delete_comment_by_comment_id(comment_id,current_user.user_id)
+	return result
+
+@app.route('/homepage/delete/collection/activity',methods=['POST'])
+def ajax_home_page_delete_collection_activity():
+	collection_activity_id=request.form['collection_activity_id']
+	result=delete_collection_activity_by_activity_id(collection_activity_id,current_user.user_id)
+	return result
+
+@app.route('/homepage/delete/collection/article',methods=['POST'])
+def ajax_home_page_delete_collection_article():
+	collection_article_id=request.form['collection_article_id']
+	result=delete_collection_article_by_article_id(collection_article_id,current_user.user_id)
+	return result
+
+##取消关注的作者路由是/collection_cancel/user
+##取消关注专栏是由张云昊写的
+##私信对的路由是/message
+##删除通知就是删除私信
+@app.route('/homepage/delete/message',methods=['POST'])
+def ajax_home_page_delete_message():
+	message_id=request.form['message_id']
+	result=delete_message_by_message_id(message_id,current_user.user_id)
+	return result
+
+@app.route('/homepage/delete/received_comment',methods=['POST'])
+def ajax_home_page_delete_received_comment():
+	received_comment_id=request.form['comment_id']
+	result=delete_received_comment_by_comment_id(received_comment_id,current_user.user_id)
+	return result
+
 
 
 ##################################	广场 ##################################

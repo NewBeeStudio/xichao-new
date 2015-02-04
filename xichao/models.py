@@ -11,7 +11,7 @@ from sqlalchemy import String, CHAR, Text, SmallInteger, Date, DateTime
 from database import Base
 
 from flask.ext.login import UserMixin
-#from xichao import login_serializer
+from xichao import login_serializer
 from hashlib import md5
 import datetime
 
