@@ -620,12 +620,12 @@ def get_message_pagination(user_id,page_id):
 	return paginate(query,page_id,10,False)
 
 def get_received_comment_pagination(user_id,page_id):
-	query=db_session.query(Comment,User,Article).join(User,User.user_id==Comment.user_id).join(Article).filter(Comment.to_user_id==user_id)
-	return paginate(query,page_id,10,False)
+	query=db_session.query(Comment,User,Article).join(User,User.user_id==Comment.user_id).join(Article,Article.article_id==Comment.article_id).filter(Comment.to_user_id==user_id)
+	return paginate(query,page_id,4,False)
 ##目前来说，3是管理员
 def get_notification_pagination(user_id,page_id):
 	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id==3))
-	return paginate(query,page_id,5,False)
+	return paginate(query,page_id,4,False)
 
 
 def get_has_prev(pagination):
@@ -714,11 +714,11 @@ def delete_message_by_message_id(message_id,user_id):
 		return 'success'
 
 def delete_received_comment_by_comment_id(received_comment_id,user_id):
-	comment=db_session.query(Comment).filter_by(comment_id=comment_id).first()
+	comment=db_session.query(Comment).filter_by(comment_id=received_comment_id).first()
 	if comment.to_user_id!=user_id or comment==None:
 		return 'fail'
 	else:
-		db_session.query(Comment).filter_by(comment_id=comment_id).delete()
+		db_session.query(Comment).filter_by(comment_id=received_comment_id).delete()
 		db_session.commit()
 		return 'success'
 

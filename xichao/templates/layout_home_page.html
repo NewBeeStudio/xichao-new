@@ -325,28 +325,62 @@
 			$.get("/homepage/pagination/notification/page/"+page_id,function(data){
 				items=data.rows;
 				for(var i = 0; i < items.length; ++i){
-					text="<div><p style='clear:both;'>"+items[i].content+"</p><table style='float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;'><tr><td style='width: 180px;'>"+items[i].time+"</td><td><u><a href='javascript:void(0);' onClick='seven3_a_click("+items[i].message_id+")'>删除</a></u></td></tr></table></div>";
+					text="<div><p style='clear:both;'>"+items[i].content+"</p><table style='float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;'><tr><td style='width: 180px;'>"+items[i].time+"</td><td><u><a href='javascript:void(0);' onClick='seven3_a_click("+items[i].message_id+","+page_id+","+items.length+")'>删除</a></u></td></tr></table></div>";
 					$("#seven3 .overflow-handle").append(text);
 				}
 			});
 		}
-		function seven3_a_click(id){
-			
-			
+		function seven3_a_click(message_id,page_id,items_length){
 			$.post('/homepage/delete/message',
 				{
-					message_id: id
+					message_id: message_id
 				},
 				function(data){
 					if (data=='fail') {alert('fail');}
 					else{
-						seven3_refresh(1)
-
+						if (items_length==1 && page_id>1) {seven3_refresh(page_id-1);}
+						else{
+							seven3_refresh(page_id);
+						}		
 					}
 			});
 		}
+		var seven2_refresh=function (page_id){
+			$("#seven2 .overflow-handle").empty();
+			$.get("/homepage/pagination/received_comment/page/"+page_id,function(data){
+				items_comment=data.rows_comment;
+				items_user=data.rows_user;
+				items_article=data.rows_article;
+				for(var i = 0; i < items_article.length; ++i){
+					text="<div><p style='clear:both;'>"+items_comment[i].content+"</p><table style='float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;'><tr><td style='width: 120px;'>"+items_user[i].nick+"</td><td style='width: 250px;'>评论我《"+items_article[i].title+"》</td><td style='width: 180px;'>"+items_comment[i].time+"</td><td><u><a href='javascript:void(0);' onClick='seven2_a_click("+items_comment[i].comment_id+","+page_id+","+items_comment.length+")'>删除</a></u></td></tr></table></div>";
+					$("#seven2 .overflow-handle").append(text);
+				}
+			});
+		}
+		function seven2_a_click(comment_id,page_id,comment_length){
+			$.post('/homepage/delete/received_comment',
+				{
+					comment_id: comment_id
+				},
+				function(data){
+
+					if (data=='fail') {alert('fail');}
+					else{
+						if (comment_length==1 && page_id>1) {seven2_refresh(page_id-1);}
+						else{
+							seven2_refresh(page_id);
+						}		
+					}
+			});
+		}
+
+
 		//私信的显示功能
 		$("#a-seven3").click(seven3_refresh(1));
+		//显示收到的评论
+		$("#a-seven2").click(seven2_refresh(1));
+
+
 </script>
 {% endif %}
 {% endblock %}

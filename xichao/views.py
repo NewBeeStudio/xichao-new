@@ -1046,7 +1046,7 @@ def ajax_home_page_received_comment(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_comment=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items],rows_article=[item[2].get_serialize() for item in pagination.items])
 
 @app.route('/homepage/pagination/notification/page/<int:page_id>',methods=['GET'])
 @login_required

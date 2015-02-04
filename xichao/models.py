@@ -14,6 +14,7 @@ from flask.ext.login import UserMixin
 from xichao import login_serializer
 from hashlib import md5
 import datetime
+import decimal
 
 ## 格式: Column(type, nullable, unique, index)
 
