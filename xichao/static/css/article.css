@@ -11,7 +11,6 @@
 }
 
 #p_title_2 {
-	padding-top: 2.5px;
 	color: #D9AE48;
 	font-family: 黑体;
 } 
@@ -41,9 +40,8 @@
 }
 
 #p_num_xichao {
-	float: right;
+	float: left;
 	color: #D9AE48;
-	margin-right: 30px;
 }
 
 #p_num_xichao_content {
@@ -51,19 +49,24 @@
 	color: #D9AE48;
 }
 
+#bracket {
+	float: left;
+	margin-right: 30px;
+	color: #D9AE48;
+}
+
 #p_article_author_1 {
-	float: right;
+	float: left;
 	margin-right: 18px;
 }
 
 #p_article_author_2 {
-	float: right;
+	float: left;
 	color: #D9AE48;
-	margin-right: 50px;
+	margin-right: 30px;
 }
 
 #p_article_time {
-	float: right;
 	/*text-align: right;*/
 	color: rgb(114, 114, 114);
 }
@@ -89,24 +92,29 @@
 }
 
 #p_read {
-	padding-left: 140px;
+	padding-left: 60px;
+	float: left;
 }
 
 #p_read_content {
-	float: right;
+	float: left;
 	color: rgb(114, 114, 114);
 	margin-right: 30px;
-	margin-left: 2px;
+	margin-left: 5px;
+}
+
+#space {
+	/*display: none;*/
 }
 
 #p_review {
-	float: right;
+	float: left;
 	color: #D9AE48;
 	margin-right: 30px;
 }
 
 #p_collection {
-	float: right;
+	float: left;
 	color: #D9AE48;
 	margin-right: 40px;
 }

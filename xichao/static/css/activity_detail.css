@@ -90,23 +90,24 @@
 
 #p_read {
 	padding-left: 370px;
+	float: left;
 }
 
 #p_read_content {
-	float: right;
+	float: left;
 	color: rgb(114, 114, 114);
 	margin-right: 30px;
 	margin-left: 2px;
 }
 
 #p_review {
-	float: right;
+	float: left;
 	color: #D9AE48;
 	margin-right: 30px;
 }
 
 #p_collection {
-	float: right;
+	float: left;
 	color: #D9AE48;
 	margin-right: 40px;
 }

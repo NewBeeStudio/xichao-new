@@ -36,6 +36,18 @@
 }
 
 #button {
-	margin-left: 380px;
+	margin-left: 300px;
 	margin-top: 25px;
+}
+
+.register-button{
+    width: 118px;
+    height: 38px;
+
+    font-family: 黑体;
+    font-size: 17px;
+
+    border-radius: 8px;
+    background-color: #D9AE48;
+    color: #ffffff;
 }

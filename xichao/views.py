@@ -1238,9 +1238,9 @@ def award_article():
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
-@app.route('/article/test')
+@app.route('/pay_author')
 def article_test():
-	return render_template('security/login_user.html')
+	return render_template('pay_author.html')
 
 @app.route('/message_page/<int:to_user_id>/')
 @login_required

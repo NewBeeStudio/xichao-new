@@ -19,7 +19,7 @@
         <img class="pics" id="pic_3" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
         <p class="p_triangle" id="triangle_right">▶</p>
 
-        <a href="#" class="myButton" id="button_upload_pic">上传题图</a>
+        <a href="#" class="register-button" id="button_upload_pic">上传题图</a>
     </div>
 
    	<div id="article_editor">
@@ -45,7 +45,7 @@
       <div style="display:none;">
         <p id="article_content">{{article.content}}</p>
       </div>
-      <div style="height:20px;">
+      <!--<div style="height:20px;">
         <label>请输入书籍ISBN号</label>
         <input id="book_isbn" type="text" style="height:20px;">
         <input id="book_button" type="button" style="height:20px;" value="确定">
@@ -60,11 +60,41 @@
         <p id="book_binding">XXX</p>
         <p id="book_isbn">{{book.ISBN}}</p>
         <img id="book_image" src="{{book.picture}}">
+      </div>-->
+
+      <!--<div id="book_info">
+        <label>请输入书籍ISBN号</label>
+        <input id="book_isbn" type="text">
+        <input  class="register-button" id="book_button" type="button"value="确定">
+      </div>-->
+      <div id="book_information">
+        <img id="book_image" style="width:150px;height:220px;" src="">
+        <div id="div_book_info">
+          <p class="p_book_info">书名</p>
+          <p class="p_book_info">作者</p>
+          <p class="p_book_info">出版社</p>
+          <p class="p_book_info">出版时间</p>
+          <p class="p_book_info">页数</p>
+          <p class="p_book_info">价格</p>
+          <p class="p_book_info">装帧</p>
+          <p class="p_book_info">ISBN</p>
+        </div>
+
+        <p class="p_book_info_content" id="book_name">{{book.title}}</p>
+        <p class="p_book_info_content" id="book_author">{{book.author}}</p>
+        <p class="p_book_info_content" id="book_publisher">{{book.press}}</p>
+        <p class="p_book_info_content" id="book_pubdate">{{book.press_time}}</p>
+        <p class="p_book_info_content" id="book_pages">{{book.page_num}}</p>
+        <p class="p_book_info_content" id="book_price">{{book.price}}</p>
+        <p class="p_book_info_content" id="book_binding">XXX</p>
+        <p class="p_book_info_content" id="book_isbn">{{book.ISBN}}</p>
       </div>
       
-      <a href="#" class="myButton" id="button_upload_cancel">取消</a>
-      <a href="#" class="myButton" id="button_upload_draft">保存草稿</a>
-      <a href="#" class="myButton" id="button_upload_confirm">确定</a>
+      <div id="buttons">
+        <a href="#" class="register-button" id="button_upload_cancel">取消</a>
+        <a href="#" class="register-button" id="button_upload_draft">保存草稿</a>
+        <a href="#" class="register-button" id="button_upload_confirm">确定</a>
+      </div>
    	</div>
 	
 {% endblock %}
@@ -218,6 +248,55 @@
 function update_title_image(data){
   $('#pic_4').attr("src",data);
 }
+</script>
+
+<script type="text/javascript">
+var cur_index = 2;
+var arr = new Array();
+arr[0] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}";
+arr[1] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}";
+arr[2] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}";
+arr[3] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}";
+arr[4] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_5.jpg')}}";
+arr[5] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}";
+
+  $('#triangle_left').click(function(){
+    var pic_1 = document.getElementById("pic_1");
+    var pic_2 = document.getElementById("pic_2");
+    var pic_3 = document.getElementById("pic_3");
+
+    if (cur_index == arr.length - 1)
+      {cur_index = 0;}
+    else 
+      {cur_index += 1;}
+
+    pic_1.src = pic_2.src;
+    pic_2.src = pic_3.src;
+    pic_3.src = arr[cur_index];
+  })
+
+  $('#triangle_right').click(function(){
+    var pic_1 = document.getElementById("pic_1");
+    var pic_2 = document.getElementById("pic_2");
+    var pic_3 = document.getElementById("pic_3");
+
+    var tmp = 0;
+
+    if (cur_index - 3 < 0)
+      {tmp = arr.length + cur_index - 3;}
+    else {
+      tmp = cur_index - 3;
+    }
+
+    if (cur_index == 0)
+      {cur_index = arr.length - 1;}
+    else 
+      {cur_index -= 1;}
+
+    pic_3.src = pic_2.src;
+    pic_2.src = pic_1.src;
+    pic_1.src = arr[tmp];
+  })
 </script>
 
 {% endblock %}
