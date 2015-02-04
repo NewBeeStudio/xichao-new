@@ -84,6 +84,7 @@
 <!--js file used-->
 {% block js %}
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.idTabs.min.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function()
 	{
@@ -270,4 +271,30 @@
 
 	});
 </script>
+
+{#仅在自己看的主页会出现#}
+{% if current_user == user %}
+<!-- 选项卡tab动态 -->
+<script type="text/javascript">
+	$('#left-select a').click(function()
+	{
+		$('#left-select a').each(function()
+		{
+			$(this).removeClass('background-white');
+		});
+		$(this).addClass('background-white');
+	});
+
+	$('.personal-right-up a').click(function()
+	{
+		$(this).parent().siblings().children().children().each(function()
+		{
+			$(this).removeClass('underline');
+		});
+		$(this).children().addClass('underline');
+	});
+
+
+</script>
+{% endif %}
 {% endblock %}
