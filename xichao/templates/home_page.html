@@ -44,19 +44,33 @@
 						<table style="margin-left: 50px;">
 						<tr>
 							<td>昵称：</td>
-							<td><input type="text"></td>
+							<td class="one1-orig" id="show-nick">Frank</td>
+							<td class="one1-new"><input id="change-nick" type="text" value="Frank"></td>
 						</tr>
 						<tr>
 							<td>性别：</td>
-							<td><input type="text"></td>
+							<td class="one1-orig" id="show-sex">男</td>
+							<td class="one1-new" id="radio-sex">
+								<input type="radio" name="identity" value="male" checked="checked" />男
+								<input type="radio" name="identity" value="female"/>女
+							</td>
 						</tr>
 						<tr>
 							<td>生日：</td>
-							<td><input type="text"></td>
+							<td class="one1-orig" id="show-birthday">2000-01-21</td>
+							<td class="one1-new">
+								<input id="change-year" type="text" value="2010"/>&nbsp;年&nbsp;
+								<input id="change-month" style="width: 50px;" type="text" value="12"/>&nbsp;月&nbsp;
+								<input id="change-day" style="width: 50px;" type="text" value="1"/>&nbsp;日&nbsp;
+							</td>
 						</tr>
 						<tr>
 							<td>手机号：</td>
-							<td><input type="text"></td>
+							<td class="one1-orig" id="show-phonenumber">13111111111</td>
+							<td class="one1-new"><input id="change-phonenumber" type="text" value="13122222222"/></td>
+
+							<td class="one1-orig"><a id="before-change-info" href="javascript:void(0);">修改</a></td>
+							<td class="one1-new"><a id="after-change-info" href="javascript:void(0);">修改完成</a></td>
 						</tr>
 						<tr>
 							<td>头像：</td>
@@ -64,18 +78,13 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td><img src="/static/images/transparent-circle.png" style="background-image: url('/static/images/square-1.jpg')"/></td>
+							<td><img id="show-photo" src="/static/images/transparent-circle.png" style="background-image: url('/static/images/square-1.jpg')"/></td>
 						</tr>
 						<tr>
 							<td></td>
-							<td style="padding-left: 40px;">更换头像</td>
+							<td style="padding-left: 40px;"><a href="javascript:void(0);" id="change-photo">更换头像</a></td>
 						</tr>
 						</table>
-
-						<div style="width: 50%; margin: 8px auto;">
-							<input type="button" value="取消" class="home-button" id="cancel-change-info">
-							<input type="button" value="确定" class="home-button" id="change-info" style="margin-left: 70px;">
-						</div>
 						
 					</div>
 					<div id="one2">

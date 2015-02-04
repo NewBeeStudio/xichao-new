@@ -297,6 +297,24 @@
 		$(this).children().addClass('underline');
 	});
 
+</script>
+
+<script type="text/javascript">
+	$('.one1-new').addClass('display-none'); //默认不显示修改信息;
+
+	// 点击修改进行的操作
+	$('#before-change-info').click(function()
+	{
+		$('.one1-new').removeClass('display-none');
+		$('.one1-orig').addClass('display-none');
+	});
+
+	// 点击修改完成进行的操作
+	$('#after-change-info').click(function()
+	{
+		$('.one1-orig').removeClass('display-none');
+		$('.one1-new').addClass('display-none');
+	});
 
 </script>
 {% endif %}
