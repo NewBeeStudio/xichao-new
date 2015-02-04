@@ -2,7 +2,6 @@
 
 <!--content-->
 {% block square_content %}
-<div style="width:100%; height:670px;">
 <!-- 热门文章 -->
 <div class="square-headline">
 	<h2>热门文章</h2>
@@ -25,7 +24,7 @@
 </div>
 
 <!-- 今日推荐 -->
-<div class="square-headline square-recommend">
+<div class="square-headline square-recommend" style="margin-bottom: 105px;">
 	<h2>今日推荐</h2>
 	<div id="recommend-content">
 		<h3 class="main-color">{{hot_ground_article_list[0][0].title}}</h3>
@@ -43,8 +42,5 @@
 		<a class="square-more" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">MORE&gt;</a>
 	</div>
 </div>
-</div>
 
-<!-- 两个模块距离 -->
-<div style="margin-top: 145px;">
 {% endblock %}

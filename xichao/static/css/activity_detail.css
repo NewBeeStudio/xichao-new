@@ -16,7 +16,7 @@
 	font-family: 黑体;
 } 
 
-#article {
+#activity {
 	margin-left: 100px;
 	margin-right: 100px;
 }
@@ -89,7 +89,7 @@
 }
 
 #p_read {
-	padding-left: 140px;
+	padding-left: 370px;
 }
 
 #p_read_content {

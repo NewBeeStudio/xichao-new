@@ -59,16 +59,16 @@
 	<div id="activity-past-info">
 		<table>
 			<tr id="activity-row-1">
-				<td style="background-image: url('{{passed_activity_list[0].picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
-				<td style="background-image: url('{{passed_activity_list[1].picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
-				<td style="background-image: url('{{passed_activity_list[2].picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
-				<td style="background-image: url('{{passed_activity_list[3].picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('{{passed_activity_list[0].picture if passed_activity_list[0]}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('{{passed_activity_list[1].picture if passed_activity_list[1]}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('{{passed_activity_list[2].picture if passed_activity_list[2]}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
+				<td style="background-image: url('{{passed_activity_list[3].picture if passed_activity_list[3]}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"/></td>
 			</tr>
 			<tr id="activity-row-2">
-				<td>{{passed_activity_list[0].name}}</td>
-				<td>{{passed_activity_list[1].name}}</td>
-				<td>{{passed_activity_list[2].name}}</td>
-				<td>{{passed_activity_list[3].name}}</td>
+				<td>{{passed_activity_list[0].name if passed_activity_list[0]}}</td>
+				<td>{{passed_activity_list[1].name if passed_activity_list[1]}}</td>
+				<td>{{passed_activity_list[2].name if passed_activity_list[2]}}</td>
+				<td>{{passed_activity_list[3].name if passed_activity_list[3]}}</td>
 			</tr>
 			<tr  id="activity-row-3">
 				<td>{{passed_activity_list[0].activity_time|time_split_4 if passed_activity_list[0]}}</td>

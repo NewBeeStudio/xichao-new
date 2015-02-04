@@ -71,7 +71,7 @@
 #button_upload_pic {
 	margin-right: 75%;
 	margin-left: 5%;
-	margin-top: 1%;
+	margin-top: 20px;
 }
 
 #article_editor {
@@ -177,4 +177,65 @@
     border-radius: 8px;
     background-color: #D9AE48;
     color: #ffffff;
+}
+
+#book_information {
+	margin-top: 30px;
+}
+
+#book_image {
+	margin-left: 230px;
+	margin-right: 100px;
+	float: left;
+}
+
+#div_book_info {
+	float: left;
+	margin-right: 100px;
+}
+
+.p_book_info {
+	font-family: 微软雅黑;
+	font-size: 15px;
+	line-height: 200%;
+	color: #D9AE48;
+}
+
+.p_book_info_content {
+	font-family: 微软雅黑;
+	font-size: 15px;
+	line-height: 200%;
+}
+
+#activity_info {
+	margin-bottom: 50px;
+	margin-left: 400px;
+	margin-right: 200px;
+	color: #D9AE48;
+}
+
+#div_activity_time {
+	margin-bottom: 10px;
+}
+
+#p_activity_time {
+	float: left;
+	margin-right: 10px;
+}
+
+#activity_time {
+	margin-right: 200px;
+	width: 150px;
+	height: 22px;
+}
+
+#p_activity_place {
+	float: left;
+	margin-right: 10px;
+}
+
+#activity_place {
+	margin-right: 200px;
+	width: 150px;
+	height: 22px;
 }

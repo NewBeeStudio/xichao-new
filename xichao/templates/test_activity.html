@@ -3,49 +3,55 @@
 <!--css file used-->
 {% block css %}
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
-	<link rel="stylesheet" type="text/css" href="/static/css/article.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/activity_detail.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/button.css" />
 {% endblock %}
 
 <!--content-->
 {% block content %}
+	<div id="p_title">
+		<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;活动&nbsp;>&nbsp;</p>
+		<p id="p_title_2">活动详情</p>
+	</div>
 
-	<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;活动&nbsp;>&nbsp;</p>
-	<p id="p_title_2">活动详情</p>
 	<div id="article_title">
 		<p id="p_article_title">{{ activity.name }}</p>
 	</div>
-	<div id="article_content">
-		<p id="p_activity_time_1">活动时间</p>
-		<p id="p_activity_time_2">{{ activity.activity_time }}</p>
-	</div>
-	<div id="article_content_html"><!--该div用于显示文章内容-->
-		<br/>{{ activity.content|safe }}
-	</div>
-	<div id="share">
-		<p id="p_share">分享</p>
-		<img src="/static/images/share_sinaweibo.png"/>
-		<img src="/static/images/share_qzone.png"/>
-		<img src="/static/images/share_renren.png"/>
-		<img src="/static/images/share_rss.png"/>
-	</div>
-	<div id="read">
-		<p id="p_read">阅读</p>
-		<p id="p_read_content">({{ activity.read_num }})</p>
-		<p id="p_review">评论</p>
-		<p id="p_review_content">({{ activity.comment_num }})</p>
-		<a id="p_collection" href="#">收藏</a>
-		<p id="p_collection_content">({{ activity.favor }})</p>
+
+	<div id="activity">
+		<div id="article_content">
+			<p id="p_article_time">发表时间&nbsp;&nbsp;{{activity.create_time}}</p>
+			<a id="p_collection" href="#">收藏 ({{activity.favor }})</a>
+			<p id="p_review">评论 ({{activity.comment_num}})</p>
+			<p id="p_read_content">({{activity.read_num}})</p>
+			<p id="p_read">阅读</p>
+		</div>
+
+		<div id="article_content_html"><!--该div用于显示文章内容-->
+			<br/>{{ activity.content|safe }}
+		</div>
+
+		<div id="share">
+			<p id="p_share">分享</p>
+			<img src="/static/images/share_sinaweibo.png"/>
+			<img src="/static/images/share_qzone.png"/>
+			<img src="/static/images/share_renren.png"/>
+			<img src="/static/images/share_rss.png"/>
+		</div>
+	
 	</div>
 	
-	<hr>
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<img id="user_pic_1" src="{{ avatar }}">
+		<div id="img_user">
+			<img id="transparent-circle" src="{{ url_for('static', filename='images/transparent-circle-pink.png') }}">
+			<img id="user_pic_1" src="{{avatar}}">
+		</div>
+
 		<iframe id="input_publish_review"></iframe>
 		<p id="p_user_name">{{ nick }}</p>
-		<button  class="myButton" id="comment_reset_button">取消</button>
-		<button  class="myButton" id="comment_publish_button">确认</button>
+		<button  class="register-button" id="comment_reset_button">取消</button>
+		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
 	<hr>
 	<div id="list_review">
@@ -71,11 +77,12 @@
 			{% for comment in comments %}
 				<div class="comment">
 					<!--{{comment[0]}}comment对象实例，不用显示，需要显示的是属性，比如content，time-->
+					<img class="transparent-circle-white" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
 					<img class="user_pic_2" src="{{comment[2]}}">
 					<div class="line"></div>
 					<p class="p_review_author">{{comment[1]}}</p>
 					<div class="comment_content">{{comment[0].content}}</div>
-					<p class="p_publish_time">{{comment[0].time}}</p>
+					<p class="p_publish_time"><font size="2px">{{comment[0].time}}</font></p>
 					<!--{{comment[0].content}}<!--comment的内容-->
 					<!--{{comment[0].time}}<!--comment的时间-->
 					<!--{{comment[1]}}该条comment的评论人-->
@@ -111,6 +118,9 @@
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
 	val_content = $('#input_publish_review').contents().find('body').html();
+	if (val_content == '')
+		{alert("评论不能为空");}
+	else {
 	$('#input_publish_review').contents().find('body').empty();
 	$.post('http://127.0.0.1:5000/activity/comment',
 		{
@@ -127,12 +137,13 @@ $("#comment_publish_button").click(function(){
 			var newdiv = $('<div><p>heelo</p></div>');*/
 			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
 			$('#comment_new').prepend('<div class="comment">'+
+				'<img class="transparent-circle-white" src="{{ url_for("static", filename="images/transparent-circle.png") }}">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
-				'<p class="p_review_author">{{nick}}</p>'+
+				'<p class="p_review_author">'+{{ nick }}+'</p>'+
 				'<div class="comment_content">'+val_content+'</div>'+
-				'<p class="p_publish_time">'+data+'</p></div><hr>');
-		});
+				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
+		});};
 });
 
 $("#comment_reset_button").click(function(){

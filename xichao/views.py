@@ -264,6 +264,7 @@ def article(article_id):
 		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
 	else:
 		abort(404)
+
 ##################################  专栏页面  ##################################
 @app.route('/special', methods=['GET'])
 @login_required
@@ -311,6 +312,56 @@ def special():
                             special_author_avatar = author.photo,
                             articles_pagination = articles_pagination)
 #                            articles_pagination = articles_pagination)
+
+
+## 创建专栏界面
+@app.route('/create_special')
+@login_required
+def create_special():
+    if (not create_special_authorized()):
+        abort(404)
+    return render_template('create_special.html')
+
+## 上传专栏题图文件
+@app.route('/upload_special_title_image', methods=['GET', 'POST'])
+def save_special_title_image():
+	title_image = request.files['upload_file']
+	#设置默认题图
+	title_image_name = 'special_upload_pic.jpg'
+	if title_image:
+		if allowed_file(title_image.filename):
+			title_image_name=get_secure_photoname(title_image.filename)
+			title_image_url=os.path.join(app.config['SPECIAL_DEST'], title_image_name)
+			title_image.save(title_image_url)
+	return app.config['HOST_NAME']+'/upload/special/'+title_image_name
+
+# 调用美图秀秀
+@app.route('/upload/tailor/special_title_image')
+def upload_special_title_image():
+	return render_template('upload_special_title_image_tailor.html')
+
+
+## 完成专栏上传
+@app.route('/create_special_finish', methods=['GET'])
+@login_required
+def create_special_finish():
+    if (not create_special_authorized()):
+        abort(404)
+
+    try:
+        title = request.args.get('title')
+        content = request.args.get('content')
+        title_image = request.args.get('title_image')
+    except Exception:
+        return "failed"
+
+    special_id = create_new_special(name = title, 
+                       user_id = get_userid_from_session(),
+                       picture = title_image,
+                       introduction = content)
+                       
+#    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
+    return str(special_id)
 
 ## 编辑专栏文章
 @app.route('/special_article_upload', methods=['GET'])
@@ -378,7 +429,7 @@ def special_article_finish():
     session.pop('special_id', None)
     session.pop('special_article_session_id', None)
     return str(article_id)
-    
+
 # 上传专栏草稿
 @app.route('/special_article_draft',methods=['POST'])
 def special_article_draft():
@@ -853,7 +904,7 @@ def activity(activity_id):
 	if activity!=None:
 		update_read_num_activity(activity_id)
 		comments=get_activity_comments(activity_id)
-		return render_template('test_activity.html',activity=activity,avatar=get_avatar(),comments=comments)
+		return render_template('test_activity.html',activity=activity,avatar=get_avatar(),comments=comments, nick=getNick())
 	else:
 		abort(404)
 
@@ -894,7 +945,7 @@ def home_page():
 		article_collection_pagination=article_collection_pagination,activity_collection_pagination=activity_collection_pagination,
 		user_collection_pagination=user_collection_pagination,special_collection_pagination=special_collection_pagination,
 		fans_pagination=fans_pagination,message_pagination=message_pagination,received_comment_pagination=received_comment_pagination,
-		notification_pagination=notification_pagination)
+		notification_pagination=notification_pagination,user=current_user)
 
 @app.route('/homepage/pagination/article/page/<int:page_id>',methods=['GET'])
 @login_required

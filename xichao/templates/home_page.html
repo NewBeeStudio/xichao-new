@@ -1,3 +1,361 @@
+{% extends "layout_home_page.html" %}
+
+{% block home_page_content %}
+
+	<h1 class="main-color">个人主页</h1>
+
+	<div id="home-personal">
+		<div class="personal-left">
+			<div class="personal-photo">
+				<img src="/static/images/transparent-circle-yellow.png" style="background-image: url('/static/images/square-1.jpg')">
+
+				<div class="personal-name">
+					<div style="font-size: 20.8px">荆棘鸟</div>
+					<div>作家</div>
+					<div style="margin-top: 20px; color: #000000;"><a href="{{url_for('article_upload')}}">写文章</a></div>
+				</div>
+			</div>
+
+				
+			<ul id="left-select" class="idTabs"> 
+  				<li><a class="selected" href="#one">个人信息</a></li> 
+  				<li><a href="#two">我的发布</a></li> 
+  				<li><a href="#three">我的收藏</a></li>
+  				<li><a href="#four">我的关注</a></li> 
+  				<li><a href="#five">我的粉丝</a></li> 
+  				<li><a href="#six">曦潮币</a></li> 
+  				<li><a href="#seven">消息中心</a></li> 
+			</ul> 
+		</div>
+
+		<div class="personal-right">
+			<!-- start -->
+			<!-- 个人信息 -->
+			<div id="one">
+				<div class="personal-right-up">
+					<ul class="idTabs three-tab">
+						<li><a href="#one1"><font>基本信息</font></a></li>
+						<li><a href="#one2"><font>个人简介</font></a></li>
+						<li><a href="#one3"><font>会员卡</font></a></li>
+					</ul>
+				</div>
+				<div class="personal-right-bottom">
+					<div id="one1" class="home-text">
+						<table style="margin-left: 50px;">
+						<tr>
+							<td>昵称：</td>
+							<td><input type="text"></td>
+						</tr>
+						<tr>
+							<td>性别：</td>
+							<td><input type="text"></td>
+						</tr>
+						<tr>
+							<td>生日：</td>
+							<td><input type="text"></td>
+						</tr>
+						<tr>
+							<td>手机号：</td>
+							<td><input type="text"></td>
+						</tr>
+						<tr>
+							<td>头像：</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><img src="/static/images/transparent-circle.png" style="background-image: url('/static/images/square-1.jpg')"/></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td style="padding-left: 40px;">更换头像</td>
+						</tr>
+						</table>
+
+						<div style="width: 50%; margin: 8px auto;">
+							<input type="button" value="取消" class="home-button" id="cancel-change-info">
+							<input type="button" value="确定" class="home-button" id="change-info" style="margin-left: 70px;">
+						</div>
+						
+					</div>
+					<div id="one2">
+						<textarea class="home-text">
+							
+						</textarea>
+						<input type="button" value="修改" class="home-button" id="change-slogon">
+					</div>
+					<div id="one3" class="home-text">
+						<div style="margin-top: 150px;">卡号：</div>
+						<div>绑定日期：</div>
+
+						<div class=""><input type="button" value="修改" class="home-button" id="change-card"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 我的发布 -->
+			<div id="two">
+				<div class="personal-right-up">
+					<ul class="idTabs three-tab">
+						<li><a href="#two1"><font>发布的文章</font></a></li>
+						<li><a href="#two2"><font>发布的评论</font></a></li>
+						<li><a href="#two3"><font>草稿箱</font></a></li>
+					</ul>
+				</div>
+				<div class="personal-right-bottom">
+					<div id="two1" class="home-text">
+					<div class="overflow-handle">
+					<table>
+					{% for i in range(10)%}
+						<tr>
+							<td style="width: 280px">青春的故事</td>
+							<td style="width: 140px">评论（?）</td>
+							<td style="width: 160px">曦潮币（?）</td>
+							<td><u><a href="javascript:void(0);">删除</a></u></td>
+						</tr>
+					{% endfor %}
+					</table>
+					</div>
+					</div>
+
+
+					<div id="two2" class="home-text">
+					<div class="overflow-handle">
+					{% for i in range(3)%}
+						<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
+						<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
+						<tr>
+							<td style="width: 200px;">《青春的故事》</td>
+							<td style="width: 180px;">2014-01-23 18:23</td>
+							<td><u><a href="javascript:void(0);">删除</a></u></td>
+						</tr>
+						</table>
+					{% endfor %}
+					</div>
+					</div>
+
+
+					<div id="two3" class="home-text">
+					<div class="overflow-handle">
+					<table>
+					{% for i in range(10)%}
+						<tr>
+							<td style="width: 300px">青春的故事</td>
+							<td style="width: 280px">2014-01-12 17:28</td>
+							<td><u><a href="javascript:void(0);">删除</a></u></td>
+						</tr>
+					{% endfor %}
+					</table>
+					</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- 我的收藏 -->
+			<div id="three">
+				<div class="personal-right-up">
+					<ul class="idTabs two-tab">
+						<li><a href="#three1"><font>收藏的文章</font></a></li>
+						<li><a href="#three2"><font>收藏的活动</font></a></li>
+					</ul>
+				</div>
+
+
+				<div class="personal-right-bottom">
+
+					<div id="three1" class="home-text">
+					<div class="overflow-handle">
+					<table>
+					{% for i in range(10)%}
+						<tr>
+							<td style="width: 300px">青春的故事</td>
+							<td style="width: 280px">荆棘鸟</td>
+							<td><u><a href="javascript:void(0);">删除</a></u></td>
+						</tr>
+					{% endfor %}
+					</table>
+					</div>
+					</div>
+
+
+					<div id="three2" class="home-text">
+					<div class="overflow-handle">
+					<table>
+					{% for i in range(10)%}
+						<tr>
+							<td style="width: 300px">青春的故事</td>
+							<td style="width: 280px">2014-01-12 17:28</td>
+							<td><u><a href="javascript:void(0);">删除</a></u></td>
+						</tr>
+					{% endfor %}
+					</table>
+					</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 我的关注 -->
+			<div id="four">
+				<div class="personal-right-up">
+					<ul class="idTabs two-tab">
+						<li><a href="#four1"><font>关注的作者</font></a></li>
+						<li><a href="#four2"><font>关注的专栏</font></a></li>
+					</ul>
+				</div>
+				<div class="personal-right-bottom">
+					<div id="four1">
+					<div class="home-photo-row">
+					{% for i in range(7)%}
+						<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
+						<div class="home-star-name"><a href="#">HAHA</a></div></div>
+					{% endfor %}
+					</div>
+					</div>
+
+
+					<div id="four2">
+					<div class="home-photo-row">
+					{% for i in range(3)%}
+						<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
+						<div class="home-star-name"><a href="#">HEHE</a></div></div>
+					{% endfor %}
+					</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 我的粉丝 -->
+			<div id="five">
+				<div class="personal-right-up">
+					<ul class="idTabs one-tab">
+						<li><a href="#five1"><font>我的粉丝</font></a></li>
+					</ul>
+				</div>
+				<div class="personal-right-bottom">
+					<div id="five1">
+					<div class="home-photo-row">
+					{% for i in range(7)%}
+						<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
+						<div class="home-star-name"><a href="#">XIXI</a></div></div>
+					{% endfor %}
+					</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 曦潮币 -->
+			<div id="six">
+				<div class="personal-right-up">
+					<ul class="idTabs one-tab">
+						<li><a href="#six1"><font>我的曦潮币</font></a></li>
+					</ul>
+				</div>
+				<div class="personal-right-bottom">
+					<div id="six1" class="home-text">
+						<div>我拥有的曦潮币：123</div>
+						<div style="margin-top:20px;">可以兑换的物品</div>
+						<div style="margin-top:20px; text-align:center;">敬请期待！</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 消息中心 -->
+			<div id="seven">
+				<div class="personal-right-up">
+					<ul class="idTabs three-tab">
+						<li><a href="#seven1"><font>私信</font></a></li>
+						<li><a href="#seven2"><font>收到的评论</font></a></li>
+						<li><a href="#seven3"><font>系统消息</font></a></li>
+					</ul>
+				</div>
+				<div class="personal-right-bottom">
+					<div id="seven1" class="home-text">
+						<div class="overflow-handle">
+						{% for i in range(3)%}
+							<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
+							<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
+							<tr>
+								<td style="width:120px">荆棘鸟</td>
+								<td style="width: 180px;">2014-01-23 18:23</td>
+								<td style="width: 60px;"><u><a href="javascript:void(0);">删除</a></u></td>
+								<td><u><a href="javascript:void(0);">回复</a></u></td>
+							</tr>
+							</table>
+						{% endfor %}
+						</div>
+					</div>
+
+
+					<div id="seven2" class="home-text">
+						<div class="overflow-handle">
+						{% for i in range(3)%}
+							<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
+							<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
+							<tr>
+								<td style="width:120px">荆棘鸟</td>
+								<td style="width: 250px;">评论我《红豆》</td>
+								<td style="width: 180px;">2014-01-23 18:23</td>
+								<td><u><a href="javascript:void(0);">删除</a></u></td>
+							</tr>
+							</table>
+						{% endfor %}
+						</div>
+					</div>
+
+
+					<div id="seven3" class="home-text">
+						<div class="overflow-handle">
+						{% for i in range(3)%}
+							<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
+							<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
+							<tr>
+								<td style="width: 180px;">2014-01-23 18:23</td>
+								<td><u><a href="javascript:void(0);">删除</a></u></td>
+							</tr>
+							</table>
+						{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- end -->
+		</div>
+	</div>
+		
+
+	<div style="margin-top: 87px;"></div>
+	<!-- 个人简介 -->
+	<div class="square-part1">
+		<!-- 头像 -->
+		<div class="square-part1-left">
+			<h2 style="line-height: 40px">个人简介</h2>
+			<img id="square-part1-img" style="background-image: url('{{current_user.photo}}')" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
+			<div></div>
+		</div>
+
+		<!-- 介绍 -->
+		<div class="home-introduction">
+			<table>
+				<tr>
+					<td class="home-col-1">{{user.nick}}</td>
+				</tr>
+			</table>
+
+			<div>
+				{{current_user.slogon}}
+			</div>
+		</div>
+	
+	</div>
+{% endblock %}
+
+
+{#
+
+
 {% extends "layout_login.html" %}
 
 {% block css %}
@@ -117,3 +475,7 @@
 </script>
 
 {% endblock %}
+
+
+
+#}
