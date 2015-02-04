@@ -1051,7 +1051,7 @@ def ajax_home_page_received_comment(page_id):
 @app.route('/homepage/pagination/notification/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_notification(page_id):
-	pagination=get_notification_pagination(current_user.user_id,1)
+	pagination=get_notification_pagination(current_user.user_id,page_id)
 	has_prev=get_has_prev(pagination)
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
@@ -1123,7 +1123,7 @@ def ajax_home_page_delete_collection_article():
 ##删除通知就是删除私信
 @app.route('/homepage/delete/message',methods=['POST'])
 def ajax_home_page_delete_message():
-	message_id=request.form['message_id']
+	message_id=int(request.form['message_id'])
 	result=delete_message_by_message_id(message_id,current_user.user_id)
 	return result
 

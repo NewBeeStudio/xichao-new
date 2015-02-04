@@ -299,5 +299,46 @@
 
 
 </script>
+
+<script type="text/javascript">
+			//私信的显示功能
+		$("#a-seven3").click(function(){
+			$.get("{{url_for('ajax_home_page_notification',page_id=1)}}",function(data){
+				items=data.rows;
+				for(var i = 1; i <= items.length; ++i){
+					text="<div><p style='clear:both;'>"+items[i-1].content+"</p><table style='float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;'><tr><td style='width: 180px;'>"+items[i-1].time+"</td><td><u><a href='javascript:void(0);' onClick='seven3_a_click("+items[i-1].message_id+")'>删除</a></u></td></tr></table></div>";
+
+					$("#seven3 .overflow-handle").append(text);
+				}
+			});
+		});
+
+		function seven3_a_click(id){
+			$.post('/homepage/delete/message',
+				{
+					message_id: id
+				},
+				function(data){
+					if (data=='fail') {alert('fail');}
+					else{
+						$("#seven3 .overflow-handle").empty();
+						$("#a-seven3").trigger("click");
+
+					}
+			});
+		}
+
+		function seven3_refresh(page_id){
+			$("#seven3 .overflow-handle").empty();
+			$.get("/homepage/pagination/notification/page/"+page_id,function(data){
+				items=data.rows;
+				for(var i = 1; i <= items.length; ++i){
+					text="<div><p style='clear:both;'>"+items[i-1].content+"</p><table style='float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;'><tr><td style='width: 180px;'>"+items[i-1].time+"</td><td><u><a href='javascript:void(0);' onClick='seven3_a_click("+items[i-1].message_id+")'>删除</a></u></td></tr></table></div>";
+
+					$("#seven3 .overflow-handle").append(text);
+				}
+			});
+		}
+</script>
 {% endif %}
 {% endblock %}

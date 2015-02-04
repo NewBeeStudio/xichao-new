@@ -625,7 +625,7 @@ def get_received_comment_pagination(user_id,page_id):
 ##目前来说，3是管理员
 def get_notification_pagination(user_id,page_id):
 	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id==3))
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 
 def get_has_prev(pagination):
@@ -706,8 +706,8 @@ def delete_collection_article_by_article_id(collection_article_id,user_id):
 
 def delete_message_by_message_id(message_id,user_id):
 	message=db_session.query(models.Message).filter(models.Message.message_id==message_id).first()
-	if message.user_id!=user_id or message==None:
-		return None
+	if message.to_user_id!=user_id or message==None:
+		return 'fail'
 	else:
 		db_session.query(models.Message).filter(models.Message.message_id==message_id).delete()
 		db_session.commit()

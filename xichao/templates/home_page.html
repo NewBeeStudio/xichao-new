@@ -264,9 +264,9 @@
 			<div id="seven">
 				<div class="personal-right-up">
 					<ul class="idTabs three-tab">
-						<li><a href="#seven1"><font>私信</font></a></li>
-						<li><a href="#seven2"><font>收到的评论</font></a></li>
-						<li><a href="#seven3"><font>系统消息</font></a></li>
+						<li><a href="#seven1" id="a-seven1"><font>私信</font></a></li>
+						<li><a href="#seven2" id="a-seven2"><font>收到的评论</font></a></li>
+						<li><a href="#seven3" id="a-seven3"><font>系统消息</font></a></li>
 					</ul>
 				</div>
 				<div class="personal-right-bottom">
@@ -306,15 +306,7 @@
 
 					<div id="seven3" class="home-text">
 						<div class="overflow-handle">
-						{% for i in range(3)%}
-							<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
-							<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
-							<tr>
-								<td style="width: 180px;">2014-01-23 18:23</td>
-								<td><u><a href="javascript:void(0);">删除</a></u></td>
-							</tr>
-							</table>
-						{% endfor %}
+
 						</div>
 					</div>
 				</div>
@@ -471,8 +463,13 @@
 			$("#save").click(function(){
 			});
 		});
+
+
 	});
 </script>
+
+
+
 
 {% endblock %}
 
