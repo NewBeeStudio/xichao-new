@@ -577,9 +577,9 @@ def get_be_followed_num(user_id):
 
 def get_article_pagination_by_user_id(user_id,by_time,page_id):
 	if by_time:
-		query=db_session.query(Article).filter(Article.user_id==user_id).order_by(desc(Article.time))
+		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).order_by(desc(Article.time))
 	else:
-		query=db_session.query(Article).filter(Article.user_id==user_id).order_by(desc(Article.coins))
+		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).order_by(desc(Article.coins))
 	return paginate(query,page_id,10,False)
 
 def get_collection_author_list(user_id):
@@ -638,3 +638,87 @@ def get_has_next(pagination):
 		return 'yes'
 	else:
 		return 'no'
+
+
+
+def updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone,avatar):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	user.nick=nick
+	user.gender=gender
+	user.birthday=birthday
+	user.phone=phone
+	user.avatar=avatar
+	db_session.commit()
+	##删除原先的头像
+	return 'success'
+def update_user_slogon(user_id,slogon):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	user.slogon=slogon
+	db_session.commit()
+	return 'success'
+def update_member_id(user_id,member_id):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	user.member_id=member_id
+	try:
+		db_session.commit()
+		return 'success'
+	except:
+		return 'fail'
+
+def delete_article_by_article_id(article_id,user_id):
+	article=db_session.query(Article).filter_by(article_id=article_id).first()
+	if article.user_id!=user_id or article==None:
+		return 'fail'
+	else:
+		db_session.query(Article).filter_by(article_id=article_id).delete()
+		db_session.commit()
+		##删除和这篇文章相关的东西（题图文件夹，内容文件夹，评论）
+		return 'success'
+
+def delete_comment_by_comment_id(comment_id,user_id):
+	comment=db_session.query(Comment).filter_by(comment_id).first()
+	if comment.user_id!=user_id or comment==None:
+		return 'fail'
+	else:
+		db_session.query(Comment).filter_by(comment_id=comment_id).delete()
+		db_session.commit()
+		##删除和评论相关的东西（文章的被评论数）
+		return 'success'
+
+def delete_collection_activity_by_activity_id(collection_activity_id,user_id):
+	collection_activity=db_session.query(Collection_Activity).filter_by(collection_activity_id=collection_activity_id).first()
+	if collection_activity.user_id!=user_id or collection_activity==None:
+		return 'fail'
+	else:
+		db_session.query(Collection_Activity).filter_by(collection_activity_id=collection_activity_id).delete()
+		db_session.commit()
+		##更新相关信息
+		return 'success'
+
+def delete_collection_article_by_article_id(collection_article_id,user_id):
+	collection_article=db_session.query(Collection_Article).filter_by(collection_article_id=collection_article_id).first()
+	if collection_article.user_id!=user_id or collection_article==None:
+		return 'fail'
+	else:
+		db_session.query(Collection_Article).filter_by(collection_article_id=collection_article_id).delete()
+		db_session.commit()
+		return 'success'
+
+def delete_message_by_message_id(message_id,user_id):
+	message=db_session.query(models.Message).filter(models.Message.message_id==message_id).first()
+	if message.user_id!=user_id or message==None:
+		return None
+	else:
+		db_session.query(models.Message).filter(models.Message.message_id==message_id).delete()
+		db_session.commit()
+		return 'success'
+
+def delete_received_comment_by_comment_id(received_comment_id,user_id):
+	comment=db_session.query(Comment).filter_by(comment_id=comment_id).first()
+	if comment.to_user_id!=user_id or comment==None:
+		return 'fail'
+	else:
+		db_session.query(Comment).filter_by(comment_id=comment_id).delete()
+		db_session.commit()
+		return 'success'
+
