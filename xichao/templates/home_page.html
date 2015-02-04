@@ -103,7 +103,7 @@
 				</div>
 				<div class="personal-right-bottom">
 					<div id="two1" class="home-text">
-					<div style="height: 300px;">
+					<div class="overflow-handle">
 					<table>
 					{% for i in range(10)%}
 						<tr>
@@ -119,21 +119,23 @@
 
 
 					<div id="two2" class="home-text">
+					<div class="overflow-handle">
 					{% for i in range(3)%}
-						<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
+						<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
 						<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
 						<tr>
-							<td>《青春的故事》</td>
-							<td style="width: 160px;">2014-01-23 18:23</td>
+							<td style="width: 200px;">《青春的故事》</td>
+							<td style="width: 180px;">2014-01-23 18:23</td>
 							<td><u><a href="javascript:void(0);">删除</a></u></td>
 						</tr>
 						</table>
 					{% endfor %}
 					</div>
+					</div>
 
 
 					<div id="two3" class="home-text">
-					<div style="height: 300px;">
+					<div class="overflow-handle">
 					<table>
 					{% for i in range(10)%}
 						<tr>
@@ -162,7 +164,7 @@
 				<div class="personal-right-bottom">
 
 					<div id="three1" class="home-text">
-					<div style="height: 300px;">
+					<div class="overflow-handle">
 					<table>
 					{% for i in range(10)%}
 						<tr>
@@ -177,7 +179,7 @@
 
 
 					<div id="three2" class="home-text">
-					<div style="height: 300px;">
+					<div class="overflow-handle">
 					<table>
 					{% for i in range(10)%}
 						<tr>
@@ -201,8 +203,24 @@
 					</ul>
 				</div>
 				<div class="personal-right-bottom">
-					<div id="four1">four1</div>
-					<div id="four2">four2</div>
+					<div id="four1">
+					<div class="home-photo-row">
+					{% for i in range(7)%}
+						<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
+						<div class="home-star-name"><a href="#">HAHA</a></div></div>
+					{% endfor %}
+					</div>
+					</div>
+
+
+					<div id="four2">
+					<div class="home-photo-row">
+					{% for i in range(3)%}
+						<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
+						<div class="home-star-name"><a href="#">HEHE</a></div></div>
+					{% endfor %}
+					</div>
+					</div>
 				</div>
 			</div>
 
@@ -214,7 +232,14 @@
 					</ul>
 				</div>
 				<div class="personal-right-bottom">
-					<div id="five1">five1</div>
+					<div id="five1">
+					<div class="home-photo-row">
+					{% for i in range(7)%}
+						<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
+						<div class="home-star-name"><a href="#">XIXI</a></div></div>
+					{% endfor %}
+					</div>
+					</div>
 				</div>
 			</div>
 
@@ -226,7 +251,11 @@
 					</ul>
 				</div>
 				<div class="personal-right-bottom">
-					<div id="six1">six1</div>
+					<div id="six1" class="home-text">
+						<div>我拥有的曦潮币：123</div>
+						<div style="margin-top:20px;">可以兑换的物品</div>
+						<div style="margin-top:20px; text-align:center;">敬请期待！</div>
+					</div>
 				</div>
 			</div>
 
@@ -240,9 +269,53 @@
 					</ul>
 				</div>
 				<div class="personal-right-bottom">
-					<div id="seven1">seven1</div>
-					<div id="seven2">seven2</div>
-					<div id="seven3">seven3</div>
+					<div id="seven1" class="home-text">
+						<div class="overflow-handle">
+						{% for i in range(3)%}
+							<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
+							<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
+							<tr>
+								<td style="width:120px">荆棘鸟</td>
+								<td style="width: 180px;">2014-01-23 18:23</td>
+								<td style="width: 60px;"><u><a href="javascript:void(0);">删除</a></u></td>
+								<td><u><a href="javascript:void(0);">回复</a></u></td>
+							</tr>
+							</table>
+						{% endfor %}
+						</div>
+					</div>
+
+
+					<div id="seven2" class="home-text">
+						<div class="overflow-handle">
+						{% for i in range(3)%}
+							<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
+							<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
+							<tr>
+								<td style="width:120px">荆棘鸟</td>
+								<td style="width: 250px;">评论我《红豆》</td>
+								<td style="width: 180px;">2014-01-23 18:23</td>
+								<td><u><a href="javascript:void(0);">删除</a></u></td>
+							</tr>
+							</table>
+						{% endfor %}
+						</div>
+					</div>
+
+
+					<div id="seven3" class="home-text">
+						<div class="overflow-handle">
+						{% for i in range(3)%}
+							<p style="clear:both;">“青春的故事青春的故事青春的故事青春的故事青春的故事”</p>
+							<table style="float:right; margin: 5px auto 35px; font-size:16.7px; color: gray;">
+							<tr>
+								<td style="width: 180px;">2014-01-23 18:23</td>
+								<td><u><a href="javascript:void(0);">删除</a></u></td>
+							</tr>
+							</table>
+						{% endfor %}
+						</div>
+					</div>
 				</div>
 			</div>
 

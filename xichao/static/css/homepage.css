@@ -1,3 +1,7 @@
+a{
+	color: #000000;
+}
+
 .home-introduction{
 	margin-top: 160px;
 	width: 700px;
@@ -275,6 +279,11 @@ h1{
 	color: #ffffff;
 }
 
+.overflow-handle{
+	height: 320px;
+	overflow: auto;
+}
+
 /*个人信息*/
 #one1 input{
 	font-family: 微软雅黑;
@@ -310,4 +319,26 @@ h1{
 
 #one3 input{
 	margin: 80px auto;
+}
+
+/*我的关注*/
+.home-photo-row{
+	margin-top: 10px;
+	height: 120px;
+
+	text-align: center;
+}
+
+.home-photo-row > div{
+	margin: 10px 12px;
+	width: 100px;
+
+	float: left;
+}
+
+.home-photo-row img{
+	width: 100px;
+	height: 100px;
+
+	background-size: 100px 100px;
 }
