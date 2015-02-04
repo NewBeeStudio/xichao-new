@@ -46,14 +46,8 @@
           <p class="p_book_info">页数</p>
           <p class="p_book_info">价格</p>
           <p class="p_book_info">装帧</p>
+          <p class="p_book_info">ISBN</p>
         </div>
-        <!--<p class="p_book_info">书名</p>
-        <p class="p_book_info">作者</p>
-        <p class="p_book_info">出版社</p>
-        <p class="p_book_info">出版时间</p>
-        <p class="p_book_info">页数</p>
-        <p class="p_book_info">价格</p>
-        <p class="p_book_info">装帧</p>-->
 
         <p class="p_book_info_content" id="book_name"></p>
         <p class="p_book_info_content" id="book_author"></p>
@@ -218,10 +212,11 @@
       $("#book_pages").text(json.pages);
       $("#book_price").text(json.price);
       $("#book_binding").text(json.binding);
-      $("#book_isbn").text(json.isbn13);
+      $("#book_isbn").text(val_book_isbn);
       $("#book_image").attr("src",json.images.large);
       $("#book_information").css('display','block');
     });
+    $("#book_isbn").text("123");
   });
 </script>
 
