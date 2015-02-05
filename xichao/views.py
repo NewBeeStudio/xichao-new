@@ -384,6 +384,24 @@ def special_article_upload():
 
     return render_template('special_article_upload.html')
     
+# 修改专栏文章
+@app.route('/special_article_modify/article/<int:article_id>')
+def special_article_modify(article_id):
+    article = get_article_information(article_id)
+    try:
+        special_id = int(article[0].special_id)
+    except Exception:
+        abort(404)
+
+    author = article[0].user_id
+    login_user = get_userid_from_session()
+    if (author != login_user):
+        abort(404)
+
+    session['special_id'] = str(article[0].special_id)
+    session['special_article_session_id'] = str(article[0].article_session_id)
+    return render_template('special_article_modify.html',article=article[0],book=article[2])
+    
 ## 上传专栏文章
 ##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
 @app.route('/special_article_finish', methods=['POST'])
