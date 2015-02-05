@@ -332,6 +332,12 @@ h1{
 }
 
 /*我的关注*/
+.home-photo-block{
+	overflow: auto;
+	height: 370px;
+}
+
+
 .home-photo-row{
 	margin-top: 10px;
 	height: 120px;
