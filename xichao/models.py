@@ -66,6 +66,7 @@ class User(Base, UserMixin, AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
+    __allowed_in_json__ = ['nick','user_id','photo']
 
     ########## Primary索引 ##########
     user_id = Column(Integer, primary_key=True, autoincrement=True, 
@@ -176,7 +177,7 @@ class Special(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-
+    __allowed_in_json__ = ['name','special_id','picture']
     ########## Primary索引 ##########
     special_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)
@@ -222,7 +223,7 @@ class Article(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-
+    __allowed_in_json__ = ['title','article_id','picture','time','comment_num','coins']
     ########## Primary索引 ##########
     article_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)
@@ -327,7 +328,7 @@ class Comment(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-
+    __allowed_in_json__ = ['content','comment_id','time']
     ########## Primary索引 ##########
     comment_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)
@@ -434,7 +435,7 @@ class Activity(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-
+    __allowed_in_json__ = ['name','activity_id','activity_time']
     ########## Primary索引 ##########
     activity_id = Column(Integer, primary_key=True, autoincrement=True, 
                                   nullable=False, index=True)

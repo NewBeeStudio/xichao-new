@@ -927,26 +927,12 @@ def activity_upload():
 @login_required
 def home_page():
 	article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
-	##元组构成的list
-	comment_pagination=get_comment_pagination_by_user_id(current_user.user_id,1)
-	article_draft_pagination=get_article_draft_pagination(current_user.user_id,1)
-	article_collection_pagination=get_article_collection_pagination(current_user.user_id,1)
-	activity_collection_pagination=get_activity_collection_pagination(current_user.user_id,1)
-	user_collection_pagination=get_user_collection_pagination(current_user.user_id,1)
-	special_collection_pagination=get_special_collection_pagination(current_user.user_id,1)
-	fans_pagination=get_fans_pagination(current_user.user_id,1)
-	##元组构成的list
-	message_pagination=get_message_pagination(current_user.user_id,1)
-	##元组构成的list
-	received_comment_pagination=get_received_comment_pagination(current_user.user_id,1)
-	notification_pagination=get_notification_pagination(current_user.user_id,1)
-	return render_template('home_page.html',article_pagination=article_pagination,
-		comment_pagination=comment_pagination,article_draft_pagination=article_draft_pagination,
-		article_collection_pagination=article_collection_pagination,activity_collection_pagination=activity_collection_pagination,
-		user_collection_pagination=user_collection_pagination,special_collection_pagination=special_collection_pagination,
-		fans_pagination=fans_pagination,message_pagination=message_pagination,received_comment_pagination=received_comment_pagination,
-		notification_pagination=notification_pagination,user=current_user)
+	return render_template('home_page.html',article_pagination=article_pagination,user=current_user)
 
+
+##能够返回数据
+##返回当前用户所发布的文章
+##不是草稿
 @app.route('/homepage/pagination/article/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_article(page_id):
@@ -957,6 +943,8 @@ def ajax_home_page_article(page_id):
 	pages=str(pagination.pages)
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
+##能够返回数据
+##返回当前用户所发布的评论
 @app.route('/homepage/pagination/comment/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_comment(page_id):
@@ -965,8 +953,12 @@ def ajax_home_page_comment(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_comment=[item[0].get_serialize() for item in pagination.items],rows_article=[item[1].get_serialize() for item in pagination.items])
 
+
+##能够返回数据
+##返回当前用户保存的草稿
+##点击该文章的题目，应该进入到该文章的编辑页面，路由是/article_modify/article/<int:article_id>
 @app.route('/homepage/pagination/article_draft/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_article_draft(page_id):
@@ -977,6 +969,8 @@ def ajax_home_page_article_draft(page_id):
 	pages=str(pagination.pages)
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
+##能够返回数据
+##返回当前用户收藏的文章
 @app.route('/homepage/pagination/article_collection/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_article_collection(page_id):
@@ -985,8 +979,11 @@ def ajax_home_page_article_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_article=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items])
 
+
+##能够返回数据
+##返回当前用户收藏的活动
 @app.route('/homepage/pagination/activity_collection/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_activity_collection(page_id):
@@ -998,26 +995,32 @@ def ajax_home_page_activity_collection(page_id):
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
 
+##能够返回数据
+##返回当前用户关注的作者
 @app.route('/homepage/pagination/user_collection/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_user_collection(page_id):
-	pagination=get_user_collection_pagination(urrent_user.user_id,page_id)
+	pagination=get_user_collection_pagination(current_user.user_id,page_id)
 	has_prev=get_has_prev(pagination)
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
+##能够返回数据
+##返回当前用户关注的专栏
 @app.route('/homepage/pagination/special_collection/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_special_collection(page_id):
-	pagination=get_special_collection_pagination(urrent_user.user_id,page_id)
+	pagination=get_special_collection_pagination(current_user.user_id,page_id)
 	has_prev=get_has_prev(pagination)
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
+##能够返回数据
+##返回当前用户的粉丝
 @app.route('/homepage/pagination/fans/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_fans(page_id):
@@ -1028,6 +1031,8 @@ def ajax_home_page_fans(page_id):
 	pages=str(pagination.pages)
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
+##能够返回数据
+##返回当前用户接收到的私信
 @app.route('/homepage/pagination/message/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_message(page_id):
@@ -1036,8 +1041,10 @@ def ajax_home_page_message(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_message=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items])
 
+##能够返回数据
+##返回当前用户接收到的评论
 @app.route('/homepage/pagination/received_comment/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_received_comment(page_id):
@@ -1048,6 +1055,8 @@ def ajax_home_page_received_comment(page_id):
 	pages=str(pagination.pages)
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_comment=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items],rows_article=[item[2].get_serialize() for item in pagination.items])
 
+##能够返回数据
+##返回当前用户接收到的通知
 @app.route('/homepage/pagination/notification/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_notification(page_id):
@@ -1058,6 +1067,9 @@ def ajax_home_page_notification(page_id):
 	pages=str(pagination.pages)
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
+##尚未测试
+##修改个人基本信息
+##返回操作结果，'birthday_error'、'nick_error'、'success'
 @app.route('/homepage/modify/basic_information',methods=['POST'])
 @login_required
 def ajax_home_page_modify_basic_information():
@@ -1078,6 +1090,10 @@ def ajax_home_page_modify_basic_information():
 		birthday=date(birthday_year,birthday_month,birthday_day)
 		result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone,avatar)
 		return result
+
+##尚未测试
+##修改个人简介
+##返回操作结果，'fail'、'success'
 @app.route('/homepage/modify/slogon',methods=['POST'])
 @login_required
 def ajax_home_page_modify_slogon():
@@ -1085,6 +1101,9 @@ def ajax_home_page_modify_slogon():
 	result=update_user_slogon(current_user.user_id,slogon)
 	return result
 
+##尚未测试
+##修改会员号
+##返回操作结果，'fail'、'success'
 @app.route('/homepage/modify/member_id',methods=['POST'])
 @login_required
 def ajax_home_page_modify_member_id():
@@ -1092,6 +1111,10 @@ def ajax_home_page_modify_member_id():
 	result=update_member_id(current_user.user_id,member_id)
 	return result
 
+##尚未测试
+##删除发表的文章
+##删除草稿也是这里
+##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/article',methods=['POST'])
 @login_required
 def ajax_home_page_delete_article():
@@ -1099,41 +1122,56 @@ def ajax_home_page_delete_article():
 	result=delete_article_by_article_id(article_id,current_user.user_id)
 	return result
 
+
+##尚未测试
+##删除自己发布的评论
+##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/comment',methods=['POST'])
 def ajax_home_page_delete_comment():
 	comment_id=request.form['comment_id']
 	result=delete_comment_by_comment_id(comment_id,current_user.user_id)
 	return result
 
+##尚未测试
+##删除收藏的活动
+##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/collection/activity',methods=['POST'])
 def ajax_home_page_delete_collection_activity():
 	collection_activity_id=request.form['collection_activity_id']
 	result=delete_collection_activity_by_activity_id(collection_activity_id,current_user.user_id)
 	return result
 
+##尚未测试
+##删除收藏的文章
+##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/collection/article',methods=['POST'])
 def ajax_home_page_delete_collection_article():
 	collection_article_id=request.form['collection_article_id']
 	result=delete_collection_article_by_article_id(collection_article_id,current_user.user_id)
 	return result
 
-##取消关注的作者路由是/collection_cancel/user
-##取消关注专栏是由张云昊写的
-##私信对的路由是/message
-##删除通知就是删除私信
+##尚未测试
+##删除接收到的私信
+##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/message',methods=['POST'])
 def ajax_home_page_delete_message():
 	message_id=int(request.form['message_id'])
 	result=delete_message_by_message_id(message_id,current_user.user_id)
 	return result
 
+##尚未测试
+##删除接收到的评论
+##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/received_comment',methods=['POST'])
 def ajax_home_page_delete_received_comment():
 	received_comment_id=request.form['comment_id']
 	result=delete_received_comment_by_comment_id(received_comment_id,current_user.user_id)
 	return result
 
-
+##取消关注的作者路由是/collection_cancel/user
+##取消关注专栏是由张云昊写的,可以查看一下专栏相关路由
+##私信回复的路由是/message
+##删除通知就是删除私信
 
 ##################################	广场 ##################################
 #广场主页
@@ -1212,17 +1250,14 @@ def cancle_collection_user():
 @app.route('/message',methods=['POST'])
 @login_required
 def message():
-	user_id=request.form['user_id']
-	content=request.form['content']
+	user_id=request.form['user_id']##接收者的user_id
+	content=request.form['content']##私信内容
 	if user_id==current_user.user_id:
-		print 'ooooooooooooooooo'
 		return 'fail'
 	elif examine_user_id(user_id):
-		print 'yyyyyyyyyyyyyyyyy'
 		create_message(to_user_id=user_id,user_id=current_user.user_id,content=content)
 		return 'success'
 	else:
-		print 'lllllllllllllllll'
 		return 'fail'
 
 
