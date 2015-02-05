@@ -220,7 +220,7 @@ function add_commit(data, val_content) {
 				'<img class="transparent-circle-white" src="{{ url_for("static", filename="images/transparent-circle.png") }}">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
-				'<p class="p_review_author">'+ {{nick}} +'</p>'+
+				'<p class="p_review_author">'+ '{{nick}}' +'</p>'+
 				'<div class="comment_content"><font size="3px">'+val_content+'</font></div>'+
 				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
 }
@@ -228,7 +228,7 @@ function add_commit(data, val_content) {
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		if ({{ nick }} == {{ author.nick }})
+		if ('{{ nick }}' == '{{ author.nick }}')
 		{
 			url = "{{ url_for('article_modify', article_id=article.article_id) }}"
 			$('#pay_button').html("编辑");
