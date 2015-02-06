@@ -177,7 +177,7 @@ class Special(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-    __allowed_in_json__ = ['name','special_id','picture']
+    __allowed_in_json__ = ['name','special_id','picture','article_num','coin','favor']
     ########## Primary索引 ##########
     special_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)
