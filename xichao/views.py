@@ -267,12 +267,27 @@ def article(article_id):
 
 ##################################  专栏页面  ##################################
 # 专栏列表页
-
-@app.route('/special_all')
+@app.route('/special_all', methods=['GET'])
 @login_required
 def special_all():
-    specials_pagination = get_all_specials()
-    return render_template('layout_special.html', specials_pagination = specials_pagination, author = get_special_author, articles = get_special_article)
+    try:
+        sort = request.args.get('sort')
+        page_id = int(request.args.get('page'))
+    except Exception:
+        abort(404)
+
+    if sort != 'favor':
+        sort = 'time'
+        sort_change_url = '/special_all?sort=favor&page=1'
+    else:
+        sort_change_url = '/special_all?sort=time&page=1'
+
+    specials_pagination = get_all_specials(sort)
+    return render_template('layout_special.html', specials_pagination = specials_pagination, 
+                                                  author = get_special_author, 
+                                                  articles = get_special_article,
+                                                  sort_change_url = sort_change_url)
+
 
 # 专栏详情页
 @app.route('/special', methods=['GET'])

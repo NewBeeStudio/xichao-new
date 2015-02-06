@@ -234,8 +234,11 @@ def update_read_num_activity(activity_id):
 	activity.read_num+=1
 	db_session.commit()
 ##################################  专栏函数  ####################################
-def get_all_specials():
-    query = db_session.query(Special).order_by(Special.last_modified.desc())
+def get_all_specials(sort):
+    if sort == 'time':
+        query = db_session.query(Special).order_by(Special.last_modified.desc())
+    else:
+        query = db_session.query(Special).order_by(Special.favor.desc())
     return paginate(query = query, page = 1, per_page = 5, error_out = True)
 
 def create_special_authorized():

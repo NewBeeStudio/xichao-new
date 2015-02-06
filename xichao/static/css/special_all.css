@@ -1,161 +1,41 @@
-.special-headline{
-	margin-top: 86px;
-	width: 527px;
-
-	float: left;
-	/*border: 1px solid red;*/
+/*排序选择器*/
+#sort_select{
+    float:right; margin-top: 51px;
 }
 
-.special-headline h2{
-	font-family: 微软雅黑;
-	font-size: 25px;
-	letter-spacing: 10px;
+.special-part1{
+	clear: both;
 }
 
-#special-hot{
-	margin-top: 35px;
-	height: 513px;
-	width: 527px;
-	border: 1px solid #dddddd;
-}
-
-#special-hot-article{
-	font-family: 宋体;
-	font-size: 14.6px;
-}
-
-#special-hot-article td{
-	padding-top: 25px;
-}
-
-#special-hot-article img, #special-part1-content img{
-	width: 14px;
-	height: 14px;
-	opacity: 65%;
-}
-
-td.special-col-1{
-	width: 340px;
-	padding-left: 10px;
-	/*font-weight: bold;*/
-}
-
-td.special-col-2{
-	width: 110px;
-	color: gray;
-	text-align: center;
-}
-
-td.special-col-3{
-	width: 18px;
-	color: gray;
-}
-
-.special-col-4{
-	width: 80px;
-	color: gray;
-}
-
-.special-col-final{
-	color: gray;
-}
-
-a.special-more{
-	text-align: right;
-	font-size: 20px;
-
+/*专栏图*/
+img#special-part1-img{
 	margin-top: 10px;
-	margin-right: 20px;
-	color: gray;
+	margin-left: -47px;
+	width: 375px;
+	height: 375px;
 
-	letter-spacing: 1px;
+	background-size: 375px 375px;
 }
 
-.special-recommend{
-	margin-left: 53px;
-	width: 460px;
-}
-
-#recommend-content{
-	margin-left: 20px;
-	margin-top: 47px;
-}
-
-#recommend-content h3{
-	text-align: center;
-	font-family: 宋体;
-	font-size: 25px;
-}
-
-#recommend-title{
-	margin: 16px auto auto auto;
-	text-align: center;
-}
-
-
-#recommend-title span{
-	margin-left: 8px;
-	font-family: 宋体;
-	font-size: 12.5px;
-	color: gray;
-}
-
-#recommend-content pre{
-	margin-top: 16px;
-	height: 182px;
-
-	font-family: 宋体;
-	font-size: 16.7px;
-
-	overflow: hidden;	
-	white-space: pre-wrap;
-	word-wrap: break-word; /*自动换行*/
-}
-
-#recommend-img{
-	margin: 22px auto auto auto;
-	width: 180px;
-	height: 180px;
-}
-
-#recommend-img img{
-	width: 100%;
-	height: 100%;
-}
 
 #special-part1-content, .special-part1-right > a, .special-part2-left > a{
 	font-family: 宋体;
 	font-size: 16.7px;
 }
 
-#special-part1-content td{
-	padding-top: 12px;
-}
-
-
-.special-part1, .special-part2{
-	clear: both;
-}
-
 /*专栏图片区域*/
-.special-part1-left, .special-part2-right{
+.special-part1-left{
 	width: 280px;
 	height: 730px;
 	float: left;
-}
-
-.special-part1-left{
-	float: left;
-}
-
-.special-part2-right{
-	float: right;
+	margin-top: 50px;
 }
 
 /*专栏标题*/
-.special-part2-right > h2, .special-part1-left > h2{
+/*圆上面的竖线*/
+.special-part1-left > h2{
 	width: 25px;
-	height: 190px;
+	height: 140px;
 
 	font-family: 微软雅黑;
 	font-size: 25px;
@@ -168,27 +48,11 @@ a.special-more{
 	border-left: 1px solid #000000;
 }
 
-.special-part2-right > h2{
-	margin-right: 140px;
-	padding-right: 20px;
-	border-right: 1px solid #000000;
-	float: right;
-}
-
-/*专栏图*/
-img#special-part1-img, img#special-part2-img, img#special-part3-img{
-	margin-top: 40px;
-	margin-left: -47px;
-	width: 375px;
-	height: 375px;
-
-	background-size: 375px 375px;
-}
 
 /*圆下面的竖线*/
 .special-part1-left > div, .special-part2-right > div{
-	margin-top: 40px;
-	height: 58px;
+	margin-top: 10px;
+	height: 79px;
 }
 
 .special-part1-left > div{
@@ -196,29 +60,65 @@ img#special-part1-img, img#special-part2-img, img#special-part3-img{
 	border-left: 1px solid #000000;
 }
 
-.special-part2-right > div{
-	margin-right: 140px;
-	border-right: 1px solid #000000;
-}
-
-
-/*专栏文章区域*/
-.special-part1-right, .special-part2-left{
-	margin-top: 45px;
-}
 
 .special-part1-right{
 	float: right;
+	font-family: 微软雅黑;
 }
 
-.special-part2-left
-{
-	float: left;
+
+#special-part1-content > hr{
+    margin-top: 10px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 2.5px solid #000000;
 }
 
+#special-part1-content > h2{
+    margin-top: 100px; 
+    text-align: center;
+    font-size: 35px; 
+    font-family: 黑体;
+    color: #D9AE48;
+/*    border-bottom: 2.5px solid #000000;*/
+}
+
+#author-coin{
+    margin-top: 5px;
+    text-align: right;
+    color: #D9AE48;
+    font-size: 22px;
+    margin-right: 80px;
+}
+
+/*专栏简介*/
+#special-part1-content > p{
+    margin-top: 21px;
+	font-family: 微软雅黑;
+}
+
+/* 专栏最新文章 */
+#special-part1-content > table{
+    margin-top: 10px;
+}
+
+#latest-article{
+    text-align: left;
+    font-family: 微软雅黑;
+}
+
+#coin-image{
+    width: 21px;
+    height: 21px;
+}
+
+/* More按钮 */
 .special-part1-right > a, .special-part2-left > a{
-	margin-top: 25px;
-
+	margin-top: 50px;
+    font-family: 微软雅黑;
+    font-size: 25px;
+    
 	letter-spacing: 1px;
 	float: right;
 }
