@@ -1006,7 +1006,7 @@ def ajax_home_page_article_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_article=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_article=[item[0].get_serialize() for item in pagination.items],rows_collection_article=[item[1].get_serialize() for item in pagination.items],rows_user=[item[2].get_serialize() for item in pagination.items])
 
 
 ##能够返回数据
@@ -1019,7 +1019,7 @@ def ajax_home_page_activity_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_activity=[item[0].get_serialize() for item in pagination.items],rows_collection_activity=[item[1].get_serialize() for item in pagination.items])
 
 
 ##能够返回数据
@@ -1032,7 +1032,7 @@ def ajax_home_page_user_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_user=[item[0].get_serialize() for item in pagination.items],rows_collection_user=[item[1].get_serialize() for item in pagination.items])
 
 ##能够返回数据
 ##返回当前用户关注的专栏
@@ -1044,7 +1044,7 @@ def ajax_home_page_special_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_special=[item[0].get_serialize() for item in pagination.items],rows_collection_special=[item[1].get_serialize() for item in pagination.items])
 
 ##能够返回数据
 ##返回当前用户的粉丝

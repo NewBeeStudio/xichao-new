@@ -598,19 +598,19 @@ def get_article_draft_pagination(user_id,page_id):
 	return paginate(query,page_id,10,False)
 
 def get_article_collection_pagination(user_id,page_id):
-	query=db_session.query(Article,User).join(Collection_Article,Collection_Article.article_id==Article.article_id).join(User,User.user_id==Article.user_id).filter(Collection_Article.user_id==user_id)
+	query=db_session.query(Article,Collection_Article,User).join(Collection_Article,Collection_Article.article_id==Article.article_id).join(User,User.user_id==Article.user_id).filter(Collection_Article.user_id==user_id)
 	return paginate(query,page_id,10,False)
 
 def get_activity_collection_pagination(user_id,page_id):
-	query=db_session.query(Activity).join(Collection_Activity,Collection_Activity.activity_id==Activity.activity_id).filter(Collection_Activity.user_id==user_id)
+	query=db_session.query(Activity,Collection_Activity).join(Collection_Activity,Collection_Activity.activity_id==Activity.activity_id).filter(Collection_Activity.user_id==user_id)
 	return paginate(query,page_id,10,False)
 
 def get_user_collection_pagination(user_id,page_id):
-	query=db_session.query(User).join(Collection_User,Collection_User.another_user_id==User.user_id).filter(Collection_User.user_id==user_id)
+	query=db_session.query(User,Collection_User).join(Collection_User,Collection_User.another_user_id==User.user_id).filter(Collection_User.user_id==user_id)
 	return paginate(query,page_id,10,False)
 
 def get_special_collection_pagination(user_id,page_id):
-	query=db_session.query(Special).join(Collection_Special,Collection_Special.special_id==Special.special_id).filter(Collection_Special.user_id==user_id)
+	query=db_session.query(Special,Collection_Special).join(Collection_Special,Collection_Special.special_id==Special.special_id).filter(Collection_Special.user_id==user_id)
 	return paginate(query,page_id,10,False)
 
 def get_fans_pagination(user_id,page_id):
@@ -679,7 +679,7 @@ def delete_article_by_article_id(article_id,user_id):
 		return 'success'
 
 def delete_comment_by_comment_id(comment_id,user_id):
-	comment=db_session.query(Comment).filter_by(comment_id).first()
+	comment=db_session.query(Comment).filter_by(comment_id=comment_id).first()
 	if comment.user_id!=user_id or comment==None:
 		return 'fail'
 	else:
