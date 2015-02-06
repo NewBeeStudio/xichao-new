@@ -266,6 +266,30 @@ def article(article_id):
 		abort(404)
 
 ##################################  专栏页面  ##################################
+# 专栏列表页
+@app.route('/special_all', methods=['GET'])
+@login_required
+def special_all():
+    try:
+        sort = request.args.get('sort')
+        page_id = int(request.args.get('page'))
+    except Exception:
+        abort(404)
+
+    if sort != 'favor':
+        sort = 'time'
+        sort_change_url = '/special_all?sort=favor&page=1'
+    else:
+        sort_change_url = '/special_all?sort=time&page=1'
+
+    specials_pagination = get_all_specials(sort)
+    return render_template('layout_special.html', specials_pagination = specials_pagination, 
+                                                  author = get_special_author, 
+                                                  articles = get_special_article,
+                                                  sort_change_url = sort_change_url)
+
+
+# 专栏详情页
 @app.route('/special', methods=['GET'])
 @login_required
 def special():
@@ -383,6 +407,24 @@ def special_article_upload():
     os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
 
     return render_template('special_article_upload.html')
+    
+# 修改专栏文章
+@app.route('/special_article_modify/article/<int:article_id>')
+def special_article_modify(article_id):
+    article = get_article_information(article_id)
+    try:
+        special_id = int(article[0].special_id)
+    except Exception:
+        abort(404)
+
+    author = article[0].user_id
+    login_user = get_userid_from_session()
+    if (author != login_user):
+        abort(404)
+
+    session['special_id'] = str(article[0].special_id)
+    session['special_article_session_id'] = str(article[0].article_session_id)
+    return render_template('special_article_modify.html',article=article[0],book=article[2])
     
 ## 上传专栏文章
 ##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
@@ -979,7 +1021,7 @@ def ajax_home_page_article_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_article=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_article=[item[0].get_serialize() for item in pagination.items],rows_collection_article=[item[1].get_serialize() for item in pagination.items],rows_user=[item[2].get_serialize() for item in pagination.items])
 
 
 ##能够返回数据
@@ -992,7 +1034,7 @@ def ajax_home_page_activity_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_activity=[item[0].get_serialize() for item in pagination.items],rows_collection_activity=[item[1].get_serialize() for item in pagination.items])
 
 
 ##能够返回数据
@@ -1005,7 +1047,7 @@ def ajax_home_page_user_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_user=[item[0].get_serialize() for item in pagination.items],rows_collection_user=[item[1].get_serialize() for item in pagination.items])
 
 ##能够返回数据
 ##返回当前用户关注的专栏
@@ -1017,7 +1059,7 @@ def ajax_home_page_special_collection(page_id):
 	has_next=get_has_next(pagination)
 	page=str(pagination.page)
 	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_special=[item[0].get_serialize() for item in pagination.items],rows_collection_special=[item[1].get_serialize() for item in pagination.items])
 
 ##能够返回数据
 ##返回当前用户的粉丝

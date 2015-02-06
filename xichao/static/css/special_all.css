@@ -1,0 +1,124 @@
+/*排序选择器*/
+#sort_select{
+    float:right; margin-top: 51px;
+}
+
+.special-part1{
+	clear: both;
+}
+
+/*专栏图*/
+img#special-part1-img{
+	margin-top: 10px;
+	margin-left: -47px;
+	width: 375px;
+	height: 375px;
+
+	background-size: 375px 375px;
+}
+
+
+#special-part1-content, .special-part1-right > a, .special-part2-left > a{
+	font-family: 宋体;
+	font-size: 16.7px;
+}
+
+/*专栏图片区域*/
+.special-part1-left{
+	width: 280px;
+	height: 730px;
+	float: left;
+	margin-top: 50px;
+}
+
+/*专栏标题*/
+/*圆上面的竖线*/
+.special-part1-left > h2{
+	width: 25px;
+	height: 140px;
+
+	font-family: 微软雅黑;
+	font-size: 25px;
+	line-height: 80px;
+}
+
+.special-part1-left > h2{
+	margin-left: 140px;
+	padding-left: 20px;
+	border-left: 1px solid #000000;
+}
+
+
+/*圆下面的竖线*/
+.special-part1-left > div, .special-part2-right > div{
+	margin-top: 10px;
+	height: 79px;
+}
+
+.special-part1-left > div{
+	margin-left: 140px;
+	border-left: 1px solid #000000;
+}
+
+
+.special-part1-right{
+	float: right;
+	font-family: 微软雅黑;
+}
+
+
+#special-part1-content > hr{
+    margin-top: 10px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 2.5px solid #000000;
+}
+
+#special-part1-content > h2{
+    margin-top: 100px; 
+    text-align: center;
+    font-size: 35px; 
+    font-family: 黑体;
+    color: #D9AE48;
+/*    border-bottom: 2.5px solid #000000;*/
+}
+
+#author-coin{
+    margin-top: 5px;
+    text-align: right;
+    color: #D9AE48;
+    font-size: 22px;
+    margin-right: 80px;
+}
+
+/*专栏简介*/
+#special-part1-content > p{
+    margin-top: 21px;
+	font-family: 微软雅黑;
+}
+
+/* 专栏最新文章 */
+#special-part1-content > table{
+    margin-top: 10px;
+}
+
+#latest-article{
+    text-align: left;
+    font-family: 微软雅黑;
+}
+
+#coin-image{
+    width: 21px;
+    height: 21px;
+}
+
+/* More按钮 */
+.special-part1-right > a, .special-part2-left > a{
+	margin-top: 50px;
+    font-family: 微软雅黑;
+    font-size: 25px;
+    
+	letter-spacing: 1px;
+	float: right;
+}

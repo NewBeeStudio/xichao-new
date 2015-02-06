@@ -230,7 +230,11 @@ function add_commit(data, val_content) {
 	$(document).ready(function(){
 		if ('{{ nick }}' == '{{ author.nick }}')
 		{
-			url = "{{ url_for('article_modify', article_id=article.article_id) }}"
+		    {% if article.special_id %}
+			    url = "{{ url_for('special_article_modify', article_id=article.article_id) }}"
+            {% else %}
+                url = "{{ url_for('article_modify', article_id=article.article_id) }}"
+            {% endif %}
 			$('#pay_button').html("编辑");
 			$("#pay_button").click(function(){
 				window.location = url;
