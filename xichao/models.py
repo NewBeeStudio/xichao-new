@@ -193,8 +193,7 @@ class Special(Base,AutoSerialize):
     favor = Column(Integer, nullable = False, 
                    unique = False, index = True, default = 0)
     coin = Column(Integer, nullable = False, unique=False, index=True,default=0)
-    last_modified = Column(String(50), nullable = False, 
-                   unique = False, index = True)
+    last_modified = Column(DateTime, nullable = False)
 
     ########## Foreign Key ##########
     user_id = Column(Integer, ForeignKey('user.user_id'), index=True)

@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/special_all.css') }}" rel='stylesheet' type='text/css'/> 
+{% endblock %}
+
+<!--content-->
+{% block content %}
+    {% for special in specials_pagination.items %}
+    
+    <br>
+    <br>
+	<!-- 专栏 -->
+	<div class="special-part1">
+		<!-- 专栏标题图片 -->
+		<div class="special-part1-left">
+			<h2></h2>
+			
+			<img id="special-part1-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"
+			style="background-image: url({{ special.picture | safe }});"/>
+			<div></div>
+		</div>
+
+		<!-- 内容 -->
+		<div class="special-part1-right">
+			<div id="special-part1-content" style="width:703px">
+			
+			<h2 style="text-align: center; font-size: 50px;border-bottom: 2.5px solid #000000;">
+			        {{ special.name }}
+			</h2>
+			
+			<h4 style="text-align: right;">
+			    by: {{ author(special.user_id).nick }}
+			</h4>
+            <p>
+                    专栏介绍：<br>
+                    {{ special.introduction | safe }}
+            </p>
+            <br>
+            <br>
+            <table>
+                {% for article in articles(special.special_id, 1, "time").items %}
+                  <tr>
+                    <th>    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </th>
+                    <th>{{ article.time }}</th>
+                </tr>
+                {% endfor %}
+            </table>
+			</div>
+			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">MORE&gt;</a>
+		</div>
+	
+	</div>
+
+    <br>
+    <br>
+
+    {% endfor %}
+{% endblock %}

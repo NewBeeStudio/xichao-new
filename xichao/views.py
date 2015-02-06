@@ -266,6 +266,15 @@ def article(article_id):
 		abort(404)
 
 ##################################  专栏页面  ##################################
+# 专栏列表页
+
+@app.route('/special_all')
+@login_required
+def special_all():
+    specials_pagination = get_all_specials()
+    return render_template('layout_special.html', specials_pagination = specials_pagination, author = get_special_author, articles = get_special_article)
+
+# 专栏详情页
 @app.route('/special', methods=['GET'])
 @login_required
 def special():
