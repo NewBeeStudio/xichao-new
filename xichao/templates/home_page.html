@@ -7,11 +7,19 @@
 	<div id="home-personal">
 		<div class="personal-left">
 			<div class="personal-photo">
-				<img src="/static/images/transparent-circle-yellow.png" style="background-image: url('/static/images/square-1.jpg')">
+				<img src="/static/images/transparent-circle-yellow.png" style="background-image: url('{{current_user.photo}}')">
 
 				<div class="personal-name">
 					<div style="font-size: 20.8px">{{current_user.nick}}</div>
-					<div>{{current_user.role}}</div>
+					<div style="font-family: 微软雅黑;">
+						{% if current_user.role == 1 %}
+							普通用户
+						{% elif current_user.role == 2 %}
+							专栏作家
+						{% elif current_user.role == 3 %}
+							管理员
+						{% endif %}
+					</div>
 					<div style="margin-top: 20px; color: #000; font-family: 微软雅黑;"><a href="{{url_for('article_upload')}}">写文章</a></div>
 				</div>
 			</div>
