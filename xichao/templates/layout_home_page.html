@@ -924,5 +924,65 @@ $("#change-slogon").click(function(){
 		});
 });
 </script>
+
+
+<!-- 我的专栏AJAX -->
+<script type="text/javascript">
+	var eight1_refresh = function(page_id)
+	{
+		$("#eight1 .home-photo-row").empty();
+		$.get("/homepage/pagination/special/page/"+page_id, function(data)
+		{
+			items=data.rows;
+			for(var i = 0; i < items.length; ++i)
+			{
+				text="<div style='width: 220px; margin: 10px auto;'><img src='/static/images/transparent-circle.png' style='background-image: url(\""+items[i].picture+"\")'/><div class='home-star-name'>"+items[i].name+"</div><div class='home-star-name'>文章（"+items[i].article_num+"）</div><div class='home-star-name'>被收藏（"+items[i].favor+"）</div><div class='home-star-name'>曦潮币（"+items[i].coin+"）</div><div class='home-star-name'><table style='margin: auto;'><tr><td><u><a href='/special?id="+items[i].special_id+"&page=1'>查看</a></u></td><td><u><a href='javascript:void(0);'>编辑</a></u></td><td><u><a href='javascript:void(0);' onClick='eight1_a_click("+items[i].special_id+","+page_id+","+items.length+")'>删除</a></u></td></tr></table></div></div>";
+				
+				$("#eight1 .home-photo-row").append(text);
+			}
+			if(data.pages == '0')
+				$('#eight1-paging').css("display", "none");
+			else
+				$('#eight1-paging').css("display", "block");
+			if(data.has_prev == 'no')
+    			$('#eight1-left-arrow').css("display", "none");
+    		else
+    			$('#eight1-left-arrow').css("display", "inline");
+    		if(data.has_next == 'no')
+    			$('#eight1-right-arrow').css("display", "none");
+    		else
+    			$('#eight1-right-arrow').css("display", "inline");
+    		$('#eight1-current-page').html(data.page);
+    		$('#eight1-all-page').html(data.pages);
+		});
+	};
+
+	//删除事件绑定点击事件
+	function eight1_a_click(special_id,page_id,items_length)
+	{
+		$.post('/homepage/delete/special',
+			{
+				special_id: special_id
+			},
+		function(data)
+		{
+			if (data=='fail') {alert('fail');}
+			else{
+				if (items_length==1 && page_id>1) {
+					eight1_refresh(page_id-1);
+				}
+				else {
+					eight1_refresh(page_id);
+				}	
+			}
+		});
+	};
+
+	$("#a-eight1").click(eight1_refresh(1));
+	$("#eight1-left-arrow").click(function(){eight1_refresh(parseInt($('#eight1-current-page').html())-1);});
+	$("#eight1-right-arrow").click(function(){eight1_refresh(parseInt($('#eight1-current-page').html())+1);});
+</script>
+
+
 {% endif %}
 {% endblock %}

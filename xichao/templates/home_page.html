@@ -7,7 +7,7 @@
 	<div id="home-personal">
 		<div class="personal-left">
 			<div class="personal-photo">
-			
+
 				<img src="/static/images/transparent-circle-yellow.png" style="background-image: url('{{current_user.photo}}')">
 
 				<div class="personal-name">
@@ -29,6 +29,9 @@
 			<ul id="left-select" class="idTabs"> 
   				<li><a class="selected" href="#one">个人信息</a></li> 
   				<li><a href="#two">我的发布</a></li> 
+  				{% if current_user.role == 2 %}
+  					<li><a href="#eight">我的专栏</a></li>
+  				{% endif %}
   				<li><a href="#three">我的收藏</a></li>
   				<li><a href="#four">我的关注</a></li> 
   				<li><a href="#five">我的粉丝</a></li> 
@@ -228,13 +231,11 @@
 					<div id="three1" class="home-text">
 					<div class="overflow-handle">
 					<!-- <table>
-					{% for i in range(10)%}
 						<tr>
 							<td style="width: 300px">青春的故事</td>
 							<td style="width: 280px">荆棘鸟</td>
 							<td><u><a href="javascript:void(0);">删除</a></u></td>
 						</tr>
-					{% endfor %}
 					</table> -->
 					</div>
 					<div class="home-paging" id="three1-paging">
@@ -248,13 +249,11 @@
 					<div id="three2" class="home-text">
 					<div class="overflow-handle">
 					<!-- <table>
-					{% for i in range(10)%}
 						<tr>
 							<td style="width: 300px">青春的故事</td>
 							<td style="width: 280px">2014-01-12 17:28</td>
 							<td><u><a href="javascript:void(0);">删除</a></u></td>
 						</tr>
-					{% endfor %}
 					</table> -->
 					</div>
 					<div class="home-paging" id="three2-paging">
@@ -317,8 +316,6 @@
 					<div id="five1">
 						<div class="home-photo-block">
 						<div class="home-photo-row">
-						<!-- <div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('/static/images/square-1.jpg')"/>
-						<div class="home-star-name"><a href="#">XIXI</a></div></div> -->
 						</div>
 						</div>
 						<div  style="margin-top:10px;" class="home-paging" id="five1-paging">
@@ -391,6 +388,48 @@
 				</div>
 			</div>
 
+			{% if current_user.role == 2 %}
+			<!-- 我的专栏 -->
+			<div id="eight">
+				<div class="personal-right-up">
+					<ul class="idTabs one-tab">
+						<li><a href="#eight1" id="a-eight1"><font>我的专栏</font></a></li>
+					</ul>
+				</div>
+				<div class="personal-right-bottom">
+					<div id="eight1" class="home-text">
+						<div class="home-photo-block">
+							<div class="home-photo-row">
+								<!-- <div style='width: 220px; margin: 10px auto;'>
+								<img src='/static/images/transparent-circle.png' style='background-image: url("/static/images/square-1.jpg")'/>
+								<div class='home-star-name'>专栏名</div>
+								<div class='home-star-name'>文章（12）</div>
+								<div class='home-star-name'>评论（1234）</div>
+								<div class='home-star-name'>曦潮币（123）</div>
+								<div class='home-star-name'>
+								<table style='margin: auto;'>
+									<tr>
+										<td><u><a href='#'>查看</a></u></td>
+										<td><u><a href='#'>编辑</a></u></td>
+										<td><u><a href='#'>删除</a></u></td>
+									</tr>
+								</table>
+								</div>
+								</div> -->
+							</div>
+						</div>
+						<!-- <div style="float:right;">
+							<a href="/create_special"><input type="button" class="home-button" value="创建专栏"/></a>
+						</div> -->
+						<div class="home-paging" id="eight1-paging" style="margin-top:10px; clear:both;">
+							<a href="javascript:void(0);" id="eight1-left-arrow">&lt;&lt;</a>&nbsp;&nbsp;&nbsp;
+							Page&nbsp;<font id="eight1-current-page"></font>&nbsp;/&nbsp;<font id="eight1-all-page"></font>
+							&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="eight1-right-arrow">&gt;&gt;</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endif %}
 
 			<!-- end -->
 		</div>
