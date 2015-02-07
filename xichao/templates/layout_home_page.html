@@ -896,6 +896,7 @@
 	$("#seven3-right-arrow").click(function(){seven3_refresh(parseInt($('#seven3-current-page').html())+1);});
 </script>
 
+<!-- 更新头像AJAX -->
 <script type="text/javascript">
 function update_avatar(data){
   $('#show-photo').css("background-image","url("+data+")");
@@ -909,6 +910,8 @@ function update_avatar(data){
   
 }
 </script>
+
+<!-- 更新个人简介AJAX -->
 <script type="text/javascript">
 $("#change-slogon").click(function(){
 	val_slogon=$("#slogon").val();

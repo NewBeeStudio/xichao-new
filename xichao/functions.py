@@ -482,11 +482,11 @@ def update_collection_num(user_id,another_user_id,is_add):
 	db_session.commit()
 
 def get_hot_ground_acticle():
-	result=db_session.query(Article,User.nick).join(User).filter(Article.groups=='1').order_by(desc(Article.coins)).limit(10).all()
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
 	return result
 
 def get_article_group_by_coin(groups,category):
-	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category)).order_by(desc(Article.coins)).limit(10).all()
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
 	return result
 
 

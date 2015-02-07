@@ -40,6 +40,19 @@ class CreateActivityView(BaseView):
 	@expose('/')
 	def index(self):
 		return redirect(url_for('activity_upload'))
+
+class CreateSpecialView(BaseView):
+	def is_accessible(self):
+		if current_user.is_authenticated():
+			if current_user.role==3:
+				return True
+			else:
+				return False
+		else:
+			return False
+	@expose('/')
+	def index(self):
+		return redirect(url_for('create_special'))
 		
 		
 class UserView(ModelView):
@@ -163,4 +176,6 @@ admin.add_view(SpecialView(db_session))
 admin.add_view(ActivityView(db_session))
 admin.add_view(CommentActivityView(db_session))
 admin.add_view(CreateActivityView(name=u'创建活动'))
+admin.add_view(CreateSpecialView(name=u'创建专栏'))
+
 

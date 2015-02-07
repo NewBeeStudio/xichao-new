@@ -120,7 +120,7 @@ def register():
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
 
-		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='哇哈哈哈')
+		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
 
 		db_session.add(user)
 		db_session.commit()
@@ -257,11 +257,14 @@ def article_main():
 def article(article_id):
 	article=get_article_information(article_id)
 	if article!=None:
-		#comment初始显示5-6条，下拉显示全部
-		session['article_session_id']=article[0].article_session_id
-		comments=get_article_comments(article_id)
-		update_read_num(article_id)
-		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
+		if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
+			abort(404)
+		else:
+			#comment初始显示5-6条，下拉显示全部
+			session['article_session_id']=article[0].article_session_id
+			comments=get_article_comments(article_id)
+			update_read_num(article_id)
+			return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
 	else:
 		abort(404)
 
