@@ -68,7 +68,7 @@
         <input  class="register-button" id="book_button" type="button"value="确定">
       </div>-->
       <div id="book_information">
-        <img id="book_image" style="width:150px;height:220px;" src="">
+        <img id="book_image" style="width:150px;height:220px;" src="{{book.picture}}">
         <div id="div_book_info">
           <p class="p_book_info">书名</p>
           <p class="p_book_info">作者</p>
@@ -86,7 +86,7 @@
         <p class="p_book_info_content" id="book_pubdate">{{book.press_time}}</p>
         <p class="p_book_info_content" id="book_pages">{{book.page_num}}</p>
         <p class="p_book_info_content" id="book_price">{{book.price}}</p>
-        <p class="p_book_info_content" id="book_binding">XXX</p>
+        <p class="p_book_info_content" id="book_binding">{{book.binding}}</p>
         <p class="p_book_info_content" id="book_isbn">{{book.ISBN}}</p>
       </div>
       

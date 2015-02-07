@@ -253,10 +253,61 @@
 	// 点击修改完成进行的操作
 	$('#after-change-info').click(function()
 	{
-		$('.one1-orig').removeClass('display-none');
-		$('.one1-new').addClass('display-none');
+		val_nick=$('.one1-new #change-nick').val();
+		val_genger=$('input[name="gender"]:checked').val();
+		val_birthday_year=$('#change-year').val();
+		val_birthday_month=$('#change-month').val();
+		val_birthday_day=$('#change-day').val();
+		val_phone=$('#change-phonenumber').val();
+		$.post('/homepage/modify/basic_information',
+			{
+				nick: val_nick,
+				gender: val_genger,
+				birthday_year: val_birthday_year,
+				birthday_month: val_birthday_month,
+				birthday_day: val_birthday_day,
+				phone: val_phone
+			},
+			function(result){
+				if (result=='birthday_error') {layer.msg("生日格式错误",1,3);}
+				else if (result=='nick_error') {layer.msg("该昵称已存在",1,3);}
+				else if (result=='phone_error') {layer.msg("手机号格式错误",1,3);}
+				else{
+					$('.one1-orig').removeClass('display-none');
+					$('.one1-new').addClass('display-none');
+					$('#show-nick').text(val_nick);
+					if (val_genger=='f') {$('#show-sex').text('女');}
+					else{
+						$('#show-sex').text('男');
+					}
+					$('#show-birthday').text(val_birthday_year+'-'+val_birthday_month+'-'+val_birthday_day);
+					$('#show-phonenumber').text(val_phone);
+					layer.msg("修改成功",1,1);
+					
+				}
+			});
+
+
 	});
 
+</script>
+<!-- 更换头像操作 -->
+<script type="text/javascript">
+	$("#change-photo").click(function(){
+		$.layer({
+	        type: 2,
+	        title: [
+	            '上传头像', 
+	            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+	        ],
+	        shadeClose: true,
+	        closeBtn: false,
+	        border:[0],
+	        area: ['90%', '90%'],
+	        iframe: {src: "{{url_for('upload_avatar')}}"},
+	    });
+
+	});
 </script>
 
 <!-- 图片触碰操作 -->
@@ -845,6 +896,33 @@
 	$("#seven3-right-arrow").click(function(){seven3_refresh(parseInt($('#seven3-current-page').html())+1);});
 </script>
 
+<!-- 更新头像AJAX -->
+<script type="text/javascript">
+function update_avatar(data){
+  $('#show-photo').css("background-image","url("+data+")");
+  $('.personal-photo img').css("background-image","url("+data+")");
+  $.post('/homepage/modify/avatar',
+  	{
+  		avatar:data
+  	},
+  	function(result){
+  	});
+  
+}
+</script>
 
+<!-- 更新个人简介AJAX -->
+<script type="text/javascript">
+$("#change-slogon").click(function(){
+	val_slogon=$("#slogon").val();
+	$.post('/homepage/modify/slogon',
+		{
+			slogon: val_slogon
+		},
+		function(result){
+			layer.msg('个人简介保存成功',1,1);
+		});
+});
+</script>
 {% endif %}
 {% endblock %}

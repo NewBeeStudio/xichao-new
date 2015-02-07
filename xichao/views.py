@@ -120,7 +120,7 @@ def register():
 	form = RegistrationForm(request.form)
 	if request.method == 'POST' and form.validate():
 
-		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='哇哈哈哈')
+		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
 
 		db_session.add(user)
 		db_session.commit()
@@ -143,7 +143,7 @@ def save_avatar():
 			avatar_name=get_secure_photoname(avatar.filename)
 			avatar_url=os.path.join(app.config['PHOTO_DEST'],avatar_name)
 			avatar.save(avatar_url)
-	return app.config['HOST_NAME']+'/upload/avatar/'+avatar_name
+	return '/upload/avatar/'+avatar_name
 
 #为上传的头像文件提供服务
 @app.route('/upload/avatar/<filename>')
@@ -257,11 +257,14 @@ def article_main():
 def article(article_id):
 	article=get_article_information(article_id)
 	if article!=None:
-		#comment初始显示5-6条，下拉显示全部
-		session['article_session_id']=article[0].article_session_id
-		comments=get_article_comments(article_id)
-		update_read_num(article_id)
-		return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
+		if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
+			abort(404)
+		else:
+			#comment初始显示5-6条，下拉显示全部
+			session['article_session_id']=article[0].article_session_id
+			comments=get_article_comments(article_id)
+			update_read_num(article_id)
+			return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
 	else:
 		abort(404)
 
@@ -831,7 +834,7 @@ def ajax_collection_article():
 	article_id=request.form['article_id']
 	result=collection_article(user_id=current_user.user_id,article_id=article_id)
 	if result=="success":
-		update_article_favor(article_id)
+		update_article_favor(article_id,True)
 	return result
 
 
@@ -876,7 +879,7 @@ def comment():
 	to_user_id=request.form['to_user_id']
 	article_id=request.form['article_id']
 	create_comment(content,to_user_id,article_id)
-	update_comment_num(article_id)
+	update_comment_num(article_id,True)
 	time=str(datetime.now()).rsplit('.',1)[0]
 	return time
 
@@ -1109,8 +1112,21 @@ def ajax_home_page_notification(page_id):
 	pages=str(pagination.pages)
 	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
-##尚未测试
-##修改个人基本信息
+##能够返回数据
+##返回当前专栏用户的专栏
+@app.route('/homepage/pagination/special/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_home_page_special(page_id):
+	pagination=get_special_pagination(current_user.user_id,page_id)
+	has_prev=get_has_prev(pagination)
+	has_next=get_has_next(pagination)
+	page=str(pagination.page)
+	pages=str(pagination.pages)
+	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+
+
+
+##测试成功
 ##返回操作结果，'birthday_error'、'nick_error'、'success'
 @app.route('/homepage/modify/basic_information',methods=['POST'])
 @login_required
@@ -1125,16 +1141,32 @@ def ajax_home_page_modify_basic_information():
 	except:
 		return 'birthday_error'
 	phone=request.form['phone']
-	avatar=request.form['avatar']
-	if nick_exist(nick):
+	try:
+		int(phone)
+	except:
+		return 'phone_error'
+	##avatar=request.form['avatar']
+	if current_user.nick!=nick and nick_exist(nick):
 		return 'nick_error'
 	else:
-		birthday=date(birthday_year,birthday_month,birthday_day)
-		result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone,avatar)
+		try:
+			birthday=date(birthday_year,birthday_month,birthday_day)
+		except:
+			return 'birthday_error'
+		result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
 		return result
+##测试成功
+##修改头像
+@app.route('/homepage/modify/avatar',methods=['POST'])
+@login_required
+def ajax_home_page_modify_avatar():
+	avatar=request.form['avatar']
+	result=update_user_avatar(current_user.user_id,avatar)
+	return result
 
-##尚未测试
-##修改个人简介
+
+
+##测试成功
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/modify/slogon',methods=['POST'])
 @login_required
@@ -1189,7 +1221,7 @@ def ajax_home_page_delete_collection_activity():
 @app.route('/homepage/delete/collection/article',methods=['POST'])
 def ajax_home_page_delete_collection_article():
 	collection_article_id=request.form['collection_article_id']
-	result=delete_collection_article_by_article_id(collection_article_id,current_user.user_id)
+	result=delete_collection_article_by_collection_article_id(collection_article_id,current_user.user_id)
 	return result
 
 ##尚未测试

@@ -18,6 +18,8 @@ from flask.ext.mail import Mail
 from flask.ext.mail import Message
 from flask.ext.sqlalchemy import Pagination
 import re
+import os
+import shutil
 import models
 
 
@@ -324,9 +326,12 @@ def create_comment(content,to_user_id,article_id):
 	comment=Comment(article_id=article_id,content=content,user_id=user_id,to_user_id=to_user_id,time=datetime.now())
 	db_session.add(comment)
 	db_session.commit()
-def update_comment_num(article_id):
+def update_comment_num(article_id,is_add):
 	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
-	article.comment_num+=1
+	if is_add:
+		article.comment_num+=1
+	else:
+		article.comment_num-=1
 	db_session.commit()
 
 def create_activity_comment(content,activity_id):
@@ -477,11 +482,11 @@ def update_collection_num(user_id,another_user_id,is_add):
 	db_session.commit()
 
 def get_hot_ground_acticle():
-	result=db_session.query(Article,User.nick).join(User).filter(Article.groups=='1').order_by(desc(Article.coins)).limit(10).all()
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
 	return result
 
 def get_article_group_by_coin(groups,category):
-	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category)).order_by(desc(Article.coins)).limit(10).all()
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
 	return result
 
 
@@ -553,14 +558,20 @@ def collection_activity(user_id,activity_id):
 		db_session.commit()
 		return 'success'
 
-def update_article_favor(article_id):
+def update_article_favor(article_id,is_add):
 	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
-	article.favor+=1
+	if is_add:
+		article.favor+=1
+	else:
+		article.favor-=1
 	db_session.commit()
 
-def update_activity_favor(activity_id):
+def update_activity_favor(activity_id,is_add):
 	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
-	activity.favor+=1
+	if is_add:
+		activity.favor+=1
+	else:
+		activity.favor-=1
 	db_session.commit()
 
 
@@ -633,6 +644,9 @@ def get_notification_pagination(user_id,page_id):
 	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id==3))
 	return paginate(query,page_id,4,False)
 
+def get_special_pagination(user_id,page_id):
+	query=db_session.query(Special).filter(Special.user_id==user_id)
+	return paginate(query,page_id,3,False)
 
 def get_has_prev(pagination):
 	if pagination.has_prev:
@@ -647,21 +661,29 @@ def get_has_next(pagination):
 
 
 
-def updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone,avatar):
+def updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
 	user.nick=nick
 	user.gender=gender
 	user.birthday=birthday
 	user.phone=phone
-	user.avatar=avatar
+	##user.avatar=avatar
 	db_session.commit()
 	##删除原先的头像
 	return 'success'
+
+def update_user_avatar(user_id,avatar):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	user.photo=avatar
+	db_session.commit()
+	return 'success'
+
 def update_user_slogon(user_id,slogon):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
 	user.slogon=slogon
 	db_session.commit()
 	return 'success'
+
 def update_member_id(user_id,member_id):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
 	user.member_id=member_id
@@ -671,60 +693,133 @@ def update_member_id(user_id,member_id):
 	except:
 		return 'fail'
 
+#######################################  删除一篇文章 start ########################################
+##删除文章的内容文件夹
+def delete_article_content_folder(article_session_id):
+	try:
+		shutil.rmtree(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
+	except:
+		pass
+##删除文章的题图
+def delete_article_title_image(picture):
+	picture_path_list=picture.split('/')
+	picture_path_list_length=len(picture_path_list)
+	title_image=picture_path_list[picture_path_list_length-1]
+	if title_image in app.config['DEFAULT_ARTICLE_TITLT_IMAGE']:
+		pass
+	else:
+		os.remove(os.path.join(app.config['ARTICLE_TITLE_DEST'],title_image))
+##删除文章的评论
+def delete_comments_by_article_id(article_id):
+	db_session.query(Comment).filter(Comment.article_id==article_id).delete()
+	db_session.commit()
+##删除对文章的收藏
+def delete_collection_article_by_article_id(article_id):
+	db_session.query(Collection_Article).filter(Collection_Article.article_id==article_id).delete()
+	db_session.commit()
+##先删除和这片文章相关的内容
+def pretreamentment_article_delete(article_id):
+	article=db_session.query(Article).filter_by(article_id=article_id).first()
+	##删除内容文件夹
+	delete_article_content_folder(article.article_session_id)
+	##删除题图
+	delete_article_title_image(article.picture)
+	##删除评论
+	delete_comments_by_article_id(article_id)
+	##删除对该文章的收藏
+	delete_collection_article_by_article_id(article_id)
 def delete_article_by_article_id(article_id,user_id):
 	article=db_session.query(Article).filter_by(article_id=article_id).first()
 	if article.user_id!=user_id or article==None:
 		return 'fail'
 	else:
+		##先删除和这片文章相关的内容
+		pretreamentment_article_delete(article_id)
 		db_session.query(Article).filter_by(article_id=article_id).delete()
 		db_session.commit()
-		##删除和这篇文章相关的东西（题图文件夹，内容文件夹，评论）
 		return 'success'
+#######################################  删除一篇文章 end ########################################
+
+
+
+#######################################  删除一条评论 start ########################################
+def pretreamentment_comment_delete(comment_id):
+	article=db_session.query(Article).join(Comment,Comment.article_id==Article.article_id).filter(Comment.comment_id==comment_id).first()
+	update_comment_num(article.article_id,False)
 
 def delete_comment_by_comment_id(comment_id,user_id):
 	comment=db_session.query(Comment).filter_by(comment_id=comment_id).first()
 	if comment.user_id!=user_id or comment==None:
 		return 'fail'
 	else:
+		pretreamentment_comment_delete(comment_id)
 		db_session.query(Comment).filter_by(comment_id=comment_id).delete()
 		db_session.commit()
-		##删除和评论相关的东西（文章的被评论数）
 		return 'success'
+#######################################  删除一条评论 end ########################################
+
+
+
+#######################################  删除一条活动收藏 start ########################################
+def pretreamentment_collection_artivity_delete(collection_activity_id):
+	activity=db_session.query(Activity).join(Collection_Activity,Collection_Activity.activity_id==Activity.activity_id).filter(Collection_Activity.collection_activity_id==collection_activity_id).first()
+	update_activity_favor(activity.activity_id,False)
 
 def delete_collection_activity_by_activity_id(collection_activity_id,user_id):
 	collection_activity=db_session.query(Collection_Activity).filter_by(collection_activity_id=collection_activity_id).first()
 	if collection_activity.user_id!=user_id or collection_activity==None:
 		return 'fail'
 	else:
+		pretreamentment_collection_artivity_delete(collection_activity_id)
 		db_session.query(Collection_Activity).filter_by(collection_activity_id=collection_activity_id).delete()
 		db_session.commit()
 		##更新相关信息
 		return 'success'
+#######################################  删除一条活动收藏 end ########################################
 
-def delete_collection_article_by_article_id(collection_article_id,user_id):
+
+#######################################  删除一条文章收藏 start ########################################
+def pretreamentment_collection_article_delete(collection_article_id):
+	article=db_session.query(Article).join(Collection_Article,Collection_Article.article_id==Article.article_id).filter(Collection_Article.collection_article_id==collection_article_id).first()
+	update_article_favor(article.article_id,False)
+
+def delete_collection_article_by_collection_article_id(collection_article_id,user_id):
 	collection_article=db_session.query(Collection_Article).filter_by(collection_article_id=collection_article_id).first()
 	if collection_article.user_id!=user_id or collection_article==None:
 		return 'fail'
 	else:
+		pretreamentment_collection_article_delete(collection_article_id)
 		db_session.query(Collection_Article).filter_by(collection_article_id=collection_article_id).delete()
 		db_session.commit()
 		return 'success'
+#######################################  删除一条文章收藏 end ########################################
 
+#######################################  删除一条私信 start ########################################
+def pretreamentment_message_delete(message_id):
+	pass
 def delete_message_by_message_id(message_id,user_id):
 	message=db_session.query(models.Message).filter(models.Message.message_id==message_id).first()
 	if message.to_user_id!=user_id or message==None:
 		return 'fail'
 	else:
+		pretreamentment_message_delete(message_id)
 		db_session.query(models.Message).filter(models.Message.message_id==message_id).delete()
 		db_session.commit()
 		return 'success'
+#######################################  删除一条私信 end ########################################
+
+#######################################  删除一条接收到的评论 start ########################################
+def pretreamentment_received_comment_delete(received_comment_id):
+	article=db_session.query(Article).join(Comment,Comment.article_id==Article.article_id).filter(Comment.comment_id==received_comment_id).first()
+	update_comment_num(article.article_id,False)
 
 def delete_received_comment_by_comment_id(received_comment_id,user_id):
 	comment=db_session.query(Comment).filter_by(comment_id=received_comment_id).first()
 	if comment.to_user_id!=user_id or comment==None:
 		return 'fail'
 	else:
+		pretreamentment_received_comment_delete(received_comment_id)
 		db_session.query(Comment).filter_by(comment_id=received_comment_id).delete()
 		db_session.commit()
 		return 'success'
-
+#######################################  删除一条接收到的评论 end ########################################
