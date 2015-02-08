@@ -2,14 +2,63 @@
 
 <!--css file used-->
 {% block css %}
-<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+<link href="{{ url_for('static', filename='css/index.css') }}" rel='stylesheet' type='text/css'/> 
 {% endblock %}
 
 <!--content-->
 {% block content %}
-	{% if current_user.is_authenticated() %}
-		{{ current_user.nick }}
-	{% endif %}
+	<div id="index-up">
+	{% for i in range(4) %}
+		<!-- data-index值从"0"到"3" -->
+		<div data-index="{{i}}" style="background-image: url('/static/images/square-1.jpg')">
+			<div class="index-up-content">
+				<div class="index-up-content-left">
+					<h3>
+						拥有你想要的生活
+					</h3>
+				</div>
+
+				<div class="index-up-content-right">
+					<div>
+						<div class="index-special-abstract">
+							<font style="font-size: 18.8px; font-weight: bold;">摘要：</font>摘要
+						</div>
+						<table class="index-special-recommend">
+						<ul>
+							{% for j in range(4) %}
+							<tr>
+								<td style="width: 450px; padding-left: 20px;"><li>旅行的意义</li></td>
+								<td style="width: 250px;">曦潮币（300）</td>
+								<td>2015-01-01</td>
+							</tr>
+							{% endfor %}
+						</ul>
+						</table>
+	
+						<a href="#">&gt;&gt;&gt;&gt;&nbsp;View More</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+
+	<div id="index-bottom">
+		<h2>
+			热门文章
+		</h2>
+		<div style="margin-top: 30px;"></div>
+		{% for k in range(12) %}
+		<div class="index-hot">
+			<img src="/static/images/xichao-logo.jpg">
+			<div class="index-hot-title">与尔同消万古愁</div>
+			<div class="index-hot-author">作者：xxx&nbsp;&nbsp;类别：xxx</div>
+			<div style="clear:both;"></div>
+			<div class="index-hot-abstract">摘要摘要</div>
+		</div>
+		{% endfor %}
+
+	</div>
 {% endblock %}
 
 
@@ -33,6 +82,49 @@
 				iframe: {src: url},
 			});
 		};
+
+
+		// 主页上面的四副图片
+		var gap = 38; //图片间距，不可变
+		var picNum = 4; //不可变
+
+		$('#index-up > div').each(function()
+		{
+			var offset = parseInt($(this).attr("data-index"))*271 + "px";
+			$(this).css("left", offset);
+		});
+
+		var onMouseIn = function()
+		{
+			var index = parseInt($(this).attr("data-index")); 
+			$("#index-up > div").each(function()
+			{
+				$(this).stop(true, false); //停止之前效果(参数二：是否到达最后结果)
+				var curIndex = parseInt($(this).attr("data-index"));
+				var leftOrIn = gap * curIndex;
+				var right = 1087 - (picNum - curIndex) * 38;
+
+				//alert("leftOrIn");
+				if(curIndex <= index)
+					$(this).animate({left:leftOrIn+"px"}, 300);
+				else
+					$(this).animate({left:right+"px"}, 300);
+			});
+		};
+
+		var onMouseOut = function()
+		{
+			$("#index-up > div").each(function()
+			{
+				$(this).stop(true, false);
+				var curIndex = parseInt($(this).attr("data-index"));
+				var left = 271*curIndex;
+				$(this).animate({left:left+"px"}, 300);
+
+			});
+		};
+
+		$("#index-up > div").hover(onMouseIn, onMouseOut);
 	});
 </script>
 
