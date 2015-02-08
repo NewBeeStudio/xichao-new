@@ -125,7 +125,7 @@ def register():
 		db_session.add(user)
 		db_session.commit()
 		#需要增加异常处理，捕获异常，
-		send_verify_email(form.nick.data,form.password.data,form.email.data)
+		send_verify_email(form.nick.data,encrypt(form.password.data),form.email.data)
 		# session['user']=request.form['nick']
 		user=User.query.filter_by(email=form.email.data).first()
 		login_user(user)
@@ -1356,3 +1356,13 @@ def article_test():
 def message_page(to_user_id):
 	return render_template('message_page.html', to_user_id=to_user_id)
 	
+@app.route('/verify_remind/')
+@login_required
+def verify_remind():
+	return render_template('verify_remind.html')
+
+@app.route('/verify_email_again/',methods=['GET'])
+@login_required
+def verify_email_again():
+	send_verify_email(current_user.nick, current_user.password, current_user.email)
+	return 'success'

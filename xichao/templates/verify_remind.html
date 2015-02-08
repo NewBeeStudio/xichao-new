@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />	
+    <link href="{{ url_for('static', filename='css/homepage.css') }}" rel='stylesheet' type='text/css'/> 
+</head>
+
+<body>
+    <div>
+        <p class="home-text">您还没有验证邮箱，请立即验证邮箱！</p>
+    </div>
+	
+    <div>
+        <button id="send-email" class="home-button" style="width: 150px; margin-top: 20px;">发送验证邮件</button>
+        <button id="cancel" class="home-button" style="width: 150px;" >以后再说</button>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+    <script type="text/javascript">
+        var index=parent.layer.getFrameIndex(window.name);
+        $('#send-email').click(function()
+        {
+            $.get("{{url_for('verify_email_again')}}", function(data){
+                layer.msg("发送验证邮件成功",1,1,function(){
+                    parent.layer.close(index);
+                });
+            });
+        });
+
+        $('#cancel').click(function()
+        {
+            parent.layer.close(index);
+        });
+    </script>
+</body>
+</html>

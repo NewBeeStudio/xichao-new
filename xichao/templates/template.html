@@ -15,5 +15,25 @@
 
 <!--js file used-->
 {% block js %}
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		//未验证邮箱弹窗
+		if({{current_user.state}} == 0){
+			var url = "{{ url_for('verify_remind') }}";
+			$.layer({
+				type: 2,
+				title: ['请验证邮箱'],
+				shade: [0.65, '#000'],
+				shadeClose: true,
+				closeBtn: false,
+				border: [2, 1, '#D9AE48'],
+				area: ['350px', '200px'],
+				iframe: {src: url},
+			});
+		};
+	});
+</script>
 
 {% endblock %}

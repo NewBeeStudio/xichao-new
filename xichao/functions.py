@@ -62,7 +62,7 @@ def get_secure_photoname(filename):
 	return photoname
 
 def send_verify_email(nick,password,email):
-	verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+encrypt(password)
+	verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
 	mail=Mail(app)
 	msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[email])
 	msg.body='text body'
