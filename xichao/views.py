@@ -285,8 +285,9 @@ def special_all():
     else:
         sort_change_url = '/special_all?sort=time&page=1'
 
-    specials_pagination = get_all_specials(sort)
-    return render_template('layout_special.html', specials_pagination = specials_pagination, 
+    specials_pagination = get_all_specials(sort, page_id)
+    return render_template('layout_special.html', sort = sort,
+                                                  specials_pagination = specials_pagination, 
                                                   author = get_special_author, 
                                                   articles = get_special_article,
                                                   sort_change_url = sort_change_url)
@@ -322,6 +323,7 @@ def special():
     login_user = get_userid_from_session()
     
     articles_pagination = get_special_article(special_id, page_id, sort)
+    drafts = get_special_draft(special_id)
     return render_template('special_detail.html',
                             author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
@@ -337,7 +339,8 @@ def special():
                             special_introduction = special.introduction,
                             special_image = special.picture,
                             special_author_avatar = author.photo,
-                            articles_pagination = articles_pagination)
+                            articles_pagination = articles_pagination,
+                            drafts = drafts)
 #                            articles_pagination = articles_pagination)
 
 
@@ -368,7 +371,7 @@ def upload_special_title_image():
 	return render_template('upload_special_title_image_tailor.html')
 
 
-## 完成专栏上传
+## 完成创建专栏的上传
 @app.route('/create_special_finish', methods=['GET'])
 @login_required
 def create_special_finish():
@@ -381,9 +384,17 @@ def create_special_finish():
         title_image = request.args.get('title_image')
     except Exception:
         return "failed"
+        
+    try:
+        author = request.args.get('author')
+        author = get_userid_by_nick(author)
+        if (len(author) == 0):
+            return "nick_error"
+    except Exception:
+        return "failed"
 
     special_id = create_new_special(name = title, 
-                       user_id = get_userid_from_session(),
+                       user_id = author[0][0],
                        picture = title_image,
                        introduction = content)
                        
@@ -428,6 +439,21 @@ def special_article_modify(article_id):
     session['special_id'] = str(article[0].special_id)
     session['special_article_session_id'] = str(article[0].article_session_id)
     return render_template('special_article_modify.html',article=article[0],book=article[2])
+
+
+# 删除专栏文章
+@app.route('/special_article_remove', methods=['GET'])
+def special_article_remove():
+    try:
+        article_id = request.args.get('id')
+    except Exception:
+        return "failed"
+
+    user_id = get_userid_from_session()
+    if delete_article_by_article_id(article_id, user_id) == 'fail':
+        return "failed"
+    return "success"
+
     
 ## 上传专栏文章
 ##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行

@@ -122,3 +122,18 @@ img#special-part1-img{
 	letter-spacing: 1px;
 	float: right;
 }
+
+/* 页码 */
+#special-paging{
+	margin-top: 320px;
+	margin-bottom: 50px;
+	float: right;
+}
+
+#special-paging > div{
+	float: left;
+	margin-left: 50px;
+	text-align: center;
+	font-family: 微软雅黑;
+	font-size: 16.7px;
+}
