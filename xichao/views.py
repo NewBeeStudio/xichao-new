@@ -1242,6 +1242,16 @@ def ajax_home_page_delete_received_comment():
 	result=delete_received_comment_by_comment_id(received_comment_id,current_user.user_id)
 	return result
 
+##尚未测试
+##删除专栏
+##返回操作结果，'fail'、'success'
+@app.route('/homepage/delete/special',methods=['POST'])
+def ajax_home_page_delete_special():
+	special_id=request.form['special_id']
+	result=delete_special_by_special_id(special_id,current_user.user_id)
+	return result
+
+
 ##取消关注的作者路由是/collection_cancel/user
 ##取消关注专栏是由张云昊写的,可以查看一下专栏相关路由
 ##私信回复的路由是/message

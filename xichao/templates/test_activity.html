@@ -124,6 +124,7 @@ $("#comment_publish_button").click(function(){
 	$('#input_publish_review').contents().find('body').empty();
 	$.post('http://127.0.0.1:5000/activity/comment',
 		{
+			_csrf_token:"{{ csrf_token() }}",
 			content:val_content,
 			activity_id:{{activity.activity_id}}
 		},
@@ -153,6 +154,7 @@ $("#comment_reset_button").click(function(){
 $("#p_collection").click(function(){
 	$.post("{{url_for('ajax_collection_activity')}}",
 		{
+			_csrf_token:"{{ csrf_token() }}",
 			activity_id: {{activity.activity_id}}
 		},
 		function(data){

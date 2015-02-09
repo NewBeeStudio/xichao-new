@@ -26,6 +26,7 @@
 			else{
 				$.post("{{url_for('message')}}",
 					{
+						_csrf_token:"{{ csrf_token() }}",
 						user_id: {{to_user_id}},
 						content: val_message
 					},

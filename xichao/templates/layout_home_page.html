@@ -106,7 +106,8 @@
 			else{url='/collection/user';}
 			$.post(url,
 			{
-			user_id: {{user.user_id}}
+				_csrf_token:"{{ csrf_token() }}",
+				user_id: {{user.user_id}}
 			},
 			function(data){
 			if (data=='success'){
@@ -261,6 +262,7 @@
 		val_phone=$('#change-phonenumber').val();
 		$.post('/homepage/modify/basic_information',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				nick: val_nick,
 				gender: val_genger,
 				birthday_year: val_birthday_year,
@@ -358,6 +360,7 @@
 	{
 		$.post('/homepage/delete/article',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				article_id: article_id
 			},
 			function(data){
@@ -413,6 +416,7 @@
 	{
 		$.post('/homepage/delete/comment',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				comment_id: comment_id
 			},
 			function(data){
@@ -465,6 +469,7 @@
 	{
 		$.post('/homepage/delete/article',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				article_id: article_id
 			},
 			function(data){
@@ -519,6 +524,7 @@
 	{
 		$.post('/homepage/delete/collection/article',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				collection_article_id: collection_article_id
 			},
 			function(data){
@@ -572,6 +578,7 @@
 	{
 		$.post('/homepage/delete/collection/activity',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				collection_activity_id: collection_activity_id
 			},
 			function(data){
@@ -625,6 +632,7 @@
 	{
 		$.post('/collection_cancel/user',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				user_id: user_id //后台的接口是获得被关注者的id(user_id)和当前用户id(session获得)，查找并删除对应内容
 			},
 			function(data){
@@ -764,6 +772,7 @@
 	{
 		$.post('/homepage/delete/message',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				message_id: message_id
 			},
 			function(data){
@@ -818,6 +827,7 @@
 	{
 		$.post('/homepage/delete/received_comment',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				comment_id: comment_id
 			},
 			function(data){
@@ -875,6 +885,7 @@
 	{
 		$.post('/homepage/delete/message',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				message_id: message_id
 			},
 		function(data)
@@ -903,6 +914,7 @@ function update_avatar(data){
   $('.personal-photo img').css("background-image","url("+data+")");
   $.post('/homepage/modify/avatar',
   	{
+  		_csrf_token:"{{ csrf_token() }}",
   		avatar:data
   	},
   	function(result){
@@ -917,6 +929,7 @@ $("#change-slogon").click(function(){
 	val_slogon=$("#slogon").val();
 	$.post('/homepage/modify/slogon',
 		{
+			_csrf_token:"{{ csrf_token() }}",
 			slogon: val_slogon
 		},
 		function(result){
@@ -962,6 +975,7 @@ $("#change-slogon").click(function(){
 	{
 		$.post('/homepage/delete/special',
 			{
+				_csrf_token:"{{ csrf_token() }}",
 				special_id: special_id
 			},
 		function(data)

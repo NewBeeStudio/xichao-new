@@ -42,10 +42,10 @@
 		<img class="img_share" src="/static/images/share_rss.png"/>
 		<p id="p_share">分享</p>
 	</div>
-
+	<div class="bdsharebuttonbox"><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
 	<div id="button_pay_to">
 		<button class="register-button" id="pay_button">打赏作者</button>	
-	</div>
+	</div> 
 	</div>
 	
 	<hr>
@@ -136,6 +136,7 @@ $("#comment_publish_button").click(function(){
 	$('#input_publish_review').contents().find('body').empty();
 	$.post('http://127.0.0.1:5000/article/comment',
 		{
+			_csrf_token:"{{ csrf_token() }}",
 			content:val_content,
 			article_id:{{article.article_id}},
 			to_user_id:{{article.user_id}}
@@ -155,6 +156,7 @@ $("#comment_reset_button").click(function(){
 $("#p_collection").click(function(){
 	$.post("{{url_for('ajax_collection_article')}}",
 		{
+			_csrf_token:"{{ csrf_token() }}",
 			article_id: {{article.article_id}}
 		},
 		function(data){
@@ -258,4 +260,7 @@ function add_commit(data, val_content) {
 		}
 	});
 </script>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["tsina","weixin"],"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["tsina","weixin"],"viewText":"分享到：","viewSize":"24"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
 {% endblock %}

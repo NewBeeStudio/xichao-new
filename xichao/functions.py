@@ -823,3 +823,33 @@ def delete_received_comment_by_comment_id(received_comment_id,user_id):
 		db_session.commit()
 		return 'success'
 #######################################  删除一条接收到的评论 end ########################################
+
+#######################################  删除一个专栏 start ########################################
+
+def delete_collection_special_by_special_id(special_id):
+	db_session.query(Collection_Special).filter(Collection_Special.special_id==special_id).delete()
+	db_session.commit()
+
+def delete_articles_by_special_id(special_id):
+	articles=db_session.query(Article).filter(Article.special_id==special_id).all()
+	if articles==None:
+		pass
+	else:
+		for article in articles:
+			delete_article_by_article_id(article.article_id)
+
+def pretreamentment_special_delete(special_id):
+	delete_collection_special_by_special_id(special_id)
+	delete_articles_by_special_id(special_id)
+
+def delete_special_by_special_id(special_id,user_id):
+	special=db_session.query(Special).filter(Special.special_id==special_id).first()
+	if special.user_id!=user_id or special==None:
+		return 'fail'
+	else:
+		pretreamentment_special_delete(special_id)
+		db_session.query(Special).filter_by(special_id=special_id).delete()
+		db_session.commit()
+		return 'success'
+#######################################  删除一个专栏 end ########################################		
+

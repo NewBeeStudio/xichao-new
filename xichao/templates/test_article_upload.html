@@ -114,6 +114,7 @@
         else{
           $.post('http://127.0.0.1:5000/article/finish{{upload_url}}'+val_category,
           {
+            _csrf_token:"{{ csrf_token() }}",
             title: val_title,
             content: val_content,
             title_image: val_title_image,
@@ -157,6 +158,7 @@
         else{
           $.post('/article/draft{{upload_url}}'+val_category,
           {
+            _csrf_token:"{{ csrf_token() }}",
             title: val_title,
             content: val_content,
             title_image: val_title_image,

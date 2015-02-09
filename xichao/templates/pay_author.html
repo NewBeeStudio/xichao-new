@@ -16,6 +16,7 @@
 				if($("[name='message_author']").attr("checked")){
 					$.post("{{url_for('message')}}",
 					 {
+					 	_csrf_token:"{{ csrf_token() }}",
 					 	user_id: val_author_id,
 					 	content: val_content
 					 }, 
@@ -30,6 +31,7 @@
 				if($("[name='comment_article']").attr("checked")){
 					$.post('http://127.0.0.1:5000/article/comment',
 					{
+						_csrf_token:"{{ csrf_token() }}",
 						content:val_content,
 						article_id:val_article_id,
 						to_user_id:val_user_id
@@ -48,6 +50,7 @@
 				else{
 					$.post("{{url_for('award_article')}}",
 						{
+							_csrf_token:"{{ csrf_token() }}",
 							award_num: val_award_num,
 							article_id: {{article_id}}
 						},

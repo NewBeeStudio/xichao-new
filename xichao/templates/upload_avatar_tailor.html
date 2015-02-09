@@ -14,6 +14,7 @@ window.onload=function(){
 	xiuxiu.setUploadURL("http://127.0.0.1:5000/upload/avatar");
     xiuxiu.setUploadType(2);
     xiuxiu.setUploadDataFieldName("avatar");
+    xiuxiu.setUploadArgs({_csrf_token:"{{ csrf_token() }}"});
 	xiuxiu.onInit = function ()
 	{
 		xiuxiu.loadPhoto("http://open.web.meitu.com/sources/images/1.jpg");

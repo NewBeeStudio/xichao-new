@@ -3,7 +3,7 @@
 {% block login_content %}
     {% from "test_formhelpers.html" import render_login, render_login_autologin %}
     <form id="login-form-block" method="post" action="/login" accept-charset="utf-8">
-        <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+        <input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
         <!-- 跳转页面参数 -->
         {% if request_url %}
         <input name="request_url" type=hidden value="{{ request_url }}" />

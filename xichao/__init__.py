@@ -8,6 +8,7 @@ from hashlib import md5
 from flask.ext.login import LoginManager
 from itsdangerous import URLSafeTimedSerializer
 from datetime import timedelta
+from flask.ext.login import current_user
 
 
 app = Flask(__name__)
@@ -110,10 +111,9 @@ app.config.from_object(__name__)
 ##############################  csrf  ##################################
 @app.before_request
 def csrf_protect():
-    if request.method == "POST":
-        token = session.pop('_csrf_token', None)
-#        if not token or token != request.form.get('_csrf_token'):
-#            abort(403)
+    if request.method == "POST" and request.path!="/login" and current_user.role!=3:
+        if not session['_csrf_token'] or request.form['_csrf_token']!=session['_csrf_token']:
+            abort(403)
 def generate_csrf_token():
     if '_csrf_token' not in session:
         session['_csrf_token'] = md5(SECRET_KEY + datetime.now().strftime('%Y%m%d%H%M%S')).hexdigest()
