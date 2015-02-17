@@ -81,6 +81,23 @@
 
 
     {% endfor %}
+    
+    <div id="special-paging" style="float:right"> 
+        <div> 
+            {% if specials_pagination.has_prev %}
+                <a href="/special_all?sort={{sort}}&page={{ specials_pagination.prev_num }}">上一页</a> 
+            {% endif %} 
+        </div> 
+        <div> 
+            <p>Page {{ specials_pagination.page }} / {{specials_pagination.pages }}</p> 
+        </div> 
+        <div>
+            {% if specials_pagination.has_next %} 
+                <a href="/special_all?sort={{sort}}&page={{ specials_pagination.next_num }}">下一页</a> 
+            {% endif %} 
+        </div> 
+    </div> 
+    
 {% endblock %}
 
 <!--js file used-->

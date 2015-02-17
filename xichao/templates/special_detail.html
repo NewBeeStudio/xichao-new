@@ -3,6 +3,51 @@
 <!--css file used-->
 {% block css %}
 	<link href="{{ url_for('static', filename='css/special_detail.css') }}" rel='stylesheet' type='text/css'/> 
+	
+	{% if author_itself %}
+	<style type="text/css">
+	#special-draft h3{
+	margin-top: 36px;
+	margin-bottom: 30px;
+	color: #d19413;
+	font-size: 22px;
+}
+
+
+#special-draft p{
+	font-family: 黑体;
+	font-size: 18px;
+}
+
+#special-draft table{
+	padding-top: 20px;
+	padding-bottom: 30px;
+
+	float: left;
+	/*border: 1px solid #D9AE48;*/
+}
+
+#special-draft td{
+	padding-right: 15px;
+	font-family: 黑体;
+	font-size: 15px;
+}
+
+#special-draft input{
+	margin-top: 6px;
+	float: right;
+	/*border: 1px solid #D9AE48;*/
+}
+
+
+#special-draft hr{
+	color: #d19413;
+
+	clear: both;
+}
+	</style>
+	
+	{% endif %}
 {% endblock %}
 
 <!--content-->
@@ -136,12 +181,28 @@
         			<td>受赏({{ entry.coins }})</td>
         			</tr>
         			</table>
-
+                    
         			<input class="special-button" type="submit" value="查看详情" onclick="location='article/{{ entry.article_id }}' ">
+                    {% if author_itself %}
+                    <input class="special-button" type="submit" value="删除"
+        		    onclick="
+        		        $.get('/special_article_remove?id={{ entry.article_id }}',{}, 
+        		        function(data){
+                           if (data == 'success'){
+                               layer.msg('删除成功',1,1,function(){location.reload();});
+                           }
+                           if (data == 'failed'){
+                               layer.msg('对不起！删除失败，请联系管理员',1,3,function(){});
+                           }
+                        });"
+                    >
+                    {% endif %}
+
         			<hr />
                 </div>
             
             {%- endfor %}
+        
 
     <div id="special-paging" style="float:right"> 
         <div> 
@@ -160,6 +221,47 @@
     </div> 
 
 		</div>
+
+
+        {% if author_itself %}
+
+    		<div id = "special-draft" style="margin-top:100px">
+			<h2>草稿列表</h2>
+			<br>
+			
+            {%- for entry in drafts %}
+        		<div>
+        			<h3>{{ entry.title }}</h3>
+        			<p>{{ entry.abstract }}</p>
+        			<table>
+        			<tr>
+        			<td>保存时间：{{ entry.time }}</td>
+        			</tr>
+        			</table>
+
+        		    <input class="special-button" type="submit" value="编辑" onclick="location='{{ url_for('special_article_modify', article_id=entry.article_id) }}' ">
+        		    <input class="special-button article-remove" type="submit" value="删除"
+        		    onclick="
+        		        $.get('/special_article_remove?id={{ entry.article_id }}',{}, 
+        		        function(data){
+                           if (data == 'success'){
+                               layer.msg('删除成功',1,1,function(){location.reload();});
+                           }
+                           if (data == 'failed'){
+                               layer.msg('对不起！删除失败，请联系管理员',1,3,function(){});
+                           }
+                        });"
+                    >
+
+        			<hr />
+                </div>
+            
+            {%- endfor %}
+			</div>
+        {% endif %}
+
+
+
 		<!-- 类似专栏 -->
 		<div id="special-related">
 			<div id="special-separate-block"></div>
@@ -202,7 +304,7 @@
 
 	<!-- 右侧其他作品 -->
 	<div id="special-other-works">
-		<h3>所有作品</h3>
+		<h3>{{special_author}}的所有专栏</h3>
 
 		<ul>
         {%- for item in other %}
@@ -377,6 +479,7 @@ $("#write_special_article").click(function(){
     var id = $.getUrlParam('id');
     location.href = "/special_article_upload?id="+id;
 });
+
 
 </script>
 {% endblock %}

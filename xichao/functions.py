@@ -236,12 +236,12 @@ def update_read_num_activity(activity_id):
 	activity.read_num+=1
 	db_session.commit()
 ##################################  专栏函数  ####################################
-def get_all_specials(sort):
+def get_all_specials(sort, page_id):
     if sort == 'time':
         query = db_session.query(Special).order_by(Special.last_modified.desc())
     else:
         query = db_session.query(Special).order_by(Special.favor.desc())
-    return paginate(query = query, page = 1, per_page = 5, error_out = True)
+    return paginate(query = query, page = page_id, per_page = 3, error_out = True)
 
 def create_special_authorized():
 	nick=None
@@ -259,6 +259,9 @@ def create_new_special(name, user_id, picture, introduction):
     db_session.add(special)
     db_session.commit()
     return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
+    
+def get_userid_by_nick(nick):
+    return db_session.query(User.user_id).filter_by(nick=nick).all()
 
 def get_userid_from_session():
 	nick=None
@@ -290,12 +293,15 @@ def get_author_collect_info(user_id, author_id):
 def get_special_article(special_id, page_id, sort):
     if sort == "time":
 #        print ddd
-        query = db_session.query(Article).filter_by(special_id = special_id).order_by(Article.time.desc())
+        query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.time.desc())
     else:
-        query = db_session.query(Article).filter_by(special_id = special_id).order_by(Article.favor.desc())
+        query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.favor.desc())
 
     pagination = paginate(query = query, page = page_id, per_page = 5, error_out = True)
     return pagination
+    
+def get_special_draft(special_id):
+    return db_session.query(Article).filter_by(special_id = special_id, is_draft = '1').all()
     
 def get_special_author_other(user_id):
     query = db_session.query(Special.name).filter_by(user_id = user_id).all()

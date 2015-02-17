@@ -10,7 +10,8 @@
 
 <!--content-->
 {% block content %}
- <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发表文章</p>
+ <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发表专栏文章</p>
+ <br>
     <div id="pics">
         <img class="pics" id="pic_4" style="width:225px;height:205px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}" />
        	<p class="p_triangle" id="triangle_left">◀</p>
@@ -32,6 +33,7 @@
       <input type="radio" name="category" value="3">杂文
       -->
       <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+      <!--
       <div style="height:20px;">
         <label>请输入书籍ISBN号</label>
         <input id="book_isbn_input" type="text" style="height:20px;">
@@ -49,9 +51,45 @@
         <img id="book_image" src="">
       </div>
       
+      <div>
       <a href="#" class="myButton" id="button_upload_cancel">取消</a>
       <a href="#" class="myButton" id="button_upload_draft">保存草稿</a>
       <a href="#" class="myButton" id="button_upload_confirm">确定</a>
+      </div>-->
+      
+      <div id="book_info">
+        <label>请输入书籍ISBN号</label>
+        <input id="book_isbn" type="text">
+        <input  class="register-button" id="book_button" type="button"value="确定">
+      </div>
+      <div id="book_information" style="display:none;">
+        <img id="book_image" style="width:150px;height:220px;" src="">
+        <div id="div_book_info">
+          <p class="p_book_info">书名</p>
+          <p class="p_book_info">作者</p>
+          <p class="p_book_info">出版社</p>
+          <p class="p_book_info">出版时间</p>
+          <p class="p_book_info">页数</p>
+          <p class="p_book_info">价格</p>
+          <p class="p_book_info">装帧</p>
+          <p class="p_book_info">ISBN</p>
+        </div>
+
+        <p class="p_book_info_content" id="book_name"></p>
+        <p class="p_book_info_content" id="book_author"></p>
+        <p class="p_book_info_content" id="book_publisher"></p>
+        <p class="p_book_info_content" id="book_pubdate"></p>
+        <p class="p_book_info_content" id="book_pages"></p>
+        <p class="p_book_info_content" id="book_price"></p>
+        <p class="p_book_info_content" id="book_binding"></p>
+        <p class="p_book_info_content" id="book_isbn"></p>
+      </div>
+      
+      <div id="buttons">
+        <a href="#" class="register-button" id="button_upload_cancel">取消</a>
+        <a href="#" class="register-button" id="button_upload_draft">保存草稿</a>
+        <a href="#" class="register-button" id="button_upload_confirm">确定</a>
+      </div>
    	</div>
 	
 {% endblock %}
@@ -189,7 +227,7 @@
 </script>
 <script type="text/javascript">
   $('#book_button').click(function(){
-    val_book_isbn=$('#book_isbn_input').val();
+    val_book_isbn=$('#book_isbn').val();
 //    alert(val_book_isbn);
     url='https://api.douban.com/v2/book/isbn/'+val_book_isbn+'?fields=title,author,publisher,pubdate,pages,price,binding,isbn13,images&callback=?';
     $.getJSON(url,function(json){
