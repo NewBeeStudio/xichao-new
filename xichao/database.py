@@ -40,7 +40,14 @@ def test_db():
     from time import sleep
     ##上传路径
     ##关于上传路径是前端的事情,这里的url只是示例,具体url格式由前端决定
-        
+    
+    
+    ##添加主页信息
+    from models import HomePage
+    home = HomePage(special1 = 1, special2 = 3, special3 = 5, special4 = 7)
+    db_session.add(home)
+    db_session.commit()
+    
     ##测试用户
     from datetime import datetime, timedelta
     from models import User

@@ -8,7 +8,7 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity
+from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity,HomePage
 from database import db_session
 from flask import jsonify,render_template,request,session
 from sqlalchemy import or_, not_, and_, desc
@@ -236,6 +236,23 @@ def update_read_num_activity(activity_id):
 	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
 	activity.read_num+=1
 	db_session.commit()
+	
+
+##################################  首页函数  ####################################
+
+def get_homepage_specials():
+    query = db_session.query(HomePage).all()[0]
+    special1 = db_session.query(Special).filter_by(special_id = query.special1).all()[0]
+    special2 = db_session.query(Special).filter_by(special_id = query.special2).all()[0]
+    special3 = db_session.query(Special).filter_by(special_id = query.special3).all()[0]
+    special4 = db_session.query(Special).filter_by(special_id = query.special4).all()[0]
+    return [special1, special2, special3, special4]
+    
+def get_hot_articles(num):
+    query = db_session.query(Article).order_by(Article.favor.desc()).all()
+    return query[:10]
+    
+    
 ##################################  专栏函数  ####################################
 def get_all_specials(sort, page_id):
     if sort == 'time':
@@ -261,8 +278,22 @@ def create_new_special(name, user_id, picture, introduction):
     db_session.commit()
     return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
     
+def modify_special_func(name, user_id, picture, introduction):
+    print "\n\n\n\n\n\n\n\n\n\nHERE\n\n\n\n\n\n\n\n\n\n"
+    query = db_session.query(Special).filter_by(name = name, user_id = user_id).all()
+    if (len(query) == 0):
+        raise Exception
+    special = query[0]
+    special.picture = picture
+    special.introduction = introduction
+    db_session.commit()
+    return special.special_id
+    
 def get_userid_by_nick(nick):
     return db_session.query(User.user_id).filter_by(nick=nick).all()
+
+def get_nick_by_userid(user_id):
+    return db_session.query(User.nick).filter_by(user_id=user_id).all()[0][0]
 
 def get_userid_from_session():
 	nick=None

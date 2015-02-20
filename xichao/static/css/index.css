@@ -84,10 +84,15 @@ div.index-special-abstract{
 	height: 30px;
 }
 
-.index-up-content-right a{
-	margin-top: 20px;
-	float: right;
+.index-special-recommend td{
+    white-space:nowrap;
+    overflow: hidden;
+    text-align: left;
+    font-family: 微软雅黑;
+}
 
+.index-up-content-right a{
+	float: left;
 	color: #000;
 }
 

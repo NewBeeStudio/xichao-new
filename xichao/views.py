@@ -100,17 +100,18 @@ def logout():
 	#	response.set_cookie('user','',expires=datetime.now())
 	flash('你已退出')
 	return response
-
-
-
 ####################################  test  ##################################
 
 @app.route('/test')
 @login_required
 def test():
-	return render_template('template.html')
+    homepage_special_list = get_homepage_specials()
+    hot_articles = get_hot_articles(10)
+    return render_template('template.html', special_list = homepage_special_list,
+                                            hot_articles = hot_articles,
+                                            articles = get_special_article,
+                                            get_author = get_nick_by_userid)
 
-	
 ####################################  注册  ##################################
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
@@ -351,6 +352,15 @@ def create_special():
         abort(404)
     return render_template('create_special.html')
 
+
+## 修改专栏界面
+@app.route('/modify_special')
+@login_required
+def modify_special():
+    if (not create_special_authorized()):
+        abort(404)
+    return render_template('modify_special.html')
+
 ## 上传专栏题图文件
 @app.route('/upload_special_title_image', methods=['GET', 'POST'])
 def save_special_title_image():
@@ -399,6 +409,37 @@ def create_special_finish():
                        
 #    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
     return str(special_id)
+    
+## 完成修改专栏
+@app.route('/modify_special_finish', methods=['GET'])
+@login_required
+def modify_special_finish():
+    if (not create_special_authorized()):
+        abort(404)
+
+    try:
+        title = request.args.get('title')
+        content = request.args.get('content')
+        title_image = request.args.get('title_image')
+    except Exception:
+        return "failed"
+        
+    try:
+        author = request.args.get('author')
+        author = get_userid_by_nick(author)
+        if (len(author) == 0):
+            return "nick_error"
+    except Exception:
+        return "failed"
+
+    try:
+        special_id = modify_special_func(name = title, 
+                                         user_id = author[0][0],
+                                         picture = title_image,
+                                         introduction = content)
+        return str(special_id)
+    except Exception:
+        return "failed"
 
 ## 编辑专栏文章
 @app.route('/special_article_upload', methods=['GET'])
