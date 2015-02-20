@@ -1,5 +1,6 @@
 /*排序选择器*/
 #sort_select{
+    font-family: 微软雅黑;
     float:right; margin-top: 51px;
 }
 
@@ -88,7 +89,8 @@ img#special-part1-img{
     margin-top: 5px;
     text-align: right;
     color: #D9AE48;
-    font-size: 22px;
+    font-size: 18px;
+    font-family: 微软雅黑;
     margin-right: 80px;
 }
 

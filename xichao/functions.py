@@ -242,7 +242,7 @@ def get_all_specials(sort, page_id):
         query = db_session.query(Special).order_by(Special.last_modified.desc())
     else:
         query = db_session.query(Special).order_by(Special.favor.desc())
-    return paginate(query = query, page = page_id, per_page = 3, error_out = True)
+    return paginate(query = query, page = page_id, per_page = 5, error_out = True)
 
 def create_special_authorized():
 	nick=None

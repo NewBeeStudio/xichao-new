@@ -31,155 +31,199 @@ def init_db():
 
 
 def test_db():
+    # test_size > 10
+    test_size = 15
+    Total_Article = 0
+    Total_Activity = 0
     ##先导入操作数据库所需的所有函数
     from functions import encrypt
+    from time import sleep
     ##上传路径
     ##关于上传路径是前端的事情,这里的url只是示例,具体url格式由前端决定
         
     ##测试用户
-    from datetime import datetime
+    from datetime import datetime, timedelta
     from models import User
-    user = User(nick = "Nick1", email = "example1@exmample.com", 
-                role = 1, register_time = datetime.now(),
-                slogon = u"我要吃遍大江南北！",
-                last_login_time = datetime.now(), password = encrypt(u"password"),
-                state = '0',photo=u'http://127.0.0.1:5000/upload/avatar/default.jpg')
-    db_session.add(user)
-    db_session.commit()
 
-    
-    user = User(nick = u"Nick2", email = u"example2@exmample.com", 
-                role = 1, register_time = datetime.now(),
-                slogon = u"我要吃遍大江南北！",
-                last_login_time = datetime.now(), password = encrypt(u"password"),
-                state = u'0',photo=u'http://127.0.0.1:5000/upload/avatar/default1.jpg')
-    db_session.add(user)
-    db_session.commit()
+    for i in range(test_size):
+        user = User(nick = "Nick%d"%(i+1), email = "example%d@exmample.com"%(i+1), 
+                    role = 1, register_time = datetime.now(),
+                    slogon = u"用户 Nick%d 的个人介绍！" % (i+1),
+                    last_login_time = datetime.now(), password = encrypt(u"password"),
+                    state = '1',photo=u"/upload/avatar/default.jpg")
+        db_session.add(user)
+        db_session.commit()
 
+    ##测试管理员
     user = User(nick = u"曦潮", email = u"xichao@xichao.com", 
                 role = 3, register_time = datetime.now(),
                 slogon = u"我是管理员！",
                 last_login_time = datetime.now(), password = encrypt(u"xichao"),
-                state = u'1',photo=u'http://127.0.0.1:5000/upload/avatar/default1.jpg')
+                state = u'1',photo=u'upload/avatar/default1.jpg')
     db_session.add(user)
-    db_session.commit()    
+    db_session.commit()
+    
     ##测试书籍
     from models import Book
-    book = Book(title = u"算法导论", ISBN = u"7111407016",
-                       picture =u"http://127.0.0.1:5000/book/picture/test.jpg", author = u"Thomas H.Cormen",
-                       press = u"机械工业出版社", page_num = u"780",
-                       price = u"￥91.10", press_time=u"2012年12月",binding="平装")
+    book = Book(title = u"GRE核心词汇考法精析", ISBN = u"9787802562547",
+                       picture =u"http://img3.douban.com/lpic/s7642485.jpg", author = u"陈琦,周书林",
+                       press = u"群言出版社", page_num = u"449",
+                       price = u"55.00元", press_time=u"2011-9",binding="平装")
     db_session.add(book)
     db_session.commit()
 
     ##测试专栏
     from models import Special
-    special = Special(name = u"这里都是好吃的", user_id = 1,
-                       picture = u"http://127.0.0.1:5000/upload/special/special_detail_pic_1.png", 
-                       introduction = u"带你吃遍上海美食^_^",
-                       time = datetime.now())
-    db_session.add(special)
-    db_session.commit()
+    for i in range(test_size):
+        special = Special(name = u"Nick%d的专栏"%(i+1), user_id = i+1,
+                           picture = u"/upload/special/special_upload_pic.jpg", 
+                           introduction = u"Nick%d的专栏 的简介"%(i+1),
+                           time = datetime.now())
+        db_session.add(special)
+        db_session.commit()
+        sleep(1)
 
-    from models import Special
-    special = Special(name = u"算法学习指南", user_id = 2,
-                       picture = u"http://127.0.0.1:5000/upload/special/special_detail_pic_2.jpg", 
-                       introduction = u"""
-                       <div>
-                       本专栏专门用来引导算法初学者，让大家更多的体会到算法之美
-                       </div>
-                       <table>
- 				<tr>
-    				<td>作者</td>
-    				<td> Nick2 </td>
-  				</tr>
-  				<tr>
-    				<td>类别</td>
-    				<td>饮食/专栏</td>
-  				</tr>
-  				<tr>
-    				<td>期数</td>
-    				<td>共11期，正在更新</td>
-  				</tr>
-				</table>""",
-                       time = datetime.now())
-    db_session.add(special)
-    db_session.commit()
 
-    ##测试文章会话id
+    ##添加专栏文章，每个专栏10篇
+    from models import Article
+    for special_id in range(1, test_size+1):
+        for i in range(10):
+            Total_Article += 1
+            article = Article(title = u"Nick%d的专栏 的 第%d篇文章"%(special_id, i+1), 
+                              picture = u"/upload/article/article_title_image/article_upload_pic_1.jpg",
+                              content = u"本文是 Nick%d的专栏 的 第%d篇文章 的内容"%(special_id, i), is_draft = '0',
+                              time = datetime.now(), 
+                              category = '1',    ## 1表示书评，2表示影评，3表示杂文
+                              groups = '3',     ## 1表示广场，2表示文章，3表示专栏
+                              user_id = special_id, ##special_id和user_id在test创建中是一样的
+                              book_id = 1, special_id = special_id,
+                              article_session_id = Total_Article, abstract = u"Nick%d的专栏 的 第%d篇文章 的摘要"%(special_id, i))
+            db_session.add(article)
+            db_session.commit()
+            
+    ##添加10篇广场书评
+    for i in range(10):
+        Total_Article += 1
+        article = Article(title = u"第%d篇 广场书评"%(i+1), 
+                          picture = u"/upload/article/article_title_image/article_upload_pic_1.jpg",
+                          content = u"本文是 第%d篇 广场书评 的内容"%(i+1), is_draft = '0',
+                          time = datetime.now(), 
+                          category = '1',    ## 1表示书评，2表示影评，3表示杂文
+                          groups = '1',     ## 1表示广场，2表示文章，3表示专栏
+                          user_id = i + 1, ##special_id和user_id在test创建中是一样的
+                          book_id = 1, 
+                          article_session_id = Total_Article, abstract = u"第%d篇 广场书评 的摘要"%(i+1))
+        db_session.add(article)
+        db_session.commit()
 
+    ##添加10篇广场影评
+    for i in range(10):
+        Total_Article += 1
+        article = Article(title = u"第%d篇 广场影评"%(i+1), 
+                          picture = u"/upload/article/article_title_image/article_upload_pic_1.jpg",
+                          content = u"本文是 第%d篇 广场影评 的内容"%(i+1), is_draft = '0',
+                          time = datetime.now(), 
+                          category = '2',    ## 1表示书评，2表示影评，3表示杂文
+                          groups = '1',     ## 1表示广场，2表示文章，3表示专栏
+                          user_id = i + 1, ##special_id和user_id在test创建中是一样的
+                          book_id = 1, 
+                          article_session_id = Total_Article, abstract = u"第%d篇 广场影评 的摘要"%(i+1))
+        db_session.add(article)
+        db_session.commit()
+
+    ##添加10篇广场杂文
+    for i in range(10):
+        Total_Article += 1
+        article = Article(title = u"第%d篇 广场杂文"%(i+1), 
+                          picture = u"/upload/article/article_title_image/article_upload_pic_1.jpg",
+                          content = u"本文是 第%d篇 广场杂文 的内容"%(i+1), is_draft = '0',
+                          time = datetime.now(), 
+                          category = '3',    ## 1表示书评，2表示影评，3表示杂文
+                          groups = '1',     ## 1表示广场，2表示文章，3表示专栏
+                          user_id = i + 1, ##special_id和user_id在test创建中是一样的
+                          book_id = 1, 
+                          article_session_id = Total_Article, abstract = u"第%d篇 广场杂文 的摘要"%(i+1))
+        db_session.add(article)
+        db_session.commit()
+
+
+    ##添加对应的Article_session
     from models import Article_session
-    for i in range(20):
+    for i in range(Total_Article):
       article_session = Article_session()
       db_session.add(article_session)
       db_session.commit()
-    
-    ##测试文章
-    from models import Article
-    from time import sleep
-    for i in range(10):
-        article = Article(title = u"算法入门%d"%(i), picture = u"http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg",
-                          content = u"本文是算法入门文章%d"%(i), is_draft = '1',
-                          time = datetime.now(), category = '1',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
-                          groups = '1', user_id = 1,             ## 1表示 TODO
-                          book_id = 1, special_id = 2,article_session_id = i+1, abstract = u"本文是算法入门文章")
-        db_session.add(article)
-        db_session.commit()
-        sleep(1)
-
-    for i in range(10):
-        article = Article(title = u"吃货之家%d"%(9-i), picture = u"http://127.0.0.1:5000/upload/article/article_title_image/article_upload_pic_1.jpg",
-                          content = u"本文是吃货入门文章%d"%(i), is_draft = '1',
-                          time = datetime.now(), category = '1',    ## 0表示 TODO 1表示 TODO 2 表示 TODO
-                          groups = '1', user_id = 1,             ## 1表示 TODO
-                          book_id = 1, special_id = 1,article_session_id = i+11, abstract = u"本文是吃货入门文章")
-        db_session.add(article)
-        db_session.commit()
-        sleep(1)
-
-
-
-
-    ##测试活动会话id
-
-    from models import Activity_session
-    activity_session=Activity_session()
-    db_session.add(activity_session)
-    db_session.commit()
 
     
     ##测试评论
+    """
     from models import Comment
     comment = Comment(article_id = 1, content = u"这篇文章写的真好啊！",
                        user_id = 2, to_user_id = 1,
                        time = datetime.now())
     db_session.add(comment)
     db_session.commit()
+    """
     
     
 
     ##测试私信
+    """
     from models import Message
     message = Message(user_id = 1, to_user_id = 2,
                       content = u"谢谢你评论我的文章", time = datetime.now())
     db_session.add(message)
     db_session.commit()
-    
-    ##测试活动
+    """
+
+
+
+    ##添加过去活动
     from models import Activity
-    activity = Activity(name = u"曦潮童汇", content = u"小朋友们看过来",
-                        create_time = datetime.now(), 
-                        activity_time = datetime.now(),activity_session_id=1,picture='http://127.0.0.1:5000/upload/activity/activity_title_image/activity_upload_pic_1.jpg',abstract=u"小朋友们看过来......",place=u"曦潮书店") 
-                        ##注意这里活动时间不应该是now
-    db_session.add(activity)
-    db_session.commit()
+    for i in range(5):
+        ##曦潮童汇
+        Total_Activity += 1
+        activity = Activity(name = u"曦潮童汇 第%d期"%(i+1), content = u"小朋友们看过来",
+                            create_time = datetime.now(), 
+                            activity_time = datetime.now(),
+                            activity_session_id=Total_Activity,
+                            picture=u'/upload/activity/activity_title_image/activity_upload_pic_1.jpg',
+                            abstract=u"小朋友们看过来......",place=u"曦潮书店") 
+        db_session.add(activity)
+        db_session.commit()
+
+    ##添加未来活动
+    from models import Activity
+    for i in range(5):
+        ##曦潮童汇
+        Total_Activity += 1
+        activity = Activity(name = u"曦潮童汇 第%d期"%(i+6), content = u"小朋友们看过来",
+                            create_time = datetime.now(), 
+                            activity_time = datetime.now() + timedelta(days=100),
+                            activity_session_id=Total_Activity,
+                            picture=u'/upload/activity/activity_title_image/activity_upload_pic_1.jpg',
+                            abstract=u"小朋友们看过来......",place=u"曦潮书店") 
+        db_session.add(activity)
+        db_session.commit()
+
+
+    ##测试活动会话id
+    from models import Activity_session
+    for i in range(Total_Activity):
+        activity_session=Activity_session()
+        db_session.add(activity_session)
+        db_session.commit()
+    
 
     ##测试对活动的评论
+"""
     from models import Comment_activity
     comment_activity = Comment_activity(activity_id=1,content=u"这个活动真赞啊",user_id=1,time=datetime.now())
     db_session.add(comment_activity)
     db_session.commit()
-    
+"""
+
+"""    
     ##测试活动收藏
     from models import Collection_Activity
     collect_act = Collection_Activity(user_id = 1, 
@@ -219,3 +263,4 @@ def test_db():
                       number = 100, price = u"￥5.00")
     db_session.add(product)
     db_session.commit()
+"""

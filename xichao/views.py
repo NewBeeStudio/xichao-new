@@ -105,12 +105,11 @@ def logout():
 
 ####################################  test  ##################################
 
-
 @app.route('/test')
 @login_required
 def test():
 	return render_template('template.html')
-	
+
 	
 ####################################  注册  ##################################
 ##TODO：注册表单的头像链接要随着表单一起发送过来
@@ -286,7 +285,7 @@ def special_all():
         sort_change_url = '/special_all?sort=time&page=1'
 
     specials_pagination = get_all_specials(sort, page_id)
-    return render_template('layout_special.html', sort = sort,
+    return render_template('special_all.html', sort = sort,
                                                   specials_pagination = specials_pagination, 
                                                   author = get_special_author, 
                                                   articles = get_special_article,
