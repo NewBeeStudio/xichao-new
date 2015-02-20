@@ -176,7 +176,7 @@
         			<p>{{ entry.abstract }}</p>
         			<table>
         			<tr>
-        			<td>{{ entry.time }}</td>
+        			<td>{{ entry.time | time_split_3 }}</td>
         			<td>收藏({{ entry.favor }})</td>
         			<td>受赏({{ entry.coins }})</td>
         			</tr>
@@ -235,7 +235,7 @@
         			<p>{{ entry.abstract }}</p>
         			<table>
         			<tr>
-        			<td>保存时间：{{ entry.time }}</td>
+        			<td>保存时间：{{ entry.time | time_split_3 }}</td>
         			</tr>
         			</table>
 

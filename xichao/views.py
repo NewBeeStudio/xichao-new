@@ -426,6 +426,7 @@ def special_article_upload():
 @app.route('/special_article_modify/article/<int:article_id>')
 def special_article_modify(article_id):
     article = get_article_information(article_id)
+    
     try:
         special_id = int(article[0].special_id)
     except Exception:

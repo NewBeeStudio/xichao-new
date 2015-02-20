@@ -6,12 +6,39 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/xichao-logo.jpg') }}" />
         <link href="{{ url_for('static', filename='css/main.css') }}" rel='stylesheet' type='text/css'/>
         {% block css %}
+                
         {% endblock %}
+
+        <style>
+        #top-background{
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            z-index: -100;
+        }
+        #top-background > img{
+            width: 100%;
+            position: absolute;
+            /*
+            clip:rect(0px 10000px 1000px 0px); 
+            */
+            opacity:0.6;
+            filter:alpha(opacity=60);
+        }
+        </style>
 
     </head>
 
     <body>
 
+<!--
+{{ url_for('static', filename='images/top_background.jpg') }}
+-->
+
+        <div id="top-background">
+            <img src="{{ url_for('static', filename='images/top_background.png') }}"/>
+        </div>
+        
         <!--header-->
         <div id="header">
 

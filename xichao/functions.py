@@ -62,16 +62,17 @@ def get_secure_photoname(filename):
 	return photoname
 
 def send_verify_email(nick,password,email):
-	verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
-	mail=Mail(app)
-	msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[email])
-	msg.body='text body'
-	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
-	with app.app_context():
-		try:
-			mail.send(msg)
-		except:
-			pass
+    verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
+    mail=Mail(app)
+    msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[email])
+    msg.body='text body'
+    msg.html = render_template('test_verify_email.html',verify_url=verify_url)
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except:
+            print "\n\n\n\n\n\n", "NoNoNoNoNoNoNo!", "\n\n\n\n\n\n"
+            pass
 
 ##################################  登陆函数  ####################################
 def get_nick(email,password):

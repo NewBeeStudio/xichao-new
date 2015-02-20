@@ -63,7 +63,7 @@
                 {% for article in articles(special.special_id, 1, "time").items %}
                   <tr>
                     <th width="300">    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </th>
-                    <th width="250" style="color:grey;">{{ article.time }}</th>
+                    <th width="250" style="color:grey;">{{ article.time | time_split_3 }}</th>
                     <th>
                     <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
                     {{ article.coins }}
