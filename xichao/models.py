@@ -88,10 +88,10 @@ class HomePage(Base, AutoSerialize):
         self.special3 = special3
         self.special4 = special4
         
-        self.special1_image = u'http://127.0.0.1:5000/upload/homepage/square-120150221154956.jpg'
-        self.special2_image = u'http://127.0.0.1:5000/upload/homepage/square-220150221155006.jpg'
-        self.special3_image = u'http://127.0.0.1:5000/upload/homepage/square-320150221155013.jpg'
-        self.special4_image = u'http://127.0.0.1:5000/upload/homepage/square-120150221155023.jpg'
+        self.special1_image = u'/upload/homepage/square-120150221154956.jpg'
+        self.special2_image = u'/upload/homepage/square-220150221155006.jpg'
+        self.special3_image = u'/upload/homepage/square-320150221155013.jpg'
+        self.special4_image = u'/upload/homepage/square-120150221155023.jpg'
 
     def __repr__(self):
         return '<HomePage %r %r %r %r>' % (self.special1, self.special2, self.special3, self.special4)
