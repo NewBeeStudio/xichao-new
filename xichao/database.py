@@ -53,7 +53,7 @@ def test_db():
     from models import User
 
     for i in range(test_size):
-        user = User(nick = "Nick%d"%(i+1), email = "example%d@exmample.com"%(i+1), 
+        user = User(nick = "Nick%d"%(i+1), email = "example%d@example.com"%(i+1), 
                     role = 1, register_time = datetime.now(),
                     slogon = u"用户 Nick%d 的个人介绍！" % (i+1),
                     last_login_time = datetime.now(), password = encrypt(u"password"),
