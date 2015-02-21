@@ -155,7 +155,7 @@ def upload_homepage_image():
 
             
 
-            return app.config['HOST_NAME']+'/upload/homepage/'+image_name
+            return '/upload/homepage/'+image_name
         except Exception:
             pass
     return "failed"
