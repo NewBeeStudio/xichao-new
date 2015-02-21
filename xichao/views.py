@@ -105,12 +105,65 @@ def logout():
 @app.route('/test')
 @login_required
 def test():
-    homepage_special_list = get_homepage_specials()
+    homepage_special_list, slideUrl = get_homepage_specials()
     hot_articles = get_hot_articles(10)
     return render_template('template.html', special_list = homepage_special_list,
                                             hot_articles = hot_articles,
                                             articles = get_special_article,
+                                            slideUrl = slideUrl,
                                             get_author = get_nick_by_userid)
+## 修改首页
+@app.route('/modify_homepage')
+@login_required
+def modify_homepage():
+    if (not create_special_authorized()):
+        abort(404)
+    allSpecial = get_all_special()
+    return render_template('modify_homepage.html', allSpecial = allSpecial)
+
+## 完成首页修改
+@app.route('/modify_homepage_finish', methods=['GET'])
+@login_required
+def modify_homepage_finish():
+    special1 = request.args.get('special1')
+    special2 = request.args.get('special2')
+    special3 = request.args.get('special3')
+    special4 = request.args.get('special4')
+
+    url1 = request.args.get('url1')
+    url2 = request.args.get('url2')
+    url3 = request.args.get('url3')
+    url4 = request.args.get('url4')
+
+    return modify_homepage_func(special1, url1,
+                                special2, url2,
+                                special3, url3,
+                                special4, url4)
+
+## 上传首页所需图片            
+@app.route('/upload_homepage_image', methods=['POST'])
+@login_required
+def upload_homepage_image():
+    for i in range(1,5):
+        try:
+            image = request.files['slide-image'+str(i)]
+
+            if allowed_file(image.filename):                
+                image_name = get_secure_photoname(image.filename)
+                image_url=os.path.join(app.config['HOMEPAGE_DEST'], image_name)
+                image.save(image_url)
+
+            
+
+            return app.config['HOST_NAME']+'/upload/homepage/'+image_name
+        except Exception:
+            pass
+    return "failed"
+
+## 获取首页图片
+@app.route('/upload/homepage/<filename>')
+def uploaded_homepage_image(filename):
+	return send_from_directory(app.config['HOMEPAGE_DEST'],filename)
 
 ####################################  注册  ##################################
 ##TODO：注册表单的头像链接要随着表单一起发送过来

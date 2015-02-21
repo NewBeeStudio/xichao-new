@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+<link rel="stylesheet" type="text/css" href="/static/css/article_upload.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/button.css" />
+
+
+<style>
+#all-special{
+    margin-top: 30px;
+    font-family: 微软雅黑;
+	font-size: 20px;
+}
+
+#select-special{
+    margin-top: 50px;
+    margin-bottom: 100px;
+    font-family: 微软雅黑;
+	font-size: 20px;
+}
+
+#select-special > input{
+    height: 40px;
+    width: 400px;
+    font-family: 微软雅黑;
+	font-size: 20px;
+}
+
+</style>
+{% endblock %}
+
+<!--content-->
+{% block content %}
+ <p id="title">&nbsp;首页&nbsp;>>>&nbsp;修改首页</p>
+
+ <div id="all-special">
+    <p>所有专栏如下：</p>
+    <br>
+    <table>
+        <tr> 
+            <th>专栏名称</th>
+            <th>收藏人数</th>
+            <th>曦潮币</th>
+         </tr>
+     {% for special in allSpecial %}
+
+     <tr> 
+        <td>{{ special.name }}</td>
+        <td>{{ special.favor }}</td>
+        <td>{{ special.coin }}</td>
+     </tr>
+
+ {% endfor %}
+ </table>
+
+ </div>
+ 
+ <div id="select-special">
+     <p>请选择4个专栏作为首页专栏</p>
+     <br>
+     
+     {% for i in range(4) %}
+            <p>专栏 {{i+1}} 名称:</p>
+    		<input id="special{{i}}" type="text">
+    		
+    		<br>
+            <form role="form" method="POST" enctype=multipart/form-data id='form{{i+1}}' number={{i+1}}>
+                <input class="special-image" id="slide_image{{i+1}}" number={{i+1}} name="slide-image{{i+1}}" required type="file">
+            </form>
+            <div>
+            <img src="" id="slide-image-show{{i+1}}">
+            </div>
+            <br>
+
+     {% endfor %}
+     <br><br>
+     <input id="submit" type="submit" value="修改！">
+ </div>
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
+
+    <script>
+        $(document).ready(function(){
+            $('.special-image').change(function(){
+                var number = $(this).attr("number");                
+                var form_data = new FormData($('#form'+number)[0]);
+                
+                $.ajax({
+                    url: '/upload_homepage_image',
+                    type: 'POST',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function(data){
+                        if (data == 'failed'){
+                        
+                        } else{
+                            var img_id = '#slide-image-show'+number;
+                            $(img_id).attr('src', data)
+                        }
+                    },
+                });
+            });
+
+
+            $('#submit').click(function(){
+                var special1 = $("#special0").val();
+                var special2 = $("#special1").val();
+                var special3 = $("#special2").val();
+                var special4 = $("#special3").val();
+                
+                var url1 = $("#slide-image-show1").attr("src");
+                var url2 = $("#slide-image-show2").attr("src");
+                var url3 = $("#slide-image-show3").attr("src");
+                var url4 = $("#slide-image-show4").attr("src");
+
+                $.get('/modify_homepage_finish',
+                  {
+                      special1: special1,
+                      special2: special2,
+                      special3: special3,
+                      special4: special4,
+                      url1: url1,
+                      url2: url2,
+                      url3: url3,
+                      url4: url4
+                  },
+                  function(data){
+                      if (data == 'success'){
+                        layer.msg("首页修改成功",1,1,function(){
+                            location.href ="{{ url_for('test') }}";
+                        });
+                      } else{
+                        layer.msg("第 "+data+" 个专栏不存在！",1,3,function(){});
+                      }
+                  }
+                );
+            });            
+        });    
+    </script>
+
+{% endblock %}
+

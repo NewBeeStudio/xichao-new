@@ -10,7 +10,7 @@
 	<div id="index-up">
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
-		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('/static/images/square-1.jpg')">
+		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}')">
 			<div class="index-up-content">
 				<div class="index-up-content-left">
 					<h3>

@@ -76,12 +76,22 @@ class HomePage(Base, AutoSerialize):
     special3 = Column(Integer, nullable = False, index = True)
     special4 = Column(Integer, nullable = False, index = True)
     
+    special1_image = Column(String(255), nullable = False)
+    special2_image = Column(String(255), nullable = False)
+    special3_image = Column(String(255), nullable = False)
+    special4_image = Column(String(255), nullable = False)
+    
     ########## Index/Unique索引 ##########
     def __init__(self, special1=1, special2=2, special3=3, special4=4):
         self.special1 = special1
         self.special2 = special2
         self.special3 = special3
         self.special4 = special4
+        
+        self.special1_image = u'/static/images/square-1.jpg'
+        self.special2_image = u'/static/images/square-2.jpg'
+        self.special3_image = u'/static/images/square-3.jpg'
+        self.special4_image = u'/static/images/square-4.jpg'
 
     def __repr__(self):
         return '<HomePage %r %r %r %r>' % (self.special1, self.special2, self.special3, self.special4)

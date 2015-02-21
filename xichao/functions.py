@@ -246,12 +246,54 @@ def get_homepage_specials():
     special2 = db_session.query(Special).filter_by(special_id = query.special2).all()[0]
     special3 = db_session.query(Special).filter_by(special_id = query.special3).all()[0]
     special4 = db_session.query(Special).filter_by(special_id = query.special4).all()[0]
-    return [special1, special2, special3, special4]
+    return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
 def get_hot_articles(num):
     query = db_session.query(Article).order_by(Article.favor.desc()).all()
     return query[:10]
     
+def get_all_special():
+    query = db_session.query(Special).order_by(Special.favor.desc()).all()
+    return query
+    
+def modify_homepage_func(special1, url1,
+                         special2, url2,
+                         special3, url3,
+                         special4, url4):
+    
+    special1 = db_session.query(Special).filter_by(name = special1).all()
+    if (len(special1) == 0):
+        return '1'
+    special2 = db_session.query(Special).filter_by(name = special2).all()
+    if (len(special2) == 0):
+        return '2'
+    special3 = db_session.query(Special).filter_by(name = special3).all()
+    if (len(special3) == 0):
+        return '3'
+    special4 = db_session.query(Special).filter_by(name = special4).all()
+    if (len(special4) == 0):
+        return '4'
+
+    special1 = special1[0].special_id
+    special2 = special2[0].special_id
+    special3 = special3[0].special_id
+    special4 = special4[0].special_id
+    
+    query = db_session.query(HomePage).all()[0]
+    query.special1 = special1
+    query.special2 = special2
+    query.special3 = special3
+    query.special4 = special4
+
+
+    query.special1_image = url1
+    query.special2_image = url2
+    query.special3_image = url3
+    query.special4_image = url4
+
+
+    db_session.commit()
+    return 'success'
     
 ##################################  专栏函数  ####################################
 def get_all_specials(sort, page_id):
