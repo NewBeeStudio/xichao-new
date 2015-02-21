@@ -100,9 +100,14 @@
 			$(this).css("left", offset);
 		});
 
+        var autoTimer;
+        var autoIndex=0;
+
 		var onMouseIn = function()
 		{
 		    MouseIn = true;
+		    clearInterval(autoTimer);
+
 			var index = parseInt($(this).attr("data-index")); 
 			$("#index-up > div").each(function()
 			{
@@ -119,13 +124,13 @@
 			});
 		};
 
-
-        var autoIndex=0;
+        
 		var autoOnMouseIn = function()
 		{
 		    if (!MouseIn){
 		    index = autoIndex;
 		    autoIndex = autoIndex + 1;
+		    
 		    if (autoIndex == 4) autoIndex = 0;
 			$("#index-up > div").each(function()
 			{
@@ -143,7 +148,7 @@
 		};
         
         autoOnMouseIn();
-        setInterval(autoOnMouseIn, 5000);
+        autoTimer = setInterval(autoOnMouseIn, 2500);
 
 
 		var onMouseOut = function()
@@ -159,6 +164,7 @@
 
 			});
             autoOnMouseIn();
+            autoTimer = setInterval(autoOnMouseIn, 2500);
 		};
 
         
