@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+<link rel="stylesheet" type="text/css" href="/static/css/article_upload.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/button.css" />
+
+{% endblock %}
+
+<!--content-->
+{% block content %}
+ <p id="title">&nbsp;首页&nbsp;>>>&nbsp;修改专栏</p>
+    <div id="div_pics">
+        <img class="pics" id="pic_4" style="width:225px;height:205px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}" />
+       	<p class="p_triangle" id="triangle_left">◀</p>
+        <img class="pics" id="pic_1" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
+        <img class="pics" id="pic_2" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}" />
+        <img class="pics" id="pic_3" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
+        <p class="p_triangle" id="triangle_right">▶</p>
+
+        <a href="#" class="register-button" id="button_upload_pic">上传题图</a>
+    </div>
+
+   	<div id="article_editor">
+   		<p id="p_article_title">专栏名称:</p>
+   		<input id="input_title" type="text">
+        <br><br>
+
+   		<p style="font-family: 微软雅黑;font-size: 20px;float: left;margin-top: 0px;">专栏作家昵称:</p>
+   		<input id="input_author" style="margin-left: 2%;height: 26px;width: 50%;" type="text">
+        <br><br>
+
+
+   		<p id="p_article_title">专栏摘要:</p>
+   		<input id="input_content" type="text" style="width:1024px;height:300px;">
+<!--
+      <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+-->
+      
+      <div id="buttons">
+        <a href="#" class="register-button" id="button_upload_confirm">确定</a>
+      </div>
+  
+   	</div>
+	
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+      //完成文章，上传到服务器
+      $("#button_upload_confirm").click(function(){
+        val_title = $("#input_title").val();
+        val_author = $("#input_author").val();
+        val_content = $("#input_content").val();
+        val_title_image=$('#pic_4').attr('src');
+//        alert(val_author);
+//        alert(val_title);
+//        alert(val_content);
+//        alert(val_title_image);
+
+        if (val_title==''){layer.msg("专栏标题不能为空！",1,3,function(){});}
+        else if (val_content==''){layer.msg("专栏内容不能为空！",1,3,function(){});}
+        else if (val_author==''){layer.msg("专栏作家不能为空！",1,3,function(){});}
+        else{
+          $.get('/modify_special_finish',
+          {
+            title: val_title,
+            author: val_author,
+            content: val_content,
+            title_image: val_title_image
+          },
+          function(data){
+            if (data == "failed"){
+                layer.msg("请重新核对专栏和作者信息",1,3,function(){});
+            }else {
+                layer.msg("专栏修改成功",1,1,function(){
+                    location.href ="{{url_for('special')}}?id="+data+"&page=1&sort=time";
+                });
+            }
+          });
+
+            
+        }
+      });
+
+      //选择默认图片
+      $('.pics').click(function(){
+        $('#pic_4').attr("src",$(this).attr("src"))
+      });
+    });
+</script>
+
+<!--上传题图的页面框-->
+<script type="text/javascript">
+  $('#button_upload_pic').click(function(){
+    $.layer({
+        type: 2,
+        title: [
+            '上传文章题图', 
+            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+        ], 
+        shadeClose: true,
+        closeBtn: false, 
+        border:[0],
+        area: ['90%', '90%'],
+        iframe: {src: "{{url_for('upload_special_title_image')}}"},
+    });
+  });
+</script>
+
+<script type="text/javascript">
+function update_title_image(data){
+  $('#pic_4').attr("src",data);
+}
+</script>
+
+{% endblock %}
+

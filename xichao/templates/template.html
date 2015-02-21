@@ -10,7 +10,7 @@
 	<div id="index-up">
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
-		<div data-index="{{i}}" style="background-image: url('/static/images/square-1.jpg')">
+		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('/static/images/square-1.jpg')">
 			<div class="index-up-content">
 				<div class="index-up-content-left">
 					<h3>
@@ -92,6 +92,7 @@
 		// 主页上面的四副图片
 		var gap = 120; //图片间距，不可变
 		var picNum = 4; //不可变
+		var MouseIn = false;
 
 		$('#index-up > div').each(function()
 		{
@@ -101,6 +102,7 @@
 
 		var onMouseIn = function()
 		{
+		    MouseIn = true;
 			var index = parseInt($(this).attr("data-index")); 
 			$("#index-up > div").each(function()
 			{
@@ -117,8 +119,37 @@
 			});
 		};
 
+
+        var autoIndex=0;
+		var autoOnMouseIn = function()
+		{
+		    if (!MouseIn){
+		    index = autoIndex;
+		    autoIndex = autoIndex + 1;
+		    if (autoIndex == 4) autoIndex = 0;
+			$("#index-up > div").each(function()
+			{
+				$(this).stop(true, false); //停止之前效果(参数二：是否到达最后结果)
+				var curIndex = parseInt($(this).attr("data-index"));
+				var leftOrIn = gap * curIndex;
+				var right = 1087 - (picNum - curIndex) * gap;
+
+				//alert("leftOrIn");
+				if(curIndex <= index)
+					$(this).animate({left:leftOrIn+"px"}, 300);
+				else
+					$(this).animate({left:right+"px"}, 300);
+			});}
+		};
+        
+        autoOnMouseIn();
+        setInterval(autoOnMouseIn, 5000);
+
+
 		var onMouseOut = function()
 		{
+            MouseIn = false;
+            autoIndex = parseInt($(this).attr("data-index"));
 			$("#index-up > div").each(function()
 			{
 				$(this).stop(true, false);
@@ -127,8 +158,10 @@
 				$(this).animate({left:left+"px"}, 300);
 
 			});
+            autoOnMouseIn();
 		};
 
+        
 		$("#index-up > div").hover(onMouseIn, onMouseOut);
 	});
 </script>
