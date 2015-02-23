@@ -9,8 +9,8 @@
     <div id="sort_select">
     <label>排序方式：</label>
         <select id="sort">
-        <option id="sort_by_time" value="time">最 新</option>
-        <option id="sort_by_favor" value="favor">收藏最多</option>
+        <option id="sort_by_time" value="time">最近更新</option>
+        <option id="sort_by_favor" value="favor">曦潮币</option>
     </select>
     </div>
 
@@ -37,40 +37,49 @@
 			<hr />
             <div id="author-coin">
 			<h4>
-			    作者: {{ author(special.user_id).nick }}
+			    by:&nbsp;&nbsp;{{ author(special.user_id).nick }}
+			    &nbsp;&nbsp;
 			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
                 {{ special.coin }}
-                收藏人数： {{ special.favor }}
 			</h4>
 			</div>
 			
             <p>
-                    专栏介绍：<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 专栏介绍：
                     {{ special.introduction | safe }}
             </p>
             <br>    
             <br>
             
             
-            <table id="latest-article">
+            <table id="latest-article" style="
+            background-image: url({{ url_for('static', filename='images/special_list_border.png') }});
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            width: 100%;
+            min-height: 200px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 30px;
+            padding-right: 30px;">
                 <tr>
-                <th height="40">最新文章</th>
+                <td height="40"><i>最新文章:</i></td>
                 </tr>
-                {% for article in articles(special.special_id, 1, "time").items %}
+                {% for article in articles(special.special_id, 1, "time", 3).items %}
                   <tr>
-                    <th width="300">    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </th>
-                    <th width="250" style="color:grey;">{{ article.time | time_split_3 }}</th>
-                    <th>
+                    <td width="380">    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </td>
+                    <td width="170" style="color:grey;">{{ article.time | time_split_5 }}</td>
+                    <td>
                     <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
                     {{ article.coins }}
-                    </th>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
             
             
 			</div>
-			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">MORE&gt;</a>
+			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">进入专栏&gt;</a>
 		</div>
 	
 	</div>

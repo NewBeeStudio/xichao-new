@@ -375,7 +375,7 @@ def special():
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
     login_user = get_userid_from_session()
     
-    articles_pagination = get_special_article(special_id, page_id, sort)
+    articles_pagination = get_special_article(special_id, page_id, sort, 5)
     drafts = get_special_draft(special_id)
     return render_template('special_detail.html',
                             author_itself = (special.user_id == login_user),

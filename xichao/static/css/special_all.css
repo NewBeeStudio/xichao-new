@@ -98,6 +98,8 @@ img#special-part1-img{
 #special-part1-content > p{
     margin-top: 21px;
 	font-family: 微软雅黑;
+	overflow-y: auto;
+    word-wrap: break-word;
 }
 
 /* 专栏最新文章 */

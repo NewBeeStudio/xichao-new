@@ -173,7 +173,7 @@
             	<label>排序方式：</label>
 	            <select id="sort">
                     <option id="sort_by_time" value="time">时 间</option>
-                    <option id="sort_by_favor" value="favor">收藏人数</option>
+                    <option id="sort_by_favor" value="favor">曦潮币</option>
                 </select>
 <!--
 			<input type="submit" value="按发表时间顺序" id = "sort_by_time">
@@ -190,11 +190,13 @@
         		<div>
         			<h3>{{ entry.title }}</h3>
         			<p>{{ entry.abstract }}</p>
+        			
         			<table>
         			<tr>
-        			<td>{{ entry.time | time_split_3 }}</td>
-        			<td>收藏({{ entry.favor }})</td>
-        			<td>受赏({{ entry.coins }})</td>
+        			<td>{{ entry.time | time_split_2 }}</td>
+        			<td>阅读({{ entry.read_num }})</td>
+        			<td><font color="#d19413">收藏</font>({{ entry.favor }})</td>
+        			<td><font color="#d19413">曦潮币</font>({{ entry.coins }})</td>
         			</tr>
         			</table>
                     
@@ -323,9 +325,13 @@
 		<h3>{{special_author}}的所有专栏</h3>
 
 		<ul>
-        {%- for item in other %}
-			<li>{{ item.name }}</li>
-        {%- endfor %}
+        {% for item in other %}
+			<li>
+			<a href = "{{url_for('special')}}?id={{item.special_id}}&page=1&sort=time">
+			{{ item.name }}
+			</a>
+			</li>
+        {% endfor %}
 		</ul>
 	</div>
 </div>

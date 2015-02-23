@@ -300,7 +300,7 @@ def get_all_specials(sort, page_id):
     if sort == 'time':
         query = db_session.query(Special).order_by(Special.last_modified.desc())
     else:
-        query = db_session.query(Special).order_by(Special.favor.desc())
+        query = db_session.query(Special).order_by(Special.coin.desc())
     return paginate(query = query, page = page_id, per_page = 5, error_out = True)
 
 def create_special_authorized():
@@ -364,21 +364,21 @@ def get_author_collect_info(user_id, author_id):
     query = db_session.query(Collection_User).filter_by(user_id = user_id, another_user_id = author_id).all()
     return len(query)
 
-def get_special_article(special_id, page_id, sort):
+def get_special_article(special_id, page_id, sort, per_page):
     if sort == "time":
 #        print ddd
         query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.time.desc())
     else:
-        query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.favor.desc())
+        query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.coins.desc())
 
-    pagination = paginate(query = query, page = page_id, per_page = 5, error_out = True)
+    pagination = paginate(query = query, page = page_id, per_page = per_page, error_out = True)
     return pagination
     
 def get_special_draft(special_id):
     return db_session.query(Article).filter_by(special_id = special_id, is_draft = '1').all()
     
 def get_special_author_other(user_id):
-    query = db_session.query(Special.name).filter_by(user_id = user_id).all()
+    query = db_session.query(Special.name,Special.special_id).filter_by(user_id = user_id).all()
     return query
 
 ###################################  昵称函数  ####################################
@@ -592,9 +592,17 @@ def user_coin_sub(user_id,num):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
 	user.coin-=num
 	db_session.commit()
+
+def special_coin_add(special_id, num):
+    special = db_session.query(Special).filter_by(special_id = special_id).scalar()
+    special.coin += num
+    db_session.commit()
+
 def article_coin_add(article_id,num):
 	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
 	article.coins+=num
+	if (article.groups =='3'):
+	    special_coin_add(article.special_id, num)
 	db_session.commit()
 	article=db_session.query(Article).filter_by(article_id=article_id).first()
 	user_coin_add(user_id=article.user_id,num=num)
