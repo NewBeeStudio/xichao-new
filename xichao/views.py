@@ -100,18 +100,71 @@ def logout():
 	#	response.set_cookie('user','',expires=datetime.now())
 	flash('你已退出')
 	return response
-
-
-
 ####################################  test  ##################################
-
 
 @app.route('/test')
 @login_required
 def test():
-	return render_template('template.html')
-	
-	
+    homepage_special_list, slideUrl = get_homepage_specials()
+    hot_articles = get_hot_articles(10)
+    return render_template('template.html', special_list = homepage_special_list,
+                                            hot_articles = hot_articles,
+                                            articles = get_special_article,
+                                            slideUrl = slideUrl,
+                                            get_author = get_nick_by_userid)
+## 修改首页
+@app.route('/modify_homepage')
+@login_required
+def modify_homepage():
+    if (not create_special_authorized()):
+        abort(404)
+    allSpecial = get_all_special()
+    return render_template('modify_homepage.html', allSpecial = allSpecial)
+
+## 完成首页修改
+@app.route('/modify_homepage_finish', methods=['GET'])
+@login_required
+def modify_homepage_finish():
+    special1 = request.args.get('special1')
+    special2 = request.args.get('special2')
+    special3 = request.args.get('special3')
+    special4 = request.args.get('special4')
+
+    url1 = request.args.get('url1')
+    url2 = request.args.get('url2')
+    url3 = request.args.get('url3')
+    url4 = request.args.get('url4')
+
+    return modify_homepage_func(special1, url1,
+                                special2, url2,
+                                special3, url3,
+                                special4, url4)
+
+## 上传首页所需图片            
+@app.route('/upload_homepage_image', methods=['POST'])
+@login_required
+def upload_homepage_image():
+    for i in range(1,5):
+        try:
+            image = request.files['slide-image'+str(i)]
+
+            if allowed_file(image.filename):                
+                image_name = get_secure_photoname(image.filename)
+                image_url=os.path.join(app.config['HOMEPAGE_DEST'], image_name)
+                image.save(image_url)
+
+            
+
+            return '/upload/homepage/'+image_name
+        except Exception:
+            pass
+    return "failed"
+
+## 获取首页图片
+@app.route('/upload/homepage/<filename>')
+def uploaded_homepage_image(filename):
+	return send_from_directory(app.config['HOMEPAGE_DEST'],filename)
+
 ####################################  注册  ##################################
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
@@ -286,7 +339,7 @@ def special_all():
         sort_change_url = '/special_all?sort=time&page=1'
 
     specials_pagination = get_all_specials(sort, page_id)
-    return render_template('layout_special.html', sort = sort,
+    return render_template('special_all.html', sort = sort,
                                                   specials_pagination = specials_pagination, 
                                                   author = get_special_author, 
                                                   articles = get_special_article,
@@ -322,7 +375,7 @@ def special():
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
     login_user = get_userid_from_session()
     
-    articles_pagination = get_special_article(special_id, page_id, sort)
+    articles_pagination = get_special_article(special_id, page_id, sort, 5)
     drafts = get_special_draft(special_id)
     return render_template('special_detail.html',
                             author_itself = (special.user_id == login_user),
@@ -351,6 +404,15 @@ def create_special():
     if (not create_special_authorized()):
         abort(404)
     return render_template('create_special.html')
+
+
+## 修改专栏界面
+@app.route('/modify_special')
+@login_required
+def modify_special():
+    if (not create_special_authorized()):
+        abort(404)
+    return render_template('modify_special.html')
 
 ## 上传专栏题图文件
 @app.route('/upload_special_title_image', methods=['GET', 'POST'])
@@ -400,6 +462,37 @@ def create_special_finish():
                        
 #    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
     return str(special_id)
+    
+## 完成修改专栏
+@app.route('/modify_special_finish', methods=['GET'])
+@login_required
+def modify_special_finish():
+    if (not create_special_authorized()):
+        abort(404)
+
+    try:
+        title = request.args.get('title')
+        content = request.args.get('content')
+        title_image = request.args.get('title_image')
+    except Exception:
+        return "failed"
+        
+    try:
+        author = request.args.get('author')
+        author = get_userid_by_nick(author)
+        if (len(author) == 0):
+            return "nick_error"
+    except Exception:
+        return "failed"
+
+    try:
+        special_id = modify_special_func(name = title, 
+                                         user_id = author[0][0],
+                                         picture = title_image,
+                                         introduction = content)
+        return str(special_id)
+    except Exception:
+        return "failed"
 
 ## 编辑专栏文章
 @app.route('/special_article_upload', methods=['GET'])
@@ -426,6 +519,7 @@ def special_article_upload():
 @app.route('/special_article_modify/article/<int:article_id>')
 def special_article_modify(article_id):
     article = get_article_information(article_id)
+    
     try:
         special_id = int(article[0].special_id)
     except Exception:

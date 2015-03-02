@@ -10,32 +10,35 @@
 	<div id="index-up">
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
-		<div data-index="{{i}}" style="background-image: url('/static/images/square-1.jpg')">
+		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}')">
 			<div class="index-up-content">
 				<div class="index-up-content-left">
 					<h3>
-						拥有你想要的生活
+						{{ special_list[i].name }}
 					</h3>
 				</div>
 
 				<div class="index-up-content-right">
 					<div>
 						<div class="index-special-abstract">
-							<font style="font-size: 18.8px; font-weight: bold;">摘要：</font>摘要
+							<font style="font-size: 18.8px; font-weight: bold;">简介：</font>{{ special_list[i].introduction }}
 						</div>
 						<table class="index-special-recommend">
 						<ul>
-							{% for j in range(4) %}
-							<tr>
-								<td style="width: 450px; padding-left: 20px;"><li>旅行的意义</li></td>
-								<td style="width: 250px;">曦潮币（300）</td>
-								<td>2015-01-01</td>
-							</tr>
-							{% endfor %}
+                            {% for article in articles(special_list[i].special_id, 1, "time", 5).items %}
+                                <tr>
+                                    <td width="250">    <a href = "{{url_for('article', article_id = article.article_id)}}" > <li>{{ article.title }}</li> </a> </td>
+                                    <td width="150" style="color:grey;">{{ article.time | time_split_2 }}</td>
+                                    <td>
+                                    <img style="width: 21px;height: 21px;" src="{{ url_for('static', filename='images/coins.png') }}">
+                                    {{ article.coins }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
 						</ul>
 						</table>
 	
-						<a href="#">&gt;&gt;&gt;&gt;&nbsp;View More</a>
+						<a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time" style="float:right;font-family: 微软雅黑;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
 					</div>
 				</div>
 			</div>
@@ -48,13 +51,15 @@
 			热门文章
 		</h2>
 		<div style="margin-top: 30px;"></div>
-		{% for k in range(12) %}
+		{% for article in hot_articles %}
 		<div class="index-hot">
-			<img src="/static/images/xichao-logo.jpg">
-			<div class="index-hot-title">与尔同消万古愁</div>
-			<div class="index-hot-author">作者：xxx&nbsp;&nbsp;类别：xxx</div>
+		<a href="{{url_for('article', article_id = article.article_id)}}">
+			<img src="/upload/article/article_title_image/article_upload_pic_1.jpg">
+			<div class="index-hot-title">{{article.title}}</div>
+        </a>
+			<div class="index-hot-author">{{get_author(article.user_id)}}&nbsp;&nbsp;曦潮币({{article.coins}})&nbsp;&nbsp;{{article.time|time_split_2}}</div>
 			<div style="clear:both;"></div>
-			<div class="index-hot-abstract">摘要摘要</div>
+			<div class="index-hot-abstract">{{article.abstract}}</div>
 		</div>
 		{% endfor %}
 
@@ -85,8 +90,9 @@
 
 
 		// 主页上面的四副图片
-		var gap = 38; //图片间距，不可变
+		var gap = 120; //图片间距，不可变
 		var picNum = 4; //不可变
+		var MouseIn = false;
 
 		$('#index-up > div').each(function()
 		{
@@ -94,15 +100,21 @@
 			$(this).css("left", offset);
 		});
 
+        var autoTimer;
+        var autoIndex=0;
+
 		var onMouseIn = function()
 		{
+		    MouseIn = true;
+		    clearInterval(autoTimer);
+
 			var index = parseInt($(this).attr("data-index")); 
 			$("#index-up > div").each(function()
 			{
 				$(this).stop(true, false); //停止之前效果(参数二：是否到达最后结果)
 				var curIndex = parseInt($(this).attr("data-index"));
 				var leftOrIn = gap * curIndex;
-				var right = 1087 - (picNum - curIndex) * 38;
+				var right = 1087 - (picNum - curIndex) * gap;
 
 				//alert("leftOrIn");
 				if(curIndex <= index)
@@ -112,8 +124,37 @@
 			});
 		};
 
+        
+		var autoOnMouseIn = function()
+		{
+		    if (!MouseIn){
+		    index = autoIndex;
+		    autoIndex = autoIndex + 1;
+		    
+		    if (autoIndex == 4) autoIndex = 0;
+			$("#index-up > div").each(function()
+			{
+				$(this).stop(true, false); //停止之前效果(参数二：是否到达最后结果)
+				var curIndex = parseInt($(this).attr("data-index"));
+				var leftOrIn = gap * curIndex;
+				var right = 1087 - (picNum - curIndex) * gap;
+
+				//alert("leftOrIn");
+				if(curIndex <= index)
+					$(this).animate({left:leftOrIn+"px"}, 300);
+				else
+					$(this).animate({left:right+"px"}, 300);
+			});}
+		};
+        
+        autoOnMouseIn();
+        autoTimer = setInterval(autoOnMouseIn, 2500);
+
+
 		var onMouseOut = function()
 		{
+            MouseIn = false;
+            autoIndex = parseInt($(this).attr("data-index"));
 			$("#index-up > div").each(function()
 			{
 				$(this).stop(true, false);
@@ -122,8 +163,11 @@
 				$(this).animate({left:left+"px"}, 300);
 
 			});
+            autoOnMouseIn();
+            autoTimer = setInterval(autoOnMouseIn, 2500);
 		};
 
+        
 		$("#index-up > div").hover(onMouseIn, onMouseOut);
 	});
 </script>

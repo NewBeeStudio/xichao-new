@@ -8,7 +8,7 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity
+from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity,HomePage
 from database import db_session
 from flask import jsonify,render_template,request,session
 from sqlalchemy import or_, not_, and_, desc
@@ -62,16 +62,17 @@ def get_secure_photoname(filename):
 	return photoname
 
 def send_verify_email(nick,password,email):
-	verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
-	mail=Mail(app)
-	msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[email])
-	msg.body='text body'
-	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
-	with app.app_context():
-		try:
-			mail.send(msg)
-		except:
-			pass
+    verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
+    mail=Mail(app)
+    msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[email])
+    msg.body='text body'
+    msg.html = render_template('test_verify_email.html',verify_url=verify_url)
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except:
+            print "\n\n\n\n\n\n", "NoNoNoNoNoNoNo!", "\n\n\n\n\n\n"
+            pass
 
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
@@ -235,13 +236,72 @@ def update_read_num_activity(activity_id):
 	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
 	activity.read_num+=1
 	db_session.commit()
+	
+
+##################################  首页函数  ####################################
+
+def get_homepage_specials():
+    query = db_session.query(HomePage).all()[0]
+    special1 = db_session.query(Special).filter_by(special_id = query.special1).all()[0]
+    special2 = db_session.query(Special).filter_by(special_id = query.special2).all()[0]
+    special3 = db_session.query(Special).filter_by(special_id = query.special3).all()[0]
+    special4 = db_session.query(Special).filter_by(special_id = query.special4).all()[0]
+    return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
+    
+def get_hot_articles(num):
+    query = db_session.query(Article).order_by(Article.favor.desc()).all()
+    return query[:10]
+    
+def get_all_special():
+    query = db_session.query(Special).order_by(Special.favor.desc()).all()
+    return query
+    
+def modify_homepage_func(special1, url1,
+                         special2, url2,
+                         special3, url3,
+                         special4, url4):
+    
+    special1 = db_session.query(Special).filter_by(name = special1).all()
+    if (len(special1) == 0):
+        return '1'
+    special2 = db_session.query(Special).filter_by(name = special2).all()
+    if (len(special2) == 0):
+        return '2'
+    special3 = db_session.query(Special).filter_by(name = special3).all()
+    if (len(special3) == 0):
+        return '3'
+    special4 = db_session.query(Special).filter_by(name = special4).all()
+    if (len(special4) == 0):
+        return '4'
+
+    special1 = special1[0].special_id
+    special2 = special2[0].special_id
+    special3 = special3[0].special_id
+    special4 = special4[0].special_id
+    
+    query = db_session.query(HomePage).all()[0]
+    query.special1 = special1
+    query.special2 = special2
+    query.special3 = special3
+    query.special4 = special4
+
+
+    query.special1_image = url1
+    query.special2_image = url2
+    query.special3_image = url3
+    query.special4_image = url4
+
+
+    db_session.commit()
+    return 'success'
+    
 ##################################  专栏函数  ####################################
 def get_all_specials(sort, page_id):
     if sort == 'time':
         query = db_session.query(Special).order_by(Special.last_modified.desc())
     else:
-        query = db_session.query(Special).order_by(Special.favor.desc())
-    return paginate(query = query, page = page_id, per_page = 3, error_out = True)
+        query = db_session.query(Special).order_by(Special.coin.desc())
+    return paginate(query = query, page = page_id, per_page = 5, error_out = True)
 
 def create_special_authorized():
 	nick=None
@@ -260,8 +320,22 @@ def create_new_special(name, user_id, picture, introduction):
     db_session.commit()
     return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
     
+def modify_special_func(name, user_id, picture, introduction):
+    print "\n\n\n\n\n\n\n\n\n\nHERE\n\n\n\n\n\n\n\n\n\n"
+    query = db_session.query(Special).filter_by(name = name, user_id = user_id).all()
+    if (len(query) == 0):
+        raise Exception
+    special = query[0]
+    special.picture = picture
+    special.introduction = introduction
+    db_session.commit()
+    return special.special_id
+    
 def get_userid_by_nick(nick):
     return db_session.query(User.user_id).filter_by(nick=nick).all()
+
+def get_nick_by_userid(user_id):
+    return db_session.query(User.nick).filter_by(user_id=user_id).all()[0][0]
 
 def get_userid_from_session():
 	nick=None
@@ -290,21 +364,21 @@ def get_author_collect_info(user_id, author_id):
     query = db_session.query(Collection_User).filter_by(user_id = user_id, another_user_id = author_id).all()
     return len(query)
 
-def get_special_article(special_id, page_id, sort):
+def get_special_article(special_id, page_id, sort, per_page):
     if sort == "time":
 #        print ddd
         query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.time.desc())
     else:
-        query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.favor.desc())
+        query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.coins.desc())
 
-    pagination = paginate(query = query, page = page_id, per_page = 5, error_out = True)
+    pagination = paginate(query = query, page = page_id, per_page = per_page, error_out = True)
     return pagination
     
 def get_special_draft(special_id):
     return db_session.query(Article).filter_by(special_id = special_id, is_draft = '1').all()
     
 def get_special_author_other(user_id):
-    query = db_session.query(Special.name).filter_by(user_id = user_id).all()
+    query = db_session.query(Special.name,Special.special_id).filter_by(user_id = user_id).all()
     return query
 
 ###################################  昵称函数  ####################################
@@ -518,9 +592,17 @@ def user_coin_sub(user_id,num):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
 	user.coin-=num
 	db_session.commit()
+
+def special_coin_add(special_id, num):
+    special = db_session.query(Special).filter_by(special_id = special_id).scalar()
+    special.coin += num
+    db_session.commit()
+
 def article_coin_add(article_id,num):
 	article=db_session.query(Article).filter_by(article_id=article_id).scalar()
 	article.coins+=num
+	if (article.groups =='3'):
+	    special_coin_add(article.special_id, num)
 	db_session.commit()
 	article=db_session.query(Article).filter_by(article_id=article_id).first()
 	user_coin_add(user_id=article.user_id,num=num)

@@ -1,3 +1,9 @@
+.current-position{
+    margin-top: 50px;
+	font-family: 微软雅黑;
+/*	font-size: 14px;*/
+}
+
 /*********************专栏介绍*********************/
 #special-info-part{
 	width: 100%;
@@ -58,7 +64,8 @@
 	font-size: 15px;
 
 	margin-top: 40px;
-	overflow: auto;
+	overflow-y: auto;
+	word-wrap:break-word;
 }
 /*
 #special-introduction p{
@@ -236,7 +243,7 @@
 #special-article td{
 	padding-right: 15px;
 	font-family: 黑体;
-	font-size: 15px;
+	font-size: 13px;
 }
 
 #special-article input{

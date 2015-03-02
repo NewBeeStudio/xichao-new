@@ -31,7 +31,7 @@ def time_split_filter(s):
 def time_split_filter_2(s):
     return str(s).split(' ')[0]
 
-#获取日期: 2014-02-02 xx:xx:xx—> 2014年2月 xx:xx
+#获取日期: 2014-02-02 xx:xx:xx—> 2014年2月2日 xx:xx
 @app.template_filter('time_split_3')
 def time_split_filter_3(s):
     (date, time) = str(s).split(' ') #2014-02-02
@@ -45,6 +45,15 @@ def time_split_filter_3(s):
 def time_split_filter_4(s):
     date = str(s).split(' ')[0].split('-') #2014-02-02
     return date[0] + u'年' + date[1] + u'月'
+
+#获取日期: 2014-02-02 xx:xx:xx—> 2014年2月2日 xx:xx
+@app.template_filter('time_split_5')
+def time_split_filter_5(s):
+    (date, time) = str(s).split(' ') #2014-02-02
+    date = date.split('-')
+    time = time.split(':')
+    return date[1] + u'月' + date[2] + u'日  ' + time[0] + ':' + time[1]
+
 
 #zip
 @app.template_filter('zip')
@@ -97,6 +106,9 @@ ACTIVITY_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/activity/a
 SPECIAL_DEST=os.path.join(os.path.dirname(__file__),'upload/special')
 #书籍图片路径
 BOOK_PICTURE_DEST=os.path.join(os.path.dirname(__file__),'upload/book')
+
+#首页图片路径
+HOMEPAGE_DEST=os.path.join(os.path.dirname(__file__),'upload/homepage')
 
 DEFAULT_ARTICLE_TITLT_IMAGE=['article_upload_pic_1.jpg','article_upload_pic_2.jpg','article_upload_pic_3.jpg','article_upload_pic_4.png','article_upload_pic_5.jpg','article_upload_pic_6.jpg']
 

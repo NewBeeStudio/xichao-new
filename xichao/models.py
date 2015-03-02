@@ -57,6 +57,45 @@ class AutoSerialize(object):
         return ret
 
 
+##################################  首页模型  ####################################
+
+class HomePage(Base, AutoSerialize):
+    __tablename__ = 'homepage'
+    __table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    ########## Primary索引 ##########
+    homepage_id = Column(Integer, primary_key=True, autoincrement=True, 
+                                  nullable=False, index=True)
+
+    ########## 普通列 ##########
+    special1 = Column(Integer, nullable = False, index = True)
+    special2 = Column(Integer, nullable = False, index = True)
+    special3 = Column(Integer, nullable = False, index = True)
+    special4 = Column(Integer, nullable = False, index = True)
+    
+    special1_image = Column(String(255), nullable = False)
+    special2_image = Column(String(255), nullable = False)
+    special3_image = Column(String(255), nullable = False)
+    special4_image = Column(String(255), nullable = False)
+    
+    ########## Index/Unique索引 ##########
+    def __init__(self, special1=1, special2=2, special3=3, special4=4):
+        self.special1 = special1
+        self.special2 = special2
+        self.special3 = special3
+        self.special4 = special4
+        
+        self.special1_image = u'/upload/homepage/square-120150221154956.jpg'
+        self.special2_image = u'/upload/homepage/square-220150221155006.jpg'
+        self.special3_image = u'/upload/homepage/square-320150221155013.jpg'
+        self.special4_image = u'/upload/homepage/square-120150221155023.jpg'
+
+    def __repr__(self):
+        return '<HomePage %r %r %r %r>' % (self.special1, self.special2, self.special3, self.special4)
+
 
 ##################################  用户模型  ####################################
 

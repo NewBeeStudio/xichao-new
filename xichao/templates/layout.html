@@ -6,12 +6,39 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/xichao-logo.jpg') }}" />
         <link href="{{ url_for('static', filename='css/main.css') }}" rel='stylesheet' type='text/css'/>
         {% block css %}
+                
         {% endblock %}
+
+        <style>
+        #top-background{
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            z-index: -100;
+        }
+        #top-background > img{
+            width: 100%;
+            position: absolute;
+            /*
+            clip:rect(0px 10000px 1000px 0px); 
+            */
+            opacity:0.75;
+            filter:alpha(opacity=75);
+        }
+        </style>
 
     </head>
 
     <body>
 
+<!--
+{{ url_for('static', filename='images/top_background.jpg') }}
+-->
+
+        <div id="top-background">
+            <img src="{{ url_for('static', filename='images/top_background.png') }}"/>
+        </div>
+        
         <!--header-->
         <div id="header">
 
@@ -20,7 +47,7 @@
 
                 <!--曦潮logo-->
                 <div id="nav-bar-logo">
-                    <img src="{{ url_for('static', filename='images/logo.jpg') }}"/>
+                    <img src="{{ url_for('static', filename='images/logo.png') }}"/>
                 </div>
 
                 <!--注册登陆&搜索-->

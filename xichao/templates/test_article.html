@@ -36,11 +36,23 @@
 		
 	<div id="article_content_html"></br>{{article.content|safe}}</div>
 	<div id="share">
+	
+        <!-- 新浪微博 -->
+  		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 文章 | ','  {{ article.title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
 		<img class="img_share" src="/static/images/share_sinaweibo.png"/>
-		<img class="img_share" src="/static/images/share_qzone.png"/>
+        </a>
+
+        <!-- 人人网 -->
+        <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;">
 		<img class="img_share" src="/static/images/share_renren.png"/>
+        </a>
+
+        <!--
+		<img class="img_share" src="/static/images/share_qzone.png"/>
 		<img class="img_share" src="/static/images/share_rss.png"/>
 		<p id="p_share">分享</p>
+		-->
+
 	</div>
 	<div class="bdsharebuttonbox"><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
 	<div id="button_pay_to">
@@ -110,6 +122,24 @@
 
 <!--js file used-->
 {% block js %}
+<!-- 人人网分享Js代码 -->
+<script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+<script type="text/javascript">
+	function shareClick() {
+    	var link = window.location.href;
+		var rrShareParam = {
+			resourceUrl : link,	//分享的资源Url
+			srcUrl : '',	//分享的资源来源Url,默认为header中的Referer,如果分享失败可以调整此值为resourceUrl试试
+			pic : '',		//分享的主题图片Url
+			title : '曦潮书香生态系统 | 文章 | '+'{{ article.title }}',		//分享的标题
+			description : ''	//分享的详细描述
+		};
+		rrShareOnclick(rrShareParam);
+	}
+</script>
+
+
+
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 
