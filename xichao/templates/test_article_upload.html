@@ -112,7 +112,7 @@
         else if(val_content==''){alert("文章内容不能为空！");}
         else if(val_book_title==''){alert("请关联书籍");}
         else{
-          $.post('http://xichao-o.com/article/finish{{upload_url}}'+val_category,
+          $.post('/article/finish{{upload_url}}'+val_category,
           {
             _csrf_token:"{{ csrf_token() }}",
             title: val_title,
