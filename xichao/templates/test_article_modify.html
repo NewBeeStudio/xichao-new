@@ -144,7 +144,7 @@
         val_book_ISBN=$("#book_isbn").text();
         val_book_binding=$("#book_binding").text();
         val_category=$('input[name="category"]:checked').val();
-        $.post('http://127.0.0.1:5000/article/finish{{upload_url}}'+val_category,
+        $.post('/article/finish{{upload_url}}'+val_category,
         {
           _csrf_token:"{{ csrf_token() }}",
           title: val_title,
@@ -163,7 +163,7 @@
         },
         function(data){
           layer.msg("文章保存成功",1,1,function(){
-            location.href ="http://127.0.0.1:5000/article/{{article.article_id}}";
+            location.href ="/article/{{article.article_id}}";
           });
         });
       });
@@ -183,7 +183,7 @@
         val_book_ISBN=$("#book_isbn").text();
         val_book_binding=$("#book_binding").text();
         val_category=$('input[name="category"]:checked').val();
-        $.post('http://127.0.0.1:5000/article/draft{{upload_url}}'+val_category,
+        $.post('/article/draft{{upload_url}}'+val_category,
         {
           _csrf_token:"{{ csrf_token() }}",
           title: val_title,

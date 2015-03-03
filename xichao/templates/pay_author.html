@@ -29,7 +29,7 @@
 				//alert(val_article_id);
 				//alert(val_user_id);
 				if($("[name='comment_article']").attr("checked")){
-					$.post('http://127.0.0.1:5000/article/comment',
+					$.post('/article/comment',
 					{
 						_csrf_token:"{{ csrf_token() }}",
 						content:val_content,

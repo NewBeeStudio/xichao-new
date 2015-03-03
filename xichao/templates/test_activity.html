@@ -122,7 +122,7 @@ $("#comment_publish_button").click(function(){
 		{alert("评论不能为空");}
 	else {
 	$('#input_publish_review').contents().find('body').empty();
-	$.post('http://127.0.0.1:5000/activity/comment',
+	$.post('/activity/comment',
 		{
 			_csrf_token:"{{ csrf_token() }}",
 			content:val_content,

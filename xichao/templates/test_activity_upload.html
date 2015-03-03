@@ -96,7 +96,7 @@
         else if (val_content=='') {alert("活动内容不能为空");}
         else if (val_place=='') {alert("活动地点不能为空");}
         else{
-          $.post('http://127.0.0.1:5000/activity/finish',
+          $.post('/activity/finish',
           {
             _csrf_token:"{{ csrf_token() }}",
             title: val_title,
@@ -108,7 +108,7 @@
           },
           function(data){
             layer.msg("活动保存成功",1,1,function(){
-              location.href ="http://127.0.0.1:5000/test";
+              location.href ="/test";
             });
           });
         }

@@ -164,7 +164,7 @@ $("#comment_publish_button").click(function(){
 		{alert("评论不能为空");}
 	else {
 	$('#input_publish_review').contents().find('body').empty();
-	$.post('http://xichao-o.com/article/comment',
+	$.post('/article/comment',
 		{
 			_csrf_token:"{{ csrf_token() }}",
 			content:val_content,
