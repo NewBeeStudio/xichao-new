@@ -1,7 +1,19 @@
+#special-search{
+    margin-top: 51px;
+    float: left;
+    font-family: 微软雅黑;
+    font-size: 20px;
+}
+
+#special-search  input{
+    height: 25px;
+}
+
 /*排序选择器*/
 #sort_select{
     font-family: 微软雅黑;
-    float:right; margin-top: 51px;
+    float:right; 
+    margin-top: 51px;
 }
 
 .special-part1{
@@ -28,7 +40,6 @@ img#special-part1-img{
 .special-part1-left{
 	width: 280px;
 	height: 730px;
-	float: left;
 	margin-top: 50px;
 }
 
@@ -46,7 +57,7 @@ img#special-part1-img{
 .special-part1-left > h2{
 	margin-left: 140px;
 	padding-left: 20px;
-	border-left: 1px solid #000000;
+	border-left: 2px solid #000000;
 }
 
 
@@ -58,12 +69,11 @@ img#special-part1-img{
 
 .special-part1-left > div{
 	margin-left: 140px;
-	border-left: 1px solid #000000;
+	border-left: 2px solid #000000;
 }
 
 
 .special-part1-right{
-	float: right;
 	font-family: 微软雅黑;
 }
 
@@ -73,7 +83,7 @@ img#special-part1-img{
     width: 400px;
     margin-left: auto;
     margin-right: auto;
-    border-bottom: 2.5px solid #000000;
+    border-bottom: 1.5px solid #000000;
 }
 
 #special-part1-content > h2{
@@ -110,6 +120,14 @@ img#special-part1-img{
 #latest-article{
     text-align: left;
     font-family: 微软雅黑;
+    background-repeat:no-repeat;
+            background-size: 100% 100%;
+            width: 100%;
+            min-height: 200px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 30px;
+            padding-right: 30px;    
 }
 
 #coin-image{

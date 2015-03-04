@@ -345,6 +345,20 @@ def special_all():
                                                   articles = get_special_article,
                                                   sort_change_url = sort_change_url)
 
+#专栏列表搜索
+@app.route('/special_search', methods=['GET'])
+@login_required
+def special_search():
+    try:
+        search = request.args.get('search')
+        if search == '': abort(404)
+    except Exception:
+        abort(404)
+
+    specials_pagination = get_search_specials(search)
+    return render_template('special_search.html', specials_pagination = specials_pagination, 
+                                                  author = get_special_author, 
+                                                  articles = get_special_article)
 
 # 专栏详情页
 @app.route('/special', methods=['GET'])

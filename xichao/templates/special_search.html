@@ -14,13 +14,6 @@
     </form>
     </div>
 
-    <div id="sort_select">
-    <label>排序方式：</label>
-        <select id="sort">
-        <option id="sort_by_time" value="time">最近更新</option>
-        <option id="sort_by_favor" value="favor">曦潮币</option>
-    </select>
-    </div>
 
     {% set special_num = 1 %}
     {% for special in specials_pagination.items %}
@@ -101,21 +94,6 @@
 
     {% endfor %}
     
-    <div id="special-paging" style="float:right"> 
-        <div> 
-            {% if specials_pagination.has_prev %}
-                <a href="/special_all?sort={{sort}}&page={{ specials_pagination.prev_num }}">上一页</a> 
-            {% endif %} 
-        </div> 
-        <div> 
-            <p>Page {{ specials_pagination.page }} / {{specials_pagination.pages }}</p> 
-        </div> 
-        <div>
-            {% if specials_pagination.has_next %} 
-                <a href="/special_all?sort={{sort}}&page={{ specials_pagination.next_num }}">下一页</a> 
-            {% endif %} 
-        </div> 
-    </div> 
     
 {% endblock %}
 
@@ -124,26 +102,6 @@
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
 
-$(document).ready(function(){
-    (function ($) {
-        $.getUrlParam = function (name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) return unescape(r[2]); return null;
-        }
-    })(jQuery);
-    
-    var Order = $.getUrlParam('sort');
-    if (Order == "time"){
-        $("#sort_by_time").attr("selected", "selected");
-    } else{
-        $("#sort_by_favor").attr("selected", "selected");
-    }
-});
-
-$("#sort").change(function(){
-    location.href = "{{sort_change_url | safe}}";
-});
 
 </script>
 {% endblock %}
