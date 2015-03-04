@@ -302,6 +302,10 @@ def get_all_specials(sort, page_id):
     else:
         query = db_session.query(Special).order_by(Special.coin.desc())
     return paginate(query = query, page = page_id, per_page = 5, error_out = True)
+    
+def get_search_specials(search):
+    query = db_session.query(Special).filter(Special.name.like('%'+search+'%')).order_by(Special.coin.desc())
+    return paginate(query = query, page = 1, error_out = True)
 
 def create_special_authorized():
 	nick=None
