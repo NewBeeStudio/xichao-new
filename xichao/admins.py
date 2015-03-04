@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from xichao import app
-from flask import redirect,url_for
+from flask import redirect,url_for,abort
 from flask.ext.admin import Admin,BaseView,expose
 from flask.ext.login import current_user,login_required,logout_user
 from models import User,Article,Book,Comment,Special,Activity,Comment_activity
@@ -11,7 +11,10 @@ class LoginView(BaseView):
 	@expose('/')
 	@login_required
 	def index(self):
-		return self.render('admin_index.html')
+		if current_user.role!=3:
+			abort(404)
+		else:
+			return self.render('admin_index.html')
 
 class LogoutView(BaseView):
 	def is_accessible(self):
