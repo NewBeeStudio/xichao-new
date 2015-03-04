@@ -56,6 +56,11 @@ ul{
     margin-top: -10px;
 }
 
+#nav-bar-logo > img {
+    width: 150px;
+    height: 100px;
+}
+
 #nav-bar-button{
     float: right;
 }
@@ -143,7 +148,7 @@ input:focus{
 /*content对齐*/
 #content{
     width: 1085px;
-    margin: auto
+    margin: auto;
 }
 
 .current-position{
@@ -202,3 +207,5 @@ input:focus{
     border-width: 8px;
     border-color: #DF4D3F transparent transparent;
 }
+
+
