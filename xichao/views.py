@@ -1070,9 +1070,7 @@ def article_group_favor(group_id,category_id,page_id=1):
 def activity_main():
 	current_activity_list=get_current_activity_list(datetime.now())
 	passed_activity_list=get_passed_activity_list(datetime.now())
-	
-	while len(passed_activity_list) < 4:
-		passed_activity_list.append([])
+
 	return render_template('activity.html',current_activity_list=current_activity_list,passed_activity_list=passed_activity_list)
 
 ##读取活动

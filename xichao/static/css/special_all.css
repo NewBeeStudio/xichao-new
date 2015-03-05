@@ -23,11 +23,11 @@
 /*专栏图*/
 img#special-part1-img{
 	margin-top: 10px;
-	margin-left: -47px;
-	width: 375px;
-	height: 375px;
+	/*margin-left: -47px;*/
+	width: 320px;
+	height: 320px;
 
-	background-size: 375px 375px;
+	background-size: 320px 320px;
 }
 
 
@@ -38,7 +38,7 @@ img#special-part1-img{
 
 /*专栏图片区域*/
 .special-part1-left{
-	width: 280px;
+	width: 320px;
 	height: 730px;
 	margin-top: 50px;
 }
@@ -47,7 +47,7 @@ img#special-part1-img{
 /*圆上面的竖线*/
 .special-part1-left > h2{
 	width: 25px;
-	height: 140px;
+	height: 160px;
 
 	font-family: 微软雅黑;
 	font-size: 25px;
@@ -55,7 +55,7 @@ img#special-part1-img{
 }
 
 .special-part1-left > h2{
-	margin-left: 140px;
+	margin-left: 160px;
 	padding-left: 20px;
 	border-left: 2px solid #000000;
 }
@@ -68,7 +68,7 @@ img#special-part1-img{
 }
 
 .special-part1-left > div{
-	margin-left: 140px;
+	margin-left: 160px;
 	border-left: 2px solid #000000;
 }
 

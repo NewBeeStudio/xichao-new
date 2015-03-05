@@ -138,10 +138,12 @@ a.square-more{
 
 /*专栏图片区域*/
 .square-part1-left, .square-part2-right{
-	width: 280px;
+	width: 375px;
 	height: 730px;
 	float: left;
 }
+
+
 
 .square-part1-left{
 	float: left;
@@ -162,13 +164,13 @@ a.square-more{
 }
 
 .square-part1-left > h2{
-	margin-left: 140px;
+	margin-left: 187px;
 	padding-left: 20px;
 	border-left: 1px solid #000000;
 }
 
 .square-part2-right > h2{
-	margin-right: 140px;
+	margin-right: 187px;
 	padding-right: 20px;
 	border-right: 1px solid #000000;
 	float: right;
@@ -177,7 +179,7 @@ a.square-more{
 /*专栏图*/
 img#square-part1-img, img#square-part2-img, img#square-part3-img{
 	margin-top: 40px;
-	margin-left: -47px;
+	/*margin-left: -47px;*/
 	width: 375px;
 	height: 375px;
 
@@ -206,12 +208,12 @@ img#square-part3-img
 }
 
 .square-part1-left > div{
-	margin-left: 140px;
+	margin-left: 187px;
 	border-left: 1px solid #000000;
 }
 
 .square-part2-right > div{
-	margin-right: 140px;
+	margin-right: 187px;
 	border-right: 1px solid #000000;
 }
 

@@ -49,12 +49,12 @@ img#activity-left-arrow, img#activity-right-arrow{
 }
 
 img#activity-left-arrow{
-	margin-left: -110px;
+	margin-left: -60px;
 	float: left;
 }
 
 img#activity-right-arrow{
-	margin-right: -110px;
+	margin-right: -60px;
 	float: right;
 }
 
@@ -141,41 +141,39 @@ img.activity-info-img{
 }
 
 #activity-past-info{
-	margin-top: 48px;
-	margin-left: -30px;
+	margin: 48px auto;
 	height: 350px;
 
 	/*border: 1px solid #ff0000;*/
 }
 
-#activity-row-1{
+.passed-activity{
+	float: left;
+	width: 238px;
+}
+
+.passed-activity-image{
+	width: 215px;
 	height: 215px;
-}
-
-#activity-row-1 td, #activity-row-2 td, #activity-row-3 td{
-	padding-right: 50px;
-	text-align: center;
-}
-
-#activity-row-1 td{
+	margin: auto;
 	background-size: 215px 215px;
-	background-repeat: no-repeat;
 }
 
-
-td > img{
+.passed-activity-image > img{
 	width: 215px;
 	height: 215px;
 }
 
-#activity-row-2 td{
-	padding-top: 25px;
+.passed-activity-name{
+	margin-top: 25px;
 	font-family: 宋体;
 	font-size: 25px;
+	text-align: center;
 }
 
-#activity-row-3 td{
-	padding-top: 12px;
+.passed-activity-time{
+	margin-top: 12px;
 	font-family: 宋体;
 	font-size: 16.7px;
+	text-align: center;
 }
