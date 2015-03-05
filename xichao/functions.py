@@ -822,7 +822,7 @@ def pretreamentment_article_delete(article_id):
 	delete_collection_article_by_article_id(article_id)
 def delete_article_by_article_id(article_id,user_id):
 	article=db_session.query(Article).filter_by(article_id=article_id).first()
-	if article.user_id!=user_id or article==None:
+	if article==None or article.user_id!=user_id:
 		return 'fail'
 	else:
 		##先删除和这片文章相关的内容
