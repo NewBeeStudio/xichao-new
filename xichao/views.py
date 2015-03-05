@@ -94,17 +94,19 @@ def logout():
 	#弹出sessio
 	# session.pop('user', None)
 	logout_user()
-	response=make_response(redirect(url_for('test')))
+	response=make_response(redirect(url_for('index')))
 	#删除cookie，flask-login已完成相应操作
 	#if request.cookies.get('user')!=None:
 	#	response.set_cookie('user','',expires=datetime.now())
 	flash('你已退出')
 	return response
-####################################  test  ##################################
+####################################  index  ##################################
+@app.route('/')
+def default():
+	return redirect(url_for('index'))
 
-@app.route('/test')
-@login_required
-def test():
+@app.route('/index')
+def index():
     homepage_special_list, slideUrl = get_homepage_specials()
     hot_articles = get_hot_articles(10)
     return render_template('template.html', special_list = homepage_special_list,
@@ -183,7 +185,7 @@ def register():
 		user=User.query.filter_by(email=form.email.data).first()
 		login_user(user)
 		flash(u'注册成功，正在跳转')
-		return redirect(url_for('test'))
+		return redirect(url_for('index'))
 	return render_template('register.html', form=form)
 
 #接收上传的头像文件，保存并返回路径
@@ -240,7 +242,7 @@ def login():
 			user=User.query.filter_by(email=form.email.data).first()
 			login_user(user, remember=form.stay.data) #参数2：是否保存cookie
 			flash(u'登陆成功，正在跳转')
-			response=make_response(redirect(request.form.get("request_url") or url_for("test")))
+			response=make_response(redirect(request.form.get("request_url") or url_for("index")))
 			#if form.stay.data:
 			#	response.set_cookie('user',nick)
 			return response
@@ -324,7 +326,6 @@ def article(article_id):
 ##################################  专栏页面  ##################################
 # 专栏列表页
 @app.route('/special_all', methods=['GET'])
-@login_required
 def special_all():
     try:
         sort = request.args.get('sort')
@@ -1066,7 +1067,6 @@ def article_group_favor(group_id,category_id,page_id=1):
 ##################################	活动 ##################################
 ##活动主页
 @app.route('/activity')
-@login_required
 def activity_main():
 	current_activity_list=get_current_activity_list(datetime.now())
 	passed_activity_list=get_passed_activity_list(datetime.now())
@@ -1481,8 +1481,15 @@ def message():
 @login_required
 def award_article():
 	article_id=request.form['article_id']
-	award_num=int(request.form['award_num'])
-	result=process_article_award(user_id=current_user.user_id,article_id=article_id,award_num=award_num)
+	try:
+		award_num=int(request.form['award_num'])
+	except:
+		result="fail"
+		return result
+	if current_user.coin<award_num or award_num<=0:
+		result="fail"
+	else:
+		result=process_article_award(user_id=current_user.user_id,article_id=article_id,award_num=award_num)
 	return result
 
 

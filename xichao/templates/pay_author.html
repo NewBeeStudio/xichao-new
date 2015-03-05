@@ -44,9 +44,11 @@
 				if (val_award_num=='') 
 					{alert("打赏值不能为空");}
 				else if (!re.test(val_award_num))
-					{alert("打赏数额应为数字")}
+					{alert("打赏数额应为数字");}
 				else if ( val_award_num > {{current_user.coin}} )
 					{alert("您的曦潮币余值不够");}
+				else if (val_award_num<=0) 
+					{alert("打赏值不合法！");}
 				else{
 					$.post("{{url_for('award_article')}}",
 						{
@@ -56,7 +58,7 @@
 						},
 						function(data){
 							if (data=='fail'){
-								layer.msg('不能打赏自己!',1,3);
+								layer.msg('打赏失败,请确认输入合法!',1,3);
 							}
 							else{
 								var index=parent.layer.getFrameIndex(window.name);

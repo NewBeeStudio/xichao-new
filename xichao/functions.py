@@ -800,7 +800,11 @@ def delete_article_title_image(picture):
 	if title_image in app.config['DEFAULT_ARTICLE_TITLT_IMAGE']:
 		pass
 	else:
-		os.remove(os.path.join(app.config['ARTICLE_TITLE_DEST'],title_image))
+		try:
+			os.remove(os.path.join(app.config['ARTICLE_TITLE_DEST'],title_image))
+		except:
+			pass
+		
 ##删除文章的评论
 def delete_comments_by_article_id(article_id):
 	db_session.query(Comment).filter(Comment.article_id==article_id).delete()
