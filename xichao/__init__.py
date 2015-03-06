@@ -124,8 +124,7 @@ app.config.from_object(__name__)
 ##ueditor文章内容图片上传临时过滤
 @app.before_request
 def csrf_protect():
-    
-    if request.method == "POST" and request.path!="/login" and request.path!="/register" and request.path!="/upload/tailor/avatar" and request.path!="/editor/article" and current_user.role!=3:
+    if request.method == "POST" and request.path!="/login" and request.path!="/register" and request.path!="/upload/avatar" and request.path!="/editor/article" and current_user.role!=3:
         if not session['_csrf_token'] or request.form['_csrf_token']!=session['_csrf_token']:
             abort(403)
 def generate_csrf_token():
