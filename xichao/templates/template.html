@@ -83,7 +83,7 @@
 	{
 	
 			//未验证邮箱弹窗
-    {% if not current_user.is_anonymous %}
+    {% if not current_user.is_anonymous() %}
 		if({{current_user.state}} == 0){
 			var url = "{{ url_for('verify_remind') }}";
 			$.layer({
