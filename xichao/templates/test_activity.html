@@ -142,7 +142,7 @@ $("#comment_publish_button").click(function(){
 				'<img class="transparent-circle-white" src="{{ url_for("static", filename="images/transparent-circle.png") }}">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
-				'<p class="p_review_author">'+{{ nick }}+'</p>'+
+				'<p class="p_review_author">'+'{{ nick }}'+'</p>'+
 				'<div class="comment_content">'+val_content+'</div>'+
 				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
 		});};
