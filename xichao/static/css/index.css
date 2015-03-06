@@ -1,6 +1,6 @@
 #index-up{
 	position: relative;
-	margin-top: 60px;
+	margin-top: 10px;
 	width: 100%;
 	height: 485px;
 
@@ -41,9 +41,10 @@
 	font-size: 18.8px;
 	font-weight: bold;
 
-	width: 20px;
+	width: 10px;
 
 	text-align: center;
+	word-break: break-all;
 	color: #fff;
 }
 

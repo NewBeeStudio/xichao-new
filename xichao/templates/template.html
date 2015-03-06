@@ -7,15 +7,23 @@
 
 <!--content-->
 {% block content %}
+	<h2 style="font-family: 黑体;font-size: 20.8px;">
+			热门专栏
+	</h2>
 	<div id="index-up">
+
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
 		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}');">
 			<div class="index-up-content">
 				<div class="index-up-content-left">
+					<a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time">
 					<h3>
+
 						{{ special_list[i].name }}
 					</h3>
+
+				    </a>
 				</div>
 
 				<div class="index-up-content-right">
@@ -73,6 +81,24 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+	
+			//未验证邮箱弹窗
+    {% if not current_user.is_anonymous %}
+		if({{current_user.state}} == 0){
+			var url = "{{ url_for('verify_remind') }}";
+			$.layer({
+				type: 2,
+				title: ['请验证邮箱'],
+				shade: [0.65, '#000'],
+				shadeClose: true,
+				closeBtn: false,
+				border: [2, 1, '#D9AE48'],
+				area: ['350px', '200px'],
+				iframe: {src: url},
+			});
+		};
+    {% endif %}	
+		
 		// 主页上面的四副图片
 		var gap = 120; //图片间距，不可变
 		var picNum = 4; //不可变
