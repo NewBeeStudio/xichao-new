@@ -23,6 +23,7 @@
 			<h3><a href="{{url_for('activity', activity_id = activity.activity_id)}}">{{activity.name}}</a></h3>
 
 			<img class="activity-info-img" src="{{activity.picture}}">
+	
 			<div>
 				<div style="height: 150px;"><strong>活动介绍：</strong>{{activity.abstract}}</div>
 				<div style="margin-top: 30px;"></div>
@@ -58,7 +59,9 @@
 	<div id="activity-past-info">
 		{%for passed_activity in passed_activity_list%}
 		<div class="passed-activity">
+		<a href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">
 			<div class="passed-activity-image" style="background-image: url('{{passed_activity.picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"></div>
+        </a>
 			<div class="passed-activity-name"><a href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">{{passed_activity.name}}</a></div>
 			<div class="passed-activity-time">{{passed_activity.activity_time|time_split_4}}</div>
 		</div>

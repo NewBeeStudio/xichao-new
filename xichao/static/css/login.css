@@ -21,7 +21,7 @@
 
 #login-outside-circle{
     position: absolute;
-    left: 627px; top: -27px;
+    left: 600px; top: -27px;
 
     height: 482px;
     width: 482px;
@@ -32,7 +32,7 @@
 
 #login-inside-circle{
     position: absolute;
-    left: 643px; top: -7px;
+    left: 616px; top: -7px;
 
     height: 442px;
     width: 442px; /*inside circle diameter*/

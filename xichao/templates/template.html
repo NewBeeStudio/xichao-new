@@ -10,7 +10,7 @@
 	<div id="index-up">
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
-		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}')">
+		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}');">
 			<div class="index-up-content">
 				<div class="index-up-content-left">
 					<h3>
@@ -73,22 +73,6 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
-		//未验证邮箱弹窗
-		if({{current_user.state}} == 0){
-			var url = "{{ url_for('verify_remind') }}";
-			$.layer({
-				type: 2,
-				title: ['请验证邮箱'],
-				shade: [0.65, '#000'],
-				shadeClose: true,
-				closeBtn: false,
-				border: [2, 1, '#D9AE48'],
-				area: ['350px', '200px'],
-				iframe: {src: url},
-			});
-		};
-
-
 		// 主页上面的四副图片
 		var gap = 120; //图片间距，不可变
 		var picNum = 4; //不可变
@@ -99,7 +83,6 @@
 			var offset = parseInt($(this).attr("data-index"))*271 + "px";
 			$(this).css("left", offset);
 		});
-
         var autoTimer;
         var autoIndex=0;
 

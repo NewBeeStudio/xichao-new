@@ -1388,6 +1388,16 @@ def ajax_home_page_delete_special():
 ##取消关注专栏是由张云昊写的,可以查看一下专栏相关路由
 ##私信回复的路由是/message
 ##删除通知就是删除私信
+##################################	观点 ##################################
+@app.route('/opinion')
+def opinion():
+	hot_ground_article_list=get_hot_ground_acticle()
+	##参数1表示广场
+	book_review_list=get_article_group_by_coin('2','1')
+	film_review_list=get_article_group_by_coin('2','2')
+	essay_list=get_article_group_by_coin('2','3')
+	# type表示group_id  type=2表示专栏作家所写文章
+	return render_template('layout_article.html', type=2, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list)
 
 ##################################	广场 ##################################
 #广场主页
