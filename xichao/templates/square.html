@@ -27,7 +27,7 @@
 <div class="square-headline square-recommend" style="margin-bottom: 105px;">
 	<h2>今日推荐</h2>
 	<div id="recommend-content">
-		<h3 class="main-color">{{hot_ground_article_list[0][0].title}}</h3>
+		<h3 class="main-color"><a href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">{{hot_ground_article_list[0][0].title}}</a></h3>
 		<div id="recommend-title">
 			<span> {{hot_ground_article_list[0][0].time|time_split_2}} </span>
 			<span> 阅读({{hot_ground_article_list[0][0].read_num}})</span>

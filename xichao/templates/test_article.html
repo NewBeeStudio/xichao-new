@@ -30,7 +30,7 @@
 		<p id="p_review">评论 ({{article.comment_num}})</p>
 		<a id="p_collection" href="#">收藏 ({{article.favor}})</a>
 		<p id="p_article_author_1">作者</p>
-		<p id="p_article_author_2">{{author.nick}}</p>
+		<p id="p_article_author_2"><a href="{{url_for('view_home_page', nick = author.nick)}}">{{author.nick}}</a></p>
 		<p id="p_article_time">发表时间&nbsp;&nbsp;{{article.time}}</p>
 	</div>
 		

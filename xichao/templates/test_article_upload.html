@@ -204,7 +204,7 @@
 <script type="text/javascript">
   $('#book_button').click(function(){
     val_book_isbn=$('#book_isbn').val();
-    alert(val_book_isbn);
+    //alert(val_book_isbn);
     url='https://api.douban.com/v2/book/isbn/'+val_book_isbn+'?fields=title,author,publisher,pubdate,pages,price,binding,isbn13,images&callback=?';
     $.getJSON(url,function(json){
       $("#book_name").text(json.title);
