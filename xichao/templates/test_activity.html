@@ -30,7 +30,7 @@
 		<div id="article_content_html"><!--该div用于显示文章内容-->
 			<br/>{{ activity.content|safe }}
 		</div>
-
+	{%if current_user.state=='1'%}
 		<div id="share">
 			<p id="p_share">分享</p>
 			<img src="/static/images/share_sinaweibo.png"/>
@@ -53,6 +53,7 @@
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
+	{%endif%}
 	<hr>
 	<div id="list_review">
 		<p id="p_list_review">评论列表</p>
