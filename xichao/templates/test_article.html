@@ -35,6 +35,7 @@
 	</div>
 		
 	<div id="article_content_html"></br>{{article.content|safe}}</div>
+	{%if current_user.state=='1'%}
 	<div id="share">
 	
         <!-- 新浪微博 -->
@@ -54,12 +55,13 @@
 		-->
 
 	</div>
+
 	<div class="bdsharebuttonbox"><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
 	<div id="button_pay_to">
 		<button class="register-button" id="pay_button">打赏作者</button>	
 	</div> 
 	</div>
-	
+		{%endif%}
 	<hr>
 	<div id="book_info">
 		<div id="pic_book">
@@ -85,6 +87,8 @@
 		</div>
 	</div>
 
+	{%if current_user.state=='1'%}
+
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
 		<div id="img_user">
@@ -97,7 +101,7 @@
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
-
+	{%endif%}
 	<div id="list_review">
 		<p id="p_list_review">评论列表</p>
 

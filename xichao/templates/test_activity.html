@@ -23,14 +23,14 @@
 			<p id="p_read">阅读</p>
 			<p id="p_read_content">({{activity.read_num}})</p>
 			<p id="p_review">评论 ({{activity.comment_num}})</p>
-			<a id="p_collection" href="#">收藏 ({{activity.favor }})</a
+			<a id="p_collection" href="#">收藏 ({{activity.favor }})</a>
 			<p id="p_article_time">发表时间&nbsp;&nbsp;{{activity.create_time}}</p>
 		</div>
 
 		<div id="article_content_html"><!--该div用于显示文章内容-->
 			<br/>{{ activity.content|safe }}
 		</div>
-
+	{%if current_user.state=='1'%}
 		<div id="share">
 			<p id="p_share">分享</p>
 			<img src="/static/images/share_sinaweibo.png"/>
@@ -53,6 +53,7 @@
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
+	{%endif%}
 	<hr>
 	<div id="list_review">
 		<p id="p_list_review">评论列表</p>
@@ -141,7 +142,7 @@ $("#comment_publish_button").click(function(){
 				'<img class="transparent-circle-white" src="{{ url_for("static", filename="images/transparent-circle.png") }}">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
-				'<p class="p_review_author">'+{{ nick }}+'</p>'+
+				'<p class="p_review_author">'+'{{ nick }}'+'</p>'+
 				'<div class="comment_content">'+val_content+'</div>'+
 				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
 		});};

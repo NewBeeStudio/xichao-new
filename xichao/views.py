@@ -262,7 +262,7 @@ def forgetPassword():
 		password = get_password_by_email(form.email.data)
 		send_resetpassword_email(nick, password, form.email.data) #待修改
 		flash(u'我们已向你的注册邮箱发送了一份密码重置邮件')
-		return redirect(url_for('test'))
+		return redirect(url_for('index'))
 	return render_template('forgetPassword.html', form = form, error = error)
 	
 ##################################  重置密码  ##################################
@@ -276,7 +276,7 @@ def resetPassword(nick, password):
 			user=User.query.filter_by(nick=nick).first()
 			login_user(user)
 			flash(u'密码修改成功，正在跳转')
-			return redirect(url_for('test'))
+			return redirect(url_for('index'))
 		else:
 			return render_template('resetPassword.html', form=form)
 	else:
@@ -292,7 +292,7 @@ def verify():
 	state=get_state(nick,password)
 	if state:
 		update_state(nick)
-	return redirect(url_for('test'))
+	return redirect(url_for('index'))
 	
 
 ##################################  文章首页  ##################################
@@ -982,7 +982,7 @@ def ajax_collection_activity():
 		activity_id=request.form['activity_id']
 		result = collection_activity(user_id=current_user.user_id,activity_id=activity_id)
 		if result=="success":
-			update_activity_favor(activity_id)
+			update_activity_favor(activity_id,True)
 		return result
 
 
