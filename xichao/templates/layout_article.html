@@ -24,7 +24,7 @@
 			{% for (article) in (book_review_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
-					<td class="square-col-2" style="width:160px"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-2" style="width:160px;text-align:left;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-4">{{article[0].coins}}</td>
 					<td class="square-col-final">{{article[0].time|time_split}}</td>

@@ -980,7 +980,7 @@ def ajax_collection_activity():
 		return 'fail'
 	else:
 		activity_id=request.form['activity_id']
-		result=collection_activity(user_id=current_user.user_id,activity_id=activity_id)
+		result = collection_activity(user_id=current_user.user_id,activity_id=activity_id)
 		if result=="success":
 			update_activity_favor(activity_id,True)
 		return result

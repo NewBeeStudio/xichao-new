@@ -201,7 +201,7 @@ $("#p_collection").click(function(){
 				layer.msg("你已收藏该文章",1,3);
 			}
 			else{
-				layer.msg("收藏成功",1,1);
+				layer.msg("收藏成功",1,1,function(){location.reload();});
 			}
 	});
 });
