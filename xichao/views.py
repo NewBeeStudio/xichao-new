@@ -278,7 +278,7 @@ def resetPassword(nick, password):
 			flash(u'密码修改成功，正在跳转')
 			return redirect(url_for('index'))
 		else:
-			return render_template('resetPassword.html', form=form)
+			return render_template('resetPassword.html', form=form,nick=nick,password=password)
 	else:
 		return redirect(url_for('login'))
 
