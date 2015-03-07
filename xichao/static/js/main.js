@@ -24,7 +24,7 @@ $(document).ready(function(){
         var mousePosX = e.pageX;
         var mousePosY = e.pageY;
 
-        var circlePosX = 643;
+        var circlePosX = 616;
         var circlePosY = -7; //获取对象位置，绝对坐标，防止圆离开最初位置
 
         var circleDiameter = parseInt($("#login-inside-circle").css("height").slice(0, -2)); //圆的直径
