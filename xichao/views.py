@@ -1278,7 +1278,9 @@ def ajax_home_page_modify_basic_information():
 	except:
 		return 'phone_error'
 	##avatar=request.form['avatar']
-	if current_user.nick!=nick and nick_exist(nick):
+	if len(nick)<2 or len(nick)>10:
+		return 'nick_length_error'
+	elif current_user.nick!=nick and nick_exist(nick):
 		return 'nick_error'
 	else:
 		try:
