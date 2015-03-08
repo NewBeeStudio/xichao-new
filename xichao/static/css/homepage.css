@@ -366,3 +366,8 @@ h1{
 #eight td{
 	padding: 5px;
 }
+
+.delete-icon{
+	width: 22px;
+	height: 22px;
+}
