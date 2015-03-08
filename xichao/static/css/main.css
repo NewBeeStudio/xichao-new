@@ -1,7 +1,6 @@
 *{
     margin: 0;
     padding: 0;
-    border: 0;
 }
 
 body{
@@ -10,9 +9,12 @@ body{
     margin: auto;
 }
 
+img{
+    border: 0; /*IE8兼容*/
+}
+
 input{
     border: solid 1.5px #aaaaaa;
-    
 }
 
 a{

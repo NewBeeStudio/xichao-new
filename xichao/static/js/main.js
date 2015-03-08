@@ -69,11 +69,4 @@ $(document).ready(function(){
     $(".login-userinfo #email").prev().children().first().text("注册邮箱");
     $(".login-userinfo #password").prev().children().first().text("密码");
     $(".login-userinfo #confirm").prev().children().first().text("确认密码");
-
-    /**************************************************************/
-    /*根据分辨率改变顶端背景图大小*/
-    /**************************************************************/
-    if(screen.width < 1085){
-        $("#top-background > img").css("width","1085px");
-    }
 });
