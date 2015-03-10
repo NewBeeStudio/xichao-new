@@ -1273,10 +1273,14 @@ def ajax_home_page_modify_basic_information():
 	except:
 		return 'birthday_error'
 	phone=request.form['phone']
-	try:
-		int(phone)
-	except:
-		return 'phone_error'
+
+	if phone!='':
+		try:
+			int(phone)
+		except:
+			return 'phone_error'
+	else:
+		phone=None
 	##avatar=request.form['avatar']
 	if len(nick)<2 or len(nick)>10:
 		return 'nick_length_error'
@@ -1287,8 +1291,11 @@ def ajax_home_page_modify_basic_information():
 			birthday=date(birthday_year,birthday_month,birthday_day)
 		except:
 			return 'birthday_error'
-		result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
-		return result
+		if birthday>=date.today():
+			return 'birthday_time_error'
+		else:
+			result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
+			return result
 ##测试成功
 ##修改头像
 @app.route('/homepage/modify/avatar',methods=['POST'])
