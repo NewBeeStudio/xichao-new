@@ -51,7 +51,7 @@
 	height: 30px;
 	text-align: center;	
 
-	overflow: auto;
+	overflow: hidden;
 }
 
 #column-introduction p{

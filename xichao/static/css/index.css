@@ -139,7 +139,8 @@ div.index-special-abstract{
 	font-family: 宋体;
 	font-size: 11px;
 	color: gray;
-
+	word-break: break-all;
+	
 	float: right;
 }
 
