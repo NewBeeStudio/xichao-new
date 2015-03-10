@@ -27,7 +27,9 @@ img#special-part1-img{
 	width: 320px;
 	height: 320px;
 
-	background-size: 320px 320px;
+    border-radius: 320px;
+    position: relative;
+    behavior: url(/static/css/PIE.htc);
 }
 
 

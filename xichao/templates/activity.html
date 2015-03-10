@@ -60,7 +60,7 @@
 		{%for passed_activity in passed_activity_list%}
 		<div class="passed-activity">
 		<a href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">
-			<div class="passed-activity-image" style="background-image: url('{{passed_activity.picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"></div>
+			<div class="passed-activity-image"><img src="{{passed_activity.picture}}"></div>
         </a>
 			<div class="passed-activity-name"><a href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">{{passed_activity.name}}</a></div>
 			<div class="passed-activity-time">{{passed_activity.activity_time|time_split_4}}</div>

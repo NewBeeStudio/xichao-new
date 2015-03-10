@@ -156,12 +156,15 @@ img.activity-info-img{
 	width: 215px;
 	height: 215px;
 	margin: auto;
-	background-size: 215px 215px;
 }
 
 .passed-activity-image > img{
 	width: 215px;
 	height: 215px;
+
+	border-radius: 215px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 .passed-activity-name{
