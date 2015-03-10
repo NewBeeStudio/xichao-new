@@ -18,6 +18,7 @@ lib64/
 parts/
 sdist/
 var/
+xichao/upload/avator/*
 *.egg-info/
 .installed.cfg
 *.egg

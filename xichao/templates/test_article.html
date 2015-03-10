@@ -91,13 +91,14 @@
 
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<div id="img_user">
+		<div id="img_user" style="width: 90px;">
 			<img id="transparent-circle" src="{{ url_for('static', filename='images/transparent-circle-pink.png') }}">
 			<img id="user_pic_1" src="{{avatar}}">
+			<p id="p_user_name" style="text-align: center; margin: auto;">{{nick}}</p>
 		</div>
 
 		<iframe id="input_publish_review"></iframe>
-		<p id="p_user_name">{{nick}}</p>
+		<div class="clear"></div>
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
