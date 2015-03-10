@@ -7,6 +7,7 @@ body{
     position: relative;
     width: 100%;
     margin: auto;
+    font-family: 微软雅黑, sans-serif;
 }
 
 img{
@@ -39,7 +40,8 @@ a:visited{color:black;}
 /*******************字体*****************/
 @font-face { 
   font-family: 尚黑; /*这里是说明调用来的字体名字*/ 
-  src: url('/static/font/MFShangHei_Noncommercial-Regular.otf'); /*这里是字体文件路径*/ 
+  src: url(/static/font/MFShangHei_Noncommercial-Regular.otf); /*这里是字体文件路径*/
+  /*src: url(/static/font/MFShangHei_Noncommercial-Regular.eot);*/
 } 
 
 /*******************header*****************/
