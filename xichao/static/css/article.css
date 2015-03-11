@@ -179,14 +179,11 @@
 	overflow: hidden;
 	width: 90px;
 	height: 90px;
+	border-radius: 90px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
-#transparent-circle {
-	position: absolute;
-	z-index: 2;
-	width: 90px;
-	height: 90px;
-}
 
 #p_user_name {
 	margin-left: 12%;
@@ -227,6 +224,8 @@
 	margin-top: 2%;
 	margin-bottom: 3%;
 	font-family: 微软雅黑;
+	width: 100%;
+	word-break: break-all;
 }
 
 .user_pic_2 {
@@ -237,13 +236,10 @@
 	float: left;
 	z-index: 1;
 	overflow: hidden;
-}
-
-.transparent-circle-white {
-	width: 80px;
-	height: 80px;
-	position: absolute;
-	z-index: 2;
+	
+	border-radius: 80px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 .line {
