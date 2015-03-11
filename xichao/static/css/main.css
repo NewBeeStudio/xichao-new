@@ -8,6 +8,7 @@ body{
     width: 100%;
     margin: auto;
     font-family: 微软雅黑, sans-serif;
+    word-break: break-all;
 }
 
 img{
