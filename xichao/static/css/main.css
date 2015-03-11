@@ -105,6 +105,10 @@ ul{
     padding-right: 15px; /*右对齐，有padding*/
 }
 
+.nav-bar-login-first a{
+    float: right;
+}
+
 .nav-bar-login > a{
     text-decoration: none;
     color: #000000;

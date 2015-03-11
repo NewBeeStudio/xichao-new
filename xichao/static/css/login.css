@@ -81,6 +81,7 @@
     width: 200px;
     height: 40px;
 
+    line-height: 40px;
     margin-right: 0px;
 
     font-size: 12.5px;
@@ -115,6 +116,8 @@
     color: white;
     font-family: 微软雅黑;
     font-size: 17px;
+
+    behavior: url(/static/css/PIE.htc);
 }
 
 #login-submit a{

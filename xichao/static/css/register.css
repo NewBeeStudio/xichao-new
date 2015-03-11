@@ -19,6 +19,7 @@ td.register-label{
 input#email, input#nick, input#password, input#confirm{
     width: 300px;
     height: 40px;
+    line-height: 40px;
     /*float: right;*/
 
     font-size: 20px;
@@ -67,6 +68,8 @@ img.default_avatar{
     background-color: #D9AE48;
     color: #ffffff;
     float: left;
+
+    behavior: url(/static/css/PIE.htc);
 }
 
 .register-error{

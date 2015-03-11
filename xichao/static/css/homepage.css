@@ -366,6 +366,7 @@ h1{
 	width: 100px;
 	height: 100px;
 
+	background-size: 100px 100px;
 	border-radius: 100px;
 	position: relative;
 	behavior: url(/static/css/PIE.htc);
