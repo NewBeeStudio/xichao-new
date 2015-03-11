@@ -40,8 +40,8 @@ a:visited{color:black;}
 /*******************字体*****************/
 @font-face { 
   font-family: 尚黑; /*这里是说明调用来的字体名字*/ 
-  src: url(/static/font/MFShangHei_Noncommercial-Regular.otf); /*这里是字体文件路径*/
-  /*src: url(/static/font/MFShangHei_Noncommercial-Regular.eot);*/
+  src: url('/static/fonts/MFShangHei_Noncommercial-Regular.otf'); /*这里是字体文件路径*/
+  /*src: url('/static/fonts/MFShangHei_Noncommercial-Regular.eot');*/
 } 
 
 /*******************header*****************/
