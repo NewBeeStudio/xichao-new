@@ -137,6 +137,8 @@ input:focus{
     height: 34px;
     width: 100%;
     margin: auto;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
 
 #nav-bar > hr{
