@@ -41,16 +41,19 @@
 
 #p_num_xichao {
 	float: left;
+	cursor:pointer;
 	color: #D9AE48;
 }
 
 #p_num_xichao_content {
 	float: left;
+	cursor:pointer;
 	color: #D9AE48;
 }
 
 #p_num_xichao_bracket {
 	float: left;
+	cursor:pointer;
 	margin-right: 30px;
 	color: #D9AE48;
 }
@@ -110,12 +113,14 @@
 #p_review {
 	float: left;
 	color: #D9AE48;
+	cursor:pointer;
 	margin-right: 30px;
 }
 
 #p_collection {
 	float: left;
 	color: #D9AE48;
+	cursor:pointer;
 	margin-right: 40px;
 }
 
