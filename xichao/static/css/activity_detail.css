@@ -172,13 +172,10 @@
 	overflow: hidden;
 	width: 90px;
 	height: 90px;
-}
 
-#transparent-circle {
-	position: absolute;
-	z-index: 2;
-	width: 90px;
-	height: 90px;
+	border-radius: 90px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 #p_user_name {
@@ -230,13 +227,10 @@
 	float: left;
 	z-index: 1;
 	overflow: hidden;
-}
 
-.transparent-circle-white {
-	width: 80px;
-	height: 80px;
-	position: absolute;
-	z-index: 2;
+	border-radius: 80px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 .line {

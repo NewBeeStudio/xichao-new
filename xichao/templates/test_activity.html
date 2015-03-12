@@ -43,13 +43,13 @@
 	
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<div id="img_user">
-			<img id="transparent-circle" src="{{ url_for('static', filename='images/transparent-circle-pink.png') }}">
+		<div id="img_user" style="width: 90px;">
 			<img id="user_pic_1" src="{{avatar}}">
+			<p id="p_user_name" style="text-align: center; margin: auto;">{{ nick }}</p>
 		</div>
 
 		<iframe id="input_publish_review"></iframe>
-		<p id="p_user_name">{{ nick }}</p>
+		<div class="clear"></div>
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
@@ -78,7 +78,6 @@
 			{% for comment in comments %}
 				<div class="comment">
 					<!--{{comment[0]}}comment对象实例，不用显示，需要显示的是属性，比如content，time-->
-					<img class="transparent-circle-white" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
 					<img class="user_pic_2" src="{{comment[2]}}">
 					<div class="line"></div>
 					<p class="p_review_author">{{comment[1]}}</p>
@@ -139,7 +138,6 @@ $("#comment_publish_button").click(function(){
 			var newdiv = $('<div><p>heelo</p></div>');*/
 			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
 			$('#comment_new').prepend('<div class="comment">'+
-				'<img class="transparent-circle-white" src="{{ url_for("static", filename="images/transparent-circle.png") }}">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
 				'<p class="p_review_author">'+'{{ nick }}'+'</p>'+
