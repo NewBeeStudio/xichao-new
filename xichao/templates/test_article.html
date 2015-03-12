@@ -110,9 +110,16 @@
 		{% if comments!=None %}
 			{% for comment in comments %}
 				<div class="comment">
+    				<a href="{{url_for('view_home_page', nick = comment[1])}}">
 					<img class="user_pic_2" src="{{comment[2]}}">
+	                </a>
+	
 					<div class="line"></div>
+
+    				<a href="{{url_for('view_home_page', nick = comment[1])}}">
 					<p class="p_review_author">{{comment[1]}}</p>
+					</a>
+					
 					<div class="comment_content"><font size="3px">{{comment[0].content | safe}}</font></div>
 					<p class="p_publish_time"><font size="2px">{{comment[0].time}}</font></p>
 				</div>
@@ -257,10 +264,15 @@ function get_user_id() {
 }
 
 function add_commit(data, val_content) {
+    var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	$('#comment_new').prepend('<div class="comment">'+
+            	'<a href="' + homeurl + '">' +
 				'<img class="user_pic_2" src="{{avatar}}">'+
+			    '</a>' +
 				'<div class="line"></div>'+
+            	'<a href="' + homeurl + '">' +
 				'<p class="p_review_author">'+ '{{nick}}' +'</p>'+
+			    '</a>' +
 				'<div class="comment_content"><font size="3px">'+val_content+'</font></div>'+
 				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
 }
