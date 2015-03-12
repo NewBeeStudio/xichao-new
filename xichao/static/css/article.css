@@ -49,7 +49,7 @@
 	color: #D9AE48;
 }
 
-#bracket {
+#p_num_xichao_bracket {
 	float: left;
 	margin-right: 30px;
 	color: #D9AE48;
@@ -60,7 +60,7 @@
 	margin-right: 18px;
 }
 
-#p_article_author_2 {
+#p_article_author_2 >a{
 	float: left;
 	color: #D9AE48;
 	margin-right: 30px;
