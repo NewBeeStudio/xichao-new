@@ -727,7 +727,7 @@ def get_fans_pagination(user_id,page_id):
 
 ##目前来说，3是管理员
 def get_message_pagination(user_id,page_id):
-	query=db_session.query(models.Message,User).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id!=3))
+	query=db_session.query(models.Message,User).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role!=3))
 	return paginate(query,page_id,4,False)
 
 def get_received_comment_pagination(user_id,page_id):
@@ -735,7 +735,7 @@ def get_received_comment_pagination(user_id,page_id):
 	return paginate(query,page_id,4,False)
 ##目前来说，3是管理员
 def get_notification_pagination(user_id,page_id):
-	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id==3))
+	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,User.role==3))
 	return paginate(query,page_id,4,False)
 
 def get_special_pagination(user_id,page_id):
