@@ -348,7 +348,6 @@ def special_all():
 
 #专栏列表搜索
 @app.route('/special_search', methods=['GET'])
-@login_required
 def special_search():
     try:
         search = request.args.get('search')
@@ -363,7 +362,6 @@ def special_search():
 
 # 专栏详情页
 @app.route('/special', methods=['GET'])
-@login_required
 def special():
     #URL样式：http://127.0.0.1:5000/special?id=2&page=1&sort=time
     try:
@@ -913,7 +911,7 @@ def ajax_register_validate():
 
 
 # 收藏专栏
-@app.route('/collection_special', methods=['GET'])
+@app.route('/collection_special', methods=['POST'])
 def ajax_collection_special():
     try:
         user_id = int(session['user_id'])
@@ -931,7 +929,8 @@ def ajax_collection_special():
     return "success"
 
 # 取消收藏专栏
-@app.route('/collection_special_cancel', methods=['GET'])
+@app.route('/collection_special_cancel', methods=['POST'])
+@login_required
 def ajax_collection_special_cancel():
     try:
         user_id = int(session['user_id'])
@@ -950,7 +949,8 @@ def ajax_collection_special_cancel():
 
 
 # 收藏专栏作家
-@app.route('/collection_special_author', methods=['GET'])
+@app.route('/collection_special_author', methods=['POST'])
+@login_required
 def ajax_collection_special_author():
     try:
         user_id = int(session['user_id'])
@@ -988,7 +988,7 @@ def ajax_collection_activity():
 
 
 # 取消收藏专栏作家
-@app.route('/collection_special_author_cancel', methods=['GET'])
+@app.route('/collection_special_author_cancel', methods=['POST'])
 def ajax_collection_special_author_cancel():
     try:
         user_id = int(session['user_id'])

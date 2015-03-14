@@ -392,7 +392,10 @@ $("#collection_special").click(function () {
 
     var id = $.getUrlParam('id');
 
-    $.get('/collection_special?id=' + id, {},
+    $.post('/collection_special?id=' + id,
+        {
+            _csrf_token:"{{ csrf_token() }}"
+        },
     function(data){
            if (data == "success"){
             layer.msg("您已成功收藏该专栏",1,1,function(){location.reload();});
@@ -421,7 +424,8 @@ $("#collection_special_cancel").click(function () {
 
     var id = $.getUrlParam('id');
 
-    $.get('/collection_special_cancel?id=' + id, {},
+    $.post('/collection_special_cancel?id=' + id, {_csrf_token:"{{ csrf_token() }}"
+},
     function(data){
            if (data == "success"){
             layer.msg("您已成功取消收藏该专栏",1,1,function(){location.reload();});
@@ -451,8 +455,9 @@ $("#collection_user").click(function () {
     var id = $.getUrlParam('id');
 //    alert('http://127.0.0.1:5000/collection_special?id=' + id)
 
-    $.get('/collection_special_author?id=' + id,
+    $.post('/collection_special_author?id=' + id,
     {
+        _csrf_token:"{{ csrf_token() }}"
     }, function(data){
            if (data == "success"){
             layer.msg("您已成功关注该用户",1,1,function(){location.reload();});
@@ -484,8 +489,9 @@ $("#collection_user_cancel").click(function () {
     var id = $.getUrlParam('id');
 //    alert('http://127.0.0.1:5000/collection_special?id=' + id)
 
-    $.get('/collection_special_author_cancel?id=' + id,
+    $.post('/collection_special_author_cancel?id=' + id,
     {
+        _csrf_token:"{{ csrf_token() }}"
     }, function(data){
            if (data == "success"){
             layer.msg("您已成功取消关注该用户",1,1,function(){location.reload();});

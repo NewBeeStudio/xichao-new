@@ -504,6 +504,7 @@ def collection_special_author(user_id, special_id):
                                       #用户user_id 收藏用户 another_user_id
         db_session.add(collect_usr)
         db_session.commit()
+        update_collection_num(user_id,another_user_id,True)
     else:
         return "already"
     return "success"
@@ -518,6 +519,7 @@ def collection_special_author_cancel(user_id, special_id):
     if len(query) == 1:
         db_session.delete(query[0])
         db_session.commit()
+        update_collection_num(user_id,another_user_id,False)
     else:
         return "already"
     return "success"
