@@ -2,6 +2,7 @@
 
 <!--css file used-->
 {% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/flexslider.css" />
 <link href="{{ url_for('static', filename='css/activity.css') }}" rel='stylesheet' type='text/css'/> 
 {% endblock %}
 
@@ -11,18 +12,17 @@
 	<img src="{{url_for('uploaded_activity_title_image', filename='headline.jpg')}}">
 </div>
 
+<!-- 活动细节 -->
+<h2 class="main-color activity-current">当前活动</h2>
 <div id="activity-current">
-	<!-- 活动细节 -->
-	<h2 class="main-color">当前活动</h2>
-	<img id="activity-left-arrow" src="{{ url_for('static', filename='images/arrow-left.png') }}">
-	<img id="activity-right-arrow" src="{{ url_for('static', filename='images/arrow-right.png') }}">
-	<div id="activity-slide">
+	<div class="flexslider">
 		{% if current_activity_list %}
-		{% for (i,activity) in current_activity_list|zip %}
-		<div class="activity-current-info" data-index='{{i-1}}'>
+		<ul class="slides">
+		{% for activity in current_activity_list %}
+		<li class="activity-current-info">
 			<h3><a href="{{url_for('activity', activity_id = activity.activity_id)}}">{{activity.name}}</a></h3>
 
-			<img class="activity-info-img" src="{{activity.picture}}">
+			<a href="{{url_for('activity', activity_id = activity.activity_id)}}"><img class="activity-info-img" src="{{activity.picture}}"></a>
 	
 			<div>
 				<div style="height: 150px;"><strong>活动介绍：</strong>{{activity.abstract}}</div>
@@ -31,9 +31,10 @@
 				<div><strong>活动地点：</strong>{{activity.place}}</div>
 			</div>
 			
-			<a href="{{url_for('activity', activity_id = activity.activity_id)}}">MORE&gt;</a>
-		</div>
+			<a class="activity-current-more" href="{{url_for('activity', activity_id = activity.activity_id)}}">MORE&gt;</a>	
+		</li>
 		{% endfor %}
+		</ul>
 		{% else %}
 		{# 没有任何新活动 #}
 		<div class="activity-current-info" data-index='0'>
@@ -60,13 +61,12 @@
 		{%for passed_activity in passed_activity_list%}
 		<div class="passed-activity">
 		<a href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">
-			<div class="passed-activity-image" style="background-image: url('{{passed_activity.picture}}');"><img src="{{ url_for('static', filename='images/transparent-circle.png') }}"></div>
+			<div class="passed-activity-image"><img src="{{passed_activity.picture}}"></div>
         </a>
 			<div class="passed-activity-name"><a href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">{{passed_activity.name}}</a></div>
 			<div class="passed-activity-time">{{passed_activity.activity_time|time_split_4}}</div>
 		</div>
 		{%endfor%}
-		<div>
 	</div>
 </div>
 {% endblock %}
@@ -74,67 +74,17 @@
 
 <!--js file used-->
 {% block js %}
-<script type="text/javascript">
-$(document).ready(function()
-{
-	var high = 0;
-	var index = 0;
-
-	// 各个活动位置初始化
-	$('.activity-current-info').each(function()
-	{
-		var offset = parseInt($(this).attr('data-index')) * 955;
-		var offsetStr = '+=' + offset + 'px'; //相对偏移
-		$(this).css({left: offsetStr});
-		high += 1;
-	});
-
-	$('#activity-left-arrow').addClass('display-none');
-	if(high == 1) //只有一条活动
-		$('#activity-right-arrow').addClass('display-none');
-
-	// 向左向右移动
-	$('#activity-right-arrow').click(function()
-	{
-		if(index < high-1)
-		{
-			$('.activity-current-info').each(function()
-			{
-				$(this).animate({left: '-=955px'}, 450);
-			});
-			index += 1;
-			$('#activity-left-arrow').removeClass('display-none');
-			if(index == high-1)
-				$(this).addClass('display-none');
-		}
-	});
-
-	$('#activity-left-arrow').click(function()
-	{
-		if(index > 0)
-		{
-			$('.activity-current-info').each(function()
-			{
-				$(this).animate({left: '+=955px'}, 450);
-			});
-			index -= 1;
-			$('#activity-right-arrow').removeClass('display-none');
-			if(index == 0)
-				$(this).addClass('display-none');
-		}
-	});
-
-	var myClick = function(){
-		if(index < high-1)
-			$('#activity-right-arrow').trigger("click");
-		else
-			for (var i = 0; i < high; i++) {
-				$('#activity-left-arrow').trigger("click");
-			};
-	}
-
-	if(high > 0)
-		setInterval(myClick,5000);
-});
-</script>
+	<script type="text/javascript" src="/static/js/jquery.flexslider-min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+    		$(".flexslider").flexslider({
+    			animation: "fade",
+    			minItems: 1,
+    			slideshowSpeed: 7000,
+    			prevText: "",
+    			nextText: "",
+    			
+    		});
+		});	
+	</script>
 {% endblock %}

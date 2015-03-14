@@ -11,9 +11,9 @@
 </div>
 <!--登陆入口-->
 <div id="login-content">
-    <img src="{{ url_for('static', filename='images/login-lantern.jpg') }}" id="login-lantern"/>
+    <img src="{{ url_for('static', filename='images/login-lantern.jpg') }}" id="login-lantern">
 
-    <img src="{{ url_for('static', filename='images/login-white-circle.png') }}" id="login-outside-circle"/>
+    <div id="login-outside-circle"></div>
 
     <div id="login-inside-circle">
     	{% block login_content %}

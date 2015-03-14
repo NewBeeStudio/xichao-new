@@ -7,6 +7,8 @@ body{
     position: relative;
     width: 100%;
     margin: auto;
+    font-family: 微软雅黑, sans-serif;
+    word-break: break-all;
 }
 
 img{
@@ -39,7 +41,8 @@ a:visited{color:black;}
 /*******************字体*****************/
 @font-face { 
   font-family: 尚黑; /*这里是说明调用来的字体名字*/ 
-  src: url('/static/font/MFShangHei_Noncommercial-Regular.otf'); /*这里是字体文件路径*/ 
+  src: url('/static/fonts/MFShangHei_Noncommercial-Regular.otf'); /*这里是字体文件路径*/
+  /*src: url('/static/fonts/MFShangHei_Noncommercial-Regular.eot');*/
 } 
 
 /*******************header*****************/
@@ -103,6 +106,10 @@ ul{
     padding-right: 15px; /*右对齐，有padding*/
 }
 
+.nav-bar-login-first a{
+    float: right;
+}
+
 .nav-bar-login > a{
     text-decoration: none;
     color: #000000;
@@ -135,6 +142,8 @@ input:focus{
     height: 34px;
     width: 100%;
     margin: auto;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
 
 #nav-bar > hr{

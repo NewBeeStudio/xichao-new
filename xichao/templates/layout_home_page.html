@@ -62,7 +62,7 @@
 		<!-- 标题图片 -->
 		<div class="square-part2-right">
 			<h2 style="line-height: 40px">文章列表</h2>
-			<img id="square-part2-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
+			<img id="square-part2-img" src="{{ url_for('static', filename='images/square-2.jpg') }}"/>
 			<div></div>
 		</div>
 	
@@ -75,7 +75,7 @@
 		<div style="margin-top: 30px"></div>
 		<div class="home-star-row">
 		{% for author in collection_author_list%}
-			<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('{{author.photo}}')"/><div class="home-star-name"><a href="{{url_for('view_home_page', nick=author.nick)}}">{{author.nick}}</a></div></div>
+			<div><img src="{{author.photo}}"><div class="home-star-name"><a href="{{url_for('view_home_page', nick=author.nick)}}">{{author.nick}}</a></div></div>
 		{% endfor %}
 		</div>
 
@@ -726,7 +726,7 @@
 		{
 			items=data.rows;
 			for(var i = 0; i < items.length; ++i){
-				text="<div><img src='/static/images/transparent-circle.png' style='background-image: url(\"" + items[i].photo + "\")'/><div class='home-star-name'><a href='/user/" + items[i].nick + "'>" + items[i].nick + "</a></div></div>";
+				text="<div><img src='" + items[i].photo + "'><div class='home-star-name'><a href='/user/" + items[i].nick + "'>" + items[i].nick + "</a></div></div>";
 					
 				$("#five1 .home-photo-row").append(text);
 			}
