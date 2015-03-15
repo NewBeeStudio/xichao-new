@@ -285,8 +285,14 @@
 					else{
 						$('#show-sex').text('男');
 					}
-					$('#show-birthday').text(val_birthday_year+'-'+val_birthday_month+'-'+val_birthday_day);
-					$('#show-phonenumber').text(val_phone);
+					if (result=='success_no_birthday' || result=='success_no_birthday_phone') {$('#show-birthday').text('暂未填写');}
+					else{
+						$('#show-birthday').text(val_birthday_year+'-'+val_birthday_month+'-'+val_birthday_day);
+					}
+					if (result=='success_no_phone' || result=='success_no_birthday_phone') {$('#show-phonenumber').text('暂未填写');}
+					else{
+						$('#show-phonenumber').text(val_phone);
+					}
 					layer.msg("修改成功",1,1);
 					
 				}

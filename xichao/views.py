@@ -871,8 +871,8 @@ def activity_finish():
 	else:
 		abstract=abstract_plain_text[0:100]+'......'	
 	formatted_time=datetime.strptime(activity_time,"%m/%d/%Y %H:%M")
-	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time,abstract=abstract,place=place)
-	return u'活动保存成功'
+	activity_id=create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time,abstract=abstract,place=place)
+	return str(activity_id)
 
 
 '''
@@ -1070,7 +1070,6 @@ def article_group_favor(group_id,category_id,page_id=1):
 def activity_main():
 	current_activity_list=get_current_activity_list(datetime.now())
 	passed_activity_list=get_passed_activity_list(datetime.now())
-
 	return render_template('activity.html',current_activity_list=current_activity_list,passed_activity_list=passed_activity_list)
 
 ##读取活动
@@ -1264,16 +1263,22 @@ def ajax_home_page_special(page_id):
 @login_required
 def ajax_home_page_modify_basic_information():
 	user_id=current_user.user_id
-	nick=request.form['nick']
 	gender=request.form['gender']
-	try:
-		birthday_year=int(request.form['birthday_year'])
-		birthday_month=int(request.form['birthday_month'])
-		birthday_day=int(request.form['birthday_day'])
-	except:
-		return 'birthday_error'
+	##生日信息的检测
+	if request.form['birthday_year']!='' or request.form['birthday_month']!='' or request.form['birthday_day']!='':
+		try:
+			birthday_year=int(request.form['birthday_year'])
+			birthday_month=int(request.form['birthday_month'])
+			birthday_day=int(request.form['birthday_day'])
+			birthday=date(birthday_year,birthday_month,birthday_day)
+			if birthday>=date.today():
+				return 'birthday_time_error'
+		except:
+			return 'birthday_error'
+	else:
+		birthday=None
+	##手机号格式的检测
 	phone=request.form['phone']
-
 	if phone!='':
 		try:
 			int(phone)
@@ -1281,21 +1286,14 @@ def ajax_home_page_modify_basic_information():
 			return 'phone_error'
 	else:
 		phone=None
-	##avatar=request.form['avatar']
+	##昵称信息检测
+	nick=request.form['nick']
 	if len(nick)<2 or len(nick)>10:
 		return 'nick_length_error'
-	elif current_user.nick!=nick and nick_exist(nick):
+	if current_user.nick!=nick and nick_exist(nick):
 		return 'nick_error'
-	else:
-		try:
-			birthday=date(birthday_year,birthday_month,birthday_day)
-		except:
-			return 'birthday_error'
-		if birthday>=date.today():
-			return 'birthday_time_error'
-		else:
-			result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
-			return result
+	result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
+	return result
 ##测试成功
 ##修改头像
 @app.route('/homepage/modify/avatar',methods=['POST'])

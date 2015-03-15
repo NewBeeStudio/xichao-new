@@ -185,10 +185,13 @@ def create_activity(title,content,title_image,activity_session_id,activity_time,
 		activity.abstract=abstract
 		activity.place=place
 		db_session.commit()
+		return activity.activity_id
 	else:
 		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=activity_time,abstract=abstract,place=place)
 		db_session.add(activity)
 		db_session.commit()
+		result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).first()
+		return result.activity_id
 
 def get_user_id(nick):
 	user_id=db_session.query(User.user_id).filter_by(nick=nick).first()
@@ -761,10 +764,16 @@ def updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
 	user.gender=gender
 	user.birthday=birthday
 	user.phone=phone
-	##user.avatar=avatar
 	db_session.commit()
 	##删除原先的头像
-	return 'success'
+	if birthday==None and phone!=None:
+		return 'success_no_birthday'
+	elif birthday!=None and phone==None:
+		return 'success_no_phone'
+	elif birthday==None and phone==None:
+		return 'success_no_birthday_phone'
+	else:
+		return 'success'
 
 def update_user_avatar(user_id,avatar):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
