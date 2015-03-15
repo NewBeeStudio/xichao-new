@@ -1,3 +1,9 @@
+h2{
+	font: 20.8px 黑体;
+	font-size: 20.8px;
+	letter-spacing: 2px;
+}
+
 #index-up{
 	position: relative;
 	margin-top: 10px;
@@ -98,19 +104,16 @@ div.index-special-abstract{
 	color: #000;
 }
 
-#index-bottom{
+#index-middle{
 	margin-top: 100px;
 	width: 100%;
 	/*height: 300px;*/
 	font-family: 黑体;
-
-	border-top: 2px solid gray;
 }
 
-#index-bottom h2{
-	margin-top: -35px;
-	font-size: 20.8px;
-	letter-spacing: 2px;
+#index-middle h2, #index-bottom h2{
+	padding-bottom: 10px;
+	border-bottom: 2px solid gray;
 }
 
 .index-hot{
@@ -128,13 +131,13 @@ div.index-special-abstract{
 	height: 205px;
 }
 
-.index-hot-title{
+.index-hot-title, .index-bottom-title{
 	margin-top: 10px;
 	text-align: center;
 	font-size: 16.7px;
 }
 
-.index-hot-author{
+.index-hot-author, .index-bottom-author{
 	margin-top: 10px;
 	font-family: 宋体;
 	font-size: 11px;
@@ -144,11 +147,55 @@ div.index-special-abstract{
 	float: right;
 }
 
-.index-hot-abstract{
+.index-hot-abstract, .index-bottom-abstract{
 	margin-top: 10px;
 	height: 40px;
 
 	/*text-align: center;*/
 	font-family: 微软雅黑;
-	font-size: 12.5px;
+	font-size: 14px;
+}
+
+.index-view-more{
+	float: right;
+	font: 16.7px 微软雅黑;
+}
+
+#index-bottom{
+	clear: both;
+	padding-top: 20px;
+	font-family: 黑体;
+}
+
+#index-bottom > div{
+	width: 48%;
+	float: left;
+}
+
+.index-bottom-detail{
+	margin-top: 20px;
+	width: 100%;
+	height: 240px;
+}
+
+.index-bottom-img{
+	width: 240px;
+	height: 240px;
+	float: left;
+}
+
+.index-bottom-img img{
+	width: 100%;
+	height: 100%;
+}
+
+.index-bottom-article{
+	margin-left: 20px;
+	width: 240px;
+	height: 240px;
+	float: left;
+}
+
+.index-bottom-title{
+	margin-top: 0px
 }
