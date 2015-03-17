@@ -104,12 +104,14 @@
 	float: left;
 	color: #D9AE48;
 	margin-right: 30px;
+	cursor:pointer;
 }
 
 #p_collection {
 	float: left;
 	color: #D9AE48;
 	margin-right: 40px;
+	cursor:pointer;
 }
 
 .img_share {
@@ -151,7 +153,7 @@
 	background-color: #f5ebd1;
 	padding-top: 3%;
 	padding-bottom: 1%;
-
+    
 }
 
 #p_publish_review {

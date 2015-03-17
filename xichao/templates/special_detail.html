@@ -115,14 +115,14 @@
 
 			<p>已发表 {{articles_pagination.total}} 篇文章</p>
 
-			<p style="margin-left:170px">{{special_favor}}人收藏</p>
+			<p style="margin-left:170px">{{special_favor}}人关注</p>
 
 			<!-- 分享和订阅怎么实现 -->
 			{% if not author_itself %}
                 {% if has_collected_special %}
-        			<input id="collection_special_cancel" style="float:right" class="input-button" type="submit" value="取消收藏">
+        			<input id="collection_special_cancel" style="float:right" class="input-button" type="submit" value="取消关注">
                 {% else %}
-        			<input id="collection_special" style="float:right" class="input-button" type="submit" value="收藏">
+        			<input id="collection_special" style="float:right" class="input-button" type="submit" value="关注">
                 {% endif %}
             {% else %}
             <input id="write_special_article" style="float:right" class="input-button" type="submit" value="写文章">
@@ -350,7 +350,7 @@
 		var rrShareParam = {
 			resourceUrl : link,	//分享的资源Url
 			srcUrl : '',	//分享的资源来源Url,默认为header中的Referer,如果分享失败可以调整此值为resourceUrl试试
-			pic : '',		//分享的主题图片Url
+			pic : 'http://xichao-o.com{{ special_image }}',		//分享的主题图片Url
 			title : '曦潮书香生态系统 | 专栏 | '+'{{ special_title }}',		//分享的标题
 			description : ''	//分享的详细描述
 		};
