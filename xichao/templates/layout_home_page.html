@@ -21,7 +21,7 @@
 				<label>排序方式：</label>
 				<select name="sorting">
 					<option id="sorting-by-time" value="time" selected="selected">时 间</option>
-					<option id="sorting-by-heat" value="heat">热 度</option>
+					<option id="sorting-by-heat" value="heat">曦潮币</option>
 				</select>
 			</div>
 
@@ -706,7 +706,10 @@
 	
 	function four2_a_click(id,page_id,length)
 	{
-		$.get('/collection_special_cancel?id='+id,
+		$.post('/collection_special_cancel?id='+id,
+			{
+				_csrf_token:"{{ csrf_token() }}"
+			},
 			function(data){
 				if (data=='already') {alert('fail');}
 				else{

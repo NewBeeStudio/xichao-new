@@ -388,6 +388,15 @@ def get_special_author_other(user_id):
     query = db_session.query(Special.name,Special.special_id).filter_by(user_id = user_id).all()
     return query
 
+
+def update_article_num_for_special(special_id,is_add):
+	special=db_session.query(Special).filter_by(special_id=special_id).scalar()
+	if is_add:
+		special.article_num+=1
+	else:
+		special.article_num-=1
+	db_session.commit()
+
 ###################################  昵称函数  ####################################
 def getNick():
 	nick=None
@@ -685,7 +694,7 @@ def get_current_activity_list(time):
 	return result
 
 def get_passed_activity_list(time):
-	result=db_session.query(Activity).filter(Activity.activity_time<time).limit(4).all()
+	result=db_session.query(Activity).filter(Activity.activity_time<time).order_by(desc(Activity.activity_time)).limit(4).all()
 	return result
 
 def get_follow_num(user_id):

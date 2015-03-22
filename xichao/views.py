@@ -322,7 +322,10 @@ def article(article_id):
 			#comment初始显示5-6条，下拉显示全部
 			session['article_session_id']=article[0].article_session_id
 			comments=get_article_comments(article_id)
-			update_read_num(article_id)
+			if article[0].user_id==current_user.user_id:
+				pass
+			else:
+				update_read_num(article_id)
 			return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
 	else:
 		abort(404)
@@ -602,12 +605,13 @@ def special_article_finish():
                                   book_ISBN = book_ISBN,
                                   book_binding = book_binding)
     article_id=create_article(title = title, content = content,
-	                          title_image = title_image, user_id = user_id, 
-	                          article_session_id = session['special_article_session_id'],
-	                          is_draft ='0', special_id = int(session['special_id']),
-	                          group_id = '3', category_id = '0',
-	                          abstract = abstract,
-	                          book_id = book_id)
+                              title_image = title_image, user_id = user_id, 
+                              article_session_id = session['special_article_session_id'],
+                              is_draft ='0', special_id = int(session['special_id']),
+                              group_id = '3', category_id = '0',
+                              abstract = abstract,
+                              book_id = book_id)
+    update_article_num_for_special(int(session['special_id']),True)
     session.pop('special_id', None)
     session.pop('special_article_session_id', None)
     return str(article_id)
