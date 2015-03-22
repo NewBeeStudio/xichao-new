@@ -574,6 +574,14 @@ def get_hot_ground_acticle():
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
 	return result
 
+def get_most_hot_ground_article():
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).first()
+	return result
+
+def get_most_hot_activity(time):
+	result=db_session.query(Activity).filter(Activity.activity_time>time).order_by(desc(Activity.favor)).first()
+	return result
+
 def get_article_group_by_coin(groups,category):
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
 	return result

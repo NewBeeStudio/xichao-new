@@ -108,12 +108,16 @@ def default():
 @app.route('/index')
 def index():
     homepage_special_list, slideUrl = get_homepage_specials()
+    most_hot_ground_article=get_most_hot_ground_article()
+    most_hot_activity=get_most_hot_activity(datetime.now())
     hot_articles = get_hot_articles(10)
     return render_template('template.html', special_list = homepage_special_list,
                                             hot_articles = hot_articles,
                                             articles = get_special_article,
                                             slideUrl = slideUrl,
-                                            get_author = get_nick_by_userid)
+                                            get_author = get_nick_by_userid,
+                                            most_hot_ground_article=most_hot_ground_article,
+                                            most_hot_activity=most_hot_activity)
 ## 修改首页
 @app.route('/modify_homepage')
 @login_required
