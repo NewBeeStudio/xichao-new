@@ -708,9 +708,9 @@ def get_be_followed_num(user_id):
 
 def get_article_pagination_by_user_id(user_id,by_time,page_id):
 	if by_time:
-		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).order_by(desc(Article.time))
+		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.special_id==None)).order_by(desc(Article.time))
 	else:
-		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).order_by(desc(Article.coins))
+		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.special_id==None)).order_by(desc(Article.coins))
 	return paginate(query,page_id,10,False)
 
 def get_collection_author_list(user_id):
