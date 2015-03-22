@@ -202,9 +202,14 @@
 	height: 100px;
 }
 
+
+#comment_pay_button{
+    margin-left: 20%;
+}
+
 #comment_reset_button{
 	/*margin-top: 3%;*/
-	margin-left: 40%;
+	margin-left: 10%;
 }
 
 #comment_publish_button{

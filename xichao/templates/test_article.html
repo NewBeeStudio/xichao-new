@@ -98,6 +98,8 @@
 
 		<iframe id="input_publish_review"></iframe>
 		<div class="clear"></div>
+		<input type="checkbox" name="pay_author" id="comment_pay_button" />
+		同时打赏作者
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
@@ -140,7 +142,7 @@
 		var rrShareParam = {
 			resourceUrl : link,	//分享的资源Url
 			srcUrl : '',	//分享的资源来源Url,默认为header中的Referer,如果分享失败可以调整此值为resourceUrl试试
-			pic : '',		//分享的主题图片Url
+			pic : 'http://xichao-o.com{{ article.picture }}',		//分享的主题图片Url
 			title : '曦潮书香生态系统 | 文章 | '+'{{ article.title }}',		//分享的标题
 			description : ''	//分享的详细描述
 		};
@@ -174,18 +176,32 @@ $("#comment_publish_button").click(function(){
 		{alert("评论不能为空");}
 	else {
 	$('#input_publish_review').contents().find('body').empty();
-	$.post('/article/comment',
-		{
-			_csrf_token:"{{ csrf_token() }}",
-			content:val_content,
-			article_id:{{article.article_id}},
-			to_user_id:{{article.user_id}}
-		},
-		function(data){
-			$("#comment_publish_time").text(data);
-			layer.msg("评论成功",1,1);
-			add_commit(data, val_content);
-		});
+	
+	if ($('#comment_pay_button').attr('checked') == 'checked'){
+	    $.layer({
+					type: 2,
+					title: ['打赏曦潮币'],
+					shade: [0.65, '#000'],
+					shadeClose: true,
+					closeBtn: [0,true],
+					border: [2, 1, '#D9AE48'],
+					area: ['760px', '300px'],
+					iframe: {src: "{{ url_for('pay_author', article_id=article.article_id) }}?comment=" + val_content},
+			    });
+	} else{	
+    	$.post('/article/comment',
+    		{
+    			_csrf_token:"{{ csrf_token() }}",
+    			content:val_content,
+    			article_id:{{article.article_id}},
+    			to_user_id:{{article.user_id}}
+    		},
+    		function(data){
+    			$("#comment_publish_time").text(data);
+    			layer.msg("评论成功",1,1);
+    			add_commit(data, val_content);
+    		});
+    	}
 	}
 });
 

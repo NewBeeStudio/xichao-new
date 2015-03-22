@@ -88,7 +88,7 @@ img#special-part1-img{
     border-bottom: 1.5px solid #000000;
 }
 
-#special-part1-content > h2{
+#special-part1-content > a{
     margin-top: 100px; 
     text-align: center;
     font-size: 35px; 
