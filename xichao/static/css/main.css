@@ -254,7 +254,7 @@ input:focus{
     position: absolute;
     margin: auto;
     width: 1160px;
-    height: 1000px;
+    height: 100%;
     z-index:  -100;
 }
 
