@@ -4,6 +4,8 @@
         <meta charset="UTF-8" />
         <title>曦潮书店 | 青春校园，人文曦潮</title>
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/xichao-logo.png') }}" />
+
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
         <link href="{{ url_for('static', filename='css/main.css') }}" rel='stylesheet' type='text/css'/>
         {% block css %}
                 
@@ -65,6 +67,50 @@
         </div>
         </div>
 
+
+        <div id="navbar-background">
+            <div class="navbar navbar-default">
+                <div style="float: right;">
+                    <ul class="nav navbar-nav" style="width: 100%;">
+                        <li><a href="#">用户名</a></li>
+                        <li><a href="#">曦潮币(2000)</a></li>
+                        <li><a href="#">草稿箱(2000)</a></li>
+                        <li><a href="#">消息中心</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的发布 
+                            <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="#">发布的文章</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">发布的评论</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的收藏
+                            <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="#">收藏的文章</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">收藏的评论</a></li>
+                            </ul>
+                        </li>
+                         <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的关注
+                            <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="#">关注的文章</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">关注的评论</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
         <!--header-->
         <div id="header" style="margin-bottom: 20px;">
 
@@ -131,6 +177,7 @@
 
         </div>
     <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block js %}
     {% endblock %}

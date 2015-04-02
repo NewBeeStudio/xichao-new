@@ -242,6 +242,47 @@ input:focus{
     border-color: #DF4D3F transparent transparent;
 }
 
+/*导航栏相关css*/
+#navbar-background {
+    width: 100%;
+    height: 40px;
+    background-color: #000;
+    position: fixed;
+}
+
+#navbar-background > div{
+    margin: 0 auto 0 auto;
+    width: 1160px;
+}
+
+#navbar-background a{
+    font: 14px 黑体;
+}
+
+#navbar-background .nav > li > a:link, 
+#navbar-background .nav > li > a:hover, 
+#navbar-background .nav > li > a:active, 
+#navbar-background .nav > li > a:visited{
+    color: #fff;
+}
+
+
+#navbar-background .nav > li > a:hover{
+    background-color: #D9AE48;
+}
+
+/*下拉框修改*/
+ #navbar-background .menu-min-width{
+    min-width: 100%;
+ }
+
+#navbar-background li.divider{
+    margin: 2px;
+}
+
+#navbar-background .navbar .nav li.dropdown.open > .dropdown-toggle{
+    background-color: #D9AE48;
+}
 
 /*这部分描述参考线，上线后可删*/
 .reference-block {
