@@ -27,12 +27,12 @@
         }
 
         /*根据分辨率自适应改变背景图大小*/
-        @media screen and (min-width: 1086px) {
+        @media screen and (min-width: 1161px) {
             #top-background > img {width: 100%;}
         }
 
-        @media screen and (max-width: 1085px) {
-            #top-background > img {width: 1085px;}
+        @media screen and (max-width: 1160px) {
+            #top-background > img {width: 1160px;}
         } 
         </style>
     </head>
@@ -42,11 +42,20 @@
 <!--
 {{ url_for('static', filename='images/top_background.jpg') }}
 -->
-
         <div id="top-background">
             <img src="{{ url_for('static', filename='images/top_background.jpg') }}">
         </div>
         
+        <div class="reference-block">
+        <div class="reference-line">
+            {% for i in range(5) %}
+            <div class="width-160"></div>
+            <div class="width-40"></div>
+            {% endfor %}
+            <div class="width-160-last"></div>
+        </div>
+        </div>
+
         <!--header-->
         <div id="header" style="margin-bottom: 20px;">
 

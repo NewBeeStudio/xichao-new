@@ -69,7 +69,7 @@ ul{
 }
 
 #header{
-    width: 1085px;
+    width: 1160px;
     margin: auto;
 }
 
@@ -181,7 +181,7 @@ input:focus{
 /*******************body*****************/
 /*content对齐*/
 #content{
-    width: 1085px;
+    width: 1160px;
     margin: auto;
 }
 
@@ -243,3 +243,39 @@ input:focus{
 }
 
 
+/*这部分描述参考线，上线后可删*/
+.reference-block {
+    position: relative; 
+    width: 1160px; 
+    margin: auto;
+}
+
+.reference-line {
+    position: absolute;
+    margin: auto;
+    width: 1160px;
+    height: 1000px;
+    z-index:  -100;
+}
+
+.width-160 {
+    width: 159px;
+    height: 100%;
+    border-left: 1px solid red; 
+    float: left;
+}
+
+.width-40 {
+    width: 39px;
+    height:  100%;
+    border-left: 1px solid red; 
+    float: left;
+}
+
+.width-160-last {
+    width: 158px;
+    height: 100%;
+    border-left: 1px solid red; 
+    border-right: 1px solid red; 
+    float: left;
+}
