@@ -286,7 +286,10 @@ input:focus{
     margin: 2px;
 }
 
-
+.register-login{
+    width: 60px;
+    text-align: center;
+}
 
 /*导航栏相关css*/
 #navbar-main{
@@ -298,7 +301,7 @@ input:focus{
 }
 
 #navbar-main > .nav > li > a{
-    width: 100px;
+    width: 88px;
     color: #000;
     text-align: center;
     text-shadow: none;
