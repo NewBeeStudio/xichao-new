@@ -15,9 +15,11 @@
         #top-background{
             position: absolute;
             top: 0px;
-            z-index: -100;
+            z-index: -100; 
+            width: 100%;
         }
         #top-background > img{
+            width: 100%;
             position: absolute;
             /*
             clip:rect(0px 10000px 1000px 0px); 
@@ -50,9 +52,6 @@
 
     <body>
 
-<!--
-{{ url_for('static', filename='images/top_background.jpg') }}
--->
         <div id="top-background">
             <img src="{{ url_for('static', filename='images/top_background.jpg') }}">
         </div>
@@ -68,10 +67,10 @@
         </div>
 
 
-        <div id="navbar-background">
+        <div id="navbar-info">
             <div class="navbar navbar-default">
-                <div style="float: right;">
-                    <ul class="nav navbar-nav" style="width: 100%;">
+                <div class="floatright">
+                    <ul class="nav navbar-nav">
                         <li><a href="#">用户名</a></li>
                         <li><a href="#">曦潮币(2000)</a></li>
                         <li><a href="#">草稿箱(2000)</a></li>
@@ -119,11 +118,11 @@
 
                 <!--曦潮logo-->
                 <div id="nav-bar-logo">
-                    <img src="{{ url_for('static', filename='images/logo.png') }}"/>
+                    <img src="{{ url_for('static', filename='images/logo.png') }}">
                 </div>
 
                 <!--注册登陆&搜索-->
-                <div style="float:right">
+ <!--                <div style="float:right">
                     <ul id="nav-bar-button">
                         <li class="nav-bar-login nav-bar-login-first">
                             {% if current_user.is_authenticated() %}
@@ -145,23 +144,61 @@
                         </li>
                     </ul>
 
-                    <div class="clear"></div>
+                    <div class="clear"></div> -->
+                    <div class="floatright">
+                        <div id="nav-bar-search">
+                            <form action="#" method="post">
+                                <input type="text" name="search">
+                            </form>
+                        </div>
+                    
 
-                    <form id="nav-bar-search" action="#" method="post">
-                        <input type="text" name="search">
-                    </form>
+                        <div id="navbar-main" class="navbar navbar-default">
+                            <ul class="nav navbar-nav" style="width: 100%;">
+                                <li><a href="{{url_for('index')}}">首页</a></li>
+                                <li><a href="{{url_for('special_all')}}?sort=time&page=1">专栏</a></li>
+                                <li><a href="{{url_for('activity_main')}}">活动</a></li>
+                                <li class="dropdown">
+                                    <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown">观点 
+                                    <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu menu-min-width">
+                                        <li><a href="{{url_for('opinion')}}">书评</a></li>
+                                        <!-- <li class="divider"></li> -->
+                                        <li><a href="{{url_for('opinion')}}">影评</a></li>
+                                        <li><a href="{{url_for('opinion')}}">杂文</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">广场 
+                                    <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu menu-min-width">
+                                        <li><a href="{{url_for('square')}}">书评</a></li>
+                                        <!-- <li class="divider"></li> -->
+                                        <li><a href="{{url_for('square')}}">影评</a></li>
+                                        <li><a href="{{url_for('square')}}">杂文</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div id="parting-line">
+                    <img src="{{ url_for('static', filename='images/border.png') }}">
                 </div>
             </div>
 
             <!--导航栏-->
-            <ul id="nav-bar">
+            <!-- <ul id="nav-bar">
                 <li class="nav-bar-item"> <a href="{{url_for('index')}}">首页</a> </li>
                 <li class="nav-bar-item"> <a href="{{url_for('special_all')}}?sort=time&page=1">专栏</a> </li>
                 <li class="nav-bar-item"> <a href="{{url_for('activity_main')}}">活动</a> </li>
                 <li class="nav-bar-item"> <a href="{{url_for('opinion')}}">观点</a> </li>
                 <li class="nav-bar-item"> <a href="{{url_for('square')}}">广场</a> </li>
-            </ul>
-        </div>
+            </ul> -->
 
         <!--body主题-->
         <div id="content">
