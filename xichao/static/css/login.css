@@ -82,7 +82,8 @@
     height: 40px;
 
     line-height: 40px;
-    margin-right: 0px;
+    margin: 0;
+    padding: 0;
 
     font-size: 12.5px;
     font-family: 微软雅黑;
@@ -100,7 +101,14 @@
 }
 
 #login-autologin > a{
+    margin: 0;
+    font-size: 12px;
     float: right;
+}
+
+#login-autologin > input{
+    margin: 0;
+    line-height: normal;
 }
 
 #login-submit{

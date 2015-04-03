@@ -19,6 +19,11 @@ input{
     border: solid 1.5px #aaaaaa;
 }
 
+label{
+    display: inline; /*bootstrap reset*/
+    margin: 0;
+}
+
 a{
 	text-decoration: none;
     display: block;
