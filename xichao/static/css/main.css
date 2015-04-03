@@ -24,10 +24,13 @@ a{
     display: block;
 }
 
-a:link{color:black;}
-a:hover{color:black;}
-a:active{color:black;}
-a:visited{color:black;}
+a:link,
+a:hover,
+a:active,
+a:visited{
+    color:black;
+    text-decoration: none; /*去下划线*/
+}
 
 .clear{
     clear: both;
@@ -49,23 +52,6 @@ a:visited{color:black;}
 ul{
     list-style:none; /*去黑点*/
     padding-left: 0;
-}
-
-#top-background{
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    z-index: -100;
-}
-
-#top-background > img{
-    width: 100%;
-    position: absolute;
-    /*
-    clip:rect(0px 10000px 1000px 0px); 
-    */
-    opacity:0.75;
-    filter:alpha(opacity=75);
 }
 
 #header{
@@ -244,10 +230,9 @@ input:focus{
 
 /*导航栏相关css*/
 #navbar-background {
-    width: 100%;
     height: 40px;
-    background-color: #000;
-    position: fixed;
+    background-color: #444;
+    z-index: 1000;
 }
 
 #navbar-background > div{
@@ -257,6 +242,7 @@ input:focus{
 
 #navbar-background a{
     font: 14px 黑体;
+    text-shadow: none;
 }
 
 #navbar-background .nav > li > a:link, 

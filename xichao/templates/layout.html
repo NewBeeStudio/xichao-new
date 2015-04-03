@@ -13,13 +13,11 @@
         
         <style>
         #top-background{
-            width: 100%;
             position: absolute;
             top: 0px;
             z-index: -100;
         }
         #top-background > img{
-            /*width: 100%;*/
             position: absolute;
             /*
             clip:rect(0px 10000px 1000px 0px); 
@@ -30,11 +28,13 @@
 
         /*根据分辨率自适应改变背景图大小*/
         @media screen and (min-width: 1161px) {
-            #top-background > img {width: 100%;}
+            #top-background, #top-background > img {width: 100%;}
+            #navbar-background {position: fixed; width: 100%;}
         }
 
         @media screen and (max-width: 1160px) {
-            #top-background > img {width: 1160px;}
+            #top-background, #top-background > img {width: 1160px;}
+            #navbar-background {position: absolute; width: 1160px;}
         } 
 
 
