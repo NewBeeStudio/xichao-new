@@ -83,7 +83,7 @@
                         <li><a href="#">草稿箱(2000)</a></li>
                         <li><a href="#">消息中心</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的发布 
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的发布 
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
@@ -93,7 +93,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的收藏
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的收藏
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
@@ -103,7 +103,7 @@
                             </ul>
                         </li>
                          <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的关注
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的关注
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
@@ -170,7 +170,7 @@
                                 <li><a href="{{url_for('special_all')}}?sort=time&page=1">专栏</a></li>
                                 <li><a href="{{url_for('activity_main')}}">活动</a></li>
                                 <li class="dropdown">
-                                    <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown">观点 
+                                    <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">观点 
                                     <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu menu-min-width">
@@ -181,7 +181,7 @@
                                     </ul>
                                 </li>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">广场 
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">广场 
                                     <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu menu-min-width">
@@ -226,6 +226,7 @@
         </div>
     <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block js %}
     {% endblock %}

@@ -278,7 +278,7 @@ input:focus{
 }
 
 /*下拉框修改*/
-#navbar-info .menu-min-width{
+#navbar-info .dropdown-menu{
     min-width: 100%;
  }
 
@@ -297,7 +297,7 @@ input:focus{
     float: right;
 
     margin-top: 40px;
-    font: bold 22px 楷体;
+    font: 22px 楷体;
 }
 
 #navbar-main > .nav > li > a{
@@ -314,9 +314,10 @@ input:focus{
 #navbar-main .nav > li > a:hover,
 #navbar-main .open > .dropdown-toggle{
     background-color: #D9AE48;
+    font-size: 24px;
 }
 
-#navbar-main .dropdown-menu a{
+#navbar-main .dropdown-menu{
     text-align: center;
     min-width: 100%;
     padding: 3px 0;
@@ -324,9 +325,12 @@ input:focus{
 
 /*导航栏下分割线*/
 #parting-line{
-    margin-top: 15px;
+    margin: -10px;
 }
 
+#parting-line > img{
+    width: 100%;
+}
 
 /*这部分描述参考线，上线后可删*/
 .reference-block {
