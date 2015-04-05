@@ -325,7 +325,7 @@ input:focus{
 
 /*导航栏下分割线*/
 #parting-line{
-    margin: -10px;
+    margin-top: -10px;
 }
 
 #parting-line > img{
