@@ -7,15 +7,23 @@
 
 <!--content-->
 {% block content %}
+	<h2>
+			热门专栏
+	</h2>
 	<div id="index-up">
+
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
 		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}');">
 			<div class="index-up-content">
 				<div class="index-up-content-left">
+					<a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time">
 					<h3>
+
 						{{ special_list[i].name }}
 					</h3>
+
+				    </a>
 				</div>
 
 				<div class="index-up-content-right">
@@ -46,7 +54,11 @@
 	{% endfor %}
 	</div>
 
-	<div id="index-bottom">
+	<div>
+		<a href="{{url_for('special_all')}}?sort=time&page=1" class="index-view-more" style="margin-top: 30px;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
+	</div>
+
+	<div id="index-middle">
 		<h2>
 			热门文章
 		</h2>
@@ -64,6 +76,55 @@
 		{% endfor %}
 
 	</div>
+
+	<div>
+		<a href="#" class="index-view-more">&gt;&gt;&gt;&gt;&nbsp;View More</a>
+	</div>
+
+	<div id="index-bottom">
+		<div>
+			<h2>广场热门</h2>
+			<div class="index-bottom-detail">
+				<a href="#">
+					<div class="index-bottom-img">
+						<img src="/static/images/square-1.jpg">
+					</div>
+				</a>
+				
+				<div class="index-bottom-article">
+					<a href=""><div class="index-bottom-title">与尔同消万古愁</div></a>
+					<div class="index-bottom-author">丁小云&nbsp;&nbsp;曦潮币(330)&nbsp;&nbsp;2014-02-23</div>
+					<div style="clear:both;"></div>
+					<div class="index-bottom-abstract">与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁</div>
+				</div>
+			</div>
+			<div>
+				<a href="#" class="index-view-more" style="margin-top: 30px;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
+			</div>
+			
+		</div>
+
+		<div style="float: right;" >
+			<h2>当前活动</h2>
+			<div class="index-bottom-detail">
+				<a href="#">
+					<div class="index-bottom-img">
+						<img src="/static/images/square-1.jpg">
+					</div>
+				</a>
+				
+				<div class="index-bottom-article">
+					<a href=""><div class="index-bottom-title">与尔同消万古愁</div></a>
+					<div class="index-bottom-author">收藏(330)&nbsp;&nbsp;2014-02-23</div>
+					<div style="clear:both;"></div>
+					<div class="index-bottom-abstract">与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁</div>
+				</div>
+			</div>
+			<div>
+				<a href="#" class="index-view-more" style="margin-top: 30px;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 
@@ -73,6 +134,24 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+	
+			//未验证邮箱弹窗
+    {% if not current_user.is_anonymous() %}
+		if({{current_user.state}} == 0){
+			var url = "{{ url_for('verify_remind') }}";
+			$.layer({
+				type: 2,
+				title: ['请验证邮箱'],
+				shade: [0.65, '#000'],
+				shadeClose: true,
+				closeBtn: false,
+				border: [2, 1, '#D9AE48'],
+				area: ['350px', '200px'],
+				iframe: {src: url}
+			});
+		};
+    {% endif %}	
+		
 		// 主页上面的四副图片
 		var gap = 120; //图片间距，不可变
 		var picNum = 4; //不可变
@@ -101,9 +180,9 @@
 
 				//alert("leftOrIn");
 				if(curIndex <= index)
-					$(this).animate({left:leftOrIn+"px"}, 300);
+					$(this).animate({left:leftOrIn+"px"}, 600);
 				else
-					$(this).animate({left:right+"px"}, 300);
+					$(this).animate({left:right+"px"}, 600);
 			});
 		};
 
@@ -124,9 +203,9 @@
 
 				//alert("leftOrIn");
 				if(curIndex <= index)
-					$(this).animate({left:leftOrIn+"px"}, 300);
+					$(this).animate({left:leftOrIn+"px"}, 600);
 				else
-					$(this).animate({left:right+"px"}, 300);
+					$(this).animate({left:right+"px"}, 600);
 			});}
 		};
         

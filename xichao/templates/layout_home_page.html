@@ -21,7 +21,7 @@
 				<label>排序方式：</label>
 				<select name="sorting">
 					<option id="sorting-by-time" value="time" selected="selected">时 间</option>
-					<option id="sorting-by-heat" value="heat">热 度</option>
+					<option id="sorting-by-heat" value="heat">曦潮币</option>
 				</select>
 			</div>
 
@@ -62,7 +62,7 @@
 		<!-- 标题图片 -->
 		<div class="square-part2-right">
 			<h2 style="line-height: 40px">文章列表</h2>
-			<img id="square-part2-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
+			<img id="square-part2-img" src="{{ url_for('static', filename='images/square-2.jpg') }}"/>
 			<div></div>
 		</div>
 	
@@ -75,7 +75,7 @@
 		<div style="margin-top: 30px"></div>
 		<div class="home-star-row">
 		{% for author in collection_author_list%}
-			<div><img src="{{url_for('static', filename='images/transparent-circle.png')}}" style="background-image: url('{{author.photo}}')"/><div class="home-star-name"><a href="{{url_for('view_home_page', nick=author.nick)}}">{{author.nick}}</a></div></div>
+			<div><img src="{{author.photo}}"><div class="home-star-name"><a href="{{url_for('view_home_page', nick=author.nick)}}">{{author.nick}}</a></div></div>
 		{% endfor %}
 		</div>
 
@@ -92,7 +92,7 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
-		
+	$.ajaxSetup({cache:false});
 	{#仅在看别人主页时会出现#}
 	{% if current_user != user %}
 		if ('{{collection}}'=='yes'){
@@ -273,6 +273,8 @@
 			},
 			function(result){
 				if (result=='birthday_error') {layer.msg("生日格式错误",1,3);}
+				else if (result=='birthday_time_error') {layer.msg("生日时间不正确",1,3);}
+				else if (result=='nick_length_error') {layer.msg("该昵称长度不合法",1,3);}
 				else if (result=='nick_error') {layer.msg("该昵称已存在",1,3);}
 				else if (result=='phone_error') {layer.msg("手机号格式错误",1,3);}
 				else{
@@ -283,8 +285,14 @@
 					else{
 						$('#show-sex').text('男');
 					}
-					$('#show-birthday').text(val_birthday_year+'-'+val_birthday_month+'-'+val_birthday_day);
-					$('#show-phonenumber').text(val_phone);
+					if (result=='success_no_birthday' || result=='success_no_birthday_phone') {$('#show-birthday').text('暂未填写');}
+					else{
+						$('#show-birthday').text(val_birthday_year+'-'+val_birthday_month+'-'+val_birthday_day);
+					}
+					if (result=='success_no_phone' || result=='success_no_birthday_phone') {$('#show-phonenumber').text('暂未填写');}
+					else{
+						$('#show-phonenumber').text(val_phone);
+					}
 					layer.msg("修改成功",1,1);
 					
 				}
@@ -328,6 +336,19 @@
 
 </script>
 
+<!-- 删除按钮操作 -->
+<script type="text/javascript">
+	function changeTrashToOpen(img)
+	{
+		$(img).attr('src', '/static/images/trash-open.png');
+	};
+	function changeTrashToClose(img)
+	{
+		$(img).attr('src', '/static/images/trash-close.png');
+	};
+
+</script>
+
 <!-- 发布的文章AJAX -->
 <script type="text/javascript">
 	var two1_refresh = function(page_id)
@@ -337,7 +358,7 @@
 		{
 			items=data.rows;
 			for(var i = 0; i < items.length; ++i){
-				text="<div><table><tr><td style='width: 280px'><a href='/article/"+items[i].article_id+"'>"+items[i].title+"</a></td><td style='width: 140px'>评论（"+items[i].comment_num+"）</td><td style='width: 160px'>曦潮币（"+items[i].coins+"）</td><td><u><a href='javascript:void(0);' onclick='two1_a_click("+items[i].article_id+","+page_id+","+items.length+")'>删除</a></u></td></tr></table></div>"
+				text="<div><table><tr><td style='width: 280px'><a href='/article/"+items[i].article_id+"'>"+items[i].title+"</a></td><td style='width: 140px'>评论（"+items[i].comment_num+"）</td><td style='width: 160px'>曦潮币（"+items[i].coins+"）</td><td><a href='javascript:void(0);' onclick='two1_a_click("+items[i].article_id+","+page_id+","+items.length+")'><img class='delete-icon' onmouseover='changeTrashToOpen(this)' onmouseout='changeTrashToClose(this)' src='/static/images/trash-close.png'></a></td></tr></table></div>"
 				$("#two1 .overflow-handle").append(text);
 			}
 			if(data.pages == '0')
@@ -392,7 +413,7 @@
 
 			for(var i = 0; i < items_comment.length; ++i){
 
-				text="<div><p style='clear:both;'>“"+items_comment[i].content+"”</p><table style='float:right; margin: 0 auto 15px; font-size:16.7px; color: gray;'><tr><td style='width: 200px;' ><a href='/article/"+items_article[i].article_id+"'>《"+items_article[i].title+"》</a></td><td style='width: 180px;'>"+items_comment[i].time+"</td><td><u><a href='javascript:void(0);' onclick='two2_a_click("+items_comment[i].comment_id+","+page_id+","+items_comment.length+")'>删除</a></u></td></tr></table></div>"
+				text="<div><p style='clear:both;'>“"+items_comment[i].content+"”</p><table style='float:right; margin: 0 auto 15px; font-size:16.7px; color: gray;'><tr><td style='width: 200px;' ><a href='/article/"+items_article[i].article_id+"'>《"+items_article[i].title+"》</a></td><td style='width: 180px;'>"+items_comment[i].time+"</td><td><a href='javascript:void(0);' onclick='two2_a_click("+items_comment[i].comment_id+","+page_id+","+items_comment.length+")'><img class='delete-icon' onmouseover='changeTrashToOpen(this)' onmouseout='changeTrashToClose(this)' src='/static/images/trash-close.png'></a></td></tr></table></div>"
 
 				$("#two2 .overflow-handle").append(text);
 			}
@@ -445,7 +466,7 @@
 		{
 			items=data.rows;
 			for(var i = 0; i < items.length; ++i){
-				text="<div><table><tr><td style='width: 300px'><a href='/article_modify/article/"+items[i].article_id+"'>"+items[i].title+"</a></td><td style='width: 280px'>"+items[i].time+"</td><td><u><a href='javascript:void(0);' onclick='two3_a_click("+items[i].article_id+","+page_id+","+items.length+")'>删除</a></u></td></tr></table></div>";
+				text="<div><table><tr><td style='width: 300px'><a href='/article_modify/article/"+items[i].article_id+"'>"+items[i].title+"</a></td><td style='width: 280px'>"+items[i].time+"</td><td><a href='javascript:void(0);' onclick='two3_a_click("+items[i].article_id+","+page_id+","+items.length+")'><img class='delete-icon' onmouseover='changeTrashToOpen(this)' onmouseout='changeTrashToClose(this)' src='/static/images/trash-close.png'></a></td></tr></table></div>";
 
 				$("#two3 .overflow-handle").append(text);
 			}
@@ -500,7 +521,7 @@
 			items_user=data.rows_user;
 			items_collection_article = data.rows_collection_article;
 			for(var i = 0; i < items_user.length; ++i){
-				text="<div><table><tr><td style='width:300px'><a href='/article/" + items_article[i].article_id + "'>" + items_article[i].title + "</a></td><td style='width:280px'><a href='/user/" + items_user[i].nick +"'>" + items_user[i].nick + "</a></td><td><u><a href='javascript:void(0);' onClick='three1_a_click("+items_collection_article[i].collection_article_id+","+page_id+","+items_article.length+")'>删除</a></u></td></tr></table></div>";
+				text="<div><table><tr><td style='width:300px'><a href='/article/" + items_article[i].article_id + "'>" + items_article[i].title + "</a></td><td style='width:280px'><a href='/user/" + items_user[i].nick +"'>" + items_user[i].nick + "</a></td><td><a href='javascript:void(0);' onClick='three1_a_click("+items_collection_article[i].collection_article_id+","+page_id+","+items_article.length+")'><img class='delete-icon' onmouseover='changeTrashToOpen(this)' onmouseout='changeTrashToClose(this)' src='/static/images/trash-close.png'></a></td></tr></table></div>";
 				
 				$("#three1 .overflow-handle").append(text);
 			}
@@ -554,7 +575,7 @@
 			items_activity=data.rows_activity;
 			items_collection_activity=data.rows_collection_activity;
 			for(var i = 0; i < items_activity.length; ++i){
-				text="<div><table><tr><td style='width:300px'><a href='/activity/" + items_activity[i].activity_id + "'>" + items_activity[i].name + "</a></td><td style='width:280px'>" + items_activity[i].activity_time +"</td><td><u><a href='javascript:void(0);' onClick='three2_a_click("+items_collection_activity[i].collection_activity_id+","+page_id+","+items_activity.length+")'>删除</a></u></td></tr></table></div>";
+				text="<div><table><tr><td style='width:300px'><a href='/activity/" + items_activity[i].activity_id + "'>" + items_activity[i].name + "</a></td><td style='width:280px'>" + items_activity[i].activity_time +"</td><td><a href='javascript:void(0);' onClick='three2_a_click("+items_collection_activity[i].collection_activity_id+","+page_id+","+items_activity.length+")'><img class='delete-icon' onmouseover='changeTrashToOpen(this)' onmouseout='changeTrashToClose(this)' src='/static/images/trash-close.png'></a></td></tr></table></div>";
 				
 				$("#three2 .overflow-handle").append(text);
 			}
@@ -685,7 +706,10 @@
 	
 	function four2_a_click(id,page_id,length)
 	{
-		$.get('/collection_special_cancel?id='+id,
+		$.post('/collection_special_cancel?id='+id,
+			{
+				_csrf_token:"{{ csrf_token() }}"
+			},
 			function(data){
 				if (data=='already') {alert('fail');}
 				else{
@@ -711,7 +735,7 @@
 		{
 			items=data.rows;
 			for(var i = 0; i < items.length; ++i){
-				text="<div><img src='/static/images/transparent-circle.png' style='background-image: url(\"" + items[i].photo + "\")'/><div class='home-star-name'><a href='/user/" + items[i].nick + "'>" + items[i].nick + "</a></div></div>";
+				text="<div><img src='" + items[i].photo + "'><div class='home-star-name'><a href='/user/" + items[i].nick + "'>" + items[i].nick + "</a></div></div>";
 					
 				$("#five1 .home-photo-row").append(text);
 			}
@@ -748,7 +772,7 @@
 			items_message=data.rows_message;
 			items_user=data.rows_user;
 			for(var i = 0; i < items_user.length; ++i){
-				text="<div><p style='clear:both;'>“"+items_message[i].content+"”</p><table style='float:right; margin:0 auto 15px; font-size:16.7px; color: gray;'><tr><td style='width: 120px;'>"+"<a href='/user/" + items_user[i].nick + "'>" +items_user[i].nick+"</a></td><td style='width: 180px;'>"+items_message[i].time+"</td><td style='width: 60px;'><u><a href='javascript:void(0);' onClick='seven1_a_click("+items_message[i].message_id+","+page_id+","+items_message.length+")'>删除</a></u></td></tr></table></div>";
+				text="<div><p style='clear:both;'>“"+items_message[i].content+"”</p><table style='float:right; margin:0 auto 15px; font-size:16.7px; color: gray;'><tr><td style='width: 120px;'>"+"<a href='/user/" + items_user[i].nick + "'>" +items_user[i].nick+"</a></td><td style='width: 180px;'>"+items_message[i].time+"</td><td style='width: 60px;'><a href='javascript:void(0);' onClick='seven1_a_click("+items_message[i].message_id+","+page_id+","+items_message.length+")'><img class='delete-icon' onmouseover='changeTrashToOpen(this)' onmouseout='changeTrashToClose(this)' src='/static/images/trash-close.png'></a></td></tr></table></div>";
 					
 				$("#seven1 .overflow-handle").append(text);
 			}
@@ -803,7 +827,7 @@
 			items_user=data.rows_user;
 			items_article=data.rows_article;
 			for(var i = 0; i < items_article.length; ++i){
-				text="<div><p style='clear:both;'>"+items_comment[i].content+"</p><table style='float:right; margin:0 auto 15px; font-size:16.7px; color: gray;'><tr><td style='width: 120px;'><a href='/user/"+items_user[i].nick+"'>"+items_user[i].nick+"</a></td><td style='width: 250px;'>评论我<a style='display:inline;' href='/article/"+items_article[i].article_id+"'>《"+items_article[i].title+"》</a></td><td style='width: 180px;'>"+items_comment[i].time+"</td><td><u><a href='javascript:void(0);' onClick='seven2_a_click("+items_comment[i].comment_id+","+page_id+","+items_comment.length+")'>删除</a></u></td></tr></table></div>";
+				text="<div><p style='clear:both;'>"+items_comment[i].content+"</p><table style='float:right; margin:0 auto 15px; font-size:16.7px; color: gray;'><tr><td style='width: 120px;'><a href='/user/"+items_user[i].nick+"'>"+items_user[i].nick+"</a></td><td style='width: 250px;'>评论我<a style='display:inline;' href='/article/"+items_article[i].article_id+"'>《"+items_article[i].title+"》</a></td><td style='width: 180px;'>"+items_comment[i].time+"</td><td><a href='javascript:void(0);' onClick='seven2_a_click("+items_comment[i].comment_id+","+page_id+","+items_comment.length+")'><img class='delete-icon' onmouseover='changeTrashToOpen(this)' onmouseout='changeTrashToClose(this)' src='/static/images/trash-close.png'></a></td></tr></table></div>";
 				
 				$("#seven2 .overflow-handle").append(text);
 			}
@@ -860,7 +884,7 @@
 			items=data.rows;
 			for(var i = 0; i < items.length; ++i)
 			{
-				text="<div><p style='clear:both;'>"+items[i].content+"</p><table style='float:right; margin: 0 auto 15px; font-size:16.7px; color: gray;'><tr><td style='width: 180px;'>"+items[i].time+"</td><td><u><a href='javascript:void(0);' onClick='seven3_a_click("+items[i].message_id+","+page_id+","+items.length+")'>删除</a></u></td></tr></table></div>";
+				text="<div><p style='clear:both;'>"+items[i].content+"</p><table style='float:right; margin: 0 auto 15px; font-size:16.7px; color: gray;'><tr><td style='width: 180px;'>"+items[i].time+"</td><td><a href='javascript:void(0);' onClick='seven3_a_click("+items[i].message_id+","+page_id+","+items.length+")'><img class='delete-icon' onmouseover='changeTrashToOpen(this)' onmouseout='changeTrashToClose(this)' src='/static/images/trash-close.png'></a></td></tr></table></div>";
 				
 				$("#seven3 .overflow-handle").append(text);
 			}

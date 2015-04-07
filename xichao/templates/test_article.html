@@ -26,9 +26,9 @@
 		<p id="p_read_content">({{article.read_num}})</p>
 		<p id="p_num_xichao">曦潮币  (</p>
 		<p id="p_num_xichao_content">{{article.coins}}</p>
-		<p id="bracket">)</p>
+		<p id="p_num_xichao_bracket">)</p>
 		<p id="p_review">评论 ({{article.comment_num}})</p>
-		<a id="p_collection" href="#">收藏 ({{article.favor}})</a>
+		<p id="p_collection">收藏 ({{article.favor}})</p>
 		<p id="p_article_author_1">作者</p>
 		<p id="p_article_author_2"><a href="{{url_for('view_home_page', nick = author.nick)}}">{{author.nick}}</a></p>
 		<p id="p_article_time">发表时间&nbsp;&nbsp;{{article.time}}</p>
@@ -91,13 +91,15 @@
 
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<div id="img_user">
-			<img id="transparent-circle" src="{{ url_for('static', filename='images/transparent-circle-pink.png') }}">
+		<div id="img_user" style="width: 90px;">
 			<img id="user_pic_1" src="{{avatar}}">
+			<p id="p_user_name" style="text-align: center; margin: auto;">{{nick}}</p>
 		</div>
 
 		<iframe id="input_publish_review"></iframe>
-		<p id="p_user_name">{{nick}}</p>
+		<div class="clear"></div>
+		<input type="checkbox" name="pay_author" id="comment_pay_button" />
+		同时打赏作者
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
@@ -110,11 +112,17 @@
 		{% if comments!=None %}
 			{% for comment in comments %}
 				<div class="comment">
-					<img class="transparent-circle-white" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
+    				<a href="{{url_for('view_home_page', nick = comment[1])}}">
 					<img class="user_pic_2" src="{{comment[2]}}">
+	                </a>
+	
 					<div class="line"></div>
+
+    				<a href="{{url_for('view_home_page', nick = comment[1])}}">
 					<p class="p_review_author">{{comment[1]}}</p>
-					<div class="comment_content"><font size="3px">{{comment[0].content}}</font></div>
+					</a>
+					
+					<div class="comment_content"><font size="3px">{{comment[0].content | safe}}</font></div>
 					<p class="p_publish_time"><font size="2px">{{comment[0].time}}</font></p>
 				</div>
 			{% endfor %}
@@ -134,7 +142,7 @@
 		var rrShareParam = {
 			resourceUrl : link,	//分享的资源Url
 			srcUrl : '',	//分享的资源来源Url,默认为header中的Referer,如果分享失败可以调整此值为resourceUrl试试
-			pic : '',		//分享的主题图片Url
+			pic : 'http://xichao-o.com{{ article.picture }}',		//分享的主题图片Url
 			title : '曦潮书香生态系统 | 文章 | '+'{{ article.title }}',		//分享的标题
 			description : ''	//分享的详细描述
 		};
@@ -168,18 +176,32 @@ $("#comment_publish_button").click(function(){
 		{alert("评论不能为空");}
 	else {
 	$('#input_publish_review').contents().find('body').empty();
-	$.post('/article/comment',
-		{
-			_csrf_token:"{{ csrf_token() }}",
-			content:val_content,
-			article_id:{{article.article_id}},
-			to_user_id:{{article.user_id}}
-		},
-		function(data){
-			$("#comment_publish_time").text(data);
-			layer.msg("评论成功",1,1);
-			add_commit(data, val_content);
-		});
+	
+	if ($('#comment_pay_button').attr('checked') == 'checked'){
+	    $.layer({
+					type: 2,
+					title: ['打赏曦潮币'],
+					shade: [0.65, '#000'],
+					shadeClose: true,
+					closeBtn: [0,true],
+					border: [2, 1, '#D9AE48'],
+					area: ['760px', '300px'],
+					iframe: {src: "{{ url_for('pay_author', article_id=article.article_id) }}?comment=" + val_content},
+			    });
+	} else{	
+    	$.post('/article/comment',
+    		{
+    			_csrf_token:"{{ csrf_token() }}",
+    			content:val_content,
+    			article_id:{{article.article_id}},
+    			to_user_id:{{article.user_id}}
+    		},
+    		function(data){
+    			$("#comment_publish_time").text(data);
+    			layer.msg("评论成功",1,1);
+    			add_commit(data, val_content);
+    		});
+    	}
 	}
 });
 
@@ -201,9 +223,15 @@ $("#p_collection").click(function(){
 				layer.msg("你已收藏该文章",1,3);
 			}
 			else{
-				layer.msg("收藏成功",1,1);
+				layer.msg("收藏成功",1,1,function(){location.reload();});
 			}
 	});
+});
+
+$("#p_review").click(function(){
+    var pos = $("#publish_review").offset().top;
+    $("html,body").animate({ scrollTop: pos-30 }, 500);
+//    alert("HERE");
 });
 
 </script>
@@ -252,11 +280,15 @@ function get_user_id() {
 }
 
 function add_commit(data, val_content) {
+    var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	$('#comment_new').prepend('<div class="comment">'+
-				'<img class="transparent-circle-white" src="{{ url_for("static", filename="images/transparent-circle.png") }}">'+
+            	'<a href="' + homeurl + '">' +
 				'<img class="user_pic_2" src="{{avatar}}">'+
+			    '</a>' +
 				'<div class="line"></div>'+
+            	'<a href="' + homeurl + '">' +
 				'<p class="p_review_author">'+ '{{nick}}' +'</p>'+
+			    '</a>' +
 				'<div class="comment_content"><font size="3px">'+val_content+'</font></div>'+
 				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
 }
@@ -275,23 +307,35 @@ function add_commit(data, val_content) {
 			$("#pay_button").click(function(){
 				window.location = url;
 			});
+			
+			
+			var pay_action = function(){
+			    layer.msg("您不能打赏自己的文章",1,3);
+			}
+			$("#p_num_xichao").click(pay_action);
+			$("#p_num_xichao_bracket").click(pay_action);
+			$("#p_num_xichao_content").click(pay_action);
 		}
 		else {
 			url = "{{ url_for('pay_author', article_id=article.article_id) }}"
-			$("#pay_button").click(function(){
+			var pay_action = function(){
 				$.layer({
 					type: 2,
 					title: ['打赏曦潮币'],
 					shade: [0.65, '#000'],
 					shadeClose: true,
-					closeBtn: false,
+					closeBtn: [0,true],
 					border: [2, 1, '#D9AE48'],
 					area: ['760px', '300px'],
 					iframe: {src: url},
-			});
-		});
-
+			    });
+		    }
+			$("#pay_button").click(pay_action);
+			$("#p_num_xichao").click(pay_action);
+			$("#p_num_xichao_bracket").click(pay_action);
+			$("#p_num_xichao_content").click(pay_action);
 		}
+		
 	});
 </script>
 <!--

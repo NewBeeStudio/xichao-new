@@ -108,12 +108,16 @@ def default():
 @app.route('/index')
 def index():
     homepage_special_list, slideUrl = get_homepage_specials()
+    most_hot_ground_article=get_most_hot_ground_article()
+    most_hot_activity=get_most_hot_activity(datetime.now())
     hot_articles = get_hot_articles(10)
     return render_template('template.html', special_list = homepage_special_list,
                                             hot_articles = hot_articles,
                                             articles = get_special_article,
                                             slideUrl = slideUrl,
-                                            get_author = get_nick_by_userid)
+                                            get_author = get_nick_by_userid,
+                                            most_hot_ground_article=most_hot_ground_article,
+                                            most_hot_activity=most_hot_activity)
 ## 修改首页
 @app.route('/modify_homepage')
 @login_required
@@ -318,7 +322,10 @@ def article(article_id):
 			#comment初始显示5-6条，下拉显示全部
 			session['article_session_id']=article[0].article_session_id
 			comments=get_article_comments(article_id)
-			update_read_num(article_id)
+			if article[0].user_id==current_user.user_id:
+				pass
+			else:
+				update_read_num(article_id)
 			return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
 	else:
 		abort(404)
@@ -348,7 +355,6 @@ def special_all():
 
 #专栏列表搜索
 @app.route('/special_search', methods=['GET'])
-@login_required
 def special_search():
     try:
         search = request.args.get('search')
@@ -363,7 +369,6 @@ def special_search():
 
 # 专栏详情页
 @app.route('/special', methods=['GET'])
-@login_required
 def special():
     #URL样式：http://127.0.0.1:5000/special?id=2&page=1&sort=time
     try:
@@ -600,12 +605,13 @@ def special_article_finish():
                                   book_ISBN = book_ISBN,
                                   book_binding = book_binding)
     article_id=create_article(title = title, content = content,
-	                          title_image = title_image, user_id = user_id, 
-	                          article_session_id = session['special_article_session_id'],
-	                          is_draft ='0', special_id = int(session['special_id']),
-	                          group_id = '3', category_id = '0',
-	                          abstract = abstract,
-	                          book_id = book_id)
+                              title_image = title_image, user_id = user_id, 
+                              article_session_id = session['special_article_session_id'],
+                              is_draft ='0', special_id = int(session['special_id']),
+                              group_id = '3', category_id = '0',
+                              abstract = abstract,
+                              book_id = book_id)
+    update_article_num_for_special(int(session['special_id']),True)
     session.pop('special_id', None)
     session.pop('special_article_session_id', None)
     return str(article_id)
@@ -744,9 +750,12 @@ def article_modify(article_id):
 
 
 #打赏作者弹窗
-@app.route('/pay_author/<int:article_id>')
+@app.route('/pay_author/<int:article_id>', methods=['GET'])
 def pay_author(article_id):
-	return render_template('pay_author.html', article_id=article_id)
+    comment = request.args.get('comment')
+    if comment == None:
+        comment = ""
+    return render_template('pay_author.html', article_id=article_id, comment = comment)
 
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
@@ -873,8 +882,8 @@ def activity_finish():
 	else:
 		abstract=abstract_plain_text[0:100]+'......'	
 	formatted_time=datetime.strptime(activity_time,"%m/%d/%Y %H:%M")
-	create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time,abstract=abstract,place=place)
-	return u'活动保存成功'
+	activity_id=create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time,abstract=abstract,place=place)
+	return str(activity_id)
 
 
 '''
@@ -913,7 +922,7 @@ def ajax_register_validate():
 
 
 # 收藏专栏
-@app.route('/collection_special', methods=['GET'])
+@app.route('/collection_special', methods=['POST'])
 def ajax_collection_special():
     try:
         user_id = int(session['user_id'])
@@ -931,7 +940,8 @@ def ajax_collection_special():
     return "success"
 
 # 取消收藏专栏
-@app.route('/collection_special_cancel', methods=['GET'])
+@app.route('/collection_special_cancel', methods=['POST'])
+@login_required
 def ajax_collection_special_cancel():
     try:
         user_id = int(session['user_id'])
@@ -950,7 +960,8 @@ def ajax_collection_special_cancel():
 
 
 # 收藏专栏作家
-@app.route('/collection_special_author', methods=['GET'])
+@app.route('/collection_special_author', methods=['POST'])
+@login_required
 def ajax_collection_special_author():
     try:
         user_id = int(session['user_id'])
@@ -980,15 +991,15 @@ def ajax_collection_activity():
 		return 'fail'
 	else:
 		activity_id=request.form['activity_id']
-		result=collection_activity(user_id=current_user.user_id,activity_id=activity_id)
+		result = collection_activity(user_id=current_user.user_id,activity_id=activity_id)
 		if result=="success":
-			update_activity_favor(activity_id)
+			update_activity_favor(activity_id,True)
 		return result
 
 
 
 # 取消收藏专栏作家
-@app.route('/collection_special_author_cancel', methods=['GET'])
+@app.route('/collection_special_author_cancel', methods=['POST'])
 def ajax_collection_special_author_cancel():
     try:
         user_id = int(session['user_id'])
@@ -1070,7 +1081,6 @@ def article_group_favor(group_id,category_id,page_id=1):
 def activity_main():
 	current_activity_list=get_current_activity_list(datetime.now())
 	passed_activity_list=get_passed_activity_list(datetime.now())
-
 	return render_template('activity.html',current_activity_list=current_activity_list,passed_activity_list=passed_activity_list)
 
 ##读取活动
@@ -1264,29 +1274,37 @@ def ajax_home_page_special(page_id):
 @login_required
 def ajax_home_page_modify_basic_information():
 	user_id=current_user.user_id
-	nick=request.form['nick']
 	gender=request.form['gender']
-	try:
-		birthday_year=int(request.form['birthday_year'])
-		birthday_month=int(request.form['birthday_month'])
-		birthday_day=int(request.form['birthday_day'])
-	except:
-		return 'birthday_error'
-	phone=request.form['phone']
-	try:
-		int(phone)
-	except:
-		return 'phone_error'
-	##avatar=request.form['avatar']
-	if current_user.nick!=nick and nick_exist(nick):
-		return 'nick_error'
-	else:
+	##生日信息的检测
+	if request.form['birthday_year']!='' or request.form['birthday_month']!='' or request.form['birthday_day']!='':
 		try:
+			birthday_year=int(request.form['birthday_year'])
+			birthday_month=int(request.form['birthday_month'])
+			birthday_day=int(request.form['birthday_day'])
 			birthday=date(birthday_year,birthday_month,birthday_day)
+			if birthday>=date.today():
+				return 'birthday_time_error'
 		except:
 			return 'birthday_error'
-		result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
-		return result
+	else:
+		birthday=None
+	##手机号格式的检测
+	phone=request.form['phone']
+	if phone!='':
+		try:
+			int(phone)
+		except:
+			return 'phone_error'
+	else:
+		phone=None
+	##昵称信息检测
+	nick=request.form['nick']
+	if len(nick)<2 or len(nick)>10:
+		return 'nick_length_error'
+	if current_user.nick!=nick and nick_exist(nick):
+		return 'nick_error'
+	result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
+	return result
 ##测试成功
 ##修改头像
 @app.route('/homepage/modify/avatar',methods=['POST'])

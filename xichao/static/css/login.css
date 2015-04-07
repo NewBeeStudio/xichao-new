@@ -27,7 +27,12 @@
     width: 482px;
     z-index: 2;
 
+    border-radius: 482px;
+    background-color: #fff;
+    behavior: url(/static/css/PIE.htc);
+
     opacity: 0.5;
+    filter:alpha(opacity=50); /*IE8适配*/
 }
 
 #login-inside-circle{
@@ -38,9 +43,9 @@
     width: 442px; /*inside circle diameter*/
     z-index: 3;
 
-    background-image: url("/static/images/login-gray-circle.png");
-    background-size: 442px 442px;
-    background-repeat: no-repeat;
+    border-radius: 442px;
+    background-color: #e5e5e5;
+    behavior: url(/static/css/PIE.htc);
 }
 
 #login-form-block{ /*不包括点击注册一行*/
@@ -76,7 +81,9 @@
     width: 200px;
     height: 40px;
 
-    margin-right: 0px;
+    line-height: 40px;
+    margin: 0;
+    padding: 0;
 
     font-size: 12.5px;
     font-family: 微软雅黑;
@@ -94,7 +101,14 @@
 }
 
 #login-autologin > a{
+    margin: 0;
+    font-size: 12px;
     float: right;
+}
+
+#login-autologin > input{
+    margin: 0;
+    line-height: normal;
 }
 
 #login-submit{
@@ -110,6 +124,8 @@
     color: white;
     font-family: 微软雅黑;
     font-size: 17px;
+
+    behavior: url(/static/css/PIE.htc);
 }
 
 #login-submit a{

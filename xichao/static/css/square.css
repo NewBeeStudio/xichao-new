@@ -179,26 +179,13 @@ a.square-more{
 /*专栏图*/
 img#square-part1-img, img#square-part2-img, img#square-part3-img{
 	margin-top: 40px;
-	/*margin-left: -47px;*/
+
 	width: 375px;
 	height: 375px;
 
-	background-size: 375px 375px;
-}
-
-img#square-part1-img
-{
-	background-image: url("/static/images/square-1.jpg");
-}
-
-img#square-part2-img
-{
-	background-image: url("/static/images/square-2.jpg");
-}
-
-img#square-part3-img
-{
-	background-image: url("/static/images/square-3.jpg");
+	border-radius: 375px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc); /*IE8适配*/
 }
 
 /*圆下面的竖线*/

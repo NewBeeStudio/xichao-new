@@ -37,9 +37,9 @@
 		{% endif %}
 		">
 			<h2></h2>
-			
-			<img id="special-part1-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"
-			style="background-image: url({{ special.picture | safe }});"/>
+			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
+			<img id="special-part1-img" src="{{ special.picture | safe }}"/>
+			</a>
 			<div></div>
 		</div>
 
@@ -52,10 +52,11 @@
 		{% endif %}
 		">
 			<div id="special-part1-content" style="width:703px">
-			
+			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
 			<h2>
 			        {{ special.name }}
 			</h2>
+			</a>
 			<hr />
             <div id="author-coin">
 			<h4>

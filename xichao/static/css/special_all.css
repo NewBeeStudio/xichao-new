@@ -27,7 +27,9 @@ img#special-part1-img{
 	width: 320px;
 	height: 320px;
 
-	background-size: 320px 320px;
+    border-radius: 320px;
+    position: relative;
+    behavior: url(/static/css/PIE.htc);
 }
 
 
@@ -86,7 +88,7 @@ img#special-part1-img{
     border-bottom: 1.5px solid #000000;
 }
 
-#special-part1-content > h2{
+#special-part1-content > a{
     margin-top: 100px; 
     text-align: center;
     font-size: 35px; 

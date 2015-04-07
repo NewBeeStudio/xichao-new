@@ -1,22 +1,40 @@
 *{
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 body{
     position: relative;
     width: 100%;
     margin: auto;
+    font-family: 微软雅黑, sans-serif;
+    word-break: break-all;
+}
+
+img{
+    border: 0; /*IE8兼容*/
 }
 
 input{
     border: solid 1.5px #aaaaaa;
-    
+}
+
+label{
+    display: inline; /*bootstrap reset*/
+    margin: 0;
 }
 
 a{
 	text-decoration: none;
     display: block;
+}
+
+a:link,
+a:hover,
+a:active,
+a:visited{
+    color:black;
+    text-decoration: none; /*去下划线*/
 }
 
 .clear{
@@ -28,10 +46,18 @@ a{
     color: #D9AE48;
 }
 
+.floatleft{
+    float: left;
+}
+
+.floatright{
+    float: right;
+}
 /*******************字体*****************/
 @font-face { 
   font-family: 尚黑; /*这里是说明调用来的字体名字*/ 
-  src: url('/static/font/MFShangHei_Noncommercial-Regular.otf'); /*这里是字体文件路径*/ 
+  src: url('/static/fonts/MFShangHei_Noncommercial-Regular.otf'); /*这里是字体文件路径*/
+  /*src: url('/static/fonts/MFShangHei_Noncommercial-Regular.eot');*/
 } 
 
 /*******************header*****************/
@@ -40,26 +66,10 @@ ul{
     padding-left: 0;
 }
 
-#top-background{
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    z-index: -100;
-}
-
-#top-background > img{
-    width: 100%;
-    position: absolute;
-    /*
-    clip:rect(0px 10000px 1000px 0px); 
-    */
-    opacity:0.75;
-    filter:alpha(opacity=75);
-}
-
 #header{
-    width: 1085px;
+    width: 1160px;
     margin: auto;
+    /*padding-bottom: 15px;*/
 }
 
 #nav-bar-header{
@@ -70,12 +80,14 @@ ul{
 
 #nav-bar-logo{
     float: left;
-    margin-top: -10px;
+    width: 175px;
+    height: 130px;
+    margin-top: 10px;
 }
 
 #nav-bar-logo > img {
-    width: 150px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
 }
 
 #nav-bar-button{
@@ -95,6 +107,10 @@ ul{
     padding-right: 15px; /*右对齐，有padding*/
 }
 
+.nav-bar-login-first a{
+    float: right;
+}
+
 .nav-bar-login > a{
     text-decoration: none;
     color: #000000;
@@ -103,15 +119,16 @@ ul{
 }
 
 #nav-bar-search{
-	margin-top: 30px;
-    height: 18px;
+	margin-top: 0px;
     float: right;
 }
 
-#nav-bar-search > input{
-    width: 200px;
+#nav-bar-search input{
+    width: 345px;
     height: 25px;
     font-size: 16px;
+
+    border: 1px solid #888;
 }
 
 input:hover{
@@ -127,6 +144,8 @@ input:focus{
     height: 34px;
     width: 100%;
     margin: auto;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
 
 #nav-bar > hr{
@@ -164,7 +183,7 @@ input:focus{
 /*******************body*****************/
 /*content对齐*/
 #content{
-    width: 1085px;
+    width: 1160px;
     margin: auto;
 }
 
@@ -225,4 +244,127 @@ input:focus{
     border-color: #DF4D3F transparent transparent;
 }
 
+/*个人信息栏相关css*/
+#navbar-info {
+    height: 40px;
+    background-color: #444;
+    z-index: 1000;
+    position: fixed; 
+    width: 100%;
+}
 
+#navbar-info > div{
+    margin: 0 auto 0 auto;
+    width: 1160px;
+}
+
+#navbar-info a{
+    font: 14px 黑体;
+    border-radius: 5px;
+    text-shadow: none;
+}
+
+#navbar-info .nav > li > a:link, 
+#navbar-info .nav > li > a:hover, 
+#navbar-info .nav > li > a:active, 
+#navbar-info .nav > li > a:visited{
+    color: #fff;
+}
+
+
+#navbar-info .nav > li > a:hover,
+#navbar-info .open > .dropdown-toggle{
+    background-color: #D9AE48;
+}
+
+/*下拉框修改*/
+#navbar-info .dropdown-menu{
+    min-width: 100%;
+ }
+
+#navbar-info li.divider{
+    margin: 2px;
+}
+
+.register-login{
+    width: 60px;
+    text-align: center;
+}
+
+/*导航栏相关css*/
+#navbar-main{
+    clear: both;
+    float: right;
+
+    margin-top: 40px;
+    font: 22px 楷体;
+}
+
+#navbar-main > .nav > li > a{
+    width: 88px;
+    color: #000;
+    text-align: center;
+    text-shadow: none;
+
+    border-radius: 5px;
+    line-height: 10px;
+    /*transform: rotate(5deg);*/
+}
+
+#navbar-main .nav > li > a:hover,
+#navbar-main .open > .dropdown-toggle{
+    background-color: #D9AE48;
+    font-size: 24px;
+}
+
+#navbar-main .dropdown-menu{
+    text-align: center;
+    min-width: 100%;
+    padding: 3px 0;
+}
+
+/*导航栏下分割线*/
+#parting-line{
+    margin-top: -10px;
+}
+
+#parting-line > img{
+    width: 100%;
+}
+
+/*这部分描述参考线，上线后可删*/
+.reference-block {
+    position: relative; 
+    width: 1160px; 
+    margin: auto;
+}
+
+.reference-line {
+    position: absolute;
+    margin: auto;
+    width: 1160px;
+    height: 100%;
+    z-index:  -100;
+}
+
+.width-160 {
+    width: 159px;
+    height: 100%;
+    border-left: 1px solid red; 
+    float: left;
+}
+
+.width-40 {
+    width: 39px;
+    height:  100%;
+    border-left: 1px solid red; 
+    float: left;
+}
+
+.width-160-last {
+    width: 158px;
+    height: 100%;
+    border-left: 1px solid red; 
+    border-right: 1px solid red; 
+    float: left;
+}

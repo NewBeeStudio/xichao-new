@@ -8,6 +8,12 @@
 	height: 380px;
 }
 
+h2.activity-current{
+	margin: 80px auto 0 auto;
+	width: 955px;
+	font-family: 黑体;
+	font-size: 29.2px;
+}
 
 /*当前活动*/
 #activity-current, #activity-past{
@@ -16,67 +22,38 @@
 }
 
 #activity-current{
-	margin-top: 124px;
-}
-
-#activity-current h2, #activity-past h2{
-	font-family: 黑体;
-	font-size: 29.2px;
-}
-
-#activity-current h2{
-	margin-top: -45px;
-}
-
-#activity-current{
+	margin-top: 20px;
 	border-top: 2px solid gray;
 	border-bottom: 2px solid gray;
 	height: 432px;
 }
 
-/*左右箭头*/
-img#activity-left-arrow, img#activity-right-arrow{
-	margin-top: 170px;
-
-	width: 57px;
-	height: 89px;
-
-	/*opacity: 0.5;*/
-}
-
-.display-none{
-	display: none;
-}
-
-img#activity-left-arrow{
-	margin-left: -60px;
-	float: left;
-}
-
-img#activity-right-arrow{
-	margin-right: -60px;
-	float: right;
-}
-
-
-div#activity-slide{
+/*当前活动*/
+div.flexslider{
 	position: relative;
 	width: 955px;
-	height: 100%;
+	height: 420px;
 
 	overflow: hidden;
 }
 
-/*当前活动*/
 .activity-current-info{
 	position: absolute;
 	margin: auto;
-	left: 33px;
 	width: 889px;
 	height: 100%;
 }
 
-.activity-current-info > h3{
+.flexslider .slides img{
+	width: 264px;
+	height: 264px;
+
+	float: left;
+	margin-left: 33px;
+}
+
+
+.activity-current-info h3{
 	margin: 30px auto 30px auto;
 	font-family: 尚黑;
 	font-size: 45.8px;
@@ -84,15 +61,8 @@ div#activity-slide{
 	text-align: center;
 }
 
-img.activity-info-img{
-	width: 264px;
-	height: 264px;
-
-	float: left;
-}
-
 .activity-current-info > div{
-	margin-left: 312px;
+	margin-left: 340px;
 	font-family: 黑体;
 	font-size: 22.9px;
 	color: #000000;
@@ -102,11 +72,11 @@ img.activity-info-img{
 
 .activity-current-info div{
 	width: 573px;
-	overflow: auto;
+	overflow: hidden;
 }
 
-.activity-current-info > a{
-	margin-top: 30px;
+a.activity-current-more{
+	margin-top: 20px;
 	color: gray;
 
 	font-family: 黑体;
@@ -116,9 +86,30 @@ img.activity-info-img{
 	float: right;
 }
 
+/*滚动点*/
+.flex-control-nav{
+	bottom: -10px;
+	/*left: 300px;*/
+}
+
+/*左右箭头位置*/
+.flex-direction-nav .flex-prev {
+    margin-left: -10px;
+}
+
+.flex-direction-nav .flex-next {
+    margin-right: -10px;
+    text-align: right;
+}
+
 /*过去活动*/
 #activity-past{
 	margin-top: 86px;
+}
+
+#activity-past h2{
+	font-family: 黑体;
+	font-size: 29.2px;
 }
 
 #activity-select-part{
@@ -156,12 +147,15 @@ img.activity-info-img{
 	width: 215px;
 	height: 215px;
 	margin: auto;
-	background-size: 215px 215px;
 }
 
 .passed-activity-image > img{
 	width: 215px;
 	height: 215px;
+
+	border-radius: 215px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 .passed-activity-name{

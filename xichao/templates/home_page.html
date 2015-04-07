@@ -8,7 +8,7 @@
 		<div class="personal-left">
 			<div class="personal-photo">
 
-				<img src="/static/images/transparent-circle-yellow.png" style="background-image: url('{{current_user.photo}}')">
+				<img src="{{current_user.photo}}">
 
 				<div class="personal-name">
 					<div style="font-size: 20.8px">{{current_user.nick}}</div>
@@ -116,7 +116,7 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td><img id="show-photo" src="/static/images/transparent-circle.png" style="background-image: url({{current_user.photo}})"/></td>
+							<td><img id="show-photo" src="{{current_user.photo}}"></td>
 						</tr>
 						<tr>
 							<td></td>
@@ -442,7 +442,7 @@
 		<!-- 头像 -->
 		<div class="square-part1-left">
 			<h2 style="line-height: 40px">个人简介</h2>
-			<img id="square-part1-img" style="background-image: url('{{current_user.photo}}')" src="{{ url_for('static', filename='images/transparent-circle.png') }}"/>
+			<img id="square-part1-img" src="{{current_user.photo}}"/>
 			<div></div>
 		</div>
 

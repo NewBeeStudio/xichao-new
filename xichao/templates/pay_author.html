@@ -88,14 +88,13 @@
 	</div>
 
 	<div id="review">
-		<textarea id="input_review">
-		</textarea>
+		<textarea id="input_review">{{ comment | safe }}</textarea>
 	</div>
 
 	<div id="push_review">
 		<input type="checkbox" name="message_author" id="message_author" />
 		私信作者
-		<input type="checkbox" name="comment_article" id="comment_article" />
+		<input type="checkbox" checked = "checked" name="comment_article" id="comment_article" />
 		同时评论
 	</div>
 	<div>

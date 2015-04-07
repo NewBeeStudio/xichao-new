@@ -18,6 +18,7 @@
 	letter-spacing: 5px;
 
 	font-size: 29.2px;
+	line-height: 30px;
 }
 
 .home-col-2, .home-col-3{
@@ -110,7 +111,9 @@
 	width: 180px;
 	height: 180px;
 
-	background-size: 180px 180px;
+	border-radius: 180px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 div.home-star-name{
@@ -152,7 +155,7 @@ h1{
 	width: 300px;
 	height: 100%;
 
-	background-color: #D9AE48; 
+	background-color: #D9AE48;
 }
 
 .personal-photo{
@@ -168,8 +171,10 @@ h1{
 	width: 150px;
 	height: 150px;
 
-	color: #ff0000;
-	background-size: 150px 150px;
+	border-radius: 150px;
+
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 /*名字*/
@@ -284,7 +289,7 @@ h1{
 }
 
 .overflow-handle{
-	height: 320px;
+	height: 350px;
 	overflow: auto;
 }
 
@@ -308,7 +313,9 @@ h1{
 #one1 img{
 	width: 150px;
 	height: 150px;
-	background-size: 150px 150px;
+	border-radius: 150px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 /*个人简介*/
@@ -361,8 +368,16 @@ h1{
 	height: 100px;
 
 	background-size: 100px 100px;
+	border-radius: 100px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 #eight td{
 	padding: 5px;
+}
+
+.delete-icon{
+	width: 22px;
+	height: 22px;
 }

@@ -104,12 +104,14 @@
 	float: left;
 	color: #D9AE48;
 	margin-right: 30px;
+	cursor:pointer;
 }
 
 #p_collection {
 	float: left;
 	color: #D9AE48;
 	margin-right: 40px;
+	cursor:pointer;
 }
 
 .img_share {
@@ -151,7 +153,7 @@
 	background-color: #f5ebd1;
 	padding-top: 3%;
 	padding-bottom: 1%;
-
+    
 }
 
 #p_publish_review {
@@ -172,13 +174,10 @@
 	overflow: hidden;
 	width: 90px;
 	height: 90px;
-}
 
-#transparent-circle {
-	position: absolute;
-	z-index: 2;
-	width: 90px;
-	height: 90px;
+	border-radius: 90px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 #p_user_name {
@@ -230,13 +229,10 @@
 	float: left;
 	z-index: 1;
 	overflow: hidden;
-}
 
-.transparent-circle-white {
-	width: 80px;
-	height: 80px;
-	position: absolute;
-	z-index: 2;
+	border-radius: 80px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 .line {

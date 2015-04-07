@@ -41,16 +41,19 @@
 
 #p_num_xichao {
 	float: left;
+	cursor:pointer;
 	color: #D9AE48;
 }
 
 #p_num_xichao_content {
 	float: left;
+	cursor:pointer;
 	color: #D9AE48;
 }
 
-#bracket {
+#p_num_xichao_bracket {
 	float: left;
+	cursor:pointer;
 	margin-right: 30px;
 	color: #D9AE48;
 }
@@ -60,7 +63,7 @@
 	margin-right: 18px;
 }
 
-#p_article_author_2 {
+#p_article_author_2 >a{
 	float: left;
 	color: #D9AE48;
 	margin-right: 30px;
@@ -110,12 +113,14 @@
 #p_review {
 	float: left;
 	color: #D9AE48;
+	cursor:pointer;
 	margin-right: 30px;
 }
 
 #p_collection {
 	float: left;
 	color: #D9AE48;
+	cursor:pointer;
 	margin-right: 40px;
 }
 
@@ -179,14 +184,11 @@
 	overflow: hidden;
 	width: 90px;
 	height: 90px;
+	border-radius: 90px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
-#transparent-circle {
-	position: absolute;
-	z-index: 2;
-	width: 90px;
-	height: 90px;
-}
 
 #p_user_name {
 	margin-left: 12%;
@@ -200,13 +202,18 @@
 	height: 100px;
 }
 
+
+#comment_pay_button{
+    margin-left: 20%;
+}
+
 #comment_reset_button{
-	margin-top: 3%;
-	margin-left: 40%;
+	/*margin-top: 3%;*/
+	margin-left: 10%;
 }
 
 #comment_publish_button{
-	margin-top: 3%;
+	/*margin-top: 3%;*/
 	margin-left: 10%;
 }
 
@@ -227,6 +234,7 @@
 	margin-top: 2%;
 	margin-bottom: 3%;
 	font-family: 微软雅黑;
+	width: 100%;
 }
 
 .user_pic_2 {
@@ -237,13 +245,10 @@
 	float: left;
 	z-index: 1;
 	overflow: hidden;
-}
-
-.transparent-circle-white {
-	width: 80px;
-	height: 80px;
-	position: absolute;
-	z-index: 2;
+	
+	border-radius: 80px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
 }
 
 .line {

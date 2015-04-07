@@ -185,10 +185,13 @@ def create_activity(title,content,title_image,activity_session_id,activity_time,
 		activity.abstract=abstract
 		activity.place=place
 		db_session.commit()
+		return activity.activity_id
 	else:
 		activity=Activity(name=title,content=content,picture=title_image,create_time=datetime.now(),activity_session_id=activity_session_id,activity_time=activity_time,abstract=abstract,place=place)
 		db_session.add(activity)
 		db_session.commit()
+		result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).first()
+		return result.activity_id
 
 def get_user_id(nick):
 	user_id=db_session.query(User.user_id).filter_by(nick=nick).first()
@@ -385,6 +388,15 @@ def get_special_author_other(user_id):
     query = db_session.query(Special.name,Special.special_id).filter_by(user_id = user_id).all()
     return query
 
+
+def update_article_num_for_special(special_id,is_add):
+	special=db_session.query(Special).filter_by(special_id=special_id).scalar()
+	if is_add:
+		special.article_num+=1
+	else:
+		special.article_num-=1
+	db_session.commit()
+
 ###################################  昵称函数  ####################################
 def getNick():
 	nick=None
@@ -504,6 +516,7 @@ def collection_special_author(user_id, special_id):
                                       #用户user_id 收藏用户 another_user_id
         db_session.add(collect_usr)
         db_session.commit()
+        update_collection_num(user_id,another_user_id,True)
     else:
         return "already"
     return "success"
@@ -518,6 +531,7 @@ def collection_special_author_cancel(user_id, special_id):
     if len(query) == 1:
         db_session.delete(query[0])
         db_session.commit()
+        update_collection_num(user_id,another_user_id,False)
     else:
         return "already"
     return "success"
@@ -567,6 +581,14 @@ def update_collection_num(user_id,another_user_id,is_add):
 
 def get_hot_ground_acticle():
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
+	return result
+
+def get_most_hot_ground_article():
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).first()
+	return result
+
+def get_most_hot_activity(time):
+	result=db_session.query(Activity).filter(Activity.activity_time>time).order_by(desc(Activity.favor)).first()
 	return result
 
 def get_article_group_by_coin(groups,category):
@@ -672,7 +694,7 @@ def get_current_activity_list(time):
 	return result
 
 def get_passed_activity_list(time):
-	result=db_session.query(Activity).filter(Activity.activity_time<time).limit(4).all()
+	result=db_session.query(Activity).filter(Activity.activity_time<time).order_by(desc(Activity.activity_time)).limit(4).all()
 	return result
 
 def get_follow_num(user_id):
@@ -686,9 +708,9 @@ def get_be_followed_num(user_id):
 
 def get_article_pagination_by_user_id(user_id,by_time,page_id):
 	if by_time:
-		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).order_by(desc(Article.time))
+		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.special_id==None)).order_by(desc(Article.time))
 	else:
-		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).order_by(desc(Article.coins))
+		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.special_id==None)).order_by(desc(Article.coins))
 	return paginate(query,page_id,10,False)
 
 def get_collection_author_list(user_id):
@@ -725,7 +747,7 @@ def get_fans_pagination(user_id,page_id):
 
 ##目前来说，3是管理员
 def get_message_pagination(user_id,page_id):
-	query=db_session.query(models.Message,User).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id!=3))
+	query=db_session.query(models.Message,User).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role!=3))
 	return paginate(query,page_id,4,False)
 
 def get_received_comment_pagination(user_id,page_id):
@@ -733,7 +755,7 @@ def get_received_comment_pagination(user_id,page_id):
 	return paginate(query,page_id,4,False)
 ##目前来说，3是管理员
 def get_notification_pagination(user_id,page_id):
-	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,models.Message.user_id==3))
+	query=db_session.query(models.Message).filter(and_(models.Message.to_user_id==user_id,User.role==3))
 	return paginate(query,page_id,4,False)
 
 def get_special_pagination(user_id,page_id):
@@ -759,10 +781,16 @@ def updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
 	user.gender=gender
 	user.birthday=birthday
 	user.phone=phone
-	##user.avatar=avatar
 	db_session.commit()
 	##删除原先的头像
-	return 'success'
+	if birthday==None and phone!=None:
+		return 'success_no_birthday'
+	elif birthday!=None and phone==None:
+		return 'success_no_phone'
+	elif birthday==None and phone==None:
+		return 'success_no_birthday_phone'
+	else:
+		return 'success'
 
 def update_user_avatar(user_id,avatar):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()

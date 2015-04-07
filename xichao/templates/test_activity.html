@@ -23,7 +23,7 @@
 			<p id="p_read">阅读</p>
 			<p id="p_read_content">({{activity.read_num}})</p>
 			<p id="p_review">评论 ({{activity.comment_num}})</p>
-			<a id="p_collection" href="#">收藏 ({{activity.favor }})</a
+			<p id="p_collection">收藏 ({{activity.favor }})</p>
 			<p id="p_article_time">发表时间&nbsp;&nbsp;{{activity.create_time}}</p>
 		</div>
 
@@ -33,23 +33,28 @@
 	{%if current_user.state=='1'%}
 		<div id="share">
 			<p id="p_share">分享</p>
-			<img src="/static/images/share_sinaweibo.png"/>
-			<img src="/static/images/share_qzone.png"/>
-			<img src="/static/images/share_renren.png"/>
-			<img src="/static/images/share_rss.png"/>
+        <!-- 新浪微博 -->
+  		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 活动 | ','  {{ activity.name }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
+		<img class="img_share" src="/static/images/share_sinaweibo.png"/>
+        </a>
+
+        <!-- 人人网 -->
+        <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;">
+		<img class="img_share" src="/static/images/share_renren.png"/>
+        </a>
 		</div>
 	
 	</div>
 	
 	<div id="publish_review">
 		<p id="p_publish_review">发表评论 :</p>
-		<div id="img_user">
-			<img id="transparent-circle" src="{{ url_for('static', filename='images/transparent-circle-pink.png') }}">
+		<div id="img_user" style="width: 90px;">
 			<img id="user_pic_1" src="{{avatar}}">
+			<p id="p_user_name" style="text-align: center; margin: auto;">{{ nick }}</p>
 		</div>
 
 		<iframe id="input_publish_review"></iframe>
-		<p id="p_user_name">{{ nick }}</p>
+		<div class="clear"></div>
 		<button  class="register-button" id="comment_reset_button">取消</button>
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
@@ -78,11 +83,10 @@
 			{% for comment in comments %}
 				<div class="comment">
 					<!--{{comment[0]}}comment对象实例，不用显示，需要显示的是属性，比如content，time-->
-					<img class="transparent-circle-white" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
 					<img class="user_pic_2" src="{{comment[2]}}">
 					<div class="line"></div>
 					<p class="p_review_author">{{comment[1]}}</p>
-					<div class="comment_content">{{comment[0].content}}</div>
+					<div class="comment_content">{{comment[0].content | safe}}</div>
 					<p class="p_publish_time"><font size="2px">{{comment[0].time}}</font></p>
 					<!--{{comment[0].content}}<!--comment的内容-->
 					<!--{{comment[0].time}}<!--comment的时间-->
@@ -99,6 +103,22 @@
 
 <!--js file used-->
 {% block js %}
+<!-- 人人网分享Js代码 -->
+<script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+<script type="text/javascript">
+	function shareClick() {
+    	var link = window.location.href;
+		var rrShareParam = {
+			resourceUrl : link,	//分享的资源Url
+			srcUrl : '',	//分享的资源来源Url,默认为header中的Referer,如果分享失败可以调整此值为resourceUrl试试
+			pic : 'http://xichao-o.com{{ activity.picture }}',		//分享的主题图片Url
+			title : '曦潮书香生态系统 | 活动 | '+'{{ activity.name }}',		//分享的标题
+			description : ''	//分享的详细描述
+		};
+		rrShareOnclick(rrShareParam);
+	}
+</script>
+
 
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
@@ -139,10 +159,9 @@ $("#comment_publish_button").click(function(){
 			var newdiv = $('<div><p>heelo</p></div>');*/
 			/*$('#comment_new').prepend('<div><p>hello</p></div>');*/
 			$('#comment_new').prepend('<div class="comment">'+
-				'<img class="transparent-circle-white" src="{{ url_for("static", filename="images/transparent-circle.png") }}">'+
 				'<img class="user_pic_2" src="{{avatar}}">'+
 				'<div class="line"></div>'+
-				'<p class="p_review_author">'+{{ nick }}+'</p>'+
+				'<p class="p_review_author">'+'{{ nick }}'+'</p>'+
 				'<div class="comment_content">'+val_content+'</div>'+
 				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
 		});};
@@ -150,6 +169,12 @@ $("#comment_publish_button").click(function(){
 
 $("#comment_reset_button").click(function(){
 	$('#input_publish_review').contents().find('body').empty();
+});
+
+
+$("#p_review").click(function(){
+    var pos = $("#publish_review").offset().top;
+    $("html,body").animate({ scrollTop: pos-30 }, 500);
 });
 
 $("#p_collection").click(function(){
@@ -166,13 +191,12 @@ $("#p_collection").click(function(){
 				layer.msg("你已收藏该活动",1,3);
 			}
 			else{
-				layer.msg("收藏成功",1,1);
+				layer.msg("收藏成功",1,1,function(){
+					location.href = "/activity/"+"{{activity.activity_id}}"
+				});
 			}
 	});
 });
-
-
-
 </script>
 
 {% endblock %}
