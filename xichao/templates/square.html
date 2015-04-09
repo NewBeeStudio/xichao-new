@@ -5,7 +5,7 @@
 <!-- 热门文章 -->
 <div class="square-headline">
 	<h2>热门文章</h2>
-	<div id="square-hot">
+	<div class="square-hot">
 		<div style="height:466px">
 			<div style="margin-top:13px"></div>
 			<table id="square-hot-article">
@@ -20,26 +20,34 @@
 			{% endfor %}
 			</table>
 		</div>
+		<a class="square-more" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">MORE&gt;</a>
 	</div>
 </div>
 
 <!-- 今日推荐 -->
-<div class="square-headline square-recommend" style="margin-bottom: 105px;">
+<div class="square-headline square-recommend " style="margin-bottom: 105px;">
 	<h2>今日推荐</h2>
-	<div id="recommend-content">
-		<h3 class="main-color"><a href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">{{hot_ground_article_list[0][0].title}}</a></h3>
-		<div id="recommend-title">
-			<span> {{hot_ground_article_list[0][0].time|time_split_2}} </span>
-			<span> 阅读({{hot_ground_article_list[0][0].read_num}})</span>
-			<span> <font color="#D9AE48">收藏</font>({{hot_ground_article_list[0][0].favor}})</span>
-			<span> <font color="#D9AE48">评论</font>({{hot_ground_article_list[0][0].comment_num}})</span>
-			<span> <font color="#D9AE48">曦潮币</font>({{hot_ground_article_list[0][0].coins}})</span>
-		</div>
-		<pre>{{hot_ground_article_list[0][0].abstract}}</pre>
+	<div id="recommend-content" class="square-hot">
 		<div id="recommend-img">
 			<img src="{{hot_ground_article_list[0][0].picture}}"/>
+		</div>	
+
+		<div id="recomment-box">
+			<div>
+				<h3><a class="hot-title" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">{{hot_ground_article_list[0][0].title}}</a></h3>
+			</div>
+			<div id="recommend-title">
+				<span> {{hot_ground_article_list[0][0].time|time_split_2}} </span>
+				<span> 阅读({{hot_ground_article_list[0][0].read_num}})</span>
+				<span> <font color="#D9AE48">收藏</font>({{hot_ground_article_list[0][0].favor}})</span>
+				<span> <font color="#D9AE48">评论</font>({{hot_ground_article_list[0][0].comment_num}})</span>
+				<span> <font color="#D9AE48">曦潮币</font>({{hot_ground_article_list[0][0].coins}})</span>
+			</div>
+			<div id="pre-read">
+				{{hot_ground_article_list[0][0].abstract}}
+			</div>
 		</div>
-		<a class="square-more" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">MORE&gt;</a>
+		
 	</div>
 </div>
 
