@@ -56,17 +56,17 @@ $(document).ready(function(){
         
     }
 
-    $("#login-inside-circle").hover(login_circle_onMouseIn, login_circle_onMouseOut);
+    //$("#login-inside-circle").hover(login_circle_onMouseIn, login_circle_onMouseOut);
 
 
     /**************************************************************/
     /*登陆label/input提示*/
     /**************************************************************/
-    $(".login-userinfo #email").attr({"placeholder": "输入邮箱"});
-    $(".login-userinfo #password").attr({"placeholder": "输入密码"});
-    $(".login-userinfo #confirm").attr({"placeholder": "确认密码"});
+    $("#login-userinfo #email").attr({"placeholder": "输入邮箱"});
+    $("#login-userinfo #password").attr({"placeholder": "输入密码"});
+    $("#login-userinfo #confirm").attr({"placeholder": "确认密码"});
 
-    $(".login-userinfo #email").prev().children().first().text("注册邮箱");
-    $(".login-userinfo #password").prev().children().first().text("密码");
-    $(".login-userinfo #confirm").prev().children().first().text("确认密码");
+    //$(".login-userinfo #email").prev().children().first().text("注册邮箱");
+    //$(".login-userinfo #password").prev().children().first().text("密码");
+    //$(".login-userinfo #confirm").prev().children().first().text("确认密码");
 });
