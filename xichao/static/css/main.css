@@ -326,16 +326,27 @@ src: url(../fonts/liukai.ttf);
     font-size: 24px;
 }
 
+/*导航栏下拉菜单相关*/
 #navbar-main .dropdown-menu{
     text-align: center;
     min-width: 100%;
     padding: 3px 0;
-    font-size:20px;
+    font-size: 20px;
+}
+
+#navbar-main .dropdown-menu .divider{
+    margin: 0;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a {
+    color: #FFF;
+    /*background-color: #0081C2;*/
+    background-image: linear-gradient(to bottom, gray, gray);
 }
 
 /*导航栏下分割线*/
 #parting-line{
-    margin-top: -10px;
+    margin-top: 20px;
 }
 
 #parting-line > img{
