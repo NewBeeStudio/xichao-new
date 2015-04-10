@@ -21,6 +21,7 @@ $(document).ready(function(){
 
     var login_circle_onMouseIn = function(e){      
 
+        console.log("hello");
         var mousePosX = e.pageX;
         var mousePosY = e.pageY;
 
@@ -31,6 +32,9 @@ $(document).ready(function(){
         var circleLeftBorder = parseInt($("#login-inside-circle").offset().left);
         var circleTopBorder = parseInt($("#login-inside-circle").offset().top); //圆的位置
 
+        console.log(circleDiameter);
+        console.log(circleTopBorder);
+        console.log(circleLeftBorder);
         var timeAway = 100, timeBack = 650; //拨过去和回来的时间(ms)
         var distance = 15; //拨的幅度(px)
 
@@ -38,17 +42,17 @@ $(document).ready(function(){
 
         //确定鼠标位置，完成jQuery动画
         if(mousePosX < circleLeftBorder + 0.25*circleDiameter)
-            $(this).animate({left: circlePosX+distance+"px"}, timeAway)
-               .animate({left: circlePosX+"px", top: circlePosY+"px"}, timeBack);
+            $(this).animate({marginRight: "-"+distance+"px"}, timeAway)
+               .animate({marginRight: "0px"}, timeBack);
         else if(mousePosX > circleLeftBorder + 0.75*circleDiameter)
-            $(this).animate({left: circlePosX-distance+"px"}, timeAway)
-               .animate({left: circlePosX+"px", top: circlePosY+"px"}, timeBack);
+            $(this).animate({marginRight: distance+"px"}, timeAway)
+               .animate({marginRight: "0px"}, timeBack);
         else if(mousePosY < circleTopBorder + 0.25*circleDiameter)
-            $(this).animate({top: circlePosY+distance+"px"}, timeAway)
-               .animate({top: circlePosY+"px", left: circlePosX+"px"}, timeBack);
+            $(this).animate({marginTop: distance+"px"}, timeAway)
+               .animate({marginTop: "0px"}, timeBack);
         else if(mousePosY > circleTopBorder + 0.75*circleDiameter)
-            $(this).animate({top: circlePosY-distance+"px"}, timeAway)
-               .animate({top: circlePosY+"px", left: circlePosX+"px"}, timeBack);
+            $(this).animate({marginTop: "-"+distance+"px"}, timeAway)
+               .animate({marginTop: "0px"}, timeBack);
 
     };
 
@@ -56,7 +60,7 @@ $(document).ready(function(){
         
     }
 
-    //$("#login-inside-circle").hover(login_circle_onMouseIn, login_circle_onMouseOut);
+    $("#login-inside-circle").hover(login_circle_onMouseIn, login_circle_onMouseOut);
 
 
     /**************************************************************/
