@@ -29,29 +29,27 @@
 	<!-- 专栏 -->
 	<div class="special-part1">
 		<!-- 专栏标题图片 -->
-		<div class="special-part1-left" style = "
-		{% if special_num%2 == 0 %}
-		float: left;
-		{% else %}
-		float: right;
-		{% endif %}
-		">
+        
+        {% if special_num%2 == 1 %}
+        <div class="special_background">
+        </div>
+        {% endif %}
+        
+        
+		<div class="special-part1-left">
 			<h2></h2>
-			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
-			<img id="special-part1-img" src="{{ special.picture | safe }}"/>
+<div id="special-part1-img2" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
+            <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
+                
+			<img id="special-part1-img1" src="{{ special.picture | safe }}"/><!--
+            <img  src="{{ url_for('static', filename='images/special-all-left-border.png') }}"/>-->
 			</a>
-			<div></div>
+</div>			
 		</div>
 
 		<!-- 内容 -->
-		<div class="special-part1-right" style= "
-		{% if special_num%2 == 0 %}
-		float: right;
-		{% else %}
-		float: left;
-		{% endif %}
-		">
-			<div id="special-part1-content" style="width:703px">
+		<div class="special-part1-right">
+			<div id="special-part1-content">
 			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
 			<h2>
 			        {{ special.name }}
@@ -60,41 +58,44 @@
 			<hr />
             <div id="author-coin">
 			<h4>
-			    by:&nbsp;&nbsp;{{ author(special.user_id).nick }}
-			    &nbsp;&nbsp;
-			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
+			    &nbsp;&nbsp;{{ author(special.user_id).nick }}
+			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}" style="height: 20px; width: 20px;">
                 {{ special.coin }}
 			</h4>
 			</div>
 			
             <p>
-                    &nbsp;&nbsp;&nbsp;&nbsp; 专栏介绍：
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     {{ special.introduction | safe }}
             </p>
             <br>    
             <br>
             
-            
-            <table id="latest-article" style="
+            <div id="latest-article" style="
             background-image: url({{ url_for('static', filename='images/special_list_border.png') }});">
-                <tr>
-                <td height="40"><i>最新文章:</i></td>
-                </tr>
-                {% for article in articles(special.special_id, 1, "time", 3).items %}
+            <table>
+                <thead></thead>
+                <tfoot></tfoot>
+                <tbody>
+                {% for article in articles(special.special_id, 1, "time", 5).items %}
                   <tr>
-                    <td width="380">    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </td>
-                    <td width="170" style="color:grey;">{{ article.time | time_split_5 }}</td>
-                    <td>
+                    <td width="480" height="35">    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </td>
+                    <td width="100" style="color:grey;">
                     <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
                     {{ article.coins }}
                     </td>
+                      <td  style="color:grey;">{{ article.time | time_split_2 }}</td>
                 </tr>
                 {% endfor %}
+                </tbody>
             </table>
+            </div>
             
             
 			</div>
+            <div class="special-part1-right-more">
 			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">进入专栏&gt;</a>
+                </div>
 		</div>
 	
 	</div>
