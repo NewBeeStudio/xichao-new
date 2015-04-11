@@ -10,21 +10,21 @@
         {% elif request.args.get('next') %}
         <input name="request_url" type=hidden value="{{ request.args.get('next') }}" />
         {% endif %}
-        <dl>
+
+        <table id="login-userinfo">
             {{ render_login(form.email) }}
             {{ render_login(form.password) }}
-            {{ render_login_autologin(form.stay) }}
-        </dl>
-        {% if error!=None %}
+        </table>
+        {{ render_login_autologin(form.stay) }}
+                {% if error!=None %}
         <div class="error-tip login-error-not-match">
             {{ error }}
         </div>
         {% endif %}
-        <div id="login-submit">
-            <input type="submit" value="登陆">
-            <div class="clear" style="margin-top: 10px;">
-                <a class="login-yellow" href="{{url_for('register')}}">还没有账号？点击注册 >>></a>
+            <!--<input type="submit" value="登陆">-->
+            <div id="submit">
+                <a href="javascript:return false;" onclick="javascript:$('#login-form-block').submit();">登陆</a>
             </div>
-        </div>
+            <a id="register" href="{{url_for('register')}}">还没有账号？点击注册 >>></a>
     </form>
 {% endblock %}

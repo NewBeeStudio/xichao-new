@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-DB_URL='mysql://root:1234@localhost/xichao?charset=utf8'
+DB_URL='mysql://root:Xichao42@localhost/xichao?charset=utf8'
 engine = create_engine(DB_URL, echo=True, convert_unicode=True)
 
 db_session = scoped_session(sessionmaker(autocommit=False,
