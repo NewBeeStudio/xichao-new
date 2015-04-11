@@ -19,6 +19,11 @@ input{
     border: solid 1.5px #aaaaaa;
 }
 
+label{
+    display: inline; /*bootstrap reset*/
+    margin: 0;
+}
+
 a{
 	text-decoration: none;
     display: block;
@@ -41,6 +46,18 @@ a:visited{
     color: #D9AE48;
 }
 
+.hot-title{
+    font-size: 25px;
+    font-weight: bold;
+    color:white;
+}
+.floatleft{
+    float: left;
+}
+
+.floatright{
+    float: right;
+}
 /*******************字体*****************/
 @font-face { 
   font-family: 尚黑; /*这里是说明调用来的字体名字*/ 
@@ -57,6 +74,7 @@ ul{
 #header{
     width: 1160px;
     margin: auto;
+    /*padding-bottom: 15px;*/
 }
 
 #nav-bar-header{
@@ -67,12 +85,14 @@ ul{
 
 #nav-bar-logo{
     float: left;
-    margin-top: -10px;
+    width: 160px;
+    height: 130px;
+    margin-top: 10px;
 }
 
 #nav-bar-logo > img {
-    width: 150px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
 }
 
 #nav-bar-button{
@@ -104,15 +124,16 @@ ul{
 }
 
 #nav-bar-search{
-	margin-top: 30px;
-    height: 18px;
+	margin-top: 0px;
     float: right;
 }
 
-#nav-bar-search > input{
-    width: 200px;
+#nav-bar-search input{
+    width: 148px;
     height: 25px;
     font-size: 16px;
+
+    border: 1px solid #888;
 }
 
 input:hover{
@@ -228,46 +249,108 @@ input:focus{
     border-color: #DF4D3F transparent transparent;
 }
 
-/*导航栏相关css*/
-#navbar-background {
+/*个人信息栏相关css*/
+#navbar-info {
     height: 40px;
     background-color: #444;
     z-index: 1000;
+    position: fixed; 
+    width: 100%;
 }
 
-#navbar-background > div{
+#navbar-info > div{
     margin: 0 auto 0 auto;
     width: 1160px;
 }
 
-#navbar-background a{
+#navbar-info a{
     font: 14px 黑体;
+    border-radius: 5px;
     text-shadow: none;
 }
 
-#navbar-background .nav > li > a:link, 
-#navbar-background .nav > li > a:hover, 
-#navbar-background .nav > li > a:active, 
-#navbar-background .nav > li > a:visited{
+#navbar-info .nav > li > a:link, 
+#navbar-info .nav > li > a:hover, 
+#navbar-info .nav > li > a:active, 
+#navbar-info .nav > li > a:visited{
     color: #fff;
 }
 
 
-#navbar-background .nav > li > a:hover{
+#navbar-info .nav > li > a:hover,
+#navbar-info .open > .dropdown-toggle{
     background-color: #D9AE48;
 }
 
 /*下拉框修改*/
- #navbar-background .menu-min-width{
+#navbar-info .dropdown-menu{
     min-width: 100%;
  }
 
-#navbar-background li.divider{
+#navbar-info li.divider{
     margin: 2px;
 }
 
-#navbar-background .navbar .nav li.dropdown.open > .dropdown-toggle{
+.register-login{
+    width: 60px;
+    text-align: center;
+}
+
+@font-face { 
+font-family: liukai;
+src: url(../fonts/liukai.ttf);
+} 
+/*导航栏相关css*/
+#navbar-main{
+    clear: both;
+    float: right;
+
+    margin-top: 40px;
+    font: 22px liukai;
+}
+
+#navbar-main > .nav > li > a{
+    width: 88px;
+    color: #000;
+    text-align: center;
+    text-shadow: none;
+
+    border-radius: 5px;
+    line-height: 10px;
+    /*transform: rotate(5deg);*/
+}
+
+#navbar-main .nav > li > a:hover,
+#navbar-main .open > .dropdown-toggle{
     background-color: #D9AE48;
+    font-size: 24px;
+}
+
+/*导航栏下拉菜单相关*/
+#navbar-main .dropdown-menu{
+    text-align: center;
+    min-width: 100%;
+    padding: 3px 0;
+    font-size: 20px;
+}
+
+#navbar-main .dropdown-menu .divider{
+    margin: 0;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a {
+    color: #FFF;
+    /*background-color: #0081C2;*/
+    background-image: linear-gradient(to bottom, gray, gray);
+}
+
+/*导航栏下分割线*/
+#parting-line{
+    margin-top: 20px;
+}
+
+#parting-line > img{
+    width: 100%;
 }
 
 /*这部分描述参考线，上线后可删*/
