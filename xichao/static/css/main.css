@@ -46,6 +46,11 @@ a:visited{
     color: #D9AE48;
 }
 
+.hot-title{
+    font-size: 25px;
+    font-weight: bold;
+    color:white;
+}
 .floatleft{
     float: left;
 }
@@ -80,7 +85,7 @@ ul{
 
 #nav-bar-logo{
     float: left;
-    width: 175px;
+    width: 160px;
     height: 130px;
     margin-top: 10px;
 }
@@ -124,7 +129,7 @@ ul{
 }
 
 #nav-bar-search input{
-    width: 345px;
+    width: 148px;
     height: 25px;
     font-size: 16px;
 
@@ -291,13 +296,17 @@ input:focus{
     text-align: center;
 }
 
+@font-face { 
+font-family: liukai;
+src: url(../fonts/liukai.ttf);
+} 
 /*导航栏相关css*/
 #navbar-main{
     clear: both;
     float: right;
 
     margin-top: 40px;
-    font: 22px 楷体;
+    font: 22px liukai;
 }
 
 #navbar-main > .nav > li > a{
@@ -317,15 +326,27 @@ input:focus{
     font-size: 24px;
 }
 
+/*导航栏下拉菜单相关*/
 #navbar-main .dropdown-menu{
     text-align: center;
     min-width: 100%;
     padding: 3px 0;
+    font-size: 20px;
+}
+
+#navbar-main .dropdown-menu .divider{
+    margin: 0;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a {
+    color: #FFF;
+    /*background-color: #0081C2;*/
+    background-image: linear-gradient(to bottom, gray, gray);
 }
 
 /*导航栏下分割线*/
 #parting-line{
-    margin-top: -10px;
+    margin-top: 20px;
 }
 
 #parting-line > img{

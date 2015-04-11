@@ -1,27 +1,32 @@
 .square-headline{
-	margin-top: 30px;
-	width: 527px;
+	/*margin-top: 30px;*/
+	width: 557px;
 
 	float: left;
 	/*border: 1px solid red;*/
 }
 
+@font-face { 
+font-family: liukai;
+src: url(../fonts/liukai.ttf);
+} 
 .square-headline h2{
-	font-family: 微软雅黑;
+	font-family: liukai;
 	font-size: 25px;
+	font-weight: bold;
 	letter-spacing: 10px;
 }
 
-#square-hot{
+.square-hot{
 	margin-top: 35px;
 	height: 513px;
-	width: 527px;
-	border: 1px solid #dddddd;
+	width: 557px;
+	border: 2px solid #dddddd;
 }
 
 #square-hot-article{
 	font-family: 宋体;
-	font-size: 14.6px;
+	font-size: 18px;
 }
 
 #square-hot-article td{
@@ -36,7 +41,7 @@
 
 td.square-col-1{
 	width: 340px;
-	padding-left: 10px;
+	padding-left: 15px;
 	/*font-weight: bold;*/
 }
 
@@ -44,11 +49,16 @@ td.square-col-2{
 	width: 110px;
 	color: gray;
 	text-align: center;
+	position:relative;
+	left:26px;
 }
 
 td.square-col-3{
 	width: 18px;
 	color: gray;
+	position:relative;
+	left:30px;
+	top:-1px;
 }
 
 .square-col-4{
@@ -58,6 +68,8 @@ td.square-col-3{
 
 .square-col-final{
 	color: gray;
+	position:relative;
+	left:40px;
 }
 
 a.square-more{
@@ -67,29 +79,42 @@ a.square-more{
 	margin-top: 10px;
 	margin-right: 20px;
 	color: gray;
-
 	letter-spacing: 1px;
+	
+	position:relative;
+	left:-30px;
+	top:-30px;
 }
 
 .square-recommend{
-	margin-left: 53px;
+	margin-left: 44px;
 	width: 460px;
 }
-
+#recomment-box{
+	margin:1.5%;
+	background:rgba(0,0,0,0.4) none repeat scroll !important;
+	position:relative;
+	top:-290px;
+}
 #recommend-content{
-	margin-left: 20px;
-	margin-top: 47px;
+/*	padding-left: 2px;
+	padding-top: 7px;*/
+
 }
 
 #recommend-content h3{
 	text-align: center;
 	font-family: 宋体;
 	font-size: 25px;
+	position:relative;
+	top:40px;
 }
 
 #recommend-title{
-	margin: 16px auto auto auto;
+	/*margin: 16px auto auto auto;*/
 	text-align: center;
+	position:relative;
+	top:40px;
 }
 
 
@@ -97,30 +122,45 @@ a.square-more{
 	margin-left: 8px;
 	font-family: 宋体;
 	font-size: 12.5px;
-	color: gray;
+	color: white;
 }
 
-#recommend-content pre{
-	margin-top: 16px;
-	height: 182px;
+#pre-read{
+	height: 200px;
 
 	font-family: 宋体;
-	font-size: 16.7px;
+	font-size: 14px;
+	text-align:left;
+	color:white;
 
 	overflow: hidden;	
 	white-space: pre-wrap;
 	word-wrap: break-word; /*自动换行*/
+
+	position:relative;
+	top:40px;
+	left:-150px;
+
 }
 
 #recommend-img{
-	margin: 22px auto auto auto;
-	width: 180px;
-	height: 180px;
+	padding: 1.5%;
+
+/*	position:relative;
+	top:-315px;
+	left:1px;*/
+	z-index:-1;
+
 }
 
 #recommend-img img{
 	width: 100%;
 	height: 100%;
+}
+.square-part1-right{
+	position:relative;
+	top:195px;
+	left:-67px;
 }
 
 #square-part1-content, .square-part1-right > a, .square-part2-left > a{
@@ -130,15 +170,17 @@ a.square-more{
 
 #square-part1-content td{
 	padding-top: 12px;
+
 }
 
-.square-part1, .square-part2{
+.square-part1, .square-part2 {
 	clear: both;
+
 }
 
 /*专栏图片区域*/
 .square-part1-left, .square-part2-right{
-	width: 375px;
+	width: 360px;
 	height: 730px;
 	float: left;
 }
@@ -158,8 +200,9 @@ a.square-more{
 	width: 25px;
 	height: 190px;
 
-	font-family: 微软雅黑;
-	font-size: 25px;
+	font-family: liukai;
+	font-size: 48px;
+	font-weight:bold;
 	line-height: 80px;
 }
 
