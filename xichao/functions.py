@@ -301,10 +301,10 @@ def modify_homepage_func(special1, url1,
 ##################################  专栏函数  ####################################
 def get_all_specials(sort, page_id):
     if sort == 'time':
-        query = db_session.query(Special).order_by(Special.last_modified.desc())
+        query = db_session.query(Special).order_by(Special.last_modified.desc(), Special.coin.desc())
     else:
-        query = db_session.query(Special).order_by(Special.coin.desc())
-    return paginate(query = query, page = page_id, per_page = 5, error_out = True)
+        query = db_session.query(Special).order_by(Special.coin.desc(), Special.last_modified.desc())
+    return (paginate(query = query, page = page_id, per_page = 5, error_out = True), paginate(query = query, page = page_id, per_page = 15, error_out = True))
     
 def get_search_specials(search):
     query = db_session.query(Special).filter(Special.name.like('%'+search+'%')).order_by(Special.coin.desc())

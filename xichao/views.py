@@ -346,9 +346,10 @@ def special_all():
     else:
         sort_change_url = '/special_all?sort=time&page=1'
 
-    specials_pagination = get_all_specials(sort, page_id)
+    specials_pagination_list, specials_pagination_all = get_all_specials(sort, page_id)
     return render_template('special_all.html', sort = sort,
-                                                  specials_pagination = specials_pagination, 
+                                                  specials_pagination_list = specials_pagination_list, 
+                                                  specials_pagination_all = specials_pagination_all,
                                                   author = get_special_author, 
                                                   articles = get_special_article,
                                                   sort_change_url = sort_change_url)

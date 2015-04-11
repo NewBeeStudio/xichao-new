@@ -1,6 +1,6 @@
 .special_background{
     margin-top: -68px;
-    height: 578px;
+    height: 598px;
     width: 1160px;
     background-color: #f0f0f0;
     position: absolute;
@@ -18,17 +18,47 @@
     height: 25px;
 }
 
+
+
 /*排序选择器*/
+#sort{
+    width: 160px;
+    font-family: 黑体;
+    border: 2px solid #000;
+}
+
 #sort_select{
     font-family: 微软雅黑;
     float:right; 
-    margin-top: 51px;
+    margin-top: 10px;
+}
+
+#display-type-select>.active>a, #display-type-select>.active>a:hover, #display-type-select>.active>a:focus {
+  color: #fff;
+  background-color: #D9AE48;
+}
+
+#display-type-select{
+    font-family: 黑体;
+    float: left;
+    position: relative;
+    margin-top: -2px;
+    margin-right: 40px;
+}
+
+a:hover{
+    cursor: pointer;
 }
 
 .special-part1{
 	clear: both;
 }
 
+
+.special-left-top{
+    position: relative;
+    margin-left: 170px;
+}
 /*专栏图*/
 img#special-part1-img1{
 	margin-top: 15px;
@@ -40,9 +70,10 @@ img#special-part1-img1{
     position: relative;
     behavior: url(/static/css/PIE.htc);
 }
+
 #special-part1-img2{
-    margin-top: 20px;
     margin-left: 0px;
+    margin-top: 20px;
     border-left: 0px;
     position: absolute;
     
@@ -60,13 +91,14 @@ img#special-part1-img1{
 /*专栏图片区域*/
 .special-part1-left{
 	width: 360px;
-	height: 548px;
-	margin-top: 50px;
+	height: 570px;
+    margin-top: 28px;
     float:left;
 }
 
 /*专栏标题*/
 /*圆上面的竖线*/
+/*
 .special-part1-left > h2{
 	width: 25px;
 	height: 180px;
@@ -75,6 +107,9 @@ img#special-part1-img1{
 	font-size: 24px;
 	line-height: 80px;
 }
+*/
+
+
 
 .special-part1-left > h2{
 	margin-left: 180px;
@@ -92,15 +127,6 @@ img#special-part1-img1{
 .special-part1-right{
 	font-family: 微软雅黑;
     float:right;
-}
-
-
-#special-part1-content > hr{
-    margin-top: 10px;
-    width: 360px;
-    margin-left: auto;
-    margin-right: auto;
-    border-bottom: 1.5px solid #000000;
 }
 
 #special-part1-content > a{ 
@@ -125,7 +151,17 @@ img#special-part1-img1{
     font-size: 18px;
 	overflow-y: auto;
     word-wrap: break-word;
-    height: 100px;
+    height: 120px;
+}
+
+#special-part1-content > h2{
+    margin: 0px;
+}
+
+#special-part1-content > img{
+        margin-top: -10px;
+    width: 360px;
+    margin-left: 200px;
 }
 
 /* 专栏最新文章 */
@@ -170,4 +206,54 @@ img#special-part1-img1{
 	text-align: center;
 	font-family: 微软雅黑;
 	font-size: 16.7px;
+}
+
+/***************all视图***************/
+#seperator{
+    clear: both;
+}
+
+.special-allView-pic{
+	margin-top: 15px;
+	margin-left: 15px;
+	width: 330px;
+	height: 330px;
+
+    border-radius: 330px;
+    position: relative;
+}
+
+.special-allView-pic-circle{
+    width: 360px;
+    height: 360px;
+}
+
+.special-allView-element{
+    float:left;
+    width: 360px;
+    margin-bottom: 50px;
+}
+
+.special-allView-element > a{
+    font-size: 24px;
+    font-family: 黑体;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+#author-coin-allView > h4{
+    font-size: 15px;
+    font-family: 黑体;
+    margin-top: -15px;
+    text-align: center;
+}
+
+.special_background_allView{
+    margin-top: -20px;
+    height: 500px;
+    width: 1160px;
+    background-color: #f0f0f0;
+    position: absolute;
+    z-index: -500;
 }
