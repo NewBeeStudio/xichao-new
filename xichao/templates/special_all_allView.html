@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/special_all.css') }}" rel='stylesheet' type='text/css'/> 
+{% endblock %}
+
+<!--content-->
+{% block content %}
+ <!--
+    <div id="special-search">
+    <p>搜索专栏</p>
+    <form action="/special_search" method="get">
+        <input type="text" name="search" />
+    </form>
+    </div>
+-->
+
+
+
+    <div id="sort_select">
+        <ul id="display-type-select" class="nav nav-pills">
+  <li role="presentation" id="change-display-list" class="change-display-type"><a>显示专栏列表</a></li>
+  <li role="presentation" id="change-display-all" class="active"><a>显示所有专栏</a></li>
+</ul>
+
+    <select id="sort">
+        <option id="sort_by_time" value="time">按照时间排序</option>
+        <option id="sort_by_favor" value="favor">按照热度排序</option>
+                
+    </select>
+        
+    </div>
+
+<div id="seperator"></div>
+
+<div id="display-all">
+    {% set special_num = 1 %}
+    {% for special in specials_pagination_all.items %}
+    {% set special_num = special_num + 1 %}
+
+    
+    <div class="special-allView-element" style="
+        {% if (special_num-1)%3 != 0 %}
+            margin-right: 40px;
+        {% endif %}
+                                                ">
+
+    {% if ((special_num-2) % 6 > 2) and ((special_num-2) % 3 == 0) %}
+    <div class="special_background_allView">
+    </div>
+    {% endif %}
+    
+    <div class="special-allView-pic-circle" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
+   <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time" >
+			<img class="special-allView-pic" src="{{ special.picture | safe }}"/>
+
+			</a>
+</div>
+        <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
+        <h2>{{ special.name }}</h2>
+        </a>
+        <img src="{{ url_for('static', filename='images/special-right-line.png')}}" style="margin-top: -20px;">
+        
+            <div id="author-coin-allView">
+			<h4>
+			    &nbsp;&nbsp;{{ author(special.user_id).nick }}
+			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}" style="height: 20px; width: 20px;">
+                {{ special.coin }}
+			</h4>
+			</div>
+    </div>
+    {% endfor %}
+    
+    
+    <div id="special-paging"> 
+        <nav>
+            <ul class="pager">
+                {% if specials_pagination_all.has_prev %}
+                <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_all.prev_num }}">上一页</a></li>
+                {% endif %}
+                <li>{{ specials_pagination_all.page }} / {{specials_pagination_all.pages }}</li>
+                
+                {% if specials_pagination_all.has_next %}
+                <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_all.next_num }}">下一页</a> </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}
+
+<!--js file used-->
+{% block js %}
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    })(jQuery);
+    
+    var Order = $.getUrlParam('sort');
+    if (Order == "time"){
+        $("#sort_by_time").attr("selected", "selected");
+    } else{
+        $("#sort_by_favor").attr("selected", "selected");
+    }
+});
+
+$("#sort").change(function(){
+    location.href = "{{sort_change_url | safe}}";
+});
+
+    
+$(".change-display-type").click(function(){
+    location.href = "{{view_change_url | safe}}";
+    /*
+    var wasFocus = $(this).attr("class");
+    var thisID = $(this).attr("id");
+    var otherID;
+    if (thisID == "change-display-list")
+        otherID = "#change-display-all";
+    else
+        otherID = "#change-display-list";
+
+//    alert(thisID);
+//    alert(otherID);
+    if (wasFocus == "change-display-type"){
+        $(this).attr("class", "change-display-type active");
+        $(otherID).attr("class", "change-display-type");
+        
+        if (otherID == "#change-display-list"){
+            $("#display-list").css("display", "none");
+            $("#display-all").css("display", "inline");
+        } else{
+            $("#display-list").css("display", "inline");
+            $("#display-all").css("display", "none");
+        }
+    }
+    */
+});
+</script>
+{% endblock %}

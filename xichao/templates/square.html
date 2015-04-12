@@ -1,4 +1,4 @@
-{% extends "layout_article.html" %}
+{% extends "layout_ext.html" %}
 
 <!--content-->
 {% block square_content %}
@@ -34,7 +34,7 @@
 
 		<div id="recomment-box">
 			<div>
-				<h3><a class="hot-title" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">{{hot_ground_article_list[0][0].title}}</a></h3>
+				<h3><a class="hot-title" style="color:white;" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">{{hot_ground_article_list[0][0].title}}</a></h3>
 			</div>
 			<div id="recommend-title">
 				<span> {{hot_ground_article_list[0][0].time|time_split_2}} </span>

@@ -12,21 +12,6 @@
         {% endblock %}
         
         <style>
-        #top-background{
-            position: absolute;
-            top: 0px;
-            z-index: -100; 
-            width: 100%;
-        }
-        #top-background > img{
-            width: 100%;
-            position: absolute;
-            /*
-            clip:rect(0px 10000px 1000px 0px); 
-            */
-            opacity:0.75;
-            filter:alpha(opacity=75);
-        }
 
         /*根据分辨率自适应改变背景图大小*/
         @media screen and (min-width: 1161px) {
@@ -51,10 +36,6 @@
     </head>
 
     <body>
-
-        <div id="top-background">
-            <img src="{{ url_for('static', filename='images/top_background.jpg') }}">
-        </div>
         
         <div class="reference-block">
         <div class="reference-line">
@@ -167,7 +148,7 @@
                         <div id="navbar-main" class="navbar navbar-default">
                             <ul class="nav navbar-nav" style="width: 100%;">
                                 <li><a href="{{url_for('index')}}">首页</a></li>
-                                <li><a href="{{url_for('special_all')}}?sort=time&page=1">专栏</a></li>
+                                <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
                                 <li><a href="{{url_for('activity_main')}}">活动</a></li>
                                 <li class="dropdown">
                                     <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">观点 
@@ -217,6 +198,8 @@
         <div id="content">
 
             {% block content %}
+                {% block opinion_content %}
+                {% endblock %}
             {% endblock %}
 
         </div>
@@ -224,7 +207,7 @@
 
         <!--footer-->
         <div id="footer">
-
+            <div id="footer-rect"></div>
         </div>
     <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
