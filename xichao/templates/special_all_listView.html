@@ -119,7 +119,7 @@
 
     
     <div id="special-paging" style="margin-top: 120px;"> 
-        
+
         <nav>
             <ul class="pager">
                 {% if specials_pagination_list.has_prev %}
@@ -132,8 +132,29 @@
                 {% endif %}
             </ul>
         </nav>
+
+    <nav>
+      <ul class="pagination pagination-lg">
+        {% if specials_pagination_list.has_prev %}
+        <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_list.prev_num }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        {% endif %}
         
+          {% for i in range(specials_pagination_list.pages) %}
+          {%if specials_pagination_list.page == i+1 %}
+            <li class="active"><a href="/special_all?view={{view}}&sort={{sort}}&page={{i+1}}">{{i+1}}</a></li>
+          {% else %}
+            <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{i+1}}">{{i+1}}</a></li>
+          {% endif %}
+          {% endfor %}
+        
+        {% if specials_pagination_list.has_next %}
+        <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_list.next_num }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+        {% endif %}
+      </ul>
+    </nav>
     </div>
+    
+
 </div>
 
 
