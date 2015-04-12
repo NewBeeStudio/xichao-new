@@ -16,7 +16,29 @@ src: url(../fonts/liukai.ttf);
 	font-weight: bold;
 	letter-spacing: 10px;
 }
-
+.hot-title{  
+    font-size: 25px;
+    font-weight: bold;
+}
+.opinion-title{
+	position:relative;
+	left:35%;
+}
+.opinion-author-text{
+	position:relative;
+	left:24%;
+	top:-14px;
+}
+.opinion-line{
+	position:relative;
+	bottom:120px;
+}
+.opinion-box{
+/*	background: url(../images/rectangle.png) no-repeat;*/
+	height:438px;
+	width:819px;
+	/*border: 2px solid #dddddd;*/
+}
 .square-hot{
 	margin-top: 35px;
 	height: 513px;
@@ -50,15 +72,15 @@ td.square-col-2{
 	color: gray;
 	text-align: center;
 	position:relative;
-	left:26px;
+	left:5%;
 }
 
 td.square-col-3{
 	width: 18px;
 	color: gray;
 	position:relative;
-	left:30px;
-	top:-1px;
+	left:6%;
+	top:-2px;
 }
 
 .square-col-4{
@@ -69,7 +91,7 @@ td.square-col-3{
 .square-col-final{
 	color: gray;
 	position:relative;
-	left:40px;
+	left:8%;
 }
 
 a.square-more{
@@ -82,8 +104,8 @@ a.square-more{
 	letter-spacing: 1px;
 	
 	position:relative;
-	left:-30px;
-	top:-30px;
+	left:-5%;
+	top:-5%;
 }
 
 .square-recommend{
@@ -94,7 +116,7 @@ a.square-more{
 	margin:1.5%;
 	background:rgba(0,0,0,0.4) none repeat scroll !important;
 	position:relative;
-	top:-290px;
+	top:-57%;
 }
 #recommend-content{
 /*	padding-left: 2px;
