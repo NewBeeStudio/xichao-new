@@ -22,7 +22,7 @@ src: url(../fonts/liukai.ttf);
 }
 .opinion-title{
 	position:relative;
-	left:35%;
+	left:39%;
 }
 .opinion-author-text{
 	position:relative;
@@ -32,6 +32,16 @@ src: url(../fonts/liukai.ttf);
 .opinion-line{
 	position:relative;
 	bottom:120px;
+}
+.opinion-headline-text{
+	position:relative;
+	bottom:200px;
+	font-family:liukai;
+	font-size:24px;
+	line-height:1.5;
+	color:#D9AE48;
+
+　　word-wrap:break-word;
 }
 .opinion-box{
 /*	background: url(../images/rectangle.png) no-repeat;*/
@@ -54,7 +64,10 @@ src: url(../fonts/liukai.ttf);
 #square-hot-article td{
 	padding-top: 25px;
 }
-
+#square-part1-content{
+	position:relative;
+	bottom:120px;
+}
 #square-hot-article img, #square-part1-content img{
 	width: 14px;
 	height: 14px;
@@ -181,8 +194,11 @@ a.square-more{
 }
 .square-part1-right{
 	position:relative;
-	top:195px;
+	top:210px;
 	left:-67px;
+
+	width: 700px;
+	height: 360px;
 }
 
 #square-part1-content, .square-part1-right > a, .square-part2-left > a{

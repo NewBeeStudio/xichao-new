@@ -19,11 +19,13 @@
 			<!-- <h2>书评</h2> -->
 			<img class="opinion-title" src="{{ url_for('static', filename='images/shuping.png') }}"/>
 			<img id="square-part1-img" src="{{ url_for('static', filename='images/square.jpg') }}"/>
-			<div></div>
+
 		</div>
 
 		<!-- 内容 -->
 		<div class="square-part1-right">
+			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			</div>
 			<table id="square-part1-content" style="width:703px">
 			{% for (article) in (book_review_list) %}
 				<tr>
@@ -45,12 +47,14 @@
 		<!-- 标题图片 -->
 		<div class="square-part1-left">
 			<!-- <h2>影评</h2> -->
-			<img  style="position:relative;left:28%;" src="{{ url_for('static', filename='images/yingping.png') }}"/>
+			<img  class="opinion-title" src="{{ url_for('static', filename='images/yingping.png') }}"/>
 			<img id="square-part1-img" src="{{ url_for('static', filename='images/square.jpg') }}"/>
 			<div></div>
 		</div>
 		<!-- 内容 -->
 		<div class="square-part1-right">
+			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			</div>
 			<table id="square-part1-content" style="width:703px">
 			{% for (article) in (film_review_list) %}
 				<tr>
@@ -81,6 +85,8 @@
 		
 		<!-- 内容 -->
 		<div class="square-part1-right">
+			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			</div>
 			<table id="square-part1-content" style="width:703px">
 			{% for (article) in (essay_list) %}
 				<tr>

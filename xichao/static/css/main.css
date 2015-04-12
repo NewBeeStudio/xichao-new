@@ -184,9 +184,14 @@ input:focus{
 /*content对齐*/
 #content{
     width: 1160px;
+    height:3100px;
     margin: auto;
 }
-
+#footer-rect{
+    width:100%;
+    height:100px;
+    background-color:#D9AE48;
+}
 .current-position{
     position: relative;
     height: 62px;
@@ -384,3 +389,4 @@ src: url(../fonts/liukai.ttf);
     border-right: 1px solid red; 
     float: left;
 }
+
