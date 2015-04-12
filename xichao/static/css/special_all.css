@@ -38,6 +38,14 @@
   background-color: #D9AE48;
 }
 
+#change-display-list > a{
+    color: black;
+}
+#change-display-all > a{
+    color: black;
+}
+
+
 #display-type-select{
     font-family: 黑体;
     float: left;
@@ -54,6 +62,10 @@ a:hover{
 	clear: both;
 }
 
+/***************list视图***************/
+#display-list{
+    margin-top: 10px;
+}
 
 .special-left-top{
     position: relative;
@@ -195,7 +207,6 @@ img#special-part1-img1{
 
 /* 页码 */
 #special-paging{
-	margin-top: 320px;
 	margin-bottom: 50px;
 	float: right;
 }
@@ -208,7 +219,15 @@ img#special-part1-img1{
 	font-size: 16.7px;
 }
 
+.pager li>a:hover{
+    text-decoration: none;
+    background-color: #D9AE48;
+}
 /***************all视图***************/
+#display-all{
+    margin-top: 20px;
+}
+
 #seperator{
     clear: both;
 }
