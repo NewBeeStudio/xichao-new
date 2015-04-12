@@ -1,109 +1,92 @@
-/*#login-current-pos{
-    height: 88px;
-}*/
+.current-position {
+    margin-bottom: 0;
+}
 
-#login-content{
-    height: 482px;
-    position: relative;
+#login-content {
+    height: 465px;
 }
 
 #login-lantern{
     position: absolute;
-    left: 0; top: 0;
-
-    height: 428px;
-    
-    z-index: 1;
-    float: left;
-}
-
-
-
-#login-outside-circle{
-    position: absolute;
-    left: 600px; top: -27px;
-
-    height: 482px;
-    width: 482px;
-    z-index: 2;
-
-    border-radius: 482px;
-    background-color: #fff;
-    behavior: url(/static/css/PIE.htc);
-
-    opacity: 0.5;
-    filter:alpha(opacity=50); /*IE8适配*/
+    z-index: -1;
 }
 
 #login-inside-circle{
-    position: absolute;
-    left: 616px; top: -7px;
-
-    height: 442px;
-    width: 442px; /*inside circle diameter*/
-    z-index: 3;
-
-    border-radius: 442px;
-    background-color: #e5e5e5;
-    behavior: url(/static/css/PIE.htc);
+    display: table;
+    width: 465px;
+    height: 465px;
+    float: right;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    box-shadow: 3px 1px 3px #aaa;
 }
 
-#login-form-block{ /*不包括点击注册一行*/
-    width: 299px;
-    /*height: 228px;*/
-    margin: 112px auto 102px auto;
-    /*background-color: #aaaaaa;*/
+
+#login-form-block{
+    display: table-cell;
+    vertical-align: middle;
+    margin: auto;
 }
 
-.login-userinfo{
-    width: 299px;
-    height: 40px;
 
-    margin: 0 auto 24px auto;
+#login-userinfo {
+    margin: auto;
+    width: 70%;
+    border-collapse: separate;
+    border-spacing: 0 30px;
+}
+
+#login-userinfo tr {
+    height: 32px;
     background-color: white;
-    border: 1px solid gray;
+    outline: 1px solid #aaaaaa;
 }
 
-.login-userinfo div{
-    float: left;
-    width: 90px;
+
+#login-userinfo label{
+    display: inline-block;
+    font-size: 16px;
+    color: #000;
+    line-height: 32px;
+    margin: 0px;
+    padding: 3px 2px 5px 16px;
+    text-align: center;
 }
 
-.login-userinfo label{
-    margin-left: 10px;
-    font-family: 微软雅黑;
-    font-size: 16.7px;
-
-    line-height: 40px;
-}
-
-.login-userinfo input{
-    width: 200px;
-    height: 40px;
-
-    line-height: 40px;
-    margin: 0;
+#login-userinfo td>label {
     padding: 0;
+}
 
-    font-size: 12.5px;
-    font-family: 微软雅黑;
+#login-userinfo input{
+    margin: 0;
+    width: 95%;
+    height: 100%;
+    padding: 0;
+    padding-left: 12px;
+    line-height: 32px;
+    color: gray;
+    font-size: 14px;
     border-color: transparent;
 }
 
+#login-userinfo input:focus {
+    border: 0;
+}
+
 #login-autologin{
-    margin-top: 0;
-    height: 62px;
-    width: 100%;
+    margin: auto;
+    width: 70%;
     font-size: 12px;
-    float: left;
     font-family: 微软雅黑;
 
 }
 
-#login-autologin > a{
-    margin: 0;
+#login-autologin * {
+    display: inline-block;
     font-size: 12px;
-    float: right;
+    letter-spacing: 2px;
+    margin: 0;
 }
 
 #login-autologin > input{
@@ -115,33 +98,37 @@
     margin-left: 30%;
 }
 
-#login-submit > input{
-    width: 118px;
-    height: 38px;
 
-    border-radius: 8px;
-    background-color: #D9AE48;
-    color: white;
-    font-family: 微软雅黑;
-    font-size: 17px;
-
-    behavior: url(/static/css/PIE.htc);
+#submit {
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    width: 120px;
+    border: 2px solid rgb(217, 174, 73);
+    border-radius: 3px;
 }
 
-#login-submit a{
-    width: 118px;
-    height: 38px;
+#submit a {
+    line-height: 32px;
+    text-align: center;
+    font-family: 黑体;
+    font-size: 18px;
+}
 
-    font-family: 微软雅黑;
+#register {
+    text-align: center;
+    margin: auto;
     font-size: 12px;
 }
 
 .login-error-not-match{
-    margin-top: -95px;
+    margin-top: -24px;
+    margin-left: 12px;
 }
 
 .login-error-empty{
-    margin-top: -95px;
+    margin-top: -24px;
+    margin-left: 12px;
 }
 
 #login-sendmail > input{
@@ -156,6 +143,3 @@
     font-size: 17px;
 }
 
-.login-yellow{
-    color: #D9AE48;
-}

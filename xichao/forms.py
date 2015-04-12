@@ -25,16 +25,16 @@ class RegistrationForm(Form):
 
 #登录表单
 class LoginForm(Form):
-	email=TextField(u'邮箱：',[validators.Required(u'邮箱必须')])
-	password=PasswordField(u'密码：',[validators.Required(u'密码必须')])
-	stay=BooleanField(u'是否保持登录')
+	email=TextField(u'邮箱',[validators.Required(u'邮箱必须')])
+	password=PasswordField(u'密码',[validators.Required(u'密码必须')])
+	stay=BooleanField(u'下次自动登录')
 
 #忘记密码（只需要验证邮箱）
 class ForgetPasswordForm(Form):
 	email=TextField(u'邮箱：',[validators.Required(u'邮箱必须'), validators.Email(message=u'邮箱不合法'), email_exist_validator])
-	
+
 #重设密码（验证密码）
 class ResetPasswordForm(Form):
 	password = PasswordField(u'密码：', [validators.Required(u'密码必须')])
 	confirm = PasswordField(u'确认密码：', [validators.Required(u'确认密码必须'),validators.EqualTo('password', message=u'密码不匹配')])
-	
+

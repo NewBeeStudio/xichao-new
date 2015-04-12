@@ -335,6 +335,7 @@ def article(article_id):
 @app.route('/special_all', methods=['GET'])
 def special_all():
     try:
+        view = request.args.get('view')
         sort = request.args.get('sort')
         page_id = int(request.args.get('page'))
     except Exception:
@@ -342,16 +343,34 @@ def special_all():
 
     if sort != 'favor':
         sort = 'time'
-        sort_change_url = '/special_all?sort=favor&page=1'
+        sort_change_url = '/special_all?view=%s&sort=favor&page=1'%(view)
     else:
-        sort_change_url = '/special_all?sort=time&page=1'
+        sort_change_url = '/special_all?view=%s&sort=time&page=1'%(view)
 
-    specials_pagination = get_all_specials(sort, page_id)
-    return render_template('special_all.html', sort = sort,
-                                                  specials_pagination = specials_pagination, 
+    if view != 'list':
+        vieww = 'all'
+        view_change_url = '/special_all?view=list&sort=%s&page=1'%(sort)
+    else:
+        view_change_url = '/special_all?view=all&sort=%s&page=1'%(sort)
+
+
+    if view == 'list':  # list view
+        specials_pagination = get_all_specials(sort, page_id, 5)
+        return render_template('special_all_listView.html', sort = sort, view=view,
+                                                  specials_pagination_list = specials_pagination, 
                                                   author = get_special_author, 
                                                   articles = get_special_article,
-                                                  sort_change_url = sort_change_url)
+                                                  sort_change_url = sort_change_url,
+                                                  view_change_url = view_change_url)
+    else:   # all view
+        specials_pagination = get_all_specials(sort, page_id, 15)
+        return render_template('special_all_allView.html', sort = sort, view=view,
+                                                  specials_pagination_all = specials_pagination,
+                                                  author = get_special_author, 
+                                                  articles = get_special_article,
+                                                  sort_change_url = sort_change_url,
+                                                  view_change_url = view_change_url)
+
 
 #专栏列表搜索
 @app.route('/special_search', methods=['GET'])

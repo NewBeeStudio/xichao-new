@@ -13,27 +13,26 @@
 {% endmacro %}
 
 {% macro render_login(field) %}
-  <table class="login-userinfo">
-    <tr>
-      <td>
-          <div>
-            <label></label>
-          </div>
-          {{ field(**kwargs)|safe }}
-      </td>
-    </tr>
-  </table>
-  {% if field.errors[0] %}
-    <div class="error-tip login-error-empty">
-      {{ field.errors[0] }}
-    </div>
-  {% endif %}
+<tr>
+    <td>
+        <label>{{field.label}}</label>
+    </td>
+    <td>
+        {% if field.errors[0] %}
+            <div class="error-tip login-error-empty">
+        {{ field.errors[0] }}
+            </div>
+        {% endif %}
+        {{ field(**kwargs)|safe }}
+    </td>
+</tr>
 {% endmacro %}
 
 {% macro render_login_autologin(field) %}
-  <div class="login-yellow" id="login-autologin">
+<div id="login-autologin">
     {{ field(**kwargs)|safe }}
     {{ field.label }}
-    <a class="login-yellow" href="{{url_for('forgetPassword')}}">忘记密码</a>
-  </div>
+    <a style="float: right" href="{{url_for('forgetPassword')}}">忘记密码</a>
+</div>
+    <!--<a style="float: right" class="login-yellow" href="{{url_for('forgetPassword')}}">忘记密码</a>-->
 {% endmacro %}
