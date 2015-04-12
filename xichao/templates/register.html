@@ -7,43 +7,65 @@
 {% block content %}
     <!--当前位置-->
     <div class="current-position">
-        <p style="font-size: 21px; font-family: 微软雅黑;">注册</p>
+        <p style="font-size: 18px; font-family: 微软雅黑;">注册</p>
     </div>
     <!--注册表单-->
-    {% from "test_formhelpers.html" import render_register %}
-    <form method="post" action="/register" accept-charset="utf-8" enctype="multipart/form-data">
-        <input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
-        <dl>
-        {{ render_register(form.email, 0) }}
-        {{ render_register(form.nick, 1) }}
-        {{ render_register(form.password, 2) }}
-        {{ render_register(form.confirm, 3) }}
-        <div id="register-avatar">
-          <div class="register-form-field register-label">
-            <label class>头像：</label>
-          </div>
-
-          <div>
-            <img id="avatar_user" src="{{url_for('uploaded_avatar',filename='default.jpg')}}">
-            <input type="button" id="avatar_button" value="上传头像">
-          </div>
-
-          <div id="default-avatar-gallery">
-            <input name="avatar" id="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
-            <!-- <div id="label-default-avatar">
-              默认头像
-            </div> -->
-            <img class="default_avatar" id="avatar_default_1" src="{{url_for('uploaded_avatar',filename='default1.jpg')}}">
-            <img class="default_avatar" id="avatar_default_2" src="{{url_for('uploaded_avatar',filename='default2.jpg')}}">
-            <img class="default_avatar" id="avatar_default_3" src="{{url_for('uploaded_avatar',filename='default3.jpg')}}">
-            <img class="default_avatar" id="avatar_default_4" src="{{url_for('uploaded_avatar',filename='default4.jpg')}}">
-          </div>
+    <div id='step-nav'>
+        <div id='step-1' class='step-item'>
+            <p class='step-num'>1</p>
+            <p class='step-label'>设置邮箱</p>
         </div>
-        </dl>
-      <div class="clear">
-        <input class="register-button" type="reset" value="取消">
-        <input class="register-button" id="registration" type="submit" value="提交">
-      </div>
+        <div id='step-2' class='step-item'>
+            <p class='step-num'>2</p>
+            <p class='step-label'>填写账户信息</p>
+        </div>
+        <div id='step-3' class='step-item'>
+            <p class='step-num'>√</p>
+            <p class='step-label'>注册成功</p>
+        </div>
+    </div>
+    {% from "test_formhelpers.html" import render_register %}
+    <form method="post" action="/register" accept-charset="utf-8" enctype="multipart/form-data" id="register-form">
+        <input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
+            <!--<img src="data:image/png;base64,{{captcha}}"/>-->
+            <input name="avatar" id="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
+        <div id='step-1-content'>
+            <table class="register-table">
+                {{ render_register(form.email, 0) }}
+                <tr id="captcha-area">
+                    <td> 验证码： </td>
+                    <td>
+                        <input type="text" id="captcha">
+                        <img src="data:image/png;base64,{{captcha}}"/>
+                    </td>
+                    <td class="error-tip register-error" style="display: none;">
+                            
+                    </td>
+
+                </tr>
+                    
+            </table>
+            <a href="javascript:return false;" class="next-step" onclick="next()">下一步</a>
+
+        </div>
+        <div id='step-2-content'>
+            <table class="register-table">
+                {{ render_register(form.nick, 1) }}
+                {{ render_register(form.password, 2) }}
+                {{ render_register(form.confirm, 3) }}
+                <tr>
+                    <td>
+                        <label> 头像：</label>
+                    </td>
+                   <td>
+                        <img id="avatar_user" src="{{url_for('uploaded_avatar',filename='default.jpg')}}">
+                        <!--<input type="button" id="avatar_button" value="上传头像">-->
+                        <a id="avatar_button" href="javascript:return false;">+</a>
+                  </td>
+              </tr>
+            </table>
+            <a href="javascript:return false;" onclick="javascript: $('#register-form').submit();" class="next-step">保存</a>
+        </div>
     </form>
 {% endblock %}
 
@@ -52,19 +74,23 @@
 <script type="text/javascript">
   $(document).ready(function()
   {
-    /************************************************************/
-    /*图片强调*/
-    /************************************************************/
-    $(".default_avatar").click(function()
-    {
-      $(".default_avatar").each(function()
-      {
-        $(this).css("border","2px solid #ffffff");
-      });
-
-      $(this).css("border","2px solid #0000ff");
+    $("#avatar_user").hover(
+    function(){
+        $("#avatar_button").css("display", "block");
+    },
+    function(){
+        $("#avatar_button").css("display", "none");
+    });
+    $("#avatar_button").hover(
+    function(){
+        $("#avatar_button").css("display", "block");
+    },
+    function(){
+        $("#avatar_button").css("display", "none");
     });
 
+
+    $("#step-2-content").hide();
     /************************************************************/
     /*显示注册错误信息*/
     /************************************************************/
@@ -160,4 +186,31 @@ function update_avatar(data){
   $('#avatar').attr("value",data);
 }
 </script>
+<script type="text/javascript">
+function next(){
+    var flag = true;
+    var email = $("#step-1-content .form-area .register-form-value input").val();
+    console.log(email);
+    if (email.length <= 0){
+        console.log("false");
+        $("#step-1-content .form-area .register-error").text("邮箱必须");
+        $("#step-1-content .form-area .register-error").attr("style", "display:block");
+        flag = false;
+    }
+    var cap = $("#step-1-content #captcha").val();
+    if (cap != parseInt({{cap_code}})){
+        $("#step-1-content #captcha-area .register-error").text("验证码错误");
+        $("#step-1-content #captcha-area .register-error").attr("style", "display:block");
+        flag = false;
+    }
+    if (flag == true) {
+        $("#step-1-content").hide();
+        $("#step-2-content").show();
+        $("#step-1 .step-label").css("color","rgb(217, 174, 73");
+        $("#step-1 .step-num").css("background-color", "rgb(217, 174, 73)");
+        $("#step-1").css("border-color", "rgb(217, 174, 73)");
+    }
+};
+</script>
+<script type="text/javascript">
 {% endblock %}

@@ -1,15 +1,12 @@
 {% macro render_register(field, data_index) %}
-  <div class="register-form-field">
-    <table class="register-table">
-      <tr>
+      <tr class="form-area">
         <td class="register-label">{{ field.label }}</td>
         <td class="register-form-value" data-index="{{ data_index }}">{{ field(**kwargs)|safe }}</td>
+        <td class="error-tip register-error" data-index="{{ data_index }}">
+          {{ field.errors[0] }} 
+        </td>
+
       </tr>
-    </table>
-    <div class="error-tip register-error" data-index="{{ data_index }}">
-      {{ field.errors[0] }}
-    </div>
-  </div>
 {% endmacro %}
 
 {% macro render_login(field) %}
