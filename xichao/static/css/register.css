@@ -1,5 +1,5 @@
 #step-nav {
-    display: flex;
+    display: flex !important;
     flex-flow: row;
     align-items: center;
 }
