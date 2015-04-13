@@ -1,7 +1,7 @@
 #coding=utf-8 
 from flask import Flask, send_file, url_for
 import random
-import Image, ImageDraw, ImageFont, ImageFilter 
+from PIL import Image, ImageDraw, ImageFont, ImageFilter 
 import StringIO
 import urllib
 import os
