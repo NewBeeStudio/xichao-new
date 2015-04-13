@@ -9,6 +9,7 @@ body{
     margin: auto;
     font-family: 微软雅黑, sans-serif;
     word-break: break-all;
+    overflow-x: hidden;
 }
 
 img{
@@ -184,7 +185,9 @@ input:focus{
 /*content对齐*/
 #content{
     width: 1160px;
+    /*
     height:3100px;
+    */
     margin: auto;
 }
 #footer-rect{
