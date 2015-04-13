@@ -118,7 +118,7 @@ div.index-special-abstract{
 
 .index-hot{
 	width: 205px;
-	height: 390px;
+	height: 100%;
 	float: left;
 	margin-right: 12px;
 	margin-bottom: 30px;
@@ -163,6 +163,7 @@ div.index-special-abstract{
 
 #index-bottom{
 	clear: both;
+	height: 400px;
 	padding-top: 20px;
 	font-family: 黑体;
 }

@@ -63,7 +63,11 @@
 			热门文章
 		</h2>
 		<div style="margin-top: 30px;"></div>
+		{% set counterIndex = 0 %}
 		{% for article in hot_articles %}
+		{% if counterIndex % 5 == 0 %}
+		<div style="height: 390px;">
+		{% endif %}
 		<div class="index-hot">
 		<a href="{{url_for('article', article_id = article.article_id)}}">
 			<img src="/upload/article/article_title_image/article_upload_pic_1.jpg">
@@ -73,6 +77,12 @@
 			<div style="clear:both;"></div>
 			<div class="index-hot-abstract">{{article.abstract}}</div>
 		</div>
+
+		{% if counterIndex % 5 == 4 %}
+		</div>
+		{% endif %}
+
+		{% set counterIndex = counterIndex + 1 %}
 		{% endfor %}
 
 	</div>

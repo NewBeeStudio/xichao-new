@@ -100,7 +100,9 @@
 	margin-top: 20px;
 	margin-left: 50%;
 	margin-right: 40px;
-	float: right;
+	height: 50px;
+	width: 100%;
+	text-align: right;
 }
 
 .article-paging > div{
