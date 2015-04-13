@@ -181,6 +181,10 @@ def register():
 	# print request.form
 	form = RegistrationForm(request.form)
         captcha, cap_code = get_captcha()
+
+        print '000000000000000'
+        print captcha
+        print '000000000000000'
 	if request.method == 'POST' and form.validate():
 
 		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
