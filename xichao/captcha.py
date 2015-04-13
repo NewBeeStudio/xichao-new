@@ -1,6 +1,6 @@
 #coding=utf-8 
 from flask import Flask, send_file, url_for
-import random 
+import random
 import Image, ImageDraw, ImageFont, ImageFilter 
 import StringIO
 import urllib
