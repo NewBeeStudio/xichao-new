@@ -43,7 +43,7 @@
 		<!-- 专栏标题图片 -->
         
         {% if special_num%2 == 1 %}
-        <div class="special_background">
+        <div class="long-background special_background">
         </div>
         {% endif %}
         
@@ -180,8 +180,8 @@ $(document).ready(function(){
     } else{
         $("#sort_by_favor").attr("selected", "selected");
     }
-    
 });
+
 
 $("#sort").change(function(){
     location.href = "{{sort_change_url | safe}}";

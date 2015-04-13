@@ -3,8 +3,7 @@
 .special_background{
     margin-top: -68px;
     height: 598px;
-    width: expression(documentElement.clientWidth);
-    
+    width: 1160px;
     background-color: #f5f5f5;
     position: absolute;
     z-index: -500;
@@ -15,10 +14,13 @@
             #navbar-info {position: fixed; width: 100%;}
 }
 */
+/*
 @media screen and (min-width: 1160px) {
 .special_background{
+    
 }
 } 
+*/
 
 #special-search{
     margin-top: 51px;
@@ -177,6 +179,7 @@ img#special-part1-img1{
 	overflow-y: auto;
     word-wrap: break-word;
     height: 120px;
+    color: #D9AE48;
 }
 
 #special-part1-content > h2{
