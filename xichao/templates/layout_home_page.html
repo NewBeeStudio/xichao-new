@@ -935,8 +935,11 @@
 <!-- 更新头像AJAX -->
 <script type="text/javascript">
 function update_avatar(data){
-  $('#show-photo').css("background-image","url("+data+")");
-  $('.personal-photo img').css("background-image","url("+data+")");
+  // $('#show-photo').css("background-image","url("+data+")");
+  // $('.personal-photo img').css("background-image","url("+data+")");
+  $('#show-photo').attr("src",data);
+  $('.personal-photo img').attr("src",data);
+
   $.post('/homepage/modify/avatar',
   	{
   		_csrf_token:"{{ csrf_token() }}",

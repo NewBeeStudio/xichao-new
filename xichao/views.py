@@ -177,28 +177,20 @@ def uploaded_homepage_image(filename):
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-        print "a"
-	# print request.form
-	form = RegistrationForm(request.form)
-        captcha, cap_code = get_captcha()
-
-        print '000000000000000'
-        print captcha
-        print '000000000000000'
-	if request.method == 'POST' and form.validate():
-
-		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
-
-		db_session.add(user)
-		db_session.commit()
-		#需要增加异常处理，捕获异常，
-		send_verify_email(form.nick.data,encrypt(form.password.data),form.email.data)
-		# session['user']=request.form['nick']
-		user=User.query.filter_by(email=form.email.data).first()
-		login_user(user)
-		flash(u'注册成功，正在跳转')
-                time.sleep(3)
-		return redirect(url_for('index'))
+    form = RegistrationForm(request.form)
+    captcha, cap_code = get_captcha()
+    if request.method == 'POST' and form.validate():
+        user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
+        db_session.add(user)
+        db_session.commit()
+        #需要增加异常处理，捕获异常，
+        send_verify_email(form.nick.data,encrypt(form.password.data),form.email.data)
+        # session['user']=request.form['nick']
+        user=User.query.filter_by(email=form.email.data).first()
+        login_user(user)
+        flash(u'注册成功，正在跳转')
+        time.sleep(3)
+        return redirect(url_for('index'))
 	return render_template('register.html', form=form, captcha=captcha, cap_code=cap_code)
 
 #接收上传的头像文件，保存并返回路径
