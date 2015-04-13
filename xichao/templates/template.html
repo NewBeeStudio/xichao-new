@@ -7,24 +7,28 @@
 
 <!--content-->
 {% block content %}
+<!--
 	<h2>
 			热门专栏
 	</h2>
+-->
 	<div id="index-up">
 
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
 		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}');">
 			<div class="index-up-content">
+                <a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time">
 				<div class="index-up-content-left">
-					<a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time">
+					
 					<h3>
 
 						{{ special_list[i].name }}
 					</h3>
-
-				    </a>
+                    
+                    
 				</div>
+				    </a>
 
 				<div class="index-up-content-right">
 					<div>
@@ -53,16 +57,17 @@
 		</div>
 	{% endfor %}
 	</div>
-
+<!--
 	<div>
 		<a href="{{url_for('special_all')}}?sort=time&page=1" class="index-view-more" style="margin-top: 30px;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
 	</div>
-
+-->
 	<div id="index-middle">
 		<h2>
-			热门文章
+			热门文章Top10
 		</h2>
 		<div style="margin-top: 30px;"></div>
+        <!--
 		{% for article in hot_articles %}
 		<div class="index-hot">
 		<a href="{{url_for('article', article_id = article.article_id)}}">
@@ -74,9 +79,47 @@
 			<div class="index-hot-abstract">{{article.abstract}}</div>
 		</div>
 		{% endfor %}
-
+    -->
+        {% set count = 0 %}
+        {% for article in hot_articles %}
+        {% set count = count + 1 %}
+        <div class="index-hot-entry">
+            <div class="index-hot-entry-left" style="
+background-image: url('{{article.picture | safe}}');">
+                <div class="index-hot-entry-left-num">
+                    {{count}}
+                </div>
+                <div class="index-hot-entry-left-title">
+                    {{article.title}}
+                </div>
+            </div>
+            
+            <div class="index-hot-entry-right">
+                <div class="index-hot-entry-right-title">{{article.title}}&nbsp;&nbsp;</div>
+                <table>
+        			<tr>
+        			<td>{{ article.time | time_split_2 }}&nbsp;&nbsp;</td>
+        			<td>阅读({{ article.read_num }})&nbsp;&nbsp;</td>
+        			<td><font color="#d19413">收藏&nbsp;</font>({{ article.favor }})&nbsp;&nbsp;</td>
+        			<td><img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}" style="height: 20px; width: 20px;">&nbsp;{{ article.coins }}</td>
+        			</tr>
+        			</table>
+                <div class="index-hot-entry-right-intro">
+                    {{article.abstract}}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
 	</div>
 
+    <div id="index-right">
+        <h2>
+			热门活动
+		</h2>
+		<div style="margin-top: 30px;"></div>
+    </div>
+<div style="clear:both"></div>
+<!--
 	<div>
 		<a href="#" class="index-view-more">&gt;&gt;&gt;&gt;&nbsp;View More</a>
 	</div>
@@ -125,6 +168,7 @@
 			</div>
 		</div>
 	</div>
+-->
 {% endblock %}
 
 
@@ -159,16 +203,18 @@
 
 		$('#index-up > div').each(function()
 		{
-			var offset = parseInt($(this).attr("data-index"))*271 + "px";
+			var offset = parseInt($(this).attr("data-index"))*290 + "px";
 			$(this).css("left", offset);
 		});
-        var autoTimer;
+     
+     
+       // var autoTimer;
         var autoIndex=0;
 
 		var onMouseIn = function()
 		{
 		    MouseIn = true;
-		    clearInterval(autoTimer);
+		    //clearInterval(autoTimer);
 
 			var index = parseInt($(this).attr("data-index")); 
 			$("#index-up > div").each(function()
@@ -209,8 +255,8 @@
 			});}
 		};
         
-        autoOnMouseIn();
-        autoTimer = setInterval(autoOnMouseIn, 2500);
+//        autoOnMouseIn();
+//        autoTimer = setInterval(autoOnMouseIn, 2500);
 
 
 		var onMouseOut = function()
@@ -221,16 +267,17 @@
 			{
 				$(this).stop(true, false);
 				var curIndex = parseInt($(this).attr("data-index"));
-				var left = 271*curIndex;
+				var left = 290*curIndex;
 				$(this).animate({left:left+"px"}, 300);
 
 			});
-            autoOnMouseIn();
-            autoTimer = setInterval(autoOnMouseIn, 2500);
+            //autoOnMouseIn();
+//            autoTimer = setInterval(autoOnMouseIn, 2500);
 		};
 
         
 		$("#index-up > div").hover(onMouseIn, onMouseOut);
+        
 	});
 </script>
 
