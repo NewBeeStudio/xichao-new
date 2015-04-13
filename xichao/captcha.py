@@ -1,6 +1,6 @@
 #coding=utf-8 
 from flask import Flask, send_file, url_for
-import random 
+import random
 from PIL import Image, ImageDraw, ImageFont, ImageFilter 
 import StringIO
 import urllib
@@ -88,7 +88,7 @@ def get_captcha():
 
     img, strs=create_validate_code()
     buf = StringIO.StringIO() 
-    img.save(buf, 'png', quality=70)
+    img.save(buf, 'PNG', quality=70)
     data = buf.getvalue().encode('base64')
     data_url = urllib.quote(data.rstrip('\n'))
     return data_url, strs
