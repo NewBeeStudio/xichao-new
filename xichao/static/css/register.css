@@ -91,3 +91,22 @@ img#avatar_user{
 
     display: none;
 }
+#success-info {
+    letter-spacing: 2px;
+    margin-top: 32px;
+    text-align: center;
+    font-size: 24px;
+    font-family: 黑体;
+}
+
+#success * {
+    margin: 32px auto;
+    display: inline-block;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+#success .step-num {
+    background-color: rgb(217, 174, 73);
+}
+

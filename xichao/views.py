@@ -61,6 +61,7 @@ from flask.ext.login import LoginManager, login_user, logout_user, current_user,
 from itsdangerous import constant_time_compare, BadData
 from hashlib import md5
 from captcha import get_captcha
+import time
 
 GROUP=[u'广场',u'文章',u'专栏']
 CATEGORY=[u'书评',u'影评',u'杂文',u'专栏文章']
@@ -192,6 +193,7 @@ def register():
 		user=User.query.filter_by(email=form.email.data).first()
 		login_user(user)
 		flash(u'注册成功，正在跳转')
+                time.sleep(3)
 		return redirect(url_for('index'))
 	return render_template('register.html', form=form, captcha=captcha, cap_code=cap_code)
 
