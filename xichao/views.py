@@ -6,7 +6,7 @@
 	定义路由
 	定义并实现处理函数
 	渲染视图
-	
+
 	文件结构：
 	    主要URL：
     	    主页  /   /test
@@ -31,19 +31,19 @@
 	        广场页   /square
 
 	        活动页   /activity
-	            
-	    
+
+
 	    辅助URL：
 	        美图秀秀配置  /crossdomain.xml
 	        图片剪裁器    /upload/tailor/title_image        /upload/tailor/avatar
-	        
+
         Ajax请求：
             注册信息验证  /ajax_register
 	        收藏用户    /collection_user
 
         已废弃：
             /article/test
-            
+
 '''
 from xichao import app, login_manager, login_serializer
 from functions import *
@@ -60,6 +60,8 @@ import os
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from itsdangerous import constant_time_compare, BadData
 from hashlib import md5
+from captcha import get_captcha
+import time
 
 GROUP=[u'广场',u'文章',u'专栏']
 CATEGORY=[u'书评',u'影评',u'杂文',u'专栏文章']
@@ -146,7 +148,7 @@ def modify_homepage_finish():
                                 special3, url3,
                                 special4, url4)
 
-## 上传首页所需图片            
+## 上传首页所需图片
 @app.route('/upload_homepage_image', methods=['POST'])
 @login_required
 def upload_homepage_image():
@@ -154,12 +156,12 @@ def upload_homepage_image():
         try:
             image = request.files['slide-image'+str(i)]
 
-            if allowed_file(image.filename):                
+            if allowed_file(image.filename):
                 image_name = get_secure_photoname(image.filename)
                 image_url=os.path.join(app.config['HOMEPAGE_DEST'], image_name)
                 image.save(image_url)
 
-            
+
 
             return '/upload/homepage/'+image_name
         except Exception:
@@ -175,8 +177,10 @@ def uploaded_homepage_image(filename):
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+        print "a"
 	# print request.form
 	form = RegistrationForm(request.form)
+        captcha, cap_code = get_captcha()
 	if request.method == 'POST' and form.validate():
 
 		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
@@ -189,8 +193,9 @@ def register():
 		user=User.query.filter_by(email=form.email.data).first()
 		login_user(user)
 		flash(u'注册成功，正在跳转')
+                time.sleep(3)
 		return redirect(url_for('index'))
-	return render_template('register.html', form=form)
+	return render_template('register.html', form=form, captcha=captcha, cap_code=cap_code)
 
 #接收上传的头像文件，保存并返回路径
 @app.route('/upload/avatar',methods=['GET', 'POST'])
@@ -230,7 +235,7 @@ def load_token(token):
         if constant_time_compare(hash_a, hash_b):
             return user
     return None
-	
+
 ##################################  登陆  ##################################
 ##TODO：cookie的过期时间
 @app.route('/login',methods=['GET','POST'])
@@ -268,7 +273,7 @@ def forgetPassword():
 		flash(u'我们已向你的注册邮箱发送了一份密码重置邮件')
 		return redirect(url_for('index'))
 	return render_template('forgetPassword.html', form = form, error = error)
-	
+
 ##################################  重置密码  ##################################
 @app.route('/resetPassword/<nick>/<password>',methods=['GET', 'POST'])
 def resetPassword(nick, password):
@@ -297,7 +302,7 @@ def verify():
 	if state:
 		update_state(nick)
 	return redirect(url_for('index'))
-	
+
 
 ##################################  文章首页  ##################################
 @app.route('/article/',methods=['GET', 'POST'])
@@ -335,6 +340,7 @@ def article(article_id):
 @app.route('/special_all', methods=['GET'])
 def special_all():
     try:
+        view = request.args.get('view')
         sort = request.args.get('sort')
         page_id = int(request.args.get('page'))
     except Exception:
@@ -342,16 +348,34 @@ def special_all():
 
     if sort != 'favor':
         sort = 'time'
-        sort_change_url = '/special_all?sort=favor&page=1'
+        sort_change_url = '/special_all?view=%s&sort=favor&page=1'%(view)
     else:
-        sort_change_url = '/special_all?sort=time&page=1'
+        sort_change_url = '/special_all?view=%s&sort=time&page=1'%(view)
 
-    specials_pagination = get_all_specials(sort, page_id)
-    return render_template('special_all.html', sort = sort,
-                                                  specials_pagination = specials_pagination, 
-                                                  author = get_special_author, 
+    if view != 'list':
+        vieww = 'all'
+        view_change_url = '/special_all?view=list&sort=%s&page=1'%(sort)
+    else:
+        view_change_url = '/special_all?view=all&sort=%s&page=1'%(sort)
+
+
+    if view == 'list':  # list view
+        specials_pagination = get_all_specials(sort, page_id, 5)
+        return render_template('special_all_listView.html', sort = sort, view=view,
+                                                  specials_pagination_list = specials_pagination,
+                                                  author = get_special_author,
                                                   articles = get_special_article,
-                                                  sort_change_url = sort_change_url)
+                                                  sort_change_url = sort_change_url,
+                                                  view_change_url = view_change_url)
+    else:   # all view
+        specials_pagination = get_all_specials(sort, page_id, 15)
+        return render_template('special_all_allView.html', sort = sort, view=view,
+                                                  specials_pagination_all = specials_pagination,
+                                                  author = get_special_author,
+                                                  articles = get_special_article,
+                                                  sort_change_url = sort_change_url,
+                                                  view_change_url = view_change_url)
+
 
 #专栏列表搜索
 @app.route('/special_search', methods=['GET'])
@@ -363,8 +387,8 @@ def special_search():
         abort(404)
 
     specials_pagination = get_search_specials(search)
-    return render_template('special_search.html', specials_pagination = specials_pagination, 
-                                                  author = get_special_author, 
+    return render_template('special_search.html', specials_pagination = specials_pagination,
+                                                  author = get_special_author,
                                                   articles = get_special_article)
 
 # 专栏详情页
@@ -389,12 +413,12 @@ def special():
     if (special == None):
         abort(404)
     author = get_special_author(special.user_id)
-    
+
     other = get_special_author_other(special.user_id)
 #    print ddd
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
     login_user = get_userid_from_session()
-    
+
     articles_pagination = get_special_article(special_id, page_id, sort, 5)
     drafts = get_special_draft(special_id)
     return render_template('special_detail.html',
@@ -466,7 +490,7 @@ def create_special_finish():
         title_image = request.args.get('title_image')
     except Exception:
         return "failed"
-        
+
     try:
         author = request.args.get('author')
         author = get_userid_by_nick(author)
@@ -475,14 +499,14 @@ def create_special_finish():
     except Exception:
         return "failed"
 
-    special_id = create_new_special(name = title, 
+    special_id = create_new_special(name = title,
                        user_id = author[0][0],
                        picture = title_image,
                        introduction = content)
-                       
+
 #    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
     return str(special_id)
-    
+
 ## 完成修改专栏
 @app.route('/modify_special_finish', methods=['GET'])
 @login_required
@@ -496,7 +520,7 @@ def modify_special_finish():
         title_image = request.args.get('title_image')
     except Exception:
         return "failed"
-        
+
     try:
         author = request.args.get('author')
         author = get_userid_by_nick(author)
@@ -506,7 +530,7 @@ def modify_special_finish():
         return "failed"
 
     try:
-        special_id = modify_special_func(name = title, 
+        special_id = modify_special_func(name = title,
                                          user_id = author[0][0],
                                          picture = title_image,
                                          introduction = content)
@@ -534,12 +558,12 @@ def special_article_upload():
     os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
 
     return render_template('special_article_upload.html')
-    
+
 # 修改专栏文章
 @app.route('/special_article_modify/article/<int:article_id>')
 def special_article_modify(article_id):
     article = get_article_information(article_id)
-    
+
     try:
         special_id = int(article[0].special_id)
     except Exception:
@@ -568,7 +592,7 @@ def special_article_remove():
         return "failed"
     return "success"
 
-    
+
 ## 上传专栏文章
 ##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
 @app.route('/special_article_finish', methods=['POST'])
@@ -587,9 +611,9 @@ def special_article_finish():
     book_title=request.form['book_title']
     book_ISBN=request.form['book_ISBN']
     book_binding=request.form['book_binding']
-    
 
-    abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)    
+
+    abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
     if len(abstract_plain_text)<191:
         abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
     else:
@@ -597,7 +621,7 @@ def special_article_finish():
     user_id = int(session['user_id'])
     book_id = create_book(book_picture = book_picture,
                                   book_author = book_author,
-                                  book_press = book_press, 
+                                  book_press = book_press,
                                   book_page_num = book_page_num,
                                   book_price = book_price,
                                   book_press_time = book_press_time,
@@ -605,7 +629,7 @@ def special_article_finish():
                                   book_ISBN = book_ISBN,
                                   book_binding = book_binding)
     article_id=create_article(title = title, content = content,
-                              title_image = title_image, user_id = user_id, 
+                              title_image = title_image, user_id = user_id,
                               article_session_id = session['special_article_session_id'],
                               is_draft ='0', special_id = int(session['special_id']),
                               group_id = '3', category_id = '0',
@@ -642,7 +666,7 @@ def special_article_draft():
     #create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
     book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
     article_id=create_article(title = title, content = content,
-	                          title_image = title_image, user_id = user_id, 
+	                          title_image = title_image, user_id = user_id,
 	                          article_session_id = session['special_article_session_id'],
 	                          is_draft ='1', special_id = int(session['special_id']),
 	                          group_id = '3', category_id = '0',
@@ -829,7 +853,7 @@ def article_finish(group_id,category_id):
 	book_title=request.form['book_title']
 	book_ISBN=request.form['book_ISBN']
 	book_binding=request.form['book_binding']
-	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)    
+	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
 	if len(abstract_plain_text)<191:
 		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
 	else:
@@ -880,7 +904,7 @@ def activity_finish():
 	if len(abstract_plain_text)<100:
 		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
 	else:
-		abstract=abstract_plain_text[0:100]+'......'	
+		abstract=abstract_plain_text[0:100]+'......'
 	formatted_time=datetime.strptime(activity_time,"%m/%d/%Y %H:%M")
 	activity_id=create_activity(title=title,content=content,title_image=title_image,activity_session_id=session['activity_session_id'],activity_time=formatted_time,abstract=abstract,place=place)
 	return str(activity_id)
@@ -889,7 +913,7 @@ def activity_finish():
 '''
 
 		ajax请求处理模块
-		
+
 		接收前端页面发送的json格式ajax请求
 		根据请求参数，形成RegistrationForm类的实例
 		调用RegistrationForm类的validate()方法，形成errors信息
@@ -928,7 +952,7 @@ def ajax_collection_special():
         user_id = int(session['user_id'])
     except Exception:
         return "login"
-        
+
     special_id = int(request.args.get('id'))
 
     try:
@@ -936,7 +960,7 @@ def ajax_collection_special():
 
     except Exception:
         return "already"
-        
+
     return "success"
 
 # 取消收藏专栏
@@ -947,7 +971,7 @@ def ajax_collection_special_cancel():
         user_id = int(session['user_id'])
     except Exception:
         return "login"
-        
+
     special_id = int(request.args.get('id'))
 
     try:
@@ -955,7 +979,7 @@ def ajax_collection_special_cancel():
 
     except Exception:
         return "already"
-        
+
     return "success"
 
 
@@ -967,7 +991,7 @@ def ajax_collection_special_author():
         user_id = int(session['user_id'])
     except Exception:
         return "login"
-        
+
     special_id = int(request.args.get('id'))
 
     err = collection_special_author(user_id, special_id)
@@ -1005,7 +1029,7 @@ def ajax_collection_special_author_cancel():
         user_id = int(session['user_id'])
     except Exception:
         return "login"
-        
+
     special_id = int(request.args.get('id'))
 
     err = collection_special_author_cancel(user_id, special_id)
@@ -1070,7 +1094,7 @@ def article_group_favor(group_id,category_id,page_id=1):
 			order='order_favor'
 			article_pagination=get_article_pagination_by_favor(str(group_id),str(category_id),page_id)
 			return render_template('test_article_group.html',group=group,category=category,article_pagination=article_pagination,order=order,group_id=group_id,category_id=category_id)
-	else:		
+	else:
 		abort(404)
 
 
@@ -1521,6 +1545,8 @@ def award_article():
 	return result
 
 
+
+
 ##################################	已废弃 ##################################
 
 ##################################	article_test ##################################
@@ -1532,7 +1558,7 @@ def article_test():
 @login_required
 def message_page(to_user_id):
 	return render_template('message_page.html', to_user_id=to_user_id)
-	
+
 @app.route('/verify_remind/')
 @login_required
 def verify_remind():

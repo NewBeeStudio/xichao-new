@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/square.css') }}" rel='stylesheet' type='text/css'/> 
+{% endblock %}
+
+<!--content-->
+{% block content %}
+	<!-- 对square来说，这部份有内容，对article来说，这部分为空 -->
+	{% block square_content %}
+	{% endblock %}
+	
+	{% block opinion_content %}
+    {% endblock %}
+	<!-- 书评 -->
+	<div class="square-part1" style="margin-top:50px;">
+		<!-- 标题图片 -->
+		<div class="square-part1-left">
+			<!-- <h2>书评</h2> -->
+			<img class="opinion-title" src="{{ url_for('static', filename='images/shuping.png') }}"/>
+			<img id="square-part1-img" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+
+		</div>
+
+		<!-- 内容 -->
+		<div class="square-part1-right">
+			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			</div>
+			<table id="square-part1-content" style="width:703px">
+			{% for (article) in (book_review_list) %}
+				<tr>
+					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
+					<td class="square-col-2" style="width:160px;text-align:left;position:relative;left:55px;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:55px;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:65px;">{{article[0].coins}}</td>
+					<td class="square-col-final" style="text-align:left;position:relative;left:75px;">{{article[0].time|time_split}}</td>
+				</tr>
+			{% endfor %}
+			</table>
+			<a href="{{url_for('article_group_time', group_id = type, category_id = 1, page_id = 1)}}">MORE&gt;</a>
+		</div>
+	
+	</div>
+	
+	<!-- 影评 -->
+	<div class="square-part1">
+		<!-- 标题图片 -->
+		<div class="square-part1-left">
+			<!-- <h2>影评</h2> -->
+			<img  class="opinion-title" src="{{ url_for('static', filename='images/yingping.png') }}"/>
+			<img id="square-part1-img" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+			<div></div>
+		</div>
+		<!-- 内容 -->
+		<div class="square-part1-right">
+			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			</div>
+			<table id="square-part1-content" style="width:703px">
+			{% for (article) in (film_review_list) %}
+				<tr>
+					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
+					<td class="square-col-2" style="width:160px;text-align:left;position:relative;left:55px;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:55px;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:65px;">{{article[0].coins}}</td>
+					<td class="square-col-final" style="text-align:left;position:relative;left:75px;">{{article[0].time|time_split}}</td>
+				</tr>
+			{% endfor %}
+			</table>
+			<a href="{{url_for('article_group_time', group_id = type, category_id = 2, page_id = 1)}}">MORE&gt;</a>
+		</div>
+	
+
+	
+	</div>
+	
+	<!-- 杂文 -->
+	<div class="square-part1">
+		<!-- 标题图片 -->
+		<div class="square-part1-left">
+			<!-- <h2>杂文</h2> -->
+			<img class="opinion-title" src="{{ url_for('static', filename='images/zawen.png') }}"/>
+			<img id="square-part3-img" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+			<div></div>
+		</div>
+		
+		<!-- 内容 -->
+		<div class="square-part1-right">
+			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			</div>
+			<table id="square-part1-content" style="width:703px">
+			{% for (article) in (essay_list) %}
+				<tr>
+					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
+					<td class="square-col-2" style="width:160px;text-align:left;position:relative;left:55px;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:55px;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:65px;">{{article[0].coins}}</td>
+					<td class="square-col-final" style="text-align:left;position:relative;left:75px;">{{article[0].time|time_split}}</td>
+				</tr>
+			{% endfor %}
+			</table>
+			<a href="{{url_for('article_group_time', group_id = type, category_id = 3, page_id = 1)}}">MORE&gt;</a>
+		</div>
+	
+	</div>
+{% endblock %}

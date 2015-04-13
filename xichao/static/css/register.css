@@ -1,80 +1,112 @@
-
-.register-form-field{
-    height: 40px;
-
-    margin-bottom: 30px;
+#step-nav {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+.step-item {
+    width: 33%;
+    font-size: 24px;
+    font-family: 黑体;
+    line-height: 32px;
+    border-bottom: 5px solid rgb(166, 166, 166);
+}
+.step-item * {
+    display: inline-block;
+    color: rgb(166, 166, 166);
+}
+.step-num {
+    margin-left: 30%;
+    color: white;
+    background-color: rgb(166, 166, 166);
+    border-radius: 50%;
+    width: 32px;
+    text-align: center;
 }
 
-
-td.register-label{
-    width: 120px;
+form {
+    margin-top: 64px;
 }
+.register-table {
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: 0 16px;
 
-.register-label > label{
+}
+.register-table *{
     font-family: 微软雅黑;
-    font-size: 17px;
-    line-height: 40px;
+    font-size: 24px;
+    line-height: 32px;
+    height: 32px;
+    vertical-align: text-top;
 }
 
-input#email, input#nick, input#password, input#confirm{
+input#email, input#nick, input#password, input#confirm, input#captcha{
     width: 300px;
-    height: 40px;
-    line-height: 40px;
+    height: 32px;
+    line-height: 32px;
     /*float: right;*/
-
-    font-size: 20px;
+    margin: 0px;
+    font-size: 24px;
+    border: 2px solid black;
+}
+input#captcha {
+    width: 172px;
+}
+.next-step {
+    padding: 4px 16px;
+    width: 120px;
+    margin: 48px auto;
+    text-align: center;
+    font-size: 24px;
+    line-height: 32px;
+    font-family: 黑体;
+    border: 2px solid rgb(217, 174, 73);
+    border-radius: 2px;
 }
 
 img#avatar_user{
     width: 200px;
     height: 200px;
-    margin-left: 65px;
+    margin-left: 20%;
+    vertical-align: text-top;
 }
 
-#register-avatar > div{
-    float: left;
-}
-
-#default-avatar-gallery{
-    margin-left: 50px; 
-    margin-top: 120px;
-    /*border: 1px solid #ff0000;*/
-}
 
 #avatar_button{
-    font-family: 微软雅黑;
-    font-size: 14px;
-
-    border-radius: 5px;
-    /*background-color: #D9AE48;*/
-    color: gray;
-}
-
-img.default_avatar{
-    width: 80px;
-    height: 80px;
-    border: 2px solid #ffffff;
-}
-
-.register-button{
-	margin: 48px auto 48px 120px;
-    width: 118px;
-    height: 38px;
-
-    font-family: 黑体;
-    font-size: 17px;
-
-    border-radius: 8px;
-    background-color: #D9AE48;
-    color: #ffffff;
-    float: left;
-
-    behavior: url(/static/css/PIE.htc);
+    width: 200px;
+    height: 200px;
+    margin-left: 20%;
+    vertical-align: text-top;
+    margin-top: -200px;
+    font-size: 200px;
+    line-height: 180px;
+    text-align: center;
+    color: grey;
+    display: none;
 }
 
 .register-error{
-    margin-left: 120px;
-    margin-top: -70px;
+    margin-left: -316px;
+    margin-top: -40px;
 
     display: none;
 }
+#success-info {
+    letter-spacing: 2px;
+    margin-top: 32px;
+    text-align: center;
+    font-size: 24px;
+    font-family: 黑体;
+}
+
+#success * {
+    margin: 32px auto;
+    display: inline-block;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+#success .step-num {
+    background-color: rgb(217, 174, 73);
+}
+
