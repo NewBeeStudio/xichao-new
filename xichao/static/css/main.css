@@ -185,7 +185,9 @@ input:focus{
 /*content对齐*/
 #content{
     width: 1160px;
+    /*
     height:3100px;
+    */
     margin: auto;
 }
 #footer-rect{
