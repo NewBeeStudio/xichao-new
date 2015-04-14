@@ -77,47 +77,46 @@
 				<!-- 正文如果超过一定范围自动出现滑动条-->
 				<div id="special-introduction-content"> {{ special_introduction | safe }}
 				</div>
-	
-
-		
-				<!-- 分享和订阅怎么实现 -->
-<!--				<input style="float:right" class="input-button" type="submit" value="分享">
--->
-					<div id="special-introduction-share" style="float:right">
-					<!--
-                		<p id="p_share">分享</p>
-                    -->
-                        <!-- 新浪微博 -->
-                		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
+                
+                <div id="special-introduction-table">
+                    <table>
+                        <tr>
+                            <td width="80" height="24" style="font-family:微软雅黑; color:grey;">作者</td>
+                            <td width="260" style="font-family: 黑体; color:#D9AE48">{{special_author}}</td>
+                        </tr>
+                        <tr>
+                            <td width="80" height="24" style="font-family:微软雅黑; color:grey;">类别</td>
+                            <td width="260" style="font-family: 黑体; color:#D9AE48">{{special_author}}</td>
+                        </tr>
+                        <tr>
+                            <td width="80" height="24" style="font-family:微软雅黑; color:grey;">期数</td>
+                            <td width="260" style="font-family: 黑体;">{{special_author}}</td>
+                        </tr>
+                        <tr>
+                            <td width="80" height="24" style="font-family:微软雅黑; color:grey;">更新频率</td>
+                            <td width="260" style="font-family: 黑体;">{{special_author}}</td>
+                        </tr>
+                        <tr>
+                            <td width="80" height="24" style="font-family:微软雅黑; color:grey;">曦潮币</td>
+                            <td width="260" style="font-family: 黑体;">{{special_author}}</td>
+                        </tr>
+                    </table>
+				</div>
+                
+            </div>
+            
+		<div id="special-memo">
+			<!-- 分享和订阅怎么实现 -->
+            <a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
                 		<img src="/static/images/share_sinaweibo.png"/>
                 		</a>
 
                         <!-- 人人网 -->
-                        <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;">
-                		<img src="/static/images/share_renren.png"/>
+                        <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;" style="margin-left: 10px;margin-right: 10px;">
+                		<img src="/static/images/share_renren.png" />
                 		</a>
-
-                        <!-- QQ空间 -->
-                        <!--
-                        <a href="javascript:void(0);" onclick="window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+encodeURIComponent(document.location.href));return false;">
-                		<img src="/static/images/share_qzone.png"/>
-                		</a>
-                		
-                		<img src="/static/images/share_rss.png"/>
-                		-->
-                    </div>
-            </div>
-	    </div>
-	
-		<!-- 日程&订阅栏 -->
-		<div id="special-memo">
-			<img src="{{ url_for('static', filename='images/calendar-ico.png') }}">
-
-			<p>已发表 {{articles_pagination.total}} 篇文章</p>
-
-			<p style="margin-left:170px">{{special_favor}}人关注</p>
-
-			<!-- 分享和订阅怎么实现 -->
+            <div id="special-memo-input">
+            <p>{{special_favor}}人关注</p>
 			{% if not author_itself %}
                 {% if has_collected_special %}
         			<input id="collection_special_cancel" style="float:right" class="input-button" type="submit" value="取消关注">
@@ -127,13 +126,15 @@
             {% else %}
             <input id="write_special_article" style="float:right" class="input-button" type="submit" value="写文章">
             {% endif %}
+            </div>
 		</div>
+	    </div>
+	
+
 	</div>
 
 	<!-- 右侧专栏作者介绍 -->
 	<div id="special-auther">
-		<!-- 外围圆 -->
-		<img src="{{ url_for('static', filename='images/white-circle-with-border.png') }}">
 
 		<!-- 作者信息 -->
 		<div id="special-auther-inner">

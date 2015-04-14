@@ -133,6 +133,8 @@ def modify_homepage():
 @app.route('/modify_homepage_finish', methods=['GET'])
 @login_required
 def modify_homepage_finish():
+    if (not create_special_authorized()):
+        abort(404)
     special1 = request.args.get('special1')
     special2 = request.args.get('special2')
     special3 = request.args.get('special3')
