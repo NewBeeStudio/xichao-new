@@ -64,35 +64,10 @@
 -->
 	<div id="index-middle">
 		<h2>
-			热门文章Top10
+			专栏文章Top10
 		</h2>
 		<div style="margin-top: 30px;"></div>
-<<<<<<< HEAD
-        <!--
-=======
-		{% set counterIndex = 0 %}
->>>>>>> 929118bb29fc0ccb585cb681c4defd7c002969f4
-		{% for article in hot_articles %}
-		{% if counterIndex % 5 == 0 %}
-		<div style="height: 390px;">
-		{% endif %}
-		<div class="index-hot">
-		<a href="{{url_for('article', article_id = article.article_id)}}">
-			<img src="/upload/article/article_title_image/article_upload_pic_1.jpg">
-			<div class="index-hot-title">{{article.title}}</div>
-        </a>
-			<div class="index-hot-author">{{get_author(article.user_id)}}&nbsp;&nbsp;曦潮币({{article.coins}})&nbsp;&nbsp;{{article.time|time_split_2}}</div>
-			<div style="clear:both;"></div>
-			<div class="index-hot-abstract">{{article.abstract}}</div>
-		</div>
 
-		{% if counterIndex % 5 == 4 %}
-		</div>
-		{% endif %}
-
-		{% set counterIndex = counterIndex + 1 %}
-		{% endfor %}
-    -->
         {% set count = 0 %}
         {% for article in hot_articles %}
         {% set count = count + 1 %}
@@ -108,9 +83,10 @@ background-image: url('{{article.picture | safe}}');">
             </div>
             
             <div class="index-hot-entry-right">
-                <div class="index-hot-entry-right-title">{{article.title}}&nbsp;&nbsp;</div>
+                <div class="index-hot-entry-right-title">{{article.title}}</div>
                 <table>
         			<tr>
+                    <td>文|{{get_author(article.user_id)}}&nbsp;&nbsp;</td>
         			<td>{{ article.time | time_split_2 }}&nbsp;&nbsp;</td>
         			<td>阅读({{ article.read_num }})&nbsp;&nbsp;</td>
         			<td><font color="#d19413">收藏&nbsp;</font>({{ article.favor }})&nbsp;&nbsp;</td>
@@ -118,7 +94,7 @@ background-image: url('{{article.picture | safe}}');">
         			</tr>
         			</table>
                 <div class="index-hot-entry-right-intro">
-                    {{article.abstract}}
+                    <p>{{article.abstract}}</p>
                 </div>
             </div>
         </div>
@@ -126,10 +102,79 @@ background-image: url('{{article.picture | safe}}');">
 	</div>
 
     <div id="index-right">
+        <div class="index-right-activity">
         <h2>
 			热门活动
 		</h2>
-		<div style="margin-top: 30px;"></div>
+            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+		<div class="index-hot-activity">
+            <div class="index-hot-activity-img" style="
+                background-image: url({{ url_for('static', filename='images/index-square-border.png') }});
+                background-repeat:no-repeat;
+                                                       ">
+                <div>
+                </div>
+            </div>
+            <h3>
+                曦潮映画第三期
+            </h3>
+            <p>
+                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
+            </p>
+        </div>
+
+        </div>
+        
+        <div class="index-right-point">
+        <h2>
+			热门观点
+		</h2>
+            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+		<div class="index-hot-point">
+            <div class="index-hot-point-img" style="
+                background-image: url({{ url_for('static', filename='images/index-square-border.png') }});
+                background-repeat:no-repeat;
+                                                       ">
+                <div>
+                </div>
+            </div>
+            
+            <h3>
+                旅行的故事
+            </h3>
+            
+            <p>
+                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
+            </p>
+        </div>
+        </div>
+        
+        
+        <div class="index-right-square">
+            <h2>
+			广场动态
+		  </h2>
+            {% for i in range(8) %}
+            <div class="index-hot-square">
+            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+                
+                <h4>
+                一条路,在河之上一条路,在河之上
+                </h4>
+                
+                <h5>
+                    文|河鲤的故事
+                </h5>
+                
+                <p>
+                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
+            </p>
+            </div>
+
+            {% endfor %}
+                
+                
+        </div>
     </div>
 <div style="clear:both"></div>
 <!--
@@ -239,9 +284,9 @@ background-image: url('{{article.picture | safe}}');">
 
 				//alert("leftOrIn");
 				if(curIndex <= index)
-					$(this).animate({left:leftOrIn+"px"}, 600);
+					$(this).animate({left:leftOrIn+"px"}, 300);
 				else
-					$(this).animate({left:right+"px"}, 600);
+					$(this).animate({left:right+"px"}, 300);
 			});
 		};
 
@@ -281,7 +326,7 @@ background-image: url('{{article.picture | safe}}');">
 				$(this).stop(true, false);
 				var curIndex = parseInt($(this).attr("data-index"));
 				var left = 290*curIndex;
-				$(this).animate({left:left+"px"}, 300);
+				$(this).animate({left:left+"px"}, 400);
 
 			});
             //autoOnMouseIn();

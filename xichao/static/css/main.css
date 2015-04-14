@@ -301,7 +301,7 @@ input:focus{
 
 @font-face { 
 font-family: liukai;
-src: url(../fonts/liukai.ttf);
+src: url(../fonts/liukai-small.ttf);
 } 
 /*导航栏相关css*/
 #navbar-main{
