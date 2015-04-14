@@ -151,24 +151,35 @@
             {% else %}
                 <input id = "collection_user_cancel" class="special-button" type="submit" value="取消关注">
             {% endif %}
-			<p>{{ special_author_slogon }}
-
+			<p>
+                {{ special_author_slogon }}
 			</p>
 				
 		</div>
+        
+        <div id="special-author-right">
+            <p>其他作品</p>
+            {% for i in range(5) %}
+            <a href="#">愿我途径你的落幕</a>
+            {% endfor %}
+        </div>
 	</div>
 </div>
 
 
 
 <!-- ===================专栏文章====================== -->
+<div id="special-bottom">
 <div id="special-article-part">
 	<!-- 左侧专栏文章信息 -->
+    <div class="special-separate-block">
+<h3 style="float:left">专栏文章</h3>
+    </div>
 	<div id="special-article-info">
 
 		<!-- 专栏标题部分 -->
 		<div id="special-title">
-			<h3 style="float:left">专栏文章</h3>
+			
 			<div style="float:right">
 			
             	<label>排序方式：</label>
@@ -183,27 +194,32 @@
 -->			</div>
 		</div>
 
-		<hr/>
 		
 		<!-- 专栏文章 -->
 		<div  id="special-article">
             {%- for entry in articles_pagination.items %}
-        		<div>
+            <a class="thumbnail"href="article/{{ entry.article_id }}">
+        		<div class="special-article-entry">
         			<h3>{{ entry.title }}</h3>
         			<p>{{ entry.abstract }}</p>
         			
         			<table>
         			<tr>
-        			<td>{{ entry.time | time_split_2 }}</td>
+        			<td>{{ entry.time | time_split_2 }}&nbsp;&nbsp;</td>
         			<td>阅读({{ entry.read_num }})</td>
         			<td><font color="#d19413">收藏</font>({{ entry.favor }})</td>
         			<td><font color="#d19413">曦潮币</font>({{ entry.coins }})</td>
         			</tr>
         			</table>
                     
-        			<input class="special-button" type="submit" value="查看详情" onclick="location='article/{{ entry.article_id }}' ">
-                    {% if author_itself %}
-                    <input class="special-button" type="submit" value="删除"
+                    
+                    
+
+                </div>
+            </a>
+            {% if author_itself %}
+            <div style="height: 50px;">
+                    <input class="delete-button special-button" type="submit" value="删除"
         		    onclick="
         		        $.get('/special_article_remove?id={{ entry.article_id }}',{}, 
         		        function(data){
@@ -215,127 +231,71 @@
                            }
                         });"
                     >
+            </div>
                     {% endif %}
-
-        			<hr />
-                </div>
-            
             {%- endfor %}
         
 
-    <div id="special-paging" style="float:right"> 
-        <div> 
-            {% if articles_pagination.has_prev %}
-                <a href="/special?id={{special_id}}&page={{ articles_pagination.prev_num }}&sort={{sort}}">上一页</a> 
-            {% endif %} 
-        </div> 
-        <div> 
-            <p>Page {{ articles_pagination.page }} / {{articles_pagination.pages }}</p> 
-        </div> 
-        <div>
-            {% if articles_pagination.has_next %} 
-                <a href="/special?id={{special_id}}&page={{ articles_pagination.next_num }}&sort={{sort}}">下一页</a> 
-            {% endif %} 
-        </div> 
-    </div> 
-
-		</div>
 
 
-        {% if author_itself %}
-
-    		<div id = "special-draft" style="margin-top:100px">
-			<h2>草稿列表</h2>
-			<br>
-			
-            {%- for entry in drafts %}
-        		<div>
-        			<h3>{{ entry.title }}</h3>
-        			<p>{{ entry.abstract }}</p>
-        			<table>
-        			<tr>
-        			<td>保存时间：{{ entry.time | time_split_3 }}</td>
-        			</tr>
-        			</table>
-
-        		    <input class="special-button" type="submit" value="编辑" onclick="location='{{ url_for('special_article_modify', article_id=entry.article_id) }}' ">
-        		    <input class="special-button article-remove" type="submit" value="删除"
-        		    onclick="
-        		        $.get('/special_article_remove?id={{ entry.article_id }}',{}, 
-        		        function(data){
-                           if (data == 'success'){
-                               layer.msg('删除成功',1,1,function(){location.reload();});
-                           }
-                           if (data == 'failed'){
-                               layer.msg('对不起！删除失败，请联系管理员',1,3,function(){});
-                           }
-                        });"
-                    >
-
-        			<hr />
-                </div>
-            
-            {%- endfor %}
-			</div>
-        {% endif %}
-
-
-
-		<!-- 类似专栏 -->
-		<div id="special-related">
-			<div id="special-separate-block"></div>
-			<h3>类似专栏</h3>
-			<table>
-				<!-- 相关专栏图片 -->
-				<tr>
-					<td><img src="{{url_for('uploaded_special_image',filename='special_detail_pic_1.png')}}"></td>
-					<td><img src="{{url_for('uploaded_special_image',filename='special_detail_pic_1.png')}}"></td>
-					<td><img src="{{url_for('uploaded_special_image',filename='special_detail_pic_1.png')}}"></td>
-					<td><img src="{{url_for('uploaded_special_image',filename='special_detail_pic_1.png')}}"></td>
-				</tr>
-
-				<!-- 专栏名称 -->
-				<tr id="special-related-name">
-					<td>我的咖啡，你的故事</td>
-					<td>我的咖啡，你的故事</td>
-					<td>我的咖啡，你的故事</td>
-					<td>我的咖啡，你的故事</td>
-				</tr>
-
-				<!-- 专栏作者 -->
-				<tr id="special-related-auther">
-					<td> {{ special_author }} </td>
-					<td> {{ special_author }} </td>
-					<td> {{ special_author }} </td>
-					<td> {{ special_author }} </td>
-				</tr>
-
-				<!-- 专栏订阅数 -->
-				<tr id="special-related-subscription">
-					<td>10000人订阅</td>
-					<td>10000人订阅</td>
-					<td>10000人订阅</td>
-					<td>10000人订阅</td>
-				</tr>
-			</table>
+    <div id="special-paging"> 
+        <nav>
+            <ul class="pager">
+                
+                {% if articles_pagination.has_prev %}
+<li><a href=/special?id={{special_id}}&page=1&sort={{sort}}>
+                       首页</a></li>
+                <li><a href=/special?id={{special_id}}&page={{ articles_pagination.prev_num }}&sort={{sort}}>
+                       上一页</a></li>
+                {% endif %}
+                
+                <li>{{ articles_pagination.page }} / {{articles_pagination.pages }}</li>
+                
+                {% if articles_pagination.has_next %}
+                <li><a href="/special?id={{special_id}}&page={{ articles_pagination.next_num }}&sort={{sort}}">下一页</a>                     </li>
+                <li><a href="/special?id={{special_id}}&page={{ articles_pagination.pages }}&sort={{sort}}">末页</a>                     </li>
+                {% endif %}
+                
+            </ul>
+        </nav>
+    </div>
 		</div>
 	</div>
-
-	<!-- 右侧其他作品 -->
-	<div id="special-other-works">
-		<h3>{{special_author}}的所有专栏</h3>
-
-		<ul>
-        {% for item in other %}
-			<li>
-			<a href = "{{url_for('special')}}?id={{item.special_id}}&page=1&sort=time">
-			{{ item.name }}
-			</a>
-			</li>
-        {% endfor %}
-		</ul>
-	</div>
+    
+    </div>
+		
 </div>
+<!-- 类似专栏 -->
+		<div id="special-related">
+			<div class="special-separate-block" style="margin-bottom:30px;">
+<h3 style="margin-left:10px;">相关专栏</h3>
+            </div>
+            
+            {% set count = 0 %}
+            {% for i in range(6) %}
+            {% set count = count + 1 %}
+            <div class="special-related-entry" style="
+                {% if count % 2 == 0 %}
+                    margin-left: 40px;
+                {% endif %}
+                                                      ">
+                <a href="#">
+                <div class="special-related-img" style="
+                background-image: url('{{url_for('uploaded_special_image',filename='special_detail_pic_1.png') | safe}}');
+                                                        background-size: 100% 100%;
+                ">
+                    
+                </div>
+                </a>
+                <h3>我的咖啡，你的故事</h3>
+                <h4>莫吉托</h4>
+                <p>76人关注</p>
+                <p>355曦潮币</p>
+            </div>
+            {% endfor %}
+
+		</div>
+<div style="clear: both;"></div>
 
 {% endblock %}
 
@@ -406,7 +366,7 @@ $("#collection_special").click(function () {
            }
            if (data == "login"){
             layer.msg("请您先登陆",1,3,function(){
-               location.href ="/login";
+               //location.href ="/login";
             });
            }
     });
@@ -471,7 +431,7 @@ $("#collection_user").click(function () {
            }
            if (data == "login"){
             layer.msg("请您先登陆",1,3,function(){
-               location.href ="/login";
+               //location.href ="/login";
             });
            }
        });

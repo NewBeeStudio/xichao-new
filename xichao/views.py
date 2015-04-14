@@ -983,7 +983,6 @@ def ajax_collection_special_cancel():
 
 # 收藏专栏作家
 @app.route('/collection_special_author', methods=['POST'])
-@login_required
 def ajax_collection_special_author():
     try:
         user_id = int(session['user_id'])
