@@ -309,7 +309,7 @@ src: url(../fonts/liukai-small.ttf);
     float: right;
 
     margin-top: 40px;
-    font: 22px liukai;
+    font: 22px liukai, KaiTi, STKaiti;
 }
 
 #navbar-main > .nav > li > a{
