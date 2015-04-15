@@ -9,7 +9,7 @@ body{
     margin: auto;
     font-family: 微软雅黑, sans-serif;
     word-break: break-all;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
 }
 
 img{
