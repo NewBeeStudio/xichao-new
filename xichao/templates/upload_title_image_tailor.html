@@ -8,11 +8,13 @@
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
 window.onload=function(){
+	xiuxiu.setLaunchVars("cropPresets", "500x500");
        /*第1个参数是加载编辑器div容器，第2个参数是编辑器类型，第3个参数是div容器宽，第4个参数是div容器高*/
 	xiuxiu.embedSWF("altContent",5,"100%","100%");
        //修改为您自己的图片上传接口
 	//xiuxiu.setUploadURL("http://web.upload.meitu.com/image_upload.php");
 	xiuxiu.setUploadURL("http://xichao-o.com/upload_article_title_image");
+
     xiuxiu.setUploadType(2);
     xiuxiu.setUploadDataFieldName("upload_file");
     xiuxiu.setUploadArgs({_csrf_token:"{{ csrf_token() }}"});
