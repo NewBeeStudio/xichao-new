@@ -10,13 +10,7 @@
 font-family: liukai;
 src: url(../fonts/liukai.ttf);
 } 
-.text-overflow {
-    display:block; 
-    white-space:nowrap;/* 不换行 */ 
-    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */ 
-    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/ 
-    -o-text-overflow: ellipsis;
-}
+
 .square-headline h2{
 	font-family: liukai, KaiTi, STKaiti;
 	font-size: 25px;
@@ -43,6 +37,7 @@ src: url(../fonts/liukai.ttf);
 .opinion-headline-text{
 	position:relative;
 	bottom:220px;
+    left:1%;
 	font-family:liukai, KaiTi, STKaiti;
 	font-size:24px;
 	line-height:1.5;
@@ -66,15 +61,29 @@ src: url(../fonts/liukai.ttf);
 #square-hot-article{
 	font-family: 宋体;
 	font-size: 18px;
+    table-layout:fixed;
+    width:30em;
 }
 
-#square-hot-article td{
-	padding-top: 25px;
-}
+
 #square-part1-content{
 	position:relative;
 	bottom:120px;
+    table-layout:fixed;
 }
+
+#square-hot-article td,#square-part1-content td{
+	padding-top: 25px;
+    word-break:keep-all;/* 不换行 */
+    white-space:nowrap;/* 不换行 */
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一 起使用。*/
+}
+a.text-more{
+    position:relative;
+    top:-120px;
+}
+
 #square-hot-article img, #square-part1-content img{
 	width: 14px;
 	height: 14px;
@@ -84,12 +93,10 @@ src: url(../fonts/liukai.ttf);
 td.square-col-1{
 	width: 340px;
 	padding-left: 15px;
-	/*font-weight: bold;*/
 }
 
 td.square-col-2{
-	width: 90px;
-    max-width:100px;
+    width:4em;
 	position:relative;
 	left:9%;
 }
@@ -98,7 +105,7 @@ td.square-col-3{
 	width: 18px;
 	color: gray;
 	position:relative;
-	left:6%;
+	left:14%;
 	top:-2px;
 }
 
@@ -110,7 +117,7 @@ td.square-col-3{
 .square-col-final{
 	color: gray;
 	position:relative;
-	left:8%;
+	left:16%;
 }
 
 a.square-more{
@@ -168,7 +175,7 @@ a.square-more{
 
 #pre-read{
 	height: 200px;
-
+    width: 450px;
 	font-family: 宋体;
 	font-size: 14px;
 	text-align:left;
@@ -180,23 +187,20 @@ a.square-more{
 
 	position:relative;
 	top:40px;
-	left:-150px;
+    left:9%;
 
 }
 
 #recommend-img{
 	padding: 1.5%;
 
-/*	position:relative;
-	top:-315px;
-	left:1px;*/
 	z-index:-1;
 
 }
 
 #recommend-img img{
-	width: 100%;
-	height: 100%;
+	height: 500px;
+	width: 557px;
 }
 .square-part1-right{
 	position:relative;
@@ -206,7 +210,26 @@ a.square-more{
 	width: 700px;
 	height: 360px;
 }
+#square-part1-img2{
+    margin-left: 0px;
+    margin-top: 20px;
+    border-left: 0px;
+    position: absolute;
+    
+    width: 362px;
+    height: 362px;
+}
 
+img#square-part1-img1{
+	margin-top: 15px;
+	margin-left: 15px;
+	width: 330px;
+	height: 330px;
+
+    border-radius: 330px;
+    position: relative;
+    behavior: url(/static/css/PIE.htc);
+}
 #square-part1-content, .square-part1-right > a, .square-part2-left > a{
 	font-family: 宋体;
 	font-size: 16.7px;
