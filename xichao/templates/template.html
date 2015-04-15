@@ -255,8 +255,9 @@ background-image: url('{{article.picture | safe}}');">
     {% endif %}	
 		
 		// 主页上面的四副图片
-		var gap = 120; //图片间距，不可变
+		var gap = 80; //图片间距，折叠后的边长
 		var picNum = 4; //不可变
+		var slideTime = 500; //毫秒，越大滑动时间越长
 		var MouseIn = false;
 
 		$('#index-up > div').each(function()
@@ -280,13 +281,13 @@ background-image: url('{{article.picture | safe}}');">
 				$(this).stop(true, false); //停止之前效果(参数二：是否到达最后结果)
 				var curIndex = parseInt($(this).attr("data-index"));
 				var leftOrIn = gap * curIndex;
-				var right = 1087 - (picNum - curIndex) * gap;
+				var right = 1160 - (picNum - curIndex) * gap;
 
 				//alert("leftOrIn");
 				if(curIndex <= index)
-					$(this).animate({left:leftOrIn+"px"}, 300);
+					$(this).animate({left:leftOrIn+"px"}, slideTime);
 				else
-					$(this).animate({left:right+"px"}, 300);
+					$(this).animate({left:right+"px"}, slideTime);
 			});
 		};
 
@@ -307,9 +308,9 @@ background-image: url('{{article.picture | safe}}');">
 
 				//alert("leftOrIn");
 				if(curIndex <= index)
-					$(this).animate({left:leftOrIn+"px"}, 600);
+					$(this).animate({left:leftOrIn+"px"}, slideTime);
 				else
-					$(this).animate({left:right+"px"}, 600);
+					$(this).animate({left:right+"px"}, slideTime);
 			});}
 		};
         
@@ -326,7 +327,7 @@ background-image: url('{{article.picture | safe}}');">
 				$(this).stop(true, false);
 				var curIndex = parseInt($(this).attr("data-index"));
 				var left = 290*curIndex;
-				$(this).animate({left:left+"px"}, 400);
+				$(this).animate({left:left+"px"}, slideTime);
 
 			});
             //autoOnMouseIn();

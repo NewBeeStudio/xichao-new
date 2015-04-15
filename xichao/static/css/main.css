@@ -81,7 +81,7 @@ ul{
 
 #nav-bar-logo{
     float: left;
-    width: 160px;
+    width: 180px;
     height: 130px;
     margin-top: 10px;
 }
@@ -121,7 +121,7 @@ ul{
 
 #nav-bar-search{
 	margin-top: 0px;
-    float: right;
+    text-align: right;
 }
 
 #nav-bar-search input{
@@ -299,16 +299,18 @@ input:focus{
     text-align: center;
 }
 
+
 @font-face { 
 font-family: liukai;
 src: url(../fonts/liukai-small.ttf);
 } 
 /*导航栏相关css*/
-#navbar-main{
-    clear: both;
-    float: right;
+#nav-bar-right{
+    margin-left: 560px;
+}
 
-    margin-top: 40px;
+#navbar-main{
+    margin-top: 60px;
     font: 22px liukai, KaiTi, STKaiti;
 }
 
@@ -349,7 +351,7 @@ src: url(../fonts/liukai-small.ttf);
 
 /*导航栏下分割线*/
 #parting-line{
-    margin-top: 20px;
+    /*margin-top: 10px;*/
 }
 
 #parting-line > img{
