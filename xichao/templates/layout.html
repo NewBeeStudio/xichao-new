@@ -55,11 +55,21 @@
                 <div class="floatright">
                     <ul class="nav navbar-nav">
                     {% if current_user.is_authenticated() %}
-                        {% if current_user.role!=3 %}
-                            <li><a href="{{url_for('home_page')}}">{{current_user.nick}}</a></li>
-                        {% else %}
-                            <li><a href="/admin">{{current_user.nick}}</a></li>
-                        {% endif %}
+                        <li><a href="{{url_for('article_upload')}}"><img src="{{ url_for('static', filename='images/pen.png') }}">&nbsp;写文章</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">{{current_user.nick}}<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                {% if current_user.role!=3 %}
+                                    <li><a href="{{url_for('home_page')}}">个人中心</a></li>
+                                {% else %}
+                                    <li><a href="/admin">个人中心</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li><a href="/logout">注销</a></li>
+                            </ul>
+                        </li>
+                        
 
                         <li><a href="#">曦潮币(2000)</a></li>
                         <li><a href="#">草稿箱(2000)</a></li>
@@ -95,7 +105,6 @@
                             </ul>
                         </li>
 
-                        <li><a href="/logout">注销</a></li>
                     {% else %}
                         <li><a class="register-login" href="/login">登陆</a></li>
                         <li><a class="register-login" href="/register">注册</a></li>
@@ -106,7 +115,7 @@
         </div>
         
         <!--header-->
-        <div id="header" style="margin-bottom: 20px;">
+        <div id="header">
 
             <!--标题栏-->
             <div id="nav-bar-header">
@@ -193,7 +202,7 @@
                 </ul>
                 <ul>
                     <h3>曦潮招募</h3>
-                    {% for i in range(6)%}
+                    {% for i in range(3)%}
                         <li><a href="#">新蜂工作室</a></li>
                     {% endfor %}
                 </ul>
@@ -205,7 +214,7 @@
                 </ul>
                 <ul>
                     <h3>联系我们</h3>
-                    {% for i in range(7)%}
+                    {% for i in range(3)%}
                         <li><a href="#">新蜂工作室</a></li>
                     {% endfor %}
                 </ul>
@@ -221,6 +230,11 @@
                         <li><a href="#">新蜂工作室</a></li>
                     {% endfor %}
                 </ul>
+            </div>
+
+            <div id="footer-statement">
+                <div>沪ICP备 15007577号</div>
+                <div><a href="http://newbee.io">新蜂工作室 提供支持</a></div>
             </div>
         </div>
 
