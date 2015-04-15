@@ -7,79 +7,106 @@
 
 <!--content-->
 {% block content %}
-<!-- 导航栏 -->
-<div class="current-position-2" style="height:39px;">
-首页 > {{group}} > <span class="main-color">{{category}}</span>
+
+
+<!-- 左侧图 -->
+<div id="article-group-title">
+	{% if category == '书评' %}
+	<img src="/static/images/shupingliebiao.png">
+	{% elif category == '影评' %}
+	<img src="/static/images/yingpingliebiao.png">
+	{% else %}
+	<img src="/static/images/zawenliebiao.png">
+	{% endif %}
 </div>
 
-<!-- 右侧排序下拉菜单 -->
-<div id="article-select-part">
-	<label>排序方式：</label>
-	<select name="sorting">
-		<option id="sorting-by-time" value="time" {%if order == 'order_time'%} selected="selected"{% endif %}>时 间</option>
-		<option id="sorting-by-heat" value="heat" {%if order != 'order_time'%} selected="selected"{% endif %}>热 度</option>
-	</select>
 
-</div>
-
-<!-- 左侧列表 -->
-<div id="article-group-part">
-	{{category}}列表
-</div>
-
-<!-- 分页内容 -->
-<div id="article-list-part"> 
-	<!-- 右侧内容 -->
-	<div style="margin-top: 47px"></div>
-	{% for article in article_pagination.items %}
-	<div class="article-content-full">
-		<!-- 图片 -->
-		<div class="article-picture">
-			<img src="{{article.picture}}"/>
-		</div>
-		<!-- 正文 -->
-		<div class="article-content">
-			<h3 class="main-color">{{article.title}}</h3>
-			<div class="article-info">
-				<span> {{article.time|time_split_2}}</span>
-				<span> 阅读({{article.read_num}})</span>
-				<span> <font color="#D9AE48">收藏</font>({{article.favor}})</span>
-				<span> <font color="#D9AE48">评论</font>({{article.comment_num}})</span>
-				<span> <font color="#D9AE48">曦潮币</font>({{article.coins}})</span>
+<div id="article-group-content">
+	<!-- 右侧排序下拉菜单 -->
+	<div id="article-group-sort">
+		<!-- <label>排序方式：</label> -->
+		<select name="sorting">
+			<option id="sorting-by-time" value="time" {%if order == 'order_time'%} selected="selected"{% endif %}>按照时间排序</option>
+			<option id="sorting-by-heat" value="heat" {%if order != 'order_time'%} selected="selected"{% endif %}>按照热度排序</option>
+		</select>
+	</div>
+	
+	<!-- 列表内容 -->
+	<div id="article-list-part"> 
+		{% for article in article_pagination.items %}
+		<div class="article-list-item">
+			<!-- 图片 -->
+			<div class="article-list-picture">
+				<a href="{{url_for('article', article_id = article.article_id)}}"><img src="{{article.picture}}"/>
+				</a>
 			</div>
-			<pre>{{article.abstract}} </pre>
-			<a href="{{url_for('article', article_id = article.article_id)}}">MORE></a>
+			<!-- 正文 -->
+			<div class="article-list-content">
+				<h3>{{article.title}}</h3>
+				<div class="article-list-info">
+					<!-- <span> <font color="#D9AE48">{{article.user_id}}</font></span> -->
+					<span> {{article.time|time_split_6}}</span>
+					<span> <font color="#D9AE48">收藏</font>({{article.favor}})</span>
+					<span> <font color="#D9AE48">评论</font>({{article.comment_num}})</span>
+					<span> <font color="#D9AE48">曦潮币</font>({{article.coins}})</span>
+				</div>
+				<a href="{{url_for('article', article_id = article.article_id)}}"><pre>{{article.abstract}} </pre></a>
+				<!-- <a href="{{url_for('article', article_id = article.article_id)}}">MORE></a> -->
+			</div>
+	
+		</div>
+		<!-- <hr class="clear" style="border:1px solid #D9AE48"/> -->
+		{% endfor %}
+		
+		<!-- 不同排序方式 -->
+		{% if order == 'order_time' %}
+			{% set group_type = 'article_group_time' %}
+		{% else %}
+			{% set group_type = 'article_group_favor' %}
+		{% endif %}
+		<div class="pagination">
+			<ul>
+				{% if article_pagination.has_prev %} 
+					<!-- <li><a href="{{url_for(group_type, group_id = group_id, category_id = category_id, page_id = 1)}}">首页</a></li> -->
+					<li><a href="{{url_for(group_type, group_id = group_id, category_id = category_id, page_id = article_pagination.prev_num)}}">上一页</a></li>
+				{% else %}
+					<!-- <li class="disabled"><span>首页</span></li> -->
+					<li class="disabled"><span>上一页</span></li>
+				{% endif %}
+
+				{# 最多显示5页，合法页面范围1~article_pagination.pages #}
+				{% if article_pagination.page + 2 <= article_pagination.pages %}
+					{% set last_display_page_num = article_pagination.page + 2 %}
+				{% else %}
+					{% set last_display_page_num = article_pagination.pages %}
+				{% endif %}
+
+				{% if article_pagination.page - 2 >= 1 %}
+					{% set first_display_page_num = article_pagination.page - 2 %}
+				{% else %}
+					{% set first_display_page_num = 1 %}
+				{% endif %}
+
+				{% for i in range(first_display_page_num, last_display_page_num + 1) %}
+					{% if i == article_pagination.page %}			
+						<li class="active"><span>{{i}}</span></li>
+					{% else %}
+						<li><a href="{{url_for(group_type, group_id = group_id, category_id = category_id, page_id = i)}}">{{i}}</a></li>
+					{% endif %}
+				{% endfor %}
+
+
+				{% if article_pagination.has_next %}
+					<li><a href="{{url_for(group_type, group_id = group_id, category_id = category_id, page_id = article_pagination.next_num)}}">下一页</a></li>
+					<!-- <li><a href="{{url_for(group_type, group_id = group_id, category_id = category_id, page_id = article_pagination.pages)}}">尾页</a></li> -->
+				{% else %}
+					<li class="disabled"><span>下一页</span></li>
+					<!-- <li class="disabled"><span>尾页</span></li> -->
+				{% endif %}
+  			</ul>
 		</div>
 
 	</div>
-	<hr class="clear" style="border:1px solid #D9AE48"/>
-	{% endfor %}
-
-    <div class="article-paging"> 
-        <div> 
-            {% if article_pagination.has_prev %} 
-            	{% if order == 'order_time' %}
-                	<a href="{{url_for('article_group_time', group_id = group_id, category_id = category_id, page_id = article_pagination.prev_num)}}">上一页</a> 
-                {% else %}
-                	<a href="{{url_for('article_group_favor', group_id = group_id, category_id = category_id, page_id = article_pagination.prev_num)}}">上一页</a> 
-                {% endif %}
-            {% endif %} 
-        </div> 
-        <div> 
-        	{% if article_pagination.pages %} 
-            	<p>Page {{ article_pagination.page }} / {{ article_pagination.pages }}</p> 
-            {% endif %} 
-        </div> 
-        <div>
-            {% if article_pagination.has_next %} 
-            	{% if order == 'order_time' %}
-            	<a href="{{url_for('article_group_time', group_id = group_id, category_id = category_id, page_id = article_pagination.next_num)}}">下一页</a> 
-                {% else %}
-                <a href="{{url_for('article_group_favor', group_id = group_id, category_id = category_id, page_id = article_pagination.next_num)}}">下一页</a> 
-                {% endif %}
-            {% endif %} 
-        </div> 
-    </div> 
 </div>
 
 {% endblock %}

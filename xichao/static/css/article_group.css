@@ -1,118 +1,107 @@
-#article-select-part{
-	margin-right: 40px;
-	float: right;
-	/*border: 1px solid #ff0000;*/
-}
-
-#article-select-part > label{
-	font-family: 黑体;
-	font-size: 16.7px;
-}
-
-#article-select-part > select{
-	width: 125px;
-	font-family: 微软雅黑;
-	font-size: 12.5px;
-}
-
-#article-group-part{
-	margin-top: 15px;
-	padding-top: 10px; /*外边距内边距*/
-
-	margin-left: 32px;
-	padding-right: 20px;
-	padding-bottom: 50px; /*延长分割线*/
-
-	width: 25px;
-
-	font-family: 微软雅黑;
-	font-size: 25px;
-
-
-	float: left;
-	border-right: 1px solid gray;
-}
-
-#article-list-part{
-	margin-top: 75px;
-	margin-left: 110px;
-}
-
-
-.article-content-full{
-	margin-top: 33px;
-	width: 936px;
-	height: 250px; /*书评栏实际大小*/
-}
-
-.article-picture{
-	margin: 30px 70px auto 62px;
-	width: 188px;
-	height: 188px;
+/*左侧列表图*/
+#article-group-title{
+	width: 100px;
+	height: 200px;
 	float: left;
 }
 
-.article-picture img{
+#article-group-title > img{
 	width: 100%;
 	height: 100%;
 }
 
-.article-content{
-	width: 590px;
-	float: right;
+#article-group-content{
+	width: 960px;
+	margin-left: 200px; /*与左边距离*/
 }
 
-.article-content h3{
-	font-family: 微软雅黑; 
-	font-size: 25px;
 
+/*排序select*/
+#article-group-sort{
+	text-align: right;
+}
+
+#article-group-sort > select{
+	width: 160px;
+	font-family: 黑体, 冬青黑体;
+	border: 2px solid #000;
+}
+
+
+/*列表项*/
+#article-list-part{
+
+}
+
+/*一篇文章的长宽*/
+.article-list-item{
+	margin-top: 20px;
+	width: 100%;
+	height: 160px;
+}
+
+/*左侧文章图*/
+.article-list-picture{
+	width: 160px;
+	height: 160px;
+	float: left;
+}
+
+.article-list-picture > a{
+	width: 100%;
+	height: 100%;
+}
+
+.article-list-picture > a > img{
+	width: 100%;
+	height: 100%;
+
+	border-radius: 80px;
+}
+
+/*右侧内容*/
+.article-list-content{
+	margin-left: 200px;
+	font-family: 黑体, 冬青黑体;
+	width: 760px;
+}
+
+.article-list-content > h3{
+	font-size: 24px;
 	text-align: center;
 }
 
-.article-info{
-	margin-top: 16px;
-	font-family: 黑体;
+.article-list-info{
+	margin-top: 10px;
 	font-size: 12.5px;
-	text-align: center;
+	text-align: right;
 }
 
-.article-info span{
-	margin: auto 10px auto 10px;
+.article-list-info span{
+	margin: auto 10px auto 10px; /*span间距*/
 }
 
-.article-content pre{
-	margin-top: 22px;
-	font-size: 16.7px;
-	height: 150px;
+.article-list-content pre{
+	margin: 10px;
+	padding: 0;
+	font-size: 16px;
+	line-height: 20px;
+	height: 40px;
 
+	border: none;
+	background-color: transparent;
 	overflow: hidden;	
 	white-space: pre-wrap;
 	word-wrap: break-word; /*自动换行*/
 }
 
-.article-content a{
-	float: right;
-	font-family: 微软雅黑;
-	font-size: 12.5px;
-}
-
-.article-paging{
-	margin-top: 20px;
-	margin-left: 50%;
-	margin-right: 40px;
-	height: 50px;
+/*分页部分pagination*/
+.pagination{
 	width: 100%;
-	text-align: right;
-}
-
-.article-paging > div{
-	float: left;
-	margin-left: 50px;
+	height: 40px;
 	text-align: center;
-	font-family: 微软雅黑;
-	font-size: 16.7px;
 }
 
-hr{
-	margin-top: 22px;
+.pagination a{
+	cursor: pointer;
 }

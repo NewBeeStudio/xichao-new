@@ -58,7 +58,6 @@
                         {% else %}
                             <li><a href="/admin">{{current_user.nick}}</a></li>
                         {% endif %}
-                        <li><a href="/logout">注销</a></li>
 
                         <li><a href="#">曦潮币(2000)</a></li>
                         <li><a href="#">草稿箱(2000)</a></li>
@@ -93,6 +92,8 @@
                                 <li><a href="#">关注的评论</a></li>
                             </ul>
                         </li>
+
+                        <li><a href="/logout">注销</a></li>
                     {% else %}
                         <li><a class="register-login" href="/login">登陆</a></li>
                         <li><a class="register-login" href="/register">注册</a></li>
@@ -112,78 +113,52 @@
                 <div id="nav-bar-logo">
                     <img src="{{ url_for('static', filename='images/logo.png') }}">
                 </div>
-
-                <!--注册登陆&搜索-->
- <!--                <div style="float:right">
-                    <ul id="nav-bar-button">
-                        <li class="nav-bar-login nav-bar-login-first">
-                            {% if current_user.is_authenticated() %}
-                                {% if current_user.role!=3 %}
-                                    <a href="{{url_for('home_page')}}">{{ current_user.nick }}</a>
-                                {% else %}
-                                    <a href="/admin">{{ current_user.nick }}</a>
-                                {% endif %}
-                            {% else %}
-                                <a href="{{url_for('login')}}">登陆</a>
-                            {% endif %}                           
-                        </li>
-                        <li class="nav-bar-login">
-                            {% if current_user.is_authenticated() %}
-                                <a href="{{url_for('logout')}}">注销</a>
-                            {% else %}
-                                <a href="{{url_for('register')}}">注册</a>
-                            {% endif %}
-                        </li>
-                    </ul>
-
-                    <div class="clear"></div> -->
-                    <div class="floatright">
-                        <div id="nav-bar-search">
-                            <form action="#" method="post">
-                                <input type="text" name="search">
-                            </form>
-                        </div>
                     
-
-                        <div id="navbar-main" class="navbar navbar-default">
-                            <ul class="nav navbar-nav" style="width: 100%;">
-                                <li><a href="{{url_for('index')}}">首页</a></li>
-                                <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
-                                <li><a href="{{url_for('activity_main')}}">活动</a></li>
-                                <li class="dropdown">
-                                    <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">观点 
-                                    <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu menu-min-width">
-                                        <li><a href="{{url_for('opinion')}}">书评</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{url_for('opinion')}}">影评</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{url_for('opinion')}}">杂文</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">广场 
-                                    <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu menu-min-width">
-                                        <li><a href="{{url_for('square')}}">书评</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{url_for('square')}}">影评</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{url_for('square')}}">杂文</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                <div id="nav-bar-right">
+                    <div id="nav-bar-search">
+                        <form action="#" method="post">
+                            <input type="text" name="search">
+                        </form>
                     </div>
                     
-                </div>
 
-                <div id="parting-line">
-                    <img src="{{ url_for('static', filename='images/border.png') }}">
+                    <div id="navbar-main" class="navbar navbar-default">
+                        <ul class="nav navbar-nav" style="width: 100%;">
+                            <li><a href="{{url_for('index')}}">首页</a></li>
+                            <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
+                            <li><a href="{{url_for('activity_main')}}">活动</a></li>
+                            <li class="dropdown">
+                                <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">观点 <b class="caret"></b></a>
+                                <ul class="dropdown-menu menu-min-width">
+                                    <li><a href="{{url_for('opinion')}}#subpart1">书评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('opinion')}}#subpart2">影评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('opinion')}}#subpart3">杂文</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">广场 
+                                <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu menu-min-width">
+                                    <li><a href="{{url_for('square')}}#subpart1">书评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('square')}}#subpart2">影评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('square')}}#subpart3">杂文</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                    
             </div>
+
+            <div id="parting-line">
+                <img src="{{ url_for('static', filename='images/border.png') }}">
+            </div>
+        </div>
 
             <!--导航栏-->
             <!-- <ul id="nav-bar">
