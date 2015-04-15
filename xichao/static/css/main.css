@@ -70,20 +70,22 @@ ul{
 #header{
     width: 1160px;
     margin: auto;
+    margin-bottom: 20px;
     /*padding-bottom: 15px;*/
 }
 
 #nav-bar-header{
-    height: 144px;
+    height: 100px;
     width: 100%;
-    padding-top: 60px;
+    padding-top: 40px;
 }
 
 #nav-bar-logo{
     float: left;
-    width: 180px;
-    height: 130px;
-    margin-top: 10px;
+    width: 160px;
+    height: 80px;
+    margin-top: 20px;
+    /*margin-top: 10px;*/
 }
 
 #nav-bar-logo > img {
@@ -302,6 +304,11 @@ input:focus{
     text-align: center;
 }
 
+#navbar-info img{
+    width: 16px;
+    height: 16px;
+}
+
 
 @font-face { 
 font-family: liukai;
@@ -310,10 +317,11 @@ src: url(../fonts/liukai-small.ttf);
 /*导航栏相关css*/
 #nav-bar-right{
     margin-left: 560px;
+    margin-top: 15px;
 }
 
 #navbar-main{
-    margin-top: 60px;
+    margin-top: 20px;
     font: 22px liukai, KaiTi, STKaiti;
 }
 
@@ -399,14 +407,28 @@ src: url(../fonts/liukai-small.ttf);
 }
 
 #footer-block a{
-    display: inline;
     color: #aaa;
+    display: inline;
 }
 
 #footer-block a:hover{
     color: #fff;
 }
 
+#footer-statement{
+    text-align: center;
+    font: 15px 微软雅黑;
+    color: #aaa;
+}
+
+#footer-statement a{
+    display: inline;
+    color: #aaa;
+}
+
+#footer-statement a:hover{
+    color: #fff;
+}
 
 /*这部分描述参考线，上线后可删*/
 .reference-block {

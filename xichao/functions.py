@@ -319,22 +319,28 @@ def create_special_authorized():
 	else:
 	    return False
 
-def create_new_special(name, user_id, picture, introduction):
+def create_new_special(name, user_id, picture, introduction,
+                        style, total_issue, update_frequency):
     special = Special(name = name, user_id = user_id,
                        picture = picture, introduction = introduction,
-                       time = datetime.now())
+                       time = datetime.now(), style = style,
+                       total_issue = total_issue,
+                       update_frequency = update_frequency)
     db_session.add(special)
     db_session.commit()
     return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
     
-def modify_special_func(name, user_id, picture, introduction):
-    print "\n\n\n\n\n\n\n\n\n\nHERE\n\n\n\n\n\n\n\n\n\n"
+def modify_special_func(name, user_id, picture, introduction,
+                        style, total_issue, update_frequency):
     query = db_session.query(Special).filter_by(name = name, user_id = user_id).all()
     if (len(query) == 0):
         raise Exception
     special = query[0]
     special.picture = picture
     special.introduction = introduction
+    special.style = style
+    special.total_issue = total_issue
+    special.update_frequency = update_frequency
     db_session.commit()
     return special.special_id
     
@@ -389,7 +395,7 @@ def get_special_author_other(user_id, special_id, limit):
     return query
 
 def get_related_special(user_id):
-    query = db_session.query(Special.special_id, Special.name, Special.picture, Special.favor, Special.coin, Special.user_id).join(Collection_Special).filter_by(user_id=user_id).all()
+    query = db_session.query(Special.special_id, Special.name, Special.picture, Special.favor, Special.coin, Special.user_id).join(Collection_Special).filter_by(user_id=user_id).limit(6).all()
     return query
 
 def update_article_num_for_special(special_id,is_add):

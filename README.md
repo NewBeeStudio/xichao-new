@@ -5,18 +5,9 @@
 环境：
 --------------------
  * mysql 
- * virtualenv
- * flask             //安装：`pip install Flask`
- * flask-MySQLdb     //flask-sqlalchemy的依赖包，安装：`pip install flask-sqlalchemy`
- * flask-sqlalchemy  //操作数据库，下载安装：https://pypi.python.org/pypi/MySQL-python
- * flask-wtforms     //表单渲染和验证，安装：`pip install WTForms`
- * flask.ext.mail    //安装：`pip install flask-mail`
- * flask.ext.wtf     //安装：`pip install flask_wtf`
-
- * flask.ext.admin   //安装：`pip install flask-admin`
- * flask.ext.login   //登录相关，安装：`pip install flask-login`
- * itsdangerous       //登录安全相关，安装：`pip install itsdangerous` 
-
+ * 安装所需依赖包：  
+ pip install -r requirements.txt  
+ 建议使用virtualenv
 
 框架：
 --------------------
