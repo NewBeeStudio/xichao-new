@@ -8,12 +8,12 @@
 	<div class="square-hot">
 		<div style="height:466px">
 			<div style="margin-top:13px"></div>
-			<table id="square-hot-article">
+			<table id="square-hot-article" >
 			<!-- 热门文章2~10 -->
 			{% for (i, article) in hot_ground_article_list[1:]|zip %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{i}}、{{article[0].title}}</a></td>
-					<td class="square-col-2"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-2 text-overflow"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-final">{{article[0].coins}}</td>
 				</tr>
