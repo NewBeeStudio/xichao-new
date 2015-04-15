@@ -86,7 +86,13 @@
                         </tr>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">类别</td>
-                            <td width="260" style="font-family: 黑体; color:#D9AE48">{{special_style}}</td>
+                            <td width="260" style="font-family: 黑体; color:#D9AE48">
+                                
+                                {% if special_style %}
+                                {{special_style}}
+                                {% else %}
+                                Invalid
+                                {% endif %}</td>
                         </tr>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">期数</td>
@@ -159,13 +165,15 @@
         
         <div id="special-author-right">
             <p>其他作品</p>
+            {% if other == [] %}
+                &nbsp;&nbsp;该作者没有其他文章
+            {% endif %}
             {% for article in other %}
-            <a href="#">{{article[0]}}</a>
+            <a href="/article/{{article[1]}}">{{article[0]}}</a>
             {% endfor %}
         </div>
 	</div>
 </div>
-
 
 
 <!-- ===================专栏文章====================== -->
@@ -268,29 +276,33 @@
 <!-- 类似专栏 -->
 		<div id="special-related">
 			<div class="special-separate-block" style="margin-bottom:30px;">
-<h3 style="margin-left:10px;">相关专栏</h3>
+<h3 style="margin-left:10px;">作者关注</h3>
             </div>
+            {{related_other_special}}
+            {% if related_other_special == [] %}
+                该作者没有关注其他专栏
+            {% endif %}
             
             {% set count = 0 %}
-            {% for i in range(6) %}
+            {% for special in related_other_special %}
             {% set count = count + 1 %}
             <div class="special-related-entry" style="
                 {% if count % 2 == 0 %}
                     margin-left: 40px;
                 {% endif %}
                                                       ">
-                <a href="#">
+                <a href="/special?id={{special[0]}}&page=1&sort=time">
                 <div class="special-related-img" style="
-                background-image: url('{{url_for('uploaded_special_image',filename='special_detail_pic_1.png') | safe}}');
+                background-image: url('{{special[2]}}');
                                                         background-size: 100% 100%;
                 ">
                     
                 </div>
                 </a>
-                <h3>我的咖啡，你的故事</h3>
-                <h4>莫吉托</h4>
-                <p>76人关注</p>
-                <p>355曦潮币</p>
+                <h3>{{special[1]}}</h3>
+                <h4>{{get_nick_by_userid(special[5])}}</h4>
+                <p>{{special[3]}}人关注</p>
+                <p>{{special[4]}}曦潮币</p>
             </div>
             {% endfor %}
 

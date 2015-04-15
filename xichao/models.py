@@ -229,9 +229,9 @@ class Special(Base,AutoSerialize):
     time = Column(DateTime, nullable = False)
 
         ########## Added ##########
-    total_issue = Column(String(40), nullable = False)
-    update_frequency = Column(String(40), nullable = False)
-    style = Column(String(40), nullable = False)
+    total_issue = Column(String(40), nullable = False, default = "未知")
+    update_frequency = Column(String(40), nullable = False, default = "未知")
+    style = Column(String(40), nullable = False, default = "测试专栏")
 
     ########## Index/Unique索引 ##########
     favor = Column(Integer, nullable = False, 
