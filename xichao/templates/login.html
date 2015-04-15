@@ -16,10 +16,10 @@
             {{ render_login(form.password) }}
         </table>
         {{ render_login_autologin(form.stay) }}
-                {% if error!=None %}
-        <div class="error-tip login-error-not-match">
+        {% if error!=None %}
+            <div class="error-tip login-error-not-match">
             {{ error }}
-        </div>
+            </div>
         {% endif %}
             <!--<input type="submit" value="登陆">-->
             <div id="submit">

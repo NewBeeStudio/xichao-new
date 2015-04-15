@@ -133,6 +133,8 @@ def modify_homepage():
 @app.route('/modify_homepage_finish', methods=['GET'])
 @login_required
 def modify_homepage_finish():
+    if (not create_special_authorized()):
+        abort(404)
     special1 = request.args.get('special1')
     special2 = request.args.get('special2')
     special3 = request.args.get('special3')
@@ -410,13 +412,15 @@ def special():
         abort(404)
     author = get_special_author(special.user_id)
 
-    other = get_special_author_other(special.user_id)
 #    print ddd
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
     login_user = get_userid_from_session()
 
     articles_pagination = get_special_article(special_id, page_id, sort, 5)
-    drafts = get_special_draft(special_id)
+    author_other_article = get_special_author_other(special.user_id, special_id, 6)
+#    print aaa
+    related_other_special = get_related_special(special.user_id)
+#    print aaa
     return render_template('special_detail.html',
                             author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
@@ -424,16 +428,21 @@ def special():
                             sort_change_url = sort_change_url,
                             special_id = special_id,
                             sort = sort,
-                            other = other,
+                            other = author_other_article,
                             special_favor = special.favor,
                             special_title = special.name,
                             special_author = author.nick,
                             special_author_slogon = author.slogon,
                             special_introduction = special.introduction,
+                            special_style = special.style,
+                            special_total_issue = special.total_issue,
+                            special_update_frequency = special.update_frequency,
+                            special_coin = special.coin,
                             special_image = special.picture,
                             special_author_avatar = author.photo,
                             articles_pagination = articles_pagination,
-                            drafts = drafts)
+                            related_other_special = related_other_special,
+                            get_nick_by_userid = get_nick_by_userid)
 #                            articles_pagination = articles_pagination)
 
 
@@ -484,6 +493,10 @@ def create_special_finish():
         title = request.args.get('title')
         content = request.args.get('content')
         title_image = request.args.get('title_image')
+
+        style = request.args.get('style')
+        total_issue = request.args.get('total_issue')
+        update_frequency = request.args.get('update_frequency')
     except Exception:
         return "failed"
 
@@ -498,7 +511,10 @@ def create_special_finish():
     special_id = create_new_special(name = title,
                        user_id = author[0][0],
                        picture = title_image,
-                       introduction = content)
+                       introduction = content,
+                       style = style,
+                       total_issue = total_issue,
+                       update_frequency = update_frequency)
 
 #    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
     return str(special_id)
@@ -514,6 +530,10 @@ def modify_special_finish():
         title = request.args.get('title')
         content = request.args.get('content')
         title_image = request.args.get('title_image')
+
+        style = request.args.get('style')
+        total_issue = request.args.get('total_issue')
+        update_frequency = request.args.get('update_frequency')
     except Exception:
         return "failed"
 
@@ -529,7 +549,10 @@ def modify_special_finish():
         special_id = modify_special_func(name = title,
                                          user_id = author[0][0],
                                          picture = title_image,
-                                         introduction = content)
+                                         introduction = content,
+                                         style = style,
+                                         total_issue = total_issue,
+                                         update_frequency = update_frequency)
         return str(special_id)
     except Exception:
         return "failed"
@@ -981,7 +1004,6 @@ def ajax_collection_special_cancel():
 
 # 收藏专栏作家
 @app.route('/collection_special_author', methods=['POST'])
-@login_required
 def ajax_collection_special_author():
     try:
         user_id = int(session['user_id'])

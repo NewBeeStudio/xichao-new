@@ -7,24 +7,28 @@
 
 <!--content-->
 {% block content %}
+<!--
 	<h2>
 			热门专栏
 	</h2>
+-->
 	<div id="index-up">
 
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
 		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}');">
 			<div class="index-up-content">
+                <a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time">
 				<div class="index-up-content-left">
-					<a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time">
+					
 					<h3>
 
 						{{ special_list[i].name }}
 					</h3>
-
-				    </a>
+                    
+                    
 				</div>
+				    </a>
 
 				<div class="index-up-content-right">
 					<div>
@@ -53,30 +57,127 @@
 		</div>
 	{% endfor %}
 	</div>
-
+<!--
 	<div>
 		<a href="{{url_for('special_all')}}?sort=time&page=1" class="index-view-more" style="margin-top: 30px;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
 	</div>
-
+-->
 	<div id="index-middle">
 		<h2>
-			热门文章
+			热门文章Top10
 		</h2>
 		<div style="margin-top: 30px;"></div>
-		{% for article in hot_articles %}
-		<div class="index-hot">
-		<a href="{{url_for('article', article_id = article.article_id)}}">
-			<img src="/upload/article/article_title_image/article_upload_pic_1.jpg">
-			<div class="index-hot-title">{{article.title}}</div>
-        </a>
-			<div class="index-hot-author">{{get_author(article.user_id)}}&nbsp;&nbsp;曦潮币({{article.coins}})&nbsp;&nbsp;{{article.time|time_split_2}}</div>
-			<div style="clear:both;"></div>
-			<div class="index-hot-abstract">{{article.abstract}}</div>
-		</div>
-		{% endfor %}
 
+        {% set count = 0 %}
+        {% for article in hot_articles %}
+        {% set count = count + 1 %}
+        <div class="index-hot-entry">
+            <div class="index-hot-entry-left" style="
+background-image: url('{{article.picture | safe}}');">
+                <div class="index-hot-entry-left-num">
+                    {{count}}
+                </div>
+                <div class="index-hot-entry-left-title">
+                    {{article.title}}
+                </div>
+            </div>
+            
+            <div class="index-hot-entry-right">
+                <div class="index-hot-entry-right-title">{{article.title}}</div>
+                <table>
+        			<tr>
+                    <td>文|{{get_author(article.user_id)}}&nbsp;&nbsp;</td>
+        			<td>{{ article.time | time_split_2 }}&nbsp;&nbsp;</td>
+        			<td>阅读({{ article.read_num }})&nbsp;&nbsp;</td>
+        			<td><font color="#d19413">收藏&nbsp;</font>({{ article.favor }})&nbsp;&nbsp;</td>
+        			<td><img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}" style="height: 20px; width: 20px;">&nbsp;{{ article.coins }}</td>
+        			</tr>
+        			</table>
+                <div class="index-hot-entry-right-intro">
+                    <p>{{article.abstract}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
 	</div>
 
+    <div id="index-right">
+        <div class="index-right-activity">
+        <h2>
+			热门活动
+		</h2>
+            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+		<div class="index-hot-activity">
+            <div class="index-hot-activity-img" style="
+                background-image: url({{ url_for('static', filename='images/index-square-border.png') }});
+                background-repeat:no-repeat;
+                                                       ">
+                <div>
+                </div>
+            </div>
+            <h3>
+                曦潮映画第三期
+            </h3>
+            <p>
+                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
+            </p>
+        </div>
+
+        </div>
+        
+        <div class="index-right-point">
+        <h2>
+			热门观点
+		</h2>
+            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+		<div class="index-hot-point">
+            <div class="index-hot-point-img" style="
+                background-image: url({{ url_for('static', filename='images/index-square-border.png') }});
+                background-repeat:no-repeat;
+                                                       ">
+                <div>
+                </div>
+            </div>
+            
+            <h3>
+                旅行的故事
+            </h3>
+            
+            <p>
+                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
+            </p>
+        </div>
+        </div>
+        
+        
+        <div class="index-right-square">
+            <h2>
+			广场动态
+		  </h2>
+            {% for i in range(8) %}
+            <div class="index-hot-square">
+            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+                
+                <h4>
+                一条路,在河之上一条路,在河之上
+                </h4>
+                
+                <h5>
+                    文|河鲤的故事
+                </h5>
+                
+                <p>
+                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
+            </p>
+            </div>
+
+            {% endfor %}
+                
+                
+        </div>
+    </div>
+<div style="clear:both"></div>
+<!--
 	<div>
 		<a href="#" class="index-view-more">&gt;&gt;&gt;&gt;&nbsp;View More</a>
 	</div>
@@ -125,6 +226,7 @@
 			</div>
 		</div>
 	</div>
+-->
 {% endblock %}
 
 
@@ -153,22 +255,25 @@
     {% endif %}	
 		
 		// 主页上面的四副图片
-		var gap = 120; //图片间距，不可变
+		var gap = 80; //图片间距，折叠后的边长
 		var picNum = 4; //不可变
+		var slideTime = 500; //毫秒，越大滑动时间越长
 		var MouseIn = false;
 
 		$('#index-up > div').each(function()
 		{
-			var offset = parseInt($(this).attr("data-index"))*271 + "px";
+			var offset = parseInt($(this).attr("data-index"))*290 + "px";
 			$(this).css("left", offset);
 		});
-        var autoTimer;
+     
+     
+       // var autoTimer;
         var autoIndex=0;
 
 		var onMouseIn = function()
 		{
 		    MouseIn = true;
-		    clearInterval(autoTimer);
+		    //clearInterval(autoTimer);
 
 			var index = parseInt($(this).attr("data-index")); 
 			$("#index-up > div").each(function()
@@ -176,13 +281,13 @@
 				$(this).stop(true, false); //停止之前效果(参数二：是否到达最后结果)
 				var curIndex = parseInt($(this).attr("data-index"));
 				var leftOrIn = gap * curIndex;
-				var right = 1087 - (picNum - curIndex) * gap;
+				var right = 1160 - (picNum - curIndex) * gap;
 
 				//alert("leftOrIn");
 				if(curIndex <= index)
-					$(this).animate({left:leftOrIn+"px"}, 600);
+					$(this).animate({left:leftOrIn+"px"}, slideTime);
 				else
-					$(this).animate({left:right+"px"}, 600);
+					$(this).animate({left:right+"px"}, slideTime);
 			});
 		};
 
@@ -203,14 +308,14 @@
 
 				//alert("leftOrIn");
 				if(curIndex <= index)
-					$(this).animate({left:leftOrIn+"px"}, 600);
+					$(this).animate({left:leftOrIn+"px"}, slideTime);
 				else
-					$(this).animate({left:right+"px"}, 600);
+					$(this).animate({left:right+"px"}, slideTime);
 			});}
 		};
         
-        autoOnMouseIn();
-        autoTimer = setInterval(autoOnMouseIn, 2500);
+//        autoOnMouseIn();
+//        autoTimer = setInterval(autoOnMouseIn, 2500);
 
 
 		var onMouseOut = function()
@@ -221,16 +326,17 @@
 			{
 				$(this).stop(true, false);
 				var curIndex = parseInt($(this).attr("data-index"));
-				var left = 271*curIndex;
-				$(this).animate({left:left+"px"}, 300);
+				var left = 290*curIndex;
+				$(this).animate({left:left+"px"}, slideTime);
 
 			});
-            autoOnMouseIn();
-            autoTimer = setInterval(autoOnMouseIn, 2500);
+            //autoOnMouseIn();
+//            autoTimer = setInterval(autoOnMouseIn, 2500);
 		};
 
         
 		$("#index-up > div").hover(onMouseIn, onMouseOut);
+        
 	});
 </script>
 

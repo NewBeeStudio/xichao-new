@@ -179,6 +179,7 @@ img#special-part1-img1{
     word-wrap: break-word;
     height: 120px;
     color: #D9AE48;
+    overflow-y: hidden;
 }
 
 #special-part1-content > h2{

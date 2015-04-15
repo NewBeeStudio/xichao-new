@@ -54,6 +54,10 @@ def time_split_filter_5(s):
     time = time.split(':')
     return date[1] + u'月' + date[2] + u'日  ' + time[0] + ':' + time[1]
 
+#获取日期: 2014-02-02 xx:xx:xx—> 2014-02-02
+@app.template_filter('time_split_6')
+def time_split_filter_2(s):
+    return '.'.join(str(s).split(' ')[0].split('-'))
 
 #zip
 @app.template_filter('zip')

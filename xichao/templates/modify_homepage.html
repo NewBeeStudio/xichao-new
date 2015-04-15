@@ -136,7 +136,7 @@
                   function(data){
                       if (data == 'success'){
                         layer.msg("首页修改成功",1,1,function(){
-                            location.href ="{{ url_for('test') }}";
+                            location.href ="{{ url_for('index') }}";
                         });
                       } else{
                         layer.msg("第 "+data+" 个专栏不存在！",1,3,function(){});

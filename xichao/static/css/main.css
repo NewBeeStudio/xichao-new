@@ -9,7 +9,7 @@ body{
     margin: auto;
     font-family: 微软雅黑, sans-serif;
     word-break: break-all;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
 }
 
 img{
@@ -81,7 +81,7 @@ ul{
 
 #nav-bar-logo{
     float: left;
-    width: 160px;
+    width: 180px;
     height: 130px;
     margin-top: 10px;
 }
@@ -121,7 +121,7 @@ ul{
 
 #nav-bar-search{
 	margin-top: 0px;
-    float: right;
+    text-align: right;
 }
 
 #nav-bar-search input{
@@ -267,7 +267,7 @@ input:focus{
 }
 
 #navbar-info a{
-    font: 14px 黑体;
+    font: 14px 黑体, 冬青黑体;
     border-radius: 5px;
     text-shadow: none;
 }
@@ -288,6 +288,9 @@ input:focus{
 /*下拉框修改*/
 #navbar-info .dropdown-menu{
     min-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    background-clip: border-box;
  }
 
 #navbar-info li.divider{
@@ -299,17 +302,19 @@ input:focus{
     text-align: center;
 }
 
+
 @font-face { 
 font-family: liukai;
-src: url(../fonts/liukai.ttf);
+src: url(../fonts/liukai-small.ttf);
 } 
 /*导航栏相关css*/
-#navbar-main{
-    clear: both;
-    float: right;
+#nav-bar-right{
+    margin-left: 560px;
+}
 
-    margin-top: 40px;
-    font: 22px liukai;
+#navbar-main{
+    margin-top: 60px;
+    font: 22px liukai, KaiTi, STKaiti;
 }
 
 #navbar-main > .nav > li > a{
@@ -349,12 +354,59 @@ src: url(../fonts/liukai.ttf);
 
 /*导航栏下分割线*/
 #parting-line{
-    margin-top: 20px;
+    /*margin-top: 10px;*/
 }
 
 #parting-line > img{
     width: 100%;
 }
+
+
+/*footer*/
+#footer{
+    margin-top: 20px;
+    background-color: #444;
+}
+
+#footer > div{
+    width: 1160px;
+    padding-top: 50px;
+    margin: auto;
+}
+
+#footer-block > ul{
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    width: 197px;
+    text-align: left;
+    color: #aaa;
+    font: 18px 黑体;
+}
+
+#footer-block > ul:last-child{
+    width: 100px;
+}
+
+#footer-block h3{
+    margin: 0;
+    font: 20px 黑体;
+}
+
+#footer-block li{
+    margin-top: 20px;
+    font: 15px 黑体;
+}
+
+#footer-block a{
+    display: inline;
+    color: #aaa;
+}
+
+#footer-block a:hover{
+    color: #fff;
+}
+
 
 /*这部分描述参考线，上线后可删*/
 .reference-block {

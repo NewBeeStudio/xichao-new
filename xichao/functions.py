@@ -252,11 +252,11 @@ def get_homepage_specials():
     return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
 def get_hot_articles(num):
-    query = db_session.query(Article).order_by(Article.favor.desc()).all()
+    query = db_session.query(Article).order_by(Article.coins.desc()).all()
     return query[:10]
     
 def get_all_special():
-    query = db_session.query(Special).order_by(Special.favor.desc()).all()
+    query = db_session.query(Special).order_by(Special.coin.desc()).all()
     return query
     
 def modify_homepage_func(special1, url1,
@@ -319,22 +319,28 @@ def create_special_authorized():
 	else:
 	    return False
 
-def create_new_special(name, user_id, picture, introduction):
+def create_new_special(name, user_id, picture, introduction,
+                        style, total_issue, update_frequency):
     special = Special(name = name, user_id = user_id,
                        picture = picture, introduction = introduction,
-                       time = datetime.now())
+                       time = datetime.now(), style = style,
+                       total_issue = total_issue,
+                       update_frequency = update_frequency)
     db_session.add(special)
     db_session.commit()
     return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
     
-def modify_special_func(name, user_id, picture, introduction):
-    print "\n\n\n\n\n\n\n\n\n\nHERE\n\n\n\n\n\n\n\n\n\n"
+def modify_special_func(name, user_id, picture, introduction,
+                        style, total_issue, update_frequency):
     query = db_session.query(Special).filter_by(name = name, user_id = user_id).all()
     if (len(query) == 0):
         raise Exception
     special = query[0]
     special.picture = picture
     special.introduction = introduction
+    special.style = style
+    special.total_issue = total_issue
+    special.update_frequency = update_frequency
     db_session.commit()
     return special.special_id
     
@@ -384,10 +390,13 @@ def get_special_article(special_id, page_id, sort, per_page):
 def get_special_draft(special_id):
     return db_session.query(Article).filter_by(special_id = special_id, is_draft = '1').all()
     
-def get_special_author_other(user_id):
-    query = db_session.query(Special.name,Special.special_id).filter_by(user_id = user_id).all()
+def get_special_author_other(user_id, special_id, limit):
+    query = db_session.query(Article.title, Article.article_id).filter(and_(Article.user_id == user_id, or_(Article.special_id == None, Article.special_id != special_id))).limit(limit).all()
     return query
 
+def get_related_special(user_id):
+    query = db_session.query(Special.special_id, Special.name, Special.picture, Special.favor, Special.coin, Special.user_id).join(Collection_Special).filter_by(user_id=user_id).limit(6).all()
+    return query
 
 def update_article_num_for_special(special_id,is_add):
 	special=db_session.query(Special).filter_by(special_id=special_id).scalar()
@@ -468,10 +477,10 @@ def paginate(query,page,per_page=20,error_out=True):
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
 	query=db_session.query(Article).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.favor))
-	return paginate(query,page_id,5,False)
+	return paginate(query,page_id,10,False)
 def get_article_pagination_by_time(group_id,category_id,page_id):
 	query=db_session.query(Article).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.time))
-	return paginate(query,page_id,5,False)
+	return paginate(query,page_id,10,False)
 	
 	
 ##################################  收藏/取消收藏 专栏  ####################################
