@@ -23,8 +23,12 @@
 
 #article-group-sort > select{
 	width: 160px;
-	font-family: 黑体, 冬青黑体;
-	border: 2px solid #000;
+	font-family: 黑体;
+	border: 2px solid #888;
+}
+
+#article-group-sort > select > option{
+	padding: 5px 0 5px;
 }
 
 

@@ -17,11 +17,13 @@
         @media screen and (min-width: 1161px) {
             #top-background, #top-background > img {width: 100%;}
             #navbar-info {position: fixed; width: 100%;}
+            #footer {width: 100%;}
         }
 
         @media screen and (max-width: 1160px) {
             #top-background, #top-background > img {width: 1160px;}
             #navbar-info {position: absolute; width: 1160px;}
+            #footer {width: 1160px;}
         } 
 
 
@@ -182,8 +184,46 @@
 
         <!--footer-->
         <div id="footer">
-            <div id="footer-rect"></div>
+            <div id="footer-block">
+                <ul>
+                    <h3>关于我们</h3>
+                    {% for i in range(4)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h3>曦潮招募</h3>
+                    {% for i in range(6)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h3>友情链接</h3>
+                    {% for i in range(2)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h3>联系我们</h3>
+                    {% for i in range(7)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h3>合作伙伴</h3>
+                    {% for i in range(1)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul style="width:100px;">
+                    <h3>版权说明</h3>
+                    {% for i in range(2)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
+
     <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
