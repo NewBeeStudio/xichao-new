@@ -86,7 +86,13 @@
                         </tr>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">类别</td>
-                            <td width="260" style="font-family: 黑体; color:#D9AE48">{{special_style}}</td>
+                            <td width="260" style="font-family: 黑体; color:#D9AE48">
+                                
+                                {% if special_style %}
+                                {{special_style}}
+                                {% else %}
+                                Invalid
+                                {% endif %}</td>
                         </tr>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">期数</td>

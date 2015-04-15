@@ -27,7 +27,7 @@ def init_db():
     Base.metadata.create_all(bind=engine)
 
     # 对初始化进行测试
-    #test_db()
+    test_db()
 
 
 def test_db():
