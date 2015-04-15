@@ -159,8 +159,8 @@
         
         <div id="special-author-right">
             <p>其他作品</p>
-            {% for i in range(5) %}
-            <a href="#">愿我途径你的落幕</a>
+            {% for article in other %}
+            <a href="#">{{article[0]}}</a>
             {% endfor %}
         </div>
 	</div>

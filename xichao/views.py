@@ -412,13 +412,13 @@ def special():
         abort(404)
     author = get_special_author(special.user_id)
 
-    other = get_special_author_other(special.user_id)
 #    print ddd
 	#article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
     login_user = get_userid_from_session()
 
     articles_pagination = get_special_article(special_id, page_id, sort, 5)
-    drafts = get_special_draft(special_id)
+    author_other_article = get_special_author_other(special.user_id, special_id, 6)
+#    print aaa
     return render_template('special_detail.html',
                             author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
@@ -426,7 +426,7 @@ def special():
                             sort_change_url = sort_change_url,
                             special_id = special_id,
                             sort = sort,
-                            other = other,
+                            other = author_other_article,
                             special_favor = special.favor,
                             special_title = special.name,
                             special_author = author.nick,
@@ -439,7 +439,7 @@ def special():
                             special_image = special.picture,
                             special_author_avatar = author.photo,
                             articles_pagination = articles_pagination,
-                            drafts = drafts)
+                            )
 #                            articles_pagination = articles_pagination)
 
 
