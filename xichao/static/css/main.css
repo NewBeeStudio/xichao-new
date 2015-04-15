@@ -9,6 +9,7 @@ body{
     margin: auto;
     font-family: 微软雅黑, sans-serif;
     word-break: break-all;
+    overflow-x: hidden;
 }
 
 img{
@@ -184,7 +185,9 @@ input:focus{
 /*content对齐*/
 #content{
     width: 1160px;
+    /*
     height:3100px;
+    */
     margin: auto;
 }
 #footer-rect{
@@ -298,7 +301,7 @@ input:focus{
 
 @font-face { 
 font-family: liukai;
-src: url(../fonts/liukai.ttf);
+src: url(../fonts/liukai-small.ttf);
 } 
 /*导航栏相关css*/
 #navbar-main{

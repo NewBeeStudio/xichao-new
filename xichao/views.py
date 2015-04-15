@@ -133,6 +133,8 @@ def modify_homepage():
 @app.route('/modify_homepage_finish', methods=['GET'])
 @login_required
 def modify_homepage_finish():
+    if (not create_special_authorized()):
+        abort(404)
     special1 = request.args.get('special1')
     special2 = request.args.get('special2')
     special3 = request.args.get('special3')
@@ -981,7 +983,6 @@ def ajax_collection_special_cancel():
 
 # 收藏专栏作家
 @app.route('/collection_special_author', methods=['POST'])
-@login_required
 def ajax_collection_special_author():
     try:
         user_id = int(session['user_id'])

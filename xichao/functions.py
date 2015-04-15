@@ -252,11 +252,11 @@ def get_homepage_specials():
     return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
 def get_hot_articles(num):
-    query = db_session.query(Article).order_by(Article.favor.desc()).all()
+    query = db_session.query(Article).order_by(Article.coins.desc()).all()
     return query[:10]
     
 def get_all_special():
-    query = db_session.query(Special).order_by(Special.favor.desc()).all()
+    query = db_session.query(Special).order_by(Special.coins.desc()).all()
     return query
     
 def modify_homepage_func(special1, url1,

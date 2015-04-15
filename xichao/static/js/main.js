@@ -1,4 +1,21 @@
+/**************************************************************/ 
+    /*两边突出取得灰色背景效果*/
+    /**************************************************************/
+$(window).resize(function(){
+    var bodyWidth = $(document.body).width();
+    var marginLeft = (bodyWidth - 1160)/2;
+    $(".long-background").css("margin-left", "-"+marginLeft.toString()+"px");
+    $(".long-background").css("width", (bodyWidth> $("#content").width()?bodyWidth:$("#content").width()).toString()+"px");
+});
+
 $(document).ready(function(){
+/**************************************************************/ 
+    /*两边突出取得灰色背景效果*/
+    /**************************************************************/
+        var bodyWidth = $(document.body).width();
+    var marginLeft = (bodyWidth - 1160)/2;
+    $(".long-background").css("margin-left", "-"+marginLeft.toString()+"px");
+    $(".long-background").css("width", (bodyWidth> $("#content").width()?bodyWidth:$("#content").width()).toString()+"px");
     /**************************************************************/ 
     /*nav-bar hover效果*/
     /**************************************************************/

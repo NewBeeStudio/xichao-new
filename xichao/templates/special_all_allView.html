@@ -46,7 +46,7 @@
                                                 ">
 
     {% if ((special_num-2) % 6 > 2) and ((special_num-2) % 3 == 0) %}
-    <div class="special_background_allView">
+    <div class="long-background special_background_allView">
     </div>
     {% endif %}
     
@@ -110,6 +110,7 @@ $(document).ready(function(){
     } else{
         $("#sort_by_favor").attr("selected", "selected");
     }
+    
 });
 
 $("#sort").change(function(){

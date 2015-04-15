@@ -8,7 +8,7 @@ h2{
 	position: relative;
 	margin-top: 10px;
 	width: 100%;
-	height: 485px;
+	height: 580px;
 
 	box-shadow: 5px 5px 10px 1px #000; /*阴影*/
 	overflow: hidden;
@@ -30,21 +30,27 @@ h2{
 }
 
 .index-up-content-left{
-	width: 65px;
-	/*height: 240px;*/
-	border-radius: 5px;
+	width: 150px;
+    height: 450px;
+    
+    margin-top: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+    /*height: 240px;*/
+	
 
 	background-color: #000;
 	opacity: 0.7;
 
 	float: left;
+    padding-top: 20px;
+    
 }
 
 .index-up-content-left h3{
-	margin: 20px auto 20px;
-
-	font-family: 微软雅黑;
-	font-size: 18.8px;
+    margin-left: 30px;
+	font-family: 黑体;
+	font-size: 35px;
 	font-weight: bold;
 
 	width: 10px;
@@ -52,6 +58,7 @@ h2{
 	text-align: center;
 	word-break: break-all;
 	color: #fff;
+
 }
 
 .index-up-content-right{
@@ -106,19 +113,192 @@ div.index-special-abstract{
 
 #index-middle{
 	margin-top: 100px;
-	width: 100%;
+	width: 760px;
 	/*height: 300px;*/
 	font-family: 黑体;
+    float:left;
 }
 
 #index-middle h2, #index-bottom h2{
 	padding-bottom: 10px;
 	border-bottom: 2px solid gray;
+    text-align: center;
+    font: 35px liukai;
 }
 
+.index-hot-entry{
+    width: 100%;
+    height: 190px;
+    margin-top: 26px;
+    background-color: #f0f0f0;
+      -webkit-box-shadow:2px 2px 2px 2px grey;  
+    -moz-box-shadow:2px 2px 2px 2px grey;  
+    box-shadow:2px 2px 2px 2px grey; 
+}
+
+.index-hot-entry-left{
+    float:left;
+    width: 160px;
+    height: 160px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.index-hot-entry-left-num{
+    height: 15px;
+    width: 35px;
+    background-color: black;
+    color: white;
+    opacity: 0.75;
+    font-family: 黑体;
+    font-size: 22px;
+    text-align: center;
+    position: relative;
+    padding-top: 7px;
+    padding-bottom: 13px;
+}
+
+.index-hot-entry-left-title{
+    width: 100%;
+    height: 40px;
+    background-color: black;
+    color: white;
+    opacity: 0.75;
+    position: relative;
+    margin-top: 85px;
+    font-size: 20px;
+}
+
+.index-hot-entry-right{
+    width: 550px;
+    height: 160px;
+    position: absolute;
+    margin-left: 210px;
+    margin-top: 20px;
+}
+
+.index-hot-entry-right-title{
+    text-align: left;
+    font-size: 22px;
+    font-family: 黑体;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.index-hot-entry-right-intro{
+    width: 510px;
+    height: 60px;
+    margin-top: 10px;
+    font-family: 宋体;
+    color: white;
+    padding: 20px;
+    background-color: #4f4f4f;
+}
+
+.index-hot-entry-right-intro > p{
+    height: 60px;
+    overflow: hidden;
+}
+
+#index-right{
+    float: right;
+    width: 360px;
+    position: relative;
+    margin-left: 40px;
+    margin-top: 100px;
+}
+
+#index-right h2, #index-right h2{
+	padding-bottom: 10px;
+	/*border-bottom: 2px solid gray;*/
+    text-align: center;
+    font: 35px liukai;
+    margin-bottom: -10px;
+}
+
+/*******************热门活动*******************/
+.index-hot-activity{
+     margin-top: 26px;   
+}
+
+.index-hot-activity-img{
+    width: 350px;
+    height: 215px;
+    padding: 5px;
+}
+
+.index-hot-activity-img > div{
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+}
+
+.index-hot-activity{
+     margin-top: 26px;   
+}
+
+.index-hot-activity > h3{
+    text-align: center;
+    font-size: 20px;
+}
+
+/*******************热门观点*******************/
+
+.index-right-point{
+    margin-top: 35px;
+}
+
+.index-hot-point{
+     margin-top: 26px;   
+}
+
+.index-hot-point > h3{
+    text-align: center;
+    font-size: 20px;
+}
+
+.index-hot-point-img{
+    width: 350px;
+    height: 215px;
+    padding: 5px;
+}
+
+.index-hot-point-img > div{
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+}
+
+
+/*******************广场动态*******************/
+
+.index-right-square{
+    margin-top: 60px;
+}
+
+.index-hot-square > h4{
+    text-align: center;
+    font-size: 16px;
+    font-family: 黑体;
+    margin-top: 0px;
+}
+.index-hot-square > h5{
+    text-align: right;
+    font-size: 13px;
+    font-family: 黑体;
+}
+
+.index-hot-square > p{
+    font-size: 14px;
+    font-family: 宋体;
+    height: 38px;
+    overflow: hidden;
+}
+
+/**************************************/
 .index-hot{
 	width: 205px;
-	height: 390px;
+	height: 100%;
 	float: left;
 	margin-right: 12px;
 	margin-bottom: 30px;
@@ -163,6 +343,7 @@ div.index-special-abstract{
 
 #index-bottom{
 	clear: both;
+	height: 400px;
 	padding-top: 20px;
 	font-family: 黑体;
 }
