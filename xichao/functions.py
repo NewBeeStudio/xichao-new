@@ -384,10 +384,13 @@ def get_special_article(special_id, page_id, sort, per_page):
 def get_special_draft(special_id):
     return db_session.query(Article).filter_by(special_id = special_id, is_draft = '1').all()
     
-def get_special_author_other(user_id):
-    query = db_session.query(Special.name,Special.special_id).filter_by(user_id = user_id).all()
+def get_special_author_other(user_id, special_id, limit):
+    query = db_session.query(Article.title, Article.article_id).filter(and_(Article.user_id == user_id, or_(Article.special_id == None, Article.special_id != special_id))).limit(limit).all()
     return query
 
+def get_related_special(user_id):
+    query = db_session.query(Special.special_id, Special.name, Special.picture, Special.favor, Special.coin, Special.user_id).join(Collection_Special).filter_by(user_id=user_id).all()
+    return query
 
 def update_article_num_for_special(special_id,is_add):
 	special=db_session.query(Special).filter_by(special_id=special_id).scalar()
