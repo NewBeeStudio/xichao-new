@@ -86,13 +86,7 @@
                         </tr>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">类别</td>
-                            <td width="260" style="font-family: 黑体; color:#D9AE48">
-                                
-                                {% if special_style %}
-                                {{special_style}}
-                                {% else %}
-                                Invalid
-                                {% endif %}</td>
+                            <td width="260" style="font-family: 黑体; color:#D9AE48">{{special_style}}</td>
                         </tr>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">期数</td>
@@ -278,7 +272,6 @@
 			<div class="special-separate-block" style="margin-bottom:30px;">
 <h3 style="margin-left:10px;">作者关注</h3>
             </div>
-            {{related_other_special}}
             {% if related_other_special == [] %}
                 该作者没有关注其他专栏
             {% endif %}
