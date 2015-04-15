@@ -493,6 +493,10 @@ def create_special_finish():
         title = request.args.get('title')
         content = request.args.get('content')
         title_image = request.args.get('title_image')
+
+        style = request.args.get('style')
+        total_issue = request.args.get('total_issue')
+        update_frequency = request.args.get('update_frequency')
     except Exception:
         return "failed"
 
@@ -507,7 +511,10 @@ def create_special_finish():
     special_id = create_new_special(name = title,
                        user_id = author[0][0],
                        picture = title_image,
-                       introduction = content)
+                       introduction = content,
+                       style = style,
+                       total_issue = total_issue,
+                       update_frequency = update_frequency)
 
 #    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
     return str(special_id)
@@ -523,6 +530,10 @@ def modify_special_finish():
         title = request.args.get('title')
         content = request.args.get('content')
         title_image = request.args.get('title_image')
+
+        style = request.args.get('style')
+        total_issue = request.args.get('total_issue')
+        update_frequency = request.args.get('update_frequency')
     except Exception:
         return "failed"
 
@@ -538,7 +549,10 @@ def modify_special_finish():
         special_id = modify_special_func(name = title,
                                          user_id = author[0][0],
                                          picture = title_image,
-                                         introduction = content)
+                                         introduction = content,
+                                         style = style,
+                                         total_issue = total_issue,
+                                         update_frequency = update_frequency)
         return str(special_id)
     except Exception:
         return "failed"

@@ -244,7 +244,9 @@ class Special(Base,AutoSerialize):
 
     def __init__(self, name = None, user_id = None,
                        picture = None, introduction = None,
-                       time = None):
+                       time = None, style = None,
+                       total_issue = None,
+                       update_frequency = None):
         self.name = name
         self.picture = picture
         self.introduction = introduction
@@ -253,6 +255,9 @@ class Special(Base,AutoSerialize):
         self.favor = 0
         self.last_modified = time
         self.user_id = user_id
+        self.style = style
+        self.total_issue = total_issue
+        self.update_frequency = update_frequency
 
     def __repr__(self):
         return '<Special %r>' % (self.name)

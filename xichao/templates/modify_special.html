@@ -28,12 +28,27 @@
         <br><br>
 
    		<p style="font-family: 微软雅黑;font-size: 20px;float: left;margin-top: 0px;">专栏作家昵称:</p>
-   		<input id="input_author" style="margin-left: 2%;height: 26px;width: 50%;" type="text">
-        <br><br>
+   		<input id="input_author" style="margin-left: 2%; margin-top: 0px; height: 26px;width: 50%;" type="text">
+        </div>
+        
+        <div>
+   		<p style="font-family: 微软雅黑;font-size: 20px;float: left;margin-top: 0px;">专栏类别(比如:美食/生活):</p>
+   		<input id="input_style" style="margin-left: 2%; margin-top: 0px; height: 26px;width: 50%;" type="text">
+        </div>
+        
+        <div>
+   		<p style="font-family: 微软雅黑;font-size: 20px;float: left;margin-top: 0px;">专栏期数(比如:共11期,正在更新):</p>
+   		<input id="input_total_issue" style="margin-left: 2%; margin-top: 0px; height: 26px;width: 50%;" type="text">
+        </div>
+        
+        <div>
+   		<p style="font-family: 微软雅黑;font-size: 20px;float: left;margin-top: 0px;">专栏更新频率(比如:每周三更新):</p>
+   		<input id="input_update_frequency" style="margin-left: 2%; margin-top: 0px; height: 26px;width: 50%;" type="text">
+        </div>
 
 
-   		<p id="p_article_title">专栏摘要:</p>
-   		<input id="input_content" type="text" style="width:1024px;height:300px;">
+   		<p id="p_article_title">专栏摘要(摘要是纯文本形式,暂时不支持回车):</p>
+   		<textarea id="input_content" type="text" style="width:1024px;height:300px;"></textarea>
 <!--
       <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
 -->
@@ -59,6 +74,9 @@
       $("#button_upload_confirm").click(function(){
         val_title = $("#input_title").val();
         val_author = $("#input_author").val();
+        val_style = $("#input_style").val();
+        val_total_issue = $("#input_total_issue").val();
+        val_update_frequency = $("#input_update_frequency").val();
         val_content = $("#input_content").val();
         val_title_image=$('#pic_4').attr('src');
 //        alert(val_author);
@@ -69,13 +87,20 @@
         if (val_title==''){layer.msg("专栏标题不能为空！",1,3,function(){});}
         else if (val_content==''){layer.msg("专栏内容不能为空！",1,3,function(){});}
         else if (val_author==''){layer.msg("专栏作家不能为空！",1,3,function(){});}
+        else if (val_style == ''){layer.msg("专栏类别不能为空！",1,3,function(){});}
+        else if (val_total_issue == ''){layer.msg("专栏期数不能为空！",1,3,function(){});}
+        else if (val_update_frequency == ''){layer.msg("专栏更新频率不能为空！",1,3,function(){});}
         else{
           $.get('/modify_special_finish',
           {
             title: val_title,
             author: val_author,
             content: val_content,
-            title_image: val_title_image
+            title_image: val_title_image,
+              // Added  
+            style: val_style,
+            total_issue: val_total_issue,
+            update_frequency: val_update_frequency
           },
           function(data){
             if (data == "failed"){
