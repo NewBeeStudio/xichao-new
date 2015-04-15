@@ -420,7 +420,7 @@ def special():
     author_other_article = get_special_author_other(special.user_id, special_id, 6)
 #    print aaa
     related_other_special = get_related_special(special.user_id)
-#    print aaa
+    print aaa
     return render_template('special_detail.html',
                             author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
@@ -431,7 +431,7 @@ def special():
                             other = author_other_article,
                             special_favor = special.favor,
                             special_title = special.name,
-                            special_author = special.style,#author.nick,
+                            special_author = author.nick,
                             special_author_slogon = author.slogon,
                             special_introduction = special.introduction,
                             special_style = special.style,
