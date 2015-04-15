@@ -431,7 +431,7 @@ def special():
                             other = author_other_article,
                             special_favor = special.favor,
                             special_title = special.name,
-                            special_author = author.nick,
+                            special_author = special.style,#author.nick,
                             special_author_slogon = author.slogon,
                             special_introduction = special.introduction,
                             special_style = special.style,
