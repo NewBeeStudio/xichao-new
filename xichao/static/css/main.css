@@ -267,7 +267,7 @@ input:focus{
 }
 
 #navbar-info a{
-    font: 14px 黑体;
+    font: 14px 黑体, 冬青黑体;
     border-radius: 5px;
     text-shadow: none;
 }
@@ -288,6 +288,9 @@ input:focus{
 /*下拉框修改*/
 #navbar-info .dropdown-menu{
     min-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    background-clip: border-box;
  }
 
 #navbar-info li.divider{
@@ -357,6 +360,53 @@ src: url(../fonts/liukai-small.ttf);
 #parting-line > img{
     width: 100%;
 }
+
+
+/*footer*/
+#footer{
+    margin-top: 20px;
+    background-color: #444;
+}
+
+#footer > div{
+    width: 1160px;
+    padding-top: 50px;
+    margin: auto;
+}
+
+#footer-block > ul{
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    width: 197px;
+    text-align: left;
+    color: #aaa;
+    font: 18px 黑体;
+}
+
+#footer-block > ul:last-child{
+    width: 100px;
+}
+
+#footer-block h3{
+    margin: 0;
+    font: 20px 黑体;
+}
+
+#footer-block li{
+    margin-top: 20px;
+    font: 15px 黑体;
+}
+
+#footer-block a{
+    display: inline;
+    color: #aaa;
+}
+
+#footer-block a:hover{
+    color: #fff;
+}
+
 
 /*这部分描述参考线，上线后可删*/
 .reference-block {
