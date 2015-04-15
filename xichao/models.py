@@ -228,6 +228,11 @@ class Special(Base,AutoSerialize):
     article_num = Column(Integer, nullable = False, default = 0)
     time = Column(DateTime, nullable = False)
 
+        ########## Added ##########
+    total_issue = Column(String(40), nullable = False)
+    update_frequency = Column(String(40), nullable = False)
+    style = Column(String(40), nullable = False)
+
     ########## Index/Unique索引 ##########
     favor = Column(Integer, nullable = False, 
                    unique = False, index = True, default = 0)
