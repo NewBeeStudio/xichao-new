@@ -256,7 +256,7 @@ def get_hot_articles(num):
     return query[:10]
     
 def get_all_special():
-    query = db_session.query(Special).order_by(Special.coins.desc()).all()
+    query = db_session.query(Special).order_by(Special.coin.desc()).all()
     return query
     
 def modify_homepage_func(special1, url1,

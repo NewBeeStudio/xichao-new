@@ -442,8 +442,7 @@ def special():
                             special_author_avatar = author.photo,
                             articles_pagination = articles_pagination,
                             related_other_special = related_other_special,
-                            get_nick_by_userid = get_nick_by_userid,
-                            len = len)
+                            get_nick_by_userid = get_nick_by_userid)
 #                            articles_pagination = articles_pagination)
 
 
