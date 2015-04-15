@@ -631,7 +631,6 @@ def special_article_finish():
     book_ISBN=request.form['book_ISBN']
     book_binding=request.form['book_binding']
 
-
     abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
     if len(abstract_plain_text)<191:
         abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
@@ -858,29 +857,31 @@ def editor_upload_activity(activity_session_id,filename):
 ##TODO:可能是存在数据库中的草稿提交过来的，这时候只需要把is_draft字段更改就行
 @app.route('/article/finish/group/<group_id>/category/<category_id>',methods=['POST'])
 def article_finish(group_id,category_id):
-	content = request.form['content']
-	title = request.form['title']
-	##TODO 文章标题的安全性过滤
-	title_image=request.form['title_image']
-	abstract_abstract_with_img=request.form['abstract']
-	book_picture=request.form['book_picture']
-	book_author=request.form['book_author']
-	book_press=request.form['book_press']
-	book_page_num=request.form['book_page_num']
-	book_price=request.form['book_price']
-	book_press_time=request.form['book_press_time']
-	book_title=request.form['book_title']
-	book_ISBN=request.form['book_ISBN']
-	book_binding=request.form['book_binding']
-	abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
-	if len(abstract_plain_text)<191:
-		abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
-	else:
-		abstract=abstract_plain_text[0:190]+'......'
-	user_id=int(session['user_id'])
-	book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
-	article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
-	return str(article_id)
+    content = request.form['content']
+    title = request.form['title']
+    ##TODO 文章标题的安全性过滤
+    title_image=request.form['title_image']
+    abstract_abstract_with_img=request.form['abstract']
+    book_picture=request.form['book_picture']
+    book_author=request.form['book_author']
+    book_press=request.form['book_press']
+    book_page_num=request.form['book_page_num']
+    book_price=request.form['book_price']
+    book_press_time=request.form['book_press_time']
+    book_title=request.form['book_title']
+    book_ISBN=request.form['book_ISBN']
+    book_binding=request.form['book_binding']
+    abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
+
+    if len(abstract_plain_text)<191:
+        abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
+    else:
+        abstract=abstract_plain_text[0:190]+'......'
+    user_id=int(session['user_id'])
+    book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
+    article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
+    print "#############\n\n\n\n\n\################"
+    return str(article_id)
 
 #文章草稿的提交路径
 @app.route('/article/draft/group/<group_id>/category/<category_id>',methods=['POST'])
