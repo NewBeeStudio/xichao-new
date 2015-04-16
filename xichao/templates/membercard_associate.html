@@ -1,0 +1,262 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/>
+{% endblock %}
+
+{% block content %}
+    <!--当前位置-->
+    <div class="current-position">
+        <p style="font-size: 18px; font-family: 微软雅黑;">注册</p>
+    </div>
+    <!--注册表单-->
+    <div id='step-nav'>
+        <div id='step-1' class='step-item'>
+            <p class='step-num'>1</p>
+            <p class='step-label'>验证会员信息</p>
+        </div>
+        <div id='step-2' class='step-item'>
+            <p class='step-num'>2</p>
+            <p class='step-label'>确认会员信息</p>
+        </div>
+        <div id='step-3' class='step-item'>
+            <p class='step-num'>√</p>
+            <p class='step-label'>绑定成功</p>
+        </div>
+    </div>
+    {% from "test_formhelpers.html" import render_membercard %}
+    <form method="post" action="/register" accept-charset="utf-8" enctype="multipart/form-data" id="register-form">
+        <input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
+            <input name="avatar" id="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
+        <div id='step-1-content'>
+            <table class="register-table">
+                {{ render_membercard(form.cardID, 0) }}
+                {{ render_membercard(form.name, 1) }}
+                {{ render_membercard(form.email, 2) }}
+                <tr id="captcha-area">
+                    <td> 验证码： </td>
+                    <td>
+                        <input type="text" id="captcha">
+                        <img id="captcha-pic" src=""/>
+                        <!-- data:image/png;base64, -->
+                    </td>
+                    <td class="error-tip register-error" style="display: none;">
+                            
+                    </td>
+
+                </tr>
+                    
+            </table>
+            <a href="javascript:return false;" class="next-step" id="next">下一步</a>
+
+        </div>
+        <div id='step-2-content'>
+            <table class="register-table">
+                确认信息
+            </table>
+            <a href="javascript:return false;" onclick="submit()" class="next-step">确认绑定</a>
+        </div>
+        <div id="success-info">
+            <div id="success">
+                <p class='step-num'>√</p>
+                <p>注册成功</p>
+            </div>
+            <p>3秒后自动跳转</p>
+        </div>
+
+
+    </form>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script type="text/javascript">
+
+function getCaptcha(obj) {
+    $.getJSON($SCRIPT_ROOT + '/_getImage', {},
+        function(data) {
+            $('#captcha-pic').attr('src', 'data:image/png;base64,'+data.image);
+            $('#next').click(function(){
+                var flag = true;
+                var email = $("#step-1-content .form-area .register-form-value input").val();
+                if (email.length <= 0){
+                    $("#step-1-content .form-area .register-error").text("邮箱必须");
+                    $("#step-1-content .form-area .register-error").attr("style", "display:block");
+                    flag = false;
+                }
+                var cap = $("#step-1-content #captcha").val();
+                if (cap != data.code){
+                    $("#step-1-content #captcha-area .register-error").text("验证码错误");
+                    $("#step-1-content #captcha-area .register-error").attr("style", "display:block");
+                    flag = false;
+                }
+
+                var info = new Array();
+                $(".register-form-value input").each(function()
+                {
+                    info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
+                });
+
+                $.get("/membercard_validate", {
+                    cardID: info[0],
+                    name: info[1],
+                    email: info[2]
+                }, function(data){
+                    alert(data);
+                    if (data == 'fail'){
+                        flag =false;
+                    }
+                    if (flag == true) {
+                    $("#step-1-content").hide();
+                    $("#step-2-content").show();
+                    $("#step-2 .step-label").css("color","rgb(217, 174, 73");
+                    $("#step-2 .step-num").css("background-color", "rgb(217, 174, 73)");
+                    $("#step-2").css("border-color", "rgb(217, 174, 73)");
+                    }
+                });
+
+                
+            });
+        });
+};
+
+
+$(document).ready(function()
+{
+
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    var captcha = {img:"a", captchaCode:"a"};
+    
+    getCaptcha(captcha);
+    $('#captcha-pic').click(function(){
+        getCaptcha();
+    });
+
+    $("#avatar_user").hover(
+    function(){
+        $("#avatar_button").css("display", "block");
+    },
+    function(){
+        $("#avatar_button").css("display", "none");
+    });
+    $("#avatar_button").hover(
+    function(){
+        $("#avatar_button").css("display", "block");
+    },
+    function(){
+        $("#avatar_button").css("display", "none");
+    });
+
+    $("#step-1 .step-label").css("color","rgb(217, 174, 73");
+    $("#step-1 .step-num").css("background-color", "rgb(217, 174, 73)");
+    $("#step-1").css("border-color", "rgb(217, 174, 73)");
+    $("#step-2-content").hide();
+    $('#success-info').hide();
+    /************************************************************/
+    /*显示注册错误信息*/
+    /************************************************************/
+    $(".register-error").each(function()
+    {
+      var warning = $(this).text().replace(/(^\s*)|(\s*$)/, ""); //获取warning区内容，去除空白字符
+
+      if(warning.length > 0)
+        $(this).css("display", "block");
+      else
+        $(this).css("display", "none");
+    });
+      
+      
+    /************************************************************/
+    /*AJAX交互*/
+    /************************************************************/
+    $(".register-form-value input").change(function()
+    {
+      var index = parseInt($(this).parent().attr("data-index")); //changed line number
+          
+      var info = new Array();
+      $(".register-form-value input").each(function()
+      {
+        info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
+      });
+          
+      $.getJSON($SCRIPT_ROOT + '/ajax_membercard', {
+      cardID: info[0],
+      name: info[1],
+      email: info[2]}, function(data)
+      {
+        $(".register-error").each(function()
+        {
+          var cur_index = parseInt($(this).attr("data-index"));
+          $(this).text(""); 
+          $(this).css("display", "none"); //先初始化
+
+          if(cur_index <= index){ 
+            //当前光标位置在其之下，则显示警告内容
+            if(cur_index == 0 && data.cardID != ""){
+              $(this).text(data.cardID);
+              $(this).css("display", "block");
+            }
+            else if(cur_index == 1 && data.name != ""){
+              $(this).text(data.name);
+              $(this).css("display", "block");
+            }
+            else if(cur_index == 2 && data.email != ""){
+              $(this).text(data.email);
+              $(this).css("display", "block");
+            }
+          }
+        });
+      });
+    });
+    
+});
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#avatar_button").click(function(){
+      $.layer({
+        type: 2,
+        title: [
+            '上传头像', 
+            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+        ],
+        shadeClose: true,
+        closeBtn: false,
+        border:[0],
+        area: ['90%', '90%'],
+        iframe: {src: "{{url_for('upload_avatar')}}"},
+      });
+    });
+    $(".default_avatar").click(function(){
+      $("#avatar_user").attr("src",$(this).attr("src"));
+      $("#avatar").attr("value",$(this).attr("src"));
+    });
+  });
+</script>
+<script type="text/javascript">
+function update_avatar(data){
+  $('#avatar_user').attr("src",data);
+  $('#avatar').attr("value",data);
+}
+</script>
+<script type="text/javascript">
+var sec = 3;
+function countDown() {
+    $('#success-info>p').text(sec + "秒后自动跳转");
+    sec = sec - 1;
+    if (sec >= 0)
+        t=setTimeout("countDown()", 1000);
+};
+
+function submit() {
+    $('#register-form').submit();
+    $('#success-info').show();
+    $('#step-2-content').hide();
+    $("#step-3 .step-label").css("color","rgb(217, 174, 73");
+    $("#step-3 .step-num").css("background-color", "rgb(217, 174, 73)");
+    $("#step-3").css("border-color", "rgb(217, 174, 73)");
+    countDown();
+}
+</script>
+{% endblock %}

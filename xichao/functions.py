@@ -38,6 +38,13 @@ def email_exist(email):
 	else:
 		return False
 
+def cardID_exist(cardID):
+	result=db_session.query(User).filter_by(member_id = cardID).all()
+	if len(result)>0:
+		return True
+	else:
+		return False
+
 def encrypt(password):
 	encrypt_password=md5(password).hexdigest()
 	return encrypt_password
