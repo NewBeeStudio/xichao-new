@@ -19,16 +19,17 @@
 
 	<div id="article_title">
 		<p id="p_article_title">{{article.title}}</p>
+		<img src="/static/images/border.png">
 	</div>
 
 	<div id="article_content">
 		<p id="p_read">阅读</p>
 		<p id="p_read_content">({{article.read_num}})</p>
-		<p id="p_num_xichao">曦潮币  (</p>
+		<p id="p_num_xichao">曦潮币<span>+</span>  (</p>
 		<p id="p_num_xichao_content">{{article.coins}}</p>
 		<p id="p_num_xichao_bracket">)</p>
-		<p id="p_review">评论 ({{article.comment_num}})</p>
-		<p id="p_collection">收藏 ({{article.favor}})</p>
+		<p id="p_review">评论<span>+</span> ({{article.comment_num}})</p>
+		<p id="p_collection">收藏<span>+</span> ({{article.favor}})</p>
 		<p id="p_article_author_1">作者</p>
 		<p id="p_article_author_2"><a href="{{url_for('view_home_page', nick = author.nick)}}">{{author.nick}}</a></p>
 		<p id="p_article_time">发表时间&nbsp;&nbsp;{{article.time}}</p>
@@ -311,6 +312,7 @@ function add_commit(data, val_content) {
 			
 			var pay_action = function(){
 			    layer.msg("您不能打赏自己的文章",1,3);
+
 			}
 			$("#p_num_xichao").click(pay_action);
 			$("#p_num_xichao_bracket").click(pay_action);
