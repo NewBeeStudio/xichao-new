@@ -25,7 +25,7 @@
         </div>
     </div>
     {% from "test_formhelpers.html" import render_membercard %}
-    <form method="post" action="/register" accept-charset="utf-8" enctype="multipart/form-data" id="register-form">
+    <form method="post" action="/membercard_associate" accept-charset="utf-8" enctype="multipart/form-data" id="register-form">
         <input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
             <input name="avatar" id="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
         <div id='step-1-content'>
@@ -51,8 +51,20 @@
 
         </div>
         <div id='step-2-content'>
+            <h2 style="font-size: 30px;text-align: center;">尊敬的会员,您的会员信息如下<h2>
             <table class="register-table">
-                确认信息
+            <tr class="form-area">
+                    <td class="register-label" width="200">会员卡号</td>
+                    <td class="register-label" id="confirm_cardID"></td>
+              </tr>
+              <tr class="form-area">
+                    <td class="register-label" width="200">姓名</td>
+                    <td class="register-label" id="confirm_name"></td>
+              </tr>
+              <tr class="form-area">
+                    <td class="register-label" width="200">会员积分</td>
+                    <td class="register-label" id="confirm_coin"></td>
+              </tr>
             </table>
             <a href="javascript:return false;" onclick="submit()" class="next-step">确认绑定</a>
         </div>
@@ -102,16 +114,34 @@ function getCaptcha(obj) {
                     name: info[1],
                     email: info[2]
                 }, function(data){
-                    alert(data);
-                    if (data == 'fail'){
+                    //alert(data);
+                    if (data == 'name'){
+                        layer.msg("姓名错误",1,3,function(){});
                         flag =false;
                     }
+                    if (data == 'email'){
+                        layer.msg("邮箱错误",1,3,function(){});
+                        flag =false;
+                    }
+                    if (data == 'name null'){
+                        layer.msg("该会员卡未注册使用者姓名,请您联系书店前台",2,3,function(){});
+                        flag =false;
+                    }
+                    if (data == 'email null'){
+                        layer.msg("该会员卡未注册使用者邮箱,请您联系书店前台",2,3,function(){});
+                        flag =false;
+                    }
+
                     if (flag == true) {
                     $("#step-1-content").hide();
                     $("#step-2-content").show();
                     $("#step-2 .step-label").css("color","rgb(217, 174, 73");
                     $("#step-2 .step-num").css("background-color", "rgb(217, 174, 73)");
                     $("#step-2").css("border-color", "rgb(217, 174, 73)");
+
+                    $("#confirm_cardID").text(info[0]);
+                    $("#confirm_name").text(info[1]);
+                    $("#confirm_coin").text(data);
                     }
                 });
 
@@ -256,6 +286,7 @@ function submit() {
     $("#step-3 .step-label").css("color","rgb(217, 174, 73");
     $("#step-3 .step-num").css("background-color", "rgb(217, 174, 73)");
     $("#step-3").css("border-color", "rgb(217, 174, 73)");
+
     countDown();
 }
 </script>

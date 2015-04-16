@@ -311,26 +311,22 @@ def verify():
 ################################## 会员卡绑定 ##################################
 
 @app.route('/membercard_associate', methods=['GET', 'POST'])
+@login_required
 def membercard_associate():
     # myCaptcha = captcha.Captcha()
     form = MembercardForm(request.form)
     if request.method == 'POST' and form.validate():
-
-        user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
-
-        db_session.add(user)
+        user = db_session.query(User).filter_by(user_id = current_user.user_id).all()[0]
+        user.member_id = form.cardID.data
         db_session.commit()
-        #需要增加异常处理，捕获异常，
-        send_verify_email(form.nick.data,encrypt(form.password.data),form.email.data)
-        # session['user']=request.form['nick']
-        user=User.query.filter_by(email=form.email.data).first()
-        login_user(user)
+
         flash(u'注册成功，正在跳转')
         time.sleep(3)
         return redirect(url_for('index'))
     return render_template('membercard_associate.html', form=form)
 
 @app.route('/membercard_validate', methods=['GET'])
+@login_required
 def membercard_validate():
     try:
         cardID = request.args.get('cardID')
@@ -341,13 +337,20 @@ def membercard_validate():
 
     import urllib, json
     # TODO
-    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID=141034').read()
+#    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID=141034').read()
     member_data = '{"cardID":"141034", "name":"张云昊", "email":"zhangyunh@gmail.com", "coin":"616"}'
     memberDB = json.loads(member_data)
-    if (memberDB['name'] == name) and (memberDB['email'] == email):
-        return "success" + memberDB['coin']
+    if memberDB['name'] == name and memberDB['email'] == email:
+        return memberDB['coin']
     else:
-        return "fail"
+        if memberDB['name'] == "":
+            return "name null"
+        if memberDB['email'] == "":
+            return "email null"
+        if memberDB['name'] != name:
+            return "name"
+        if memberDB['email'] != email:
+            return "email"
 
 ##################################  文章首页  ##################################
 @app.route('/article/',methods=['GET', 'POST'])
