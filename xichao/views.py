@@ -185,6 +185,7 @@ def register():
         user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
         db_session.add(user)
         db_session.commit()
+        return "abcd"
         #需要增加异常处理，捕获异常，
         send_verify_email(form.nick.data,encrypt(form.password.data),form.email.data)
         # session['user']=request.form['nick']
@@ -193,7 +194,7 @@ def register():
         flash(u'注册成功，正在跳转')
         time.sleep(3)
         return redirect(url_for('index'))
-	return render_template('register.html', form=form, captcha=captcha, cap_code=cap_code)
+    return render_template('register.html', form=form, captcha=captcha, cap_code=cap_code)
 
 #接收上传的头像文件，保存并返回路径
 @app.route('/upload/avatar',methods=['GET', 'POST'])
