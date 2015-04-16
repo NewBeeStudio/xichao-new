@@ -5,13 +5,13 @@
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
 <link rel="stylesheet" type="text/css" href="/static/css/article_upload.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/button.css" />
-
 {% endblock %}
 
 <!--content-->
 {% block content %}
- <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发表文章</p>
-    <div id="div_pics">
+ <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发表专栏文章</p>
+ <br>
+    <div id="pics">
         <img class="pics" id="pic_4" style="width:225px;height:205px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}" />
        	<p class="p_triangle" id="triangle_left">◀</p>
         <img class="pics" id="pic_1" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
@@ -19,52 +19,90 @@
         <img class="pics" id="pic_3" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
         <p class="p_triangle" id="triangle_right">▶</p>
 
-        <a href="#" class="register-button" id="button_upload_pic">上传题图</a>
+        <a href="#" class="myButton" id="button_upload_pic">上传题图</a>
     </div>
 
    	<div id="article_editor">
    		<p id="p_article_title">文章标题:</p>
    		<input id="input_title" type="text">
+   	
       <label>文章类别：</label>
       <input type="radio" name="category" value="1" checked="true">书评
       <input type="radio" name="category" value="2">影评
       <input type="radio" name="category" value="3">杂文
-      <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
-
-      <div id="book_info">
-        <label>请输入书籍ISBN号</label>
-        <input id="book_isbn" type="text">
-        <input  class="register-button" id="book_button" type="button"value="确定">
-      </div>
-      <div id="book_information" style="display:none;">
-        <img id="book_image" style="width:150px;height:220px;" src="">
-        <div id="div_book_info">
-          <p class="p_book_info">书名</p>
-          <p class="p_book_info">作者</p>
-          <p class="p_book_info">出版社</p>
-          <p class="p_book_info">出版时间</p>
-          <p class="p_book_info">页数</p>
-          <p class="p_book_info">价格</p>
-          <p class="p_book_info">装帧</p>
-          <p class="p_book_info">ISBN</p>
-        </div>
-
-        <p class="p_book_info_content" id="book_name"></p>
-        <p class="p_book_info_content" id="book_author"></p>
-        <p class="p_book_info_content" id="book_publisher"></p>
-        <p class="p_book_info_content" id="book_pubdate"></p>
-        <p class="p_book_info_content" id="book_pages"></p>
-        <p class="p_book_info_content" id="book_price"></p>
-        <p class="p_book_info_content" id="book_binding"></p>
-        <p class="p_book_info_content" id="book_isbn"></p>
-      </div>
       
+      <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+          
+        <div id="search_book_list">
+            
+            <div id="search_book_input">
+                请搜索要关联的书籍:
+                <input type="text" id="search_content" class="form-control" placeholder="">
+                <button id="search_book_button" class="btn btn-default" style="margin-top: -10px">在线搜索</button>
+            </div>
+
+            <div id="search_book_result" class="search_book_result col-xs-12 col-md-6 col-lg-6">
+            <article class="post tag-ad">
+                <section class="post-featured-image">
+            <a class="thumbnail">
+              <img  id="search_book_result_image" src="" width="800" height="600" alt="Book Image" style="display: block;" data-original="">
+            </a>
+                </section>
+            <header class="post-header">
+                <h3 id="search_book_result_name" class="post-title">Search Result</h3>
+            </header>
+        
+            </article>
+            </div>
+            
+            
+            <div id="selected_book_info">
+      <div id="book_information">
+        <img id="book_image" style="width:150px;height:220px;" src="">
+          <table>
+              <tr>
+                <td width="100"><p class="p_book_info">书名</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_name"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">作者</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_author"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">出版社</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_publisher"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">出版时间</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_pubdate"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">页数</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_pages"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">价格</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_price"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">装帧</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_binding"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">ISBN</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_isbn"></p></td>
+              </tr>
+          </table>
+      </div>
+            </div>
+
+        </div>
+      <div style="clear:both;"></div>
       <div id="buttons">
         <a href="#" class="register-button" id="button_upload_cancel">取消</a>
         <a href="#" class="register-button" id="button_upload_draft">保存草稿</a>
         <a href="#" class="register-button" id="button_upload_confirm">确定</a>
       </div>
-  
    	</div>
 	
 {% endblock %}
@@ -91,6 +129,9 @@
 	});
 
     $(document).ready(function(){
+        
+        $("#search_book_result").css("display", "none");
+        $("#selected_book_info").css("display", "none");
       //完成文章，上传到服务器
       $("#button_upload_confirm").click(function(){
         val_title = $("#input_title").val();
@@ -152,6 +193,7 @@
         val_book_ISBN=$("#book_isbn").text();
         val_book_binding=$("#book_binding").text();
         val_category=$('input[name="category"]:checked').val();
+
         if (val_title==''){alert("文章标题不能为空！");}
         else if(val_content==''){alert("文章内容不能为空！");}
         else if(val_book_title==''){alert("请关联书籍");}
@@ -184,6 +226,87 @@
       });
     });
 </script>
+<!-- 关联书籍js -->
+<script>
+$('#search_book_button').click(function(){            
+            var book_name=$('#search_content').val();
+            if (book_name == "" || book_name == null || book_name == undefined)
+                alert("Please enter book name");
+            else{
+                $("#selected_book_info").css("display", "none");
+                var url='https://api.douban.com/v2/book/search?q='+book_name+'&count=4&callback=?';
+                $.getJSON(url,function(json){
+                    var Total = json.books.length;
+//                    alert(Total);
+                    var oldDiv = $("#search_book_result");
+                    
+                    for(var j=0; j<Total; j++){
+                        var olddivID = "#search_book_result"+j.toString();
+                        var old = $(olddivID)
+                        if (old.length > 0){
+                            old.remove();
+                        }
+                    }
+                    
+                    for(var i=0; i<Total; i++){
+                        var book = json.books[i];
+                        var divID = "search_book_result"+i.toString();
+                        var imgID = "search_book_result_image"+i.toString();
+                        var nameID = "search_book_result_name"+i.toString();
+                        
+                        var newDiv = oldDiv.clone(true);
+                        oldDiv.after(newDiv);
+                        newDiv.css("display", "inline");
+                        
+                        newDiv.attr("id", divID);
+                            $("#"+divID).css("margin-left", "40px");
+                        $("#"+divID+" img").attr("id", imgID);
+                        $("#"+divID + " h3").attr("id", nameID);
+                        
+                        
+                    // Attributes
+                        $("#"+divID+" img").attr("number", i.toString());
+                        $("#"+divID+" img").attr("book_name", book.title);
+                        $("#"+divID+" img").attr("book_author", book.author);
+                        $("#"+divID+" img").attr("book_publisher", book.publisher);
+                        $("#"+divID+" img").attr("book_pubdate", book.pubdate);
+                        $("#"+divID+" img").attr("book_pages", book.pages);
+                        $("#"+divID+" img").attr("book_price", book.price);
+                        $("#"+divID+" img").attr("book_binding", book.binding);
+                        $("#"+divID+" img").attr("book_ISBN", book.isbn13);
+                        
+                        
+                        $("#"+imgID).attr("src", book.images["large"]);
+                        $("#"+imgID).attr("data-original", book.images["large"]);
+                        $("#"+nameID).text(book.title);
+                    }
+                });
+            }
+        });
+    
+$('.search_book_result img').click(function(){            
+            var preserve = parseInt($(this).attr("number"));
+            for(var j=0; j<4; j++){
+                var olddivID = "#search_book_result"+j.toString();
+                var old = $(olddivID)
+                old.remove();
+                if (old.length > 0 && j != preserve){
+                    
+                }
+            }
+
+      $("#book_name").text($(this).attr("book_name"));
+      $("#book_author").text($(this).attr("book_author"));
+      $("#book_publisher").text($(this).attr("book_publisher"));
+      $("#book_pubdate").text($(this).attr("book_pubdate"));
+      $("#book_pages").text($(this).attr("book_pages"));
+      $("#book_price").text($(this).attr("book_price"));
+      $("#book_binding").text($(this).attr("book_binding"));
+      $("#book_isbn").text($(this).attr("book_ISBN"));
+      $("#book_image").attr("src",$(this).attr("src"));
+      $("#selected_book_info").css("display", "inline");
+        });
+</script>
 <!--上传题图的页面框-->
 <script type="text/javascript">
   $('#button_upload_pic').click(function(){
@@ -201,32 +324,13 @@
     });
   });
 </script>
-<script type="text/javascript">
-  $('#book_button').click(function(){
-    val_book_isbn=$('#book_isbn').val();
-    //alert(val_book_isbn);
-    url='https://api.douban.com/v2/book/isbn/'+val_book_isbn+'?fields=title,author,publisher,pubdate,pages,price,binding,isbn13,images&callback=?';
-    $.getJSON(url,function(json){
-      $("#book_name").text(json.title);
-      $("#book_author").text(json.author);
-      $("#book_publisher").text(json.publisher);
-      $("#book_pubdate").text(json.pubdate);
-      $("#book_pages").text(json.pages);
-      $("#book_price").text(json.price);
-      $("#book_binding").text(json.binding);
-      $("#book_isbn").text(val_book_isbn);
-      $("#book_image").attr("src",json.images.large);
-      $("#book_information").css('display','block');
-    });
-    $("#book_isbn").text("123");
-  });
-</script>
 
 <script type="text/javascript">
 function update_title_image(data){
   $('#pic_4').attr("src",data);
 }
 </script>
+
 
 <script type="text/javascript">
 var cur_index = 2;

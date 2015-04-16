@@ -1,3 +1,4 @@
+
 #coding=utf-8
 from flask import jsonify
 import random
@@ -74,6 +75,7 @@ def create_validate_code(size=(37, 10),
               float(random.randint(1, 2)) / 500
               ]
     img = img.transform(size, Image.PERSPECTIVE, params) # 创建扭曲
+
 
     img = img.filter(ImageFilter.EDGE_ENHANCE_MORE) # 滤镜，边界加强（阈值更大）
     buf = StringIO.StringIO()

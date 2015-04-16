@@ -184,14 +184,20 @@
 }
 
 #book_image {
-	margin-left: 230px;
-	margin-right: 100px;
+	margin-left: 360px;
+	margin-right: 40px;
+    width: 160px;
 	float: left;
 }
 
 #div_book_info {
 	float: left;
-	margin-right: 100px;
+    width: 100px;
+}
+
+#div_book_info_right{
+    float: left;
+    width: 440px;
 }
 
 .p_book_info {
@@ -239,3 +245,41 @@
 	width: 150px;
 	height: 22px;
 }
+
+
+        #search_book_input{
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-family: 黑体;
+            color: #D9AE48;
+            text-align: center;
+        }
+        #book_name{
+            
+            margin-right: 10px;
+            float: left;
+        }
+        .search_book_result{
+            width: 250px;
+            float: left;
+            position: relative;
+            text-align: center;
+        }
+        .search_book_result h3{
+            font-size: 20px;
+            font-family: 黑体;
+            text-align: center;
+        }
+        .search_book_result img{
+            max-height: 250px;
+            min-height: 250px;
+            height: auto;
+            max-width: 100%;
+            width: auto;
+            position: relative;
+        }
+        #selected_book_info{
+            float:left;
+            width: 100%;
+            height: 400px;
+        }
