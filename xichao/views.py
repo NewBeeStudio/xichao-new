@@ -60,7 +60,7 @@ import os
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from itsdangerous import constant_time_compare, BadData
 from hashlib import md5
-from captcha import get_captcha
+import captcha
 import time
 
 GROUP=[u'广场',u'文章',u'专栏']
@@ -177,11 +177,9 @@ def uploaded_homepage_image(filename):
 ##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-        print "a"
-	# print request.form
-	form = RegistrationForm(request.form)
-        captcha, cap_code = get_captcha()
-	if request.method == 'POST' and form.validate():
+    # myCaptcha = captcha.Captcha()
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate():
 
 		user = User(nick=form.nick.data, email=form.email.data, role=1, register_time=datetime.now(), last_login_time=datetime.now(), password=encrypt(form.password.data),state='0',photo=request.form['avatar'],slogon='暂未填写')
 
@@ -195,7 +193,12 @@ def register():
 		flash(u'注册成功，正在跳转')
                 time.sleep(3)
 		return redirect(url_for('index'))
-	return render_template('register.html', form=form, captcha=captcha, cap_code=cap_code)
+    return render_template('register.html', form=form)
+
+@app.route('/_getImage')
+def getCaptcha():
+    return captcha.create_validate_code()
+
 
 #接收上传的头像文件，保存并返回路径
 @app.route('/upload/avatar',methods=['GET', 'POST'])

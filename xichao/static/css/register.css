@@ -52,13 +52,18 @@ input#email, input#nick, input#password, input#confirm, input#captcha{
 input#captcha {
     width: 172px;
 }
+
+#captcha-pic:hover {
+    cursor: pointer;
+}
+
 .next-step {
     padding: 4px 16px;
     width: 120px;
     margin: 48px auto;
     text-align: center;
     font-size: 24px;
-    line-height: 32px;
+    line-height: 32px;#
     font-family: 黑体;
     border: 2px solid rgb(217, 174, 73);
     border-radius: 2px;

@@ -27,7 +27,6 @@
     {% from "test_formhelpers.html" import render_register %}
     <form method="post" action="/register" accept-charset="utf-8" enctype="multipart/form-data" id="register-form">
         <input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
-            <!--<img src="data:image/png;base64,{{captcha}}"/>-->
             <input name="avatar" id="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
         <div id='step-1-content'>
             <table class="register-table">
@@ -36,7 +35,8 @@
                     <td> 验证码： </td>
                     <td>
                         <input type="text" id="captcha">
-                        <img src="data:image/png;base64,{{captcha}}"/>
+                        <img id="captcha-pic" src=""/>
+                        <!-- data:image/png;base64, -->
                     </td>
                     <td class="error-tip register-error" style="display: none;">
                             
@@ -45,7 +45,7 @@
                 </tr>
                     
             </table>
-            <a href="javascript:return false;" class="next-step" onclick="next()">下一步</a>
+            <a href="javascript:return false;" class="next-step" id="next">下一步</a>
 
         </div>
         <div id='step-2-content'>
@@ -81,8 +81,48 @@
 {% block js %}
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
-  $(document).ready(function()
-  {
+
+function getCaptcha(obj) {
+    $.getJSON($SCRIPT_ROOT + '/_getImage', {},
+        function(data) {
+            $('#captcha-pic').attr('src', 'data:image/png;base64,'+data.image);
+            $('#next').click(function(){
+                var flag = true;
+                var email = $("#step-1-content .form-area .register-form-value input").val();
+                if (email.length <= 0){
+                    $("#step-1-content .form-area .register-error").text("邮箱必须");
+                    $("#step-1-content .form-area .register-error").attr("style", "display:block");
+                    flag = false;
+                }
+                var cap = $("#step-1-content #captcha").val();
+                if (cap != data.code){
+                    $("#step-1-content #captcha-area .register-error").text("验证码错误");
+                    $("#step-1-content #captcha-area .register-error").attr("style", "display:block");
+                    flag = false;
+                }
+                if (flag == true) {
+                    $("#step-1-content").hide();
+                    $("#step-2-content").show();
+                    $("#step-2 .step-label").css("color","rgb(217, 174, 73");
+                    $("#step-2 .step-num").css("background-color", "rgb(217, 174, 73)");
+                    $("#step-2").css("border-color", "rgb(217, 174, 73)");
+                }
+            });
+        });
+};
+
+
+$(document).ready(function()
+{
+
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    var captcha = {img:"a", captchaCode:"a"};
+    
+    getCaptcha(captcha);
+    $('#captcha-pic').click(function(){
+        getCaptcha();
+    });
+
     $("#avatar_user").hover(
     function(){
         $("#avatar_button").css("display", "block");
@@ -97,7 +137,6 @@
     function(){
         $("#avatar_button").css("display", "none");
     });
-
 
     $("#step-1 .step-label").css("color","rgb(217, 174, 73");
     $("#step-1 .step-num").css("background-color", "rgb(217, 174, 73)");
@@ -121,8 +160,6 @@
     /************************************************************/
     /*AJAX交互*/
     /************************************************************/
-    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-
     $(".register-form-value input").change(function()
     {
       var index = parseInt($(this).parent().attr("data-index")); //changed line number
@@ -168,7 +205,8 @@
         });
       });
     });
-  });
+    
+});
 </script>
 
 <script type="text/javascript">
@@ -200,36 +238,9 @@ function update_avatar(data){
 }
 </script>
 <script type="text/javascript">
-function next(){
-    var flag = true;
-    var email = $("#step-1-content .form-area .register-form-value input").val();
-    console.log(email);
-    if (email.length <= 0){
-        console.log("false");
-        $("#step-1-content .form-area .register-error").text("邮箱必须");
-        $("#step-1-content .form-area .register-error").attr("style", "display:block");
-        flag = false;
-    }
-    var cap = $("#step-1-content #captcha").val();
-    if (cap != parseInt({{cap_code}})){
-        $("#step-1-content #captcha-area .register-error").text("验证码错误");
-        $("#step-1-content #captcha-area .register-error").attr("style", "display:block");
-        flag = false;
-    }
-    if (flag == true) {
-        $("#step-1-content").hide();
-        $("#step-2-content").show();
-        $("#step-2 .step-label").css("color","rgb(217, 174, 73");
-        $("#step-2 .step-num").css("background-color", "rgb(217, 174, 73)");
-        $("#step-2").css("border-color", "rgb(217, 174, 73)");
-    }
-};
-</script>
-<script type="text/javascript">
 var sec = 3;
- function countDown() {
+function countDown() {
     $('#success-info>p').text(sec + "秒后自动跳转");
-    console.log(sec);
     sec = sec - 1;
     if (sec >= 0)
         t=setTimeout("countDown()", 1000);
