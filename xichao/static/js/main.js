@@ -76,6 +76,7 @@ $(document).ready(function(){
     var login_circle_onMouseOut = function(){
         
     }
+    /*
     var square_circle_onMouseIn = function(e,className){      
 
         console.log(className);
@@ -114,7 +115,7 @@ $(document).ready(function(){
     $(".square-inside-circle1").hover(square_circle_onMouseIn(this,".square-inside-circle1"), login_circle_onMouseOut);
     $(".square-inside-circle2").hover(square_circle_onMouseIn(this,".square-inside-circle2"), login_circle_onMouseOut);
     $(".square-inside-circle3").hover(square_circle_onMouseIn(this,".square-inside-circle3"), login_circle_onMouseOut);
-
+    */
     /**************************************************************/
     /*登陆label/input提示*/
     /**************************************************************/
