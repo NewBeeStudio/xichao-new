@@ -71,7 +71,7 @@
         <div id="success-info">
             <div id="success">
                 <p class='step-num'>√</p>
-                <p>注册成功</p>
+                <p>绑定成功</p>
             </div>
             <p>3秒后自动跳转</p>
         </div>
@@ -101,6 +101,8 @@ function getCaptcha(obj) {
                     $("#step-1-content #captcha-area .register-error").text("验证码错误");
                     $("#step-1-content #captcha-area .register-error").attr("style", "display:block");
                     flag = false;
+                } else{
+                    $("#step-1-content #captcha-area .register-error").attr("style", "display:none");
                 }
 
                 var info = new Array();
