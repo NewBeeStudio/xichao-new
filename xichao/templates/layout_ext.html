@@ -29,7 +29,7 @@
 		<div class="square-part1-right">
 			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
 			</div>
-			<table id="square-part1-content" style="width:703px">
+			<table id="square-part1-content" >
 			{% for (article) in (book_review_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
@@ -59,7 +59,7 @@
 		<div class="square-part1-right">
 			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
 			</div>
-			<table id="square-part1-content" style="width:703px">
+			<table id="square-part1-content">
 			{% for (article) in (film_review_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
@@ -92,7 +92,7 @@
 		<div class="square-part1-right">
 			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
 			</div>
-			<table id="square-part1-content" style="width:703px">
+			<table id="square-part1-content">
 			{% for (article) in (essay_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
