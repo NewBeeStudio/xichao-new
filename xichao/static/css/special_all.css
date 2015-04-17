@@ -286,6 +286,11 @@ img#special-part1-img1{
     margin-bottom: 50px;
 }
 
+.special-allView-element  h2{
+    font-size: 25px;
+    font-family: 黑体;
+}
+
 .special-allView-element > a{
     font-size: 24px;
     font-family: 黑体;
