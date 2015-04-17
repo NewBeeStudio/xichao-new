@@ -320,7 +320,7 @@ def membercard_associate():
         user.member_id = form.cardID.data
         db_session.commit()
 
-        flash(u'注册成功，正在跳转')
+        flash(u'绑定成功，正在跳转')
         time.sleep(3)
         return redirect(url_for('index'))
     return render_template('membercard_associate.html', form=form)
@@ -340,6 +340,7 @@ def membercard_validate():
 #    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID=141034').read()
     member_data = '{"cardID":"141034", "name":"张云昊", "email":"zhangyunh@gmail.com", "coin":"616"}'
     memberDB = json.loads(member_data)
+    time.sleep(3)
     if memberDB['name'] == name and memberDB['email'] == email:
         return memberDB['coin']
     else:
@@ -930,7 +931,6 @@ def article_finish(group_id,category_id):
     user_id=int(session['user_id'])
     book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
     article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
-    print "#############\n\n\n\n\n\################"
     return str(article_id)
 
 #文章草稿的提交路径
@@ -1016,7 +1016,6 @@ def ajax_register_validate():
 
 @app.route('/ajax_membercard', methods=['GET'])
 def ajax_register_membercard():
-    print "\n\n\n\n\n\n##############\n\n\n\n\n\n"
     cardID = request.args.get('cardID',0,type=unicode)
     name = request.args.get('name',0,type=unicode)
     email = request.args.get('email',0,type=unicode)

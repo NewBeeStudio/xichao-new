@@ -7,7 +7,7 @@
 {% block content %}
     <!--当前位置-->
     <div class="current-position">
-        <p style="font-size: 18px; font-family: 微软雅黑;">注册</p>
+        <p style="font-size: 18px; font-family: 微软雅黑;">绑定会员卡</p>
     </div>
     <!--注册表单-->
     <div id='step-nav'>
@@ -109,25 +109,54 @@ function getCaptcha(obj) {
                     info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
                 });
 
+                $("#next").text("正在处理,请稍候.");
+                var wait_time = 0;
+                var request_complete = 0;
+                $(function(){
+                    var wait_timer;
+                    function wait_iter(){
+                        wait_time = wait_time + 1;
+                        if (request_complete != 0){
+                            clearInterval(wait_timer);
+                        } else{
+                        if (wait_time % 3 == 1){
+                            $("#next").text("正在处理,请稍候.");
+                        }
+                        if (wait_time % 3 == 2){
+                            $("#next").text("正在处理,请稍候..");
+                        }
+                        if (wait_time % 3 == 0){
+                            $("#next").text("正在处理,请稍候...");
+                        }
+                        }
+                    }
+                    wait_timer = setInterval(wait_iter, 1000);
+                });
+
                 $.get("/membercard_validate", {
                     cardID: info[0],
                     name: info[1],
                     email: info[2]
                 }, function(data){
                     //alert(data);
+                    request_complete = 1;
                     if (data == 'name'){
+                        $("#next").text("下一步");
                         layer.msg("姓名错误",1,3,function(){});
                         flag =false;
                     }
                     if (data == 'email'){
+                        $("#next").text("下一步");
                         layer.msg("邮箱错误",1,3,function(){});
                         flag =false;
                     }
                     if (data == 'name null'){
+                        $("#next").text("下一步");
                         layer.msg("该会员卡未注册使用者姓名,请您联系书店前台",2,3,function(){});
                         flag =false;
                     }
                     if (data == 'email null'){
+                        $("#next").text("下一步");
                         layer.msg("该会员卡未注册使用者邮箱,请您联系书店前台",2,3,function(){});
                         flag =false;
                     }
