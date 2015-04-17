@@ -419,7 +419,7 @@ def special_all():
                                                   sort_change_url = sort_change_url,
                                                   view_change_url = view_change_url)
     else:   # all view
-        specials_pagination = get_all_specials(sort, page_id, 15)
+        specials_pagination = get_all_specials(sort, page_id, 12)
         return render_template('special_all_allView.html', sort = sort, view=view,
                                                   specials_pagination_all = specials_pagination,
                                                   author = get_special_author,
