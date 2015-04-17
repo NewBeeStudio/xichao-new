@@ -76,9 +76,44 @@ $(document).ready(function(){
     var login_circle_onMouseOut = function(){
         
     }
+    var square_circle_onMouseIn = function(e,className){      
 
+        console.log(className);
+        var mousePosX = e.pageX;
+        var mousePosY = e.pageY;
+
+
+        var circleDiameter = parseInt($(className).css("height").slice(0, -2)); //圆的直径
+        var circleLeftBorder = parseInt($(className).offset().left);
+        var circleTopBorder = parseInt($(className).offset().top); //圆的位置
+
+//        console.log(circleDiameter);
+//        console.log(circleTopBorder);
+//        console.log(circleLeftBorder);
+        var timeAway = 100, timeBack = 650; //拨过去和回来的时间(ms)
+        var distance = 15; //拨的幅度(px)
+
+        $(this).stop(true, true);
+
+        //确定鼠标位置，完成jQuery动画
+        if(mousePosX < circleLeftBorder + 0.25*circleDiameter)
+            $(this).animate({marginRight: "-"+distance+"px"}, timeAway)
+               .animate({marginRight: "0px"}, timeBack);
+        else if(mousePosX > circleLeftBorder + 0.75*circleDiameter)
+            $(this).animate({marginRight: distance+"px"}, timeAway)
+               .animate({marginRight: "0px"}, timeBack);
+        else if(mousePosY < circleTopBorder + 0.25*circleDiameter)
+            $(this).animate({marginTop: distance+"px"}, timeAway)
+               .animate({marginTop: "0px"}, timeBack);
+        else if(mousePosY > circleTopBorder + 0.75*circleDiameter)
+            $(this).animate({marginTop: "-"+distance+"px"}, timeAway)
+               .animate({marginTop: "0px"}, timeBack);
+
+    };
     $("#login-inside-circle").hover(login_circle_onMouseIn, login_circle_onMouseOut);
-
+    $(".square-inside-circle1").hover(square_circle_onMouseIn(this,".square-inside-circle1"), login_circle_onMouseOut);
+    $(".square-inside-circle2").hover(square_circle_onMouseIn(this,".square-inside-circle2"), login_circle_onMouseOut);
+    $(".square-inside-circle3").hover(square_circle_onMouseIn(this,".square-inside-circle3"), login_circle_onMouseOut);
 
     /**************************************************************/
     /*登陆label/input提示*/
