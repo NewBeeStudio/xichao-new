@@ -1,39 +1,25 @@
-#activity-headline-img{
-	margin: 66px auto auto auto;
-	width: 1028px;
-}
-
-#activity-headline-img > img{
-	width: 1028px; 
-	height: 380px;
-}
-
 h2.activity-current{
-	margin: 80px auto 0 auto;
-	width: 955px;
 	font-family: 黑体;
-	font-size: 29.2px;
+	font-size: 24px;
+}
+
+span{
+	color: black;
 }
 
 /*当前活动*/
 #activity-current, #activity-past{
-	margin: auto;
-	width: 955px;
+
 }
 
 #activity-current{
-	margin-top: 20px;
-	border-top: 2px solid gray;
-	border-bottom: 2px solid gray;
 	height: 432px;
 }
 
 /*当前活动*/
 div.flexslider{
 	position: relative;
-	width: 955px;
 	height: 420px;
-
 	overflow: hidden;
 }
 
@@ -45,57 +31,69 @@ div.flexslider{
 }
 
 .flexslider .slides img{
-	width: 264px;
-	height: 264px;
-
+	width: 265px;
+	height: 265px;
 	float: left;
-	margin-left: 33px;
+	margin-left: 93px;
+}
+
+.activity-current-abstract{
+	height: 161px;
+	color: gray;
 }
 
 
 .activity-current-info h3{
 	margin: 30px auto 30px auto;
-	font-family: 尚黑;
-	font-size: 45.8px;
-
+	font-weight: bold;
+	font-family: 黑体;
+	font-size: 24px;
 	text-align: center;
 }
 
 .activity-current-info > div{
-	margin-left: 340px;
+	margin-left: 401px;
 	font-family: 黑体;
-	font-size: 22.9px;
+	font-weight: lighter;
+	font-size: 18px;
 	color: #000000;
-
-	height: 240px;
+	height: 265px;
 }
 
 .activity-current-info div{
-	width: 573px;
+	width: 666px;
 	overflow: hidden;
-}
-
-a.activity-current-more{
-	margin-top: 20px;
-	color: gray;
-
-	font-family: 黑体;
-
-	letter-spacing: 3px;
-	font-size: 22.9px;
-	float: right;
 }
 
 /*滚动点*/
 .flex-control-nav{
-	bottom: -10px;
-	/*left: 300px;*/
+	bottom: 10px;
 }
 
 /*左右箭头位置*/
-.flex-direction-nav .flex-prev {
-    margin-left: -10px;
+
+
+
+.flex-prev{
+	margin-left: -32px!important;
+	background-image: url('/static/images/arrow-left.png');
 }
+
+.flex-next{
+	margin-right: -29px!important;
+	background-image: url('/static/images/arrow-right.png');
+}
+
+.flex-direction-nav a:before{
+	content: ''!important;
+}
+
+.flex-direction-nav a{
+	margin-top: -35px;
+	width: 100px;
+	height: 140px;
+}
+
 
 .flex-direction-nav .flex-next {
     margin-right: -10px;
@@ -109,65 +107,113 @@ a.activity-current-more{
 
 #activity-past h2{
 	font-family: 黑体;
-	font-size: 29.2px;
+	font-weight: bold;
+	font-size: 24px;
 }
 
 #activity-select-part{
-	margin-top: 46px;
+	margin-top: -44px;
+	margin-right: 20px;
 	float: right;
 }
 
 #activity-select-part > label{
 	font-family: 黑体;
-	font-size: 16.7px;
+	font-size: 18px;
+	font-weight: lighter;
 }
 
 #activity-select-part > select{
 	margin-right: -20px;
-	height: 22px;
+	height: 25px;
 	width: 120px;
 	font-family: 黑体;
 	font-size: 12.5px;
 	color: gray;
-}
-
-#activity-past-info{
-	margin: 48px auto;
-	height: 350px;
-
-	/*border: 1px solid #ff0000;*/
+	vertical-align: baseline;
 }
 
 .passed-activity{
-	float: left;
-	width: 238px;
+	margin-top: 22px;
+}
+
+.activity-past-info{
+	margin-top: 30px;
 }
 
 .passed-activity-image{
-	width: 215px;
-	height: 215px;
+	width: 160px;
+	height: 160px;
 	margin: auto;
 }
 
 .passed-activity-image > img{
-	width: 215px;
-	height: 215px;
-
-	border-radius: 215px;
+	width: 160px;
+	height: 160px;
+	border-radius: 160px;
 	position: relative;
 	behavior: url(/static/css/PIE.htc);
 }
 
-.passed-activity-name{
-	margin-top: 25px;
-	font-family: 宋体;
-	font-size: 25px;
-	text-align: center;
+.passed-activity-image-container{
+	float: left;
 }
 
-.passed-activity-time{
-	margin-top: 12px;
-	font-family: 宋体;
-	font-size: 16.7px;
+.passed-activity-content{
+	float: right;
+	width: 960px;
+}
+
+.passed-activity-abstract{
+	height: 40px;
+	overflow: hidden;
+	margin-top: 22px;
+	font-family: 黑体;
+	font-size: 18px;
+	font-weight: lighter;
+	color: gray;
+}
+
+.passed-activity-info{
+	margin-top: 22px;
+	font-family: 黑体;
+	font-size: 14px;
+	color: gray;
+	font-weight: lighter;
+}
+
+.passed-activity-name{
+	margin-top: 25px;
+	font-family: 黑体;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.passed-activity-info span{
+	color: rgb(214,167,0)
+}
+
+/* 页码 */
+#activity-paging{
+    margin-top: 100px;
+	margin-bottom: 50px;
+    width: 100%;
+}
+
+#activity-paging > div{
+	margin-left: 50px;
 	text-align: center;
+	font-family: 微软雅黑;
+	font-size: 16.7px;
+}
+
+.pager li>a:hover{
+    text-decoration: none;
+    background-color: #D9AE48;
+}
+
+.pager li>a, .pager li>span {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
 }
