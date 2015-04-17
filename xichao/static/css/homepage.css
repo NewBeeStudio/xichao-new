@@ -486,6 +486,10 @@ ul{
 	color: #000;
 }
 
+.content-box{
+	min-height: 300px;
+}
+
 .table-layout{
 	display: table;
 }
@@ -586,7 +590,7 @@ ul{
 /*关注部分*/
 /*关注作者*/
 /*关注专栏*/
-#focus-user > .focus-info, #focus-special > .focus-info{
+#focus-user .focus-info, #focus-special .focus-info{
 	display: inline-block;
 	width: 144px;
 	padding: 0 10px 0 10px;
@@ -608,7 +612,7 @@ ul{
 	behavior: url(/static/css/PIE.htc);
 }
 
-#focus-user > div > div, #focus-special > div > div{
+.focus-info > div{
 	padding-bottom: 20px;
 }
 
