@@ -122,7 +122,10 @@
 					<p class="p_review_author">{{comment[1]}}</p>
 					</a>
 					
-					<div class="comment_content">{{comment[0].content|safe}}</div>
+					<div class="comment_content">
+
+					{{comment[0].content}}
+					</div>
 					<p class="p_publish_time">{{comment[0].time}}</p>
 				</div>
 			{% endfor %}
