@@ -69,6 +69,7 @@ $(document).ready(function(){
                .animate({marginTop: "0px"}, timeBack);
     };
 
+
     var square_circle_onMouseIn = function(e){      
         var mousePosX = e.pageX;
         var mousePosY = e.pageY;
@@ -103,7 +104,7 @@ $(document).ready(function(){
 
     $("#login-inside-circle").hover(login_circle_onMouseIn, login_circle_onMouseOut);
     $(".square-part1-img2").hover(square_circle_onMouseIn, login_circle_onMouseOut); //只能margin-left?
-
+    
     /**************************************************************/
     /*登陆label/input提示*/
     /**************************************************************/

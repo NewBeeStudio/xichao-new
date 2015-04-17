@@ -98,7 +98,7 @@
 		</div>
 
 		<iframe id="input_publish_review"></iframe>
-		<div class="clear"></div>
+		<div class="clear"> </div>
 		<input type="checkbox" name="pay_author" id="comment_pay_button" />
 		同时打赏作者
 		<button  class="register-button" id="comment_reset_button">取消</button>
@@ -124,7 +124,6 @@
 					</a>
 					
 					<div class="comment_content">
-
 					{{comment[0].content}}
 					</div>
 					<p class="p_publish_time">{{comment[0].time}}</p>
@@ -161,13 +160,16 @@
 
 
 <script type="text/javascript">
+
 	$(function(){
-		$d = $("#input_publish_review")[0].contentWindow.document;
+		$d =$("#input_publish_review")[0].contentWindow.document;
 		$d.designMode="on";
     	$d.contentEditable= true;
     	$d.open();
     	$d.close();
 	});
+
+
 </script>  
 
 
