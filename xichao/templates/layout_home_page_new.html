@@ -359,9 +359,51 @@
 		});
 	});
 
-	//进入主页后触发AJAX
+	function navbar_click(){
+		var locationHash = window.location.hash;
+		// alert(locationHash);
+		if(locationHash == '#release-article'){
+			$('#bt-release').trigger("click");
+			$("#bt-release-article").trigger("click");
+		}
+		else if(locationHash == '#release-comment'){
+			$('#bt-release').trigger("click");
+			$('#bt-release-comment').trigger("click");
+		}
+		else if(locationHash == '#collection-article'){
+			$('#bt-collection').trigger("click");
+			$('#bt-collection-article').trigger("click");
+		}
+		else if(locationHash == '#collection-activity'){
+			$('#bt-collection').trigger("click");
+			$('#bt-collection-activity').trigger("click");
+		}
+		else if(locationHash == '#focus-user'){
+			$('#bt-focus').trigger("click");
+			$('#bt-focus-user').trigger("click");
+		}
+		else if(locationHash == '#focus-special'){
+			$('#bt-focus').trigger("click");
+			$('#bt-focus-special').trigger("click");
+		}
+		else if(locationHash == '#xichao-coin'){
+			$('#bt-xichao-coin').trigger("click");
+		}
+		else{ //default
+			$('#bt-release').trigger("click");
+		}
+
+		window.location.hash = '#'; //跳转到合适的位置
+	}
+
+	//navbar点击后触发AJAX（模拟点击发布按钮）
 	$(function(){
-		$('#bt-release').trigger("click");
+		navbar_click(); //从别的页面跳转到主页
+
+		// 在主页上点击
+		$('#navbar-info .nav a').click(function(){
+			setTimeout(navbar_click, 100); //直接执行好像不行
+		});
 	});
 
 </script>
