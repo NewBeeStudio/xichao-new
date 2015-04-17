@@ -554,9 +554,23 @@ ul{
 }
 
 
+/*草稿箱*/
+#draft .col-1{
+	width: 480px;
+}
+
+#draft .col-2{
+	width: 300px;
+}
+
+#draft .col-3{
+	padding-right: 0;
+}
+
+
 /*收藏部分*/
 /*收藏的文章*/
-/*收藏的评论*/
+/*收藏的活动*/
 #collection-article .col-1, #collection-activity .col-1{
 	width: 480px;
 }

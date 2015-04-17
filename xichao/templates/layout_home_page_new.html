@@ -41,7 +41,7 @@
 			delete_url = "/homepage/delete/article";
 		else if(category == "release-comment")
 			delete_url = "/homepage/delete/comment";
-		else if(category == "draft")
+		else if(category == "draft-all")
 			delete_url = "/homepage/delete/article";
 		else if(category == "collection-article")
 			delete_url = "/homepage/delete/collection/article";
@@ -71,7 +71,7 @@
 			refresh_url = "/homepage/pagination/article/page/";
 		else if(category == "release-comment")
 			refresh_url = "/homepage/pagination/comment/page/";
-		else if(category == "draft")
+		else if(category == "draft-all")
 			refresh_url = "/homepage/pagination/article_draft/page/";
 		else if(category == "collection-article")
 			refresh_url = "/homepage/pagination/article_collection/page/";
@@ -315,7 +315,18 @@
 							</div>";
 				}
 			}
-			
+			else if(category == "draft-all"){
+				var items = data.rows;
+				text = "<div class='table-layout'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'><a href='/article_modify/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
+								<div class='table-cell col-2'>" + items[i].time.slice(0, -3) + "</div>\
+								<div class='table-cell col-3'><a onclick='homepage_delete(\"" + category + "\"," + items[i].article_id + "," + page_id + "," + items.length + ")'>删除</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
 			$(refresh_tag).empty();
@@ -357,6 +368,11 @@
 		$('#bt-focus').click(function(){
 			$("#bt-focus-user").trigger("click");
 		});
+
+		//draft执行动作与子tab一致
+		$('#bt-draft').click(function(){
+			homepage_refresh("draft-all", 1);
+		})
 	});
 
 	function navbar_click(){
@@ -388,6 +404,9 @@
 		}
 		else if(locationHash == '#xichao-coin'){
 			$('#bt-xichao-coin').trigger("click");
+		}
+		else if(locationHash == '#draft'){
+			$('#bt-draft').trigger("click");
 		}
 		else{ //default
 			$('#bt-release').trigger("click");
