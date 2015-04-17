@@ -10,6 +10,7 @@
 font-family: liukai;
 src: url(../fonts/liukai.ttf);
 } 
+
 .square-headline h2{
 	font-family: liukai, KaiTi, STKaiti;
 	font-size: 25px;
@@ -35,7 +36,8 @@ src: url(../fonts/liukai.ttf);
 }
 .opinion-headline-text{
 	position:relative;
-	bottom:200px;
+	bottom:220px;
+    left:1%;
 	font-family:liukai, KaiTi, STKaiti;
 	font-size:24px;
 	line-height:1.5;
@@ -59,15 +61,40 @@ src: url(../fonts/liukai.ttf);
 #square-hot-article{
 	font-family: 宋体;
 	font-size: 18px;
+    table-layout:fixed;
+    width:30em;
 }
 
-#square-hot-article td{
-	padding-top: 25px;
-}
+
 #square-part1-content{
 	position:relative;
 	bottom:120px;
+    table-layout:fixed;
+    width:703px;
 }
+
+#square-hot-article td,#square-part1-content td{
+	padding-top: 25px;
+    word-break:keep-all;/* 不换行 */
+    white-space:nowrap;/* 不换行 */
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一 起使用。*/
+    -moz-text-overflow: ellipsis;
+}
+
+#square-hot-article td > a,#square-part1-content td > a{
+    word-break:keep-all;/* 不换行 */
+    white-space:nowrap;/* 不换行 */
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一 起使用。*/
+    -moz-text-overflow: ellipsis;
+}
+
+a.text-more{
+    position:relative;
+    top:-120px;
+}
+
 #square-hot-article img, #square-part1-content img{
 	width: 14px;
 	height: 14px;
@@ -77,22 +104,19 @@ src: url(../fonts/liukai.ttf);
 td.square-col-1{
 	width: 340px;
 	padding-left: 15px;
-	/*font-weight: bold;*/
 }
 
 td.square-col-2{
-	width: 110px;
-	color: gray;
-	text-align: center;
+    width:6em;
 	position:relative;
-	left:5%;
+	left:9%;
 }
 
 td.square-col-3{
 	width: 18px;
 	color: gray;
 	position:relative;
-	left:6%;
+	left:10%;
 	top:-2px;
 }
 
@@ -104,7 +128,7 @@ td.square-col-3{
 .square-col-final{
 	color: gray;
 	position:relative;
-	left:8%;
+	left:12%;
 }
 
 a.square-more{
@@ -161,36 +185,35 @@ a.square-more{
 }
 
 #pre-read{
-	height: 200px;
-
+	height: 140px;
+    width: 450px;
 	font-family: 宋体;
 	font-size: 14px;
 	text-align:left;
 	color:white;
 
 	overflow: hidden;	
-	white-space: pre-wrap;
 	word-wrap: break-word; /*自动换行*/
+    display: -webkit-box;  
+    -webkit-line-clamp: 7;  
+    -webkit-box-orient: vertical;
 
 	position:relative;
 	top:40px;
-	left:-150px;
+    left:9%;
 
 }
 
 #recommend-img{
 	padding: 1.5%;
 
-/*	position:relative;
-	top:-315px;
-	left:1px;*/
 	z-index:-1;
 
 }
 
 #recommend-img img{
-	width: 100%;
-	height: 100%;
+	height: 500px;
+	width: 557px;
 }
 .square-part1-right{
 	position:relative;
@@ -200,7 +223,29 @@ a.square-more{
 	width: 700px;
 	height: 360px;
 }
+.square-part1-img2{
+    position: absolute; 
+    width: 362px;
+    height: 362px;
+    
+}
+.square-inside-circle{
+    width: 362px;
+    height: 362px;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+/*    box-shadow: 3px 1px 3px #aaa;*/
+}
 
+img#square-part1-img1{
+	margin-top: 15px;
+	margin-left: 15px;
+	width: 330px;
+	height: 330px;
+    border-radius: 330px;
+    position: relative;
+}
 #square-part1-content, .square-part1-right > a, .square-part2-left > a{
 	font-family: 宋体;
 	font-size: 16.7px;

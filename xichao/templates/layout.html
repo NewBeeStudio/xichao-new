@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <title>曦潮书店 | 青春校园，人文曦潮</title>
+        <meta name="Keywords" content="曦潮, xichao, 书店, 校园, 社交, 创业" />
+        <meta name="description" content="曦潮由新蜂工作室负责维护" />
+
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/xichao-logo.png') }}" />
 
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
@@ -17,11 +20,13 @@
         @media screen and (min-width: 1161px) {
             #top-background, #top-background > img {width: 100%;}
             #navbar-info {position: fixed; width: 100%;}
+            #footer {width: 100%;}
         }
 
         @media screen and (max-width: 1160px) {
             #top-background, #top-background > img {width: 1160px;}
             #navbar-info {position: absolute; width: 1160px;}
+            #footer {width: 1160px;}
         } 
 
 
@@ -53,24 +58,33 @@
                 <div class="floatright">
                     <ul class="nav navbar-nav">
                     {% if current_user.is_authenticated() %}
-                        {% if current_user.role!=3 %}
-                            <li><a href="{{url_for('home_page')}}">{{current_user.nick}}</a></li>
-                        {% else %}
-                            <li><a href="/admin">{{current_user.nick}}</a></li>
-                        {% endif %}
-                        <li><a href="/logout">注销</a></li>
+                        <li><a href="{{url_for('article_upload')}}"><img src="{{ url_for('static', filename='images/pen.png') }}">&nbsp;写文章</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">{{current_user.nick}}<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                {% if current_user.role!=3 %}
+                                    <li><a href="{{url_for('home_page')}}">个人中心</a></li>
+                                {% else %}
+                                    <li><a href="/admin">个人中心</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li><a href="/logout">注销</a></li>
+                            </ul>
+                        </li>
+                        
 
-                        <li><a href="#">曦潮币(2000)</a></li>
-                        <li><a href="#">草稿箱(2000)</a></li>
+                        <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币(2000)</a></li>
+                        <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
                         <li><a href="#">消息中心</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的发布 
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">发布的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#release-article">发布的文章</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">发布的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#release-comment">发布的帖子</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -78,9 +92,9 @@
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">收藏的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#collection-article">收藏的文章</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">收藏的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#collection-activity">收藏的活动</a></li>
                             </ul>
                         </li>
                          <li class="dropdown">
@@ -88,11 +102,12 @@
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">关注的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#focus-user">关注的作家</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">关注的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#focus-special">关注的专栏</a></li>
                             </ul>
                         </li>
+
                     {% else %}
                         <li><a class="register-login" href="/login">登陆</a></li>
                         <li><a class="register-login" href="/register">注册</a></li>
@@ -103,7 +118,7 @@
         </div>
         
         <!--header-->
-        <div id="header" style="margin-bottom: 20px;">
+        <div id="header">
 
             <!--标题栏-->
             <div id="nav-bar-header">
@@ -112,78 +127,52 @@
                 <div id="nav-bar-logo">
                     <img src="{{ url_for('static', filename='images/logo.png') }}">
                 </div>
-
-                <!--注册登陆&搜索-->
- <!--                <div style="float:right">
-                    <ul id="nav-bar-button">
-                        <li class="nav-bar-login nav-bar-login-first">
-                            {% if current_user.is_authenticated() %}
-                                {% if current_user.role!=3 %}
-                                    <a href="{{url_for('home_page')}}">{{ current_user.nick }}</a>
-                                {% else %}
-                                    <a href="/admin">{{ current_user.nick }}</a>
-                                {% endif %}
-                            {% else %}
-                                <a href="{{url_for('login')}}">登陆</a>
-                            {% endif %}                           
-                        </li>
-                        <li class="nav-bar-login">
-                            {% if current_user.is_authenticated() %}
-                                <a href="{{url_for('logout')}}">注销</a>
-                            {% else %}
-                                <a href="{{url_for('register')}}">注册</a>
-                            {% endif %}
-                        </li>
-                    </ul>
-
-                    <div class="clear"></div> -->
-                    <div class="floatright">
-                        <div id="nav-bar-search">
-                            <form action="#" method="post">
-                                <input type="text" name="search">
-                            </form>
-                        </div>
                     
-
-                        <div id="navbar-main" class="navbar navbar-default">
-                            <ul class="nav navbar-nav" style="width: 100%;">
-                                <li><a href="{{url_for('index')}}">首页</a></li>
-                                <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
-                                <li><a href="{{url_for('activity_main')}}">活动</a></li>
-                                <li class="dropdown">
-                                    <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">观点 
-                                    <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu menu-min-width">
-                                        <li><a href="{{url_for('opinion')}}">书评</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{url_for('opinion')}}">影评</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{url_for('opinion')}}">杂文</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">广场 
-                                    <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu menu-min-width">
-                                        <li><a href="{{url_for('square')}}">书评</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{url_for('square')}}">影评</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{url_for('square')}}">杂文</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                <div id="nav-bar-right">
+                    <div id="nav-bar-search">
+                        <form action="#" method="post">
+                            <input type="text" name="search">
+                        </form>
                     </div>
                     
-                </div>
 
-                <div id="parting-line">
-                    <img src="{{ url_for('static', filename='images/border.png') }}">
+                    <div id="navbar-main" class="navbar navbar-default">
+                        <ul class="nav navbar-nav" style="width: 100%;">
+                            <li><a href="{{url_for('index')}}">首页</a></li>
+                            <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
+                            <li><a href="{{url_for('activity_main')}}">活动</a></li>
+                            <li class="dropdown">
+                                <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">观点 <b class="caret"></b></a>
+                                <ul class="dropdown-menu menu-min-width">
+                                    <li><a href="{{url_for('opinion')}}#book_review">书评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('opinion')}}#film_review">影评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('opinion')}}#essay">杂文</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="{{url_for('square')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">广场 
+                                <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu menu-min-width">
+                                    <li><a href="{{url_for('square')}}#book_review">书评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('square')}}#film_review">影评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('square')}}#essay">杂文</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                    
             </div>
+
+            <div id="parting-line">
+                <img src="{{ url_for('static', filename='images/border.png') }}">
+            </div>
+        </div>
 
             <!--导航栏-->
             <!-- <ul id="nav-bar">
@@ -207,8 +196,51 @@
 
         <!--footer-->
         <div id="footer" style="margin-bottom:-20px;">
-            <div id="footer-rect"></div>
+            <div id="footer-block">
+                <ul>
+                    <h3>关于我们</h3>
+                    {% for i in range(4)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h3>曦潮招募</h3>
+                    {% for i in range(3)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h3>友情链接</h3>
+                    {% for i in range(2)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h3>联系我们</h3>
+                    {% for i in range(3)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h3>合作伙伴</h3>
+                    {% for i in range(1)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+                <ul style="width:100px;">
+                    <h3>版权说明</h3>
+                    {% for i in range(2)%}
+                        <li><a href="#">新蜂工作室</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div id="footer-statement">
+                <div>沪ICP备 15007577号</div>
+                <div style="margin-top:10px;"><a href="http://newbee.io">新蜂工作室 提供支持</a></div>
+            </div>
         </div>
+
     <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>

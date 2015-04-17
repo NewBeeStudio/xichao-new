@@ -38,6 +38,13 @@ def email_exist(email):
 	else:
 		return False
 
+def cardID_exist(cardID):
+	result=db_session.query(User).filter_by(member_id = cardID).all()
+	if len(result)>0:
+		return True
+	else:
+		return False
+
 def encrypt(password):
 	encrypt_password=md5(password).hexdigest()
 	return encrypt_password
@@ -138,8 +145,15 @@ def get_activity_session_id():
 
 #添加文章
 def create_article(title,content,title_image,article_session_id,is_draft,user_id,group_id,category_id,abstract,book_id,special_id=None):
+	print "#############\n\n\n\n\n\@@@@@@@@@@@@@@@@@@"
 	result=db_session.query(Article).filter_by(article_session_id=article_session_id).all()
+	if (special_id != None) and (is_draft == '0'):
+		special = db_session.query(Special).filter_by(special_id = special_id).scalar()
+		special.last_modified = datetime.now()
+		db_session.commit()
+
 	if len(result)>0:
+		print "#############\n\n\n\n\n\################"
 		article=db_session.query(Article).filter_by(article_session_id=article_session_id).scalar()
 		article.title=title
 		article.content=content
@@ -152,12 +166,13 @@ def create_article(title,content,title_image,article_session_id,is_draft,user_id
 		db_session.commit()
 		return result[0].article_id
 	else:
+		print "#############\n\n\n\n\n\@@@@@@@@@@@@@@@@@@"
 		article=Article(title=title,content=content,picture=title_image,time=datetime.now(),user_id=user_id,article_session_id=article_session_id,is_draft=is_draft,groups=group_id,category=category_id,abstract=abstract,book_id=book_id,special_id=special_id)
 		db_session.add(article)
 		db_session.commit()
 		result=db_session.query(Article).filter_by(article_session_id=article_session_id).first()
 		return result.article_id
-		
+	
 
 def create_book(book_picture,book_author,book_press,book_page_num,book_price,book_press_time,book_title,book_ISBN,book_binding):
 	result=db_session.query(Book).filter_by(ISBN=book_ISBN).all()
@@ -256,7 +271,7 @@ def get_hot_articles(num):
     return query[:10]
     
 def get_all_special():
-    query = db_session.query(Special).order_by(Special.coins.desc()).all()
+    query = db_session.query(Special).order_by(Special.coin.desc()).all()
     return query
     
 def modify_homepage_func(special1, url1,
@@ -319,22 +334,28 @@ def create_special_authorized():
 	else:
 	    return False
 
-def create_new_special(name, user_id, picture, introduction):
+def create_new_special(name, user_id, picture, introduction,
+                        style, total_issue, update_frequency):
     special = Special(name = name, user_id = user_id,
                        picture = picture, introduction = introduction,
-                       time = datetime.now())
+                       time = datetime.now(), style = style,
+                       total_issue = total_issue,
+                       update_frequency = update_frequency)
     db_session.add(special)
     db_session.commit()
     return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
     
-def modify_special_func(name, user_id, picture, introduction):
-    print "\n\n\n\n\n\n\n\n\n\nHERE\n\n\n\n\n\n\n\n\n\n"
+def modify_special_func(name, user_id, picture, introduction,
+                        style, total_issue, update_frequency):
     query = db_session.query(Special).filter_by(name = name, user_id = user_id).all()
     if (len(query) == 0):
         raise Exception
     special = query[0]
     special.picture = picture
     special.introduction = introduction
+    special.style = style
+    special.total_issue = total_issue
+    special.update_frequency = update_frequency
     db_session.commit()
     return special.special_id
     
@@ -384,10 +405,13 @@ def get_special_article(special_id, page_id, sort, per_page):
 def get_special_draft(special_id):
     return db_session.query(Article).filter_by(special_id = special_id, is_draft = '1').all()
     
-def get_special_author_other(user_id):
-    query = db_session.query(Special.name,Special.special_id).filter_by(user_id = user_id).all()
+def get_special_author_other(user_id, special_id, limit):
+    query = db_session.query(Article.title, Article.article_id).filter(and_(Article.user_id == user_id, or_(Article.special_id == None, Article.special_id != special_id))).limit(limit).all()
     return query
 
+def get_related_special(user_id):
+    query = db_session.query(Special.special_id, Special.name, Special.picture, Special.favor, Special.coin, Special.user_id).join(Collection_Special).filter_by(user_id=user_id).limit(6).all()
+    return query
 
 def update_article_num_for_special(special_id,is_add):
 	special=db_session.query(Special).filter_by(special_id=special_id).scalar()
@@ -468,10 +492,11 @@ def paginate(query,page,per_page=20,error_out=True):
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
 	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.article_id).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.favor))
-	return paginate(query,page_id,5,False)
+	return paginate(query,page_id,10,False)
 def get_article_pagination_by_time(group_id,category_id,page_id):
 	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.article_id).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.time))
-	return paginate(query,page_id,5,False)
+	return paginate(query,page_id,10,False)
+
 	
 	
 ##################################  收藏/取消收藏 专栏  ####################################
@@ -711,7 +736,7 @@ def get_article_pagination_by_user_id(user_id,by_time,page_id):
 		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.special_id==None)).order_by(desc(Article.time))
 	else:
 		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.special_id==None)).order_by(desc(Article.coins))
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 def get_collection_author_list(user_id):
 	result=db_session.query(User).join(Collection_User,Collection_User.another_user_id==User.user_id).filter(Collection_User.user_id==user_id).all()
@@ -723,15 +748,15 @@ def get_comment_pagination_by_user_id(user_id,page_id):
 
 def get_article_draft_pagination(user_id,page_id):
 	query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='1'))
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 def get_article_collection_pagination(user_id,page_id):
 	query=db_session.query(Article,Collection_Article,User).join(Collection_Article,Collection_Article.article_id==Article.article_id).join(User,User.user_id==Article.user_id).filter(Collection_Article.user_id==user_id)
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 def get_activity_collection_pagination(user_id,page_id):
 	query=db_session.query(Activity,Collection_Activity).join(Collection_Activity,Collection_Activity.activity_id==Activity.activity_id).filter(Collection_Activity.user_id==user_id)
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 def get_user_collection_pagination(user_id,page_id):
 	query=db_session.query(User,Collection_User).join(Collection_User,Collection_User.another_user_id==User.user_id).filter(Collection_User.user_id==user_id)

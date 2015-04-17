@@ -179,10 +179,16 @@ img#special-part1-img1{
     word-wrap: break-word;
     height: 120px;
     color: #D9AE48;
+    overflow-y: hidden;
+    margin-bottom: 0px;
 }
 
-#special-part1-content > h2{
-    margin: 0px;
+#special-part1-content h2{
+    margin-top: 50px;
+    margin-bottom: 0px;
+    font-size: 24px;
+    font-family: 黑体;
+    height: 35px;
 }
 
 #special-part1-content > img{
@@ -194,6 +200,7 @@ img#special-part1-img1{
 /* 专栏最新文章 */
 
 #latest-article{
+    margin-top: -35px;
     text-align: left;
     font-family: 宋体;
     font-size: 18px;
