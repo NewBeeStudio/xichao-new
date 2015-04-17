@@ -18,6 +18,8 @@
 #article {
 	margin-left: 100px;
 	margin-right: 100px;
+	word-wrap: break-word;
+	word-break: notmal;
 }
 
 #article_title {
