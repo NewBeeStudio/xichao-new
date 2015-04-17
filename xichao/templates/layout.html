@@ -76,7 +76,15 @@
 
                         <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币(2000)</a></li>
                         <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
-                        <li><a href="#">消息中心</a></li>
+                        <li>
+                            <a href="#">消息中心</a>
+                            <span id="message-number" style="
+                                display: inline;   position: absolute;   height: 15px;   border: solid 2px #fff;   border-radius: 9px;   background: #FF5D54;   font-size: 12px;   line-height: 16px;   padding: 0 4px;   color: #fff;
+                                top: 0px;
+                                margin-left:67px;
+                                display:none;
+                            "></span>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的发布 
                             <b class="caret"></b>
@@ -142,7 +150,7 @@
                             <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
                             <li><a href="{{url_for('activity_main')}}">活动</a></li>
                             <li class="dropdown">
-                                <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">观点 <b class="caret"></b></a>
+                                <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-hover="dropdown">观点 <b class="caret"></b></a>
                                 <ul class="dropdown-menu menu-min-width">
                                     <li><a href="{{url_for('opinion')}}#book_review">书评</a></li>
                                     <li class="divider"></li>
@@ -152,7 +160,7 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="{{url_for('square')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">广场 
+                                <a href="{{url_for('square')}}" class="dropdown-toggle" data-hover="dropdown">广场 
                                 <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu menu-min-width">
