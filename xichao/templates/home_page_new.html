@@ -1,0 +1,156 @@
+{% extends "layout_home_page.html" %}
+
+{% block home_page_content %}
+<div>
+	
+</div>
+
+<div>
+	<!-- 四个主tab -->
+	<div id="main-tab">	
+		<ul id="main-tab-ul" class="idTabs"> 
+			<li><a href="#release">发布</a></li> 
+			<li><a href="#collection">收藏</a></li>
+			<li><a class="selected" href="#focus">关注</a></li>
+			<li><a href="#xichao-coin">曦潮币</a></li> 
+		</ul> 
+	</div>
+
+	<!-- 子tab -->
+	<div id="sub-tabs">
+		<!-- 发布tab -->
+		<div id="release">
+			<div class="sub-tab">
+				<!-- <div id="total-count">
+					Total:<span>123</span>
+				</div> -->
+				<ul class="idTabs">
+					<h3>类型：</h3>
+					<li><a href="#release-article" id="bt-release-article">文章</a></li>
+					<li><a href="#release-comment" id="bt-release-comment">帖子</a></li>
+					<!-- <li><a href="#release-all" id="bt-release-all">全部</a></li> -->
+				</ul>
+				<!-- <ul class="idTabs">
+					<h3>排序：</h3>
+					<li><a class="selected" href="javascript:void(0);">时间</a></li>
+					<li><a href="javascript:void(0);">热度</a></li>
+				</ul> -->
+			</div>
+
+			<div class="sub-content">
+				<div id="release-article">
+					<div class='table-layout'>
+					{% for i in range(5) %}
+						<div class='table-row'>
+							<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
+							<div class='table-cell col-2'>评论&nbsp;(xx)</div>
+							<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;xx</div>
+							<div class='table-cell col-4'><a href='#'>删除</a></div>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+
+				<div id="release-comment">
+					<div class='table-layout'>
+					{% for i in range(5) %}
+						<div class='table-row'>
+							<div class='table-cell col-1'><a href='#'>“加班!”</a></div>
+							<div class='table-cell col-2'>《如何有效地应对需求频繁更改》</div>
+							<div class='table-cell col-3'>20xx-xx-xx xx:xx</div>
+							<div class='table-cell col-4'><a href='#'>删除</a></div>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 收藏tab -->
+		<div id="collection">
+			<div class="sub-tab">
+				<ul class="idTabs">
+					<h3>类型：</h3>
+					<li><a href="#collection-article" id="bt-collection-article">文章</a></li>
+					<li><a href="#collection-activity" id="bt-collection-activity">活动</a></li>
+				</ul>
+			</div>
+
+			<div class="sub-content">
+				<div id="collection-article">
+					<div class='table-layout'>
+					{% for i in range(5) %}
+						<div class='table-row'>
+							<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
+							<div class='table-cell col-2'>20xx-xx-xx xx:xx</div>
+							<div class='table-cell col-3'><a href='#'>删除</a></div>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+
+				<div id="collection-activity">
+					<div class='table-layout'>
+					{% for i in range(5) %}
+						<div class='table-row'>
+							<div class='table-cell col-1'><a href='#'>曦潮交流会</a></div>
+							<div class='table-cell col-2'>名字最长可能达到十位</div>
+							<div class='table-cell col-3'><a href='#'>删除</a></div>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 关注tab -->
+		<div id="focus">
+			<div class="sub-tab">
+				<ul class="idTabs">
+					<h3>类型：</h3>
+					<li><a href="#focus-user" id="bt-focus-user">作者</a></li>
+					<li><a href="#focus-special" id="bt-focus-special">专栏</a></li>
+				</ul>
+			</div>
+
+			<div class="sub-content">
+				<div id="focus-user">
+					{% for i in range(8) %}
+						<div>
+							<div><a href="#"><img src='/static/images/transparent-circle.png' style="background-image:url(/static/images/logo.jpg);" onmouseout="onMouseOutImage(this)" onmouseover="onMouseOverImage(this)"></a></div>
+							<div><a href="#">名字最长可能达到十位</a></div>
+						</div>
+					{% endfor %}
+				</div>
+
+				<div id="focus-special">
+					{% for i in range(8) %}
+						<div>
+							<div><a href="#"><img src='/static/images/transparent-circle.png' style="background-image:url(/static/images/logo.jpg);" onmouseout="onMouseOutImage(this)" onmouseover="onMouseOverImage(this)"></a></div>
+							<div><a href="#">名字最长可能达到十位</a></div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<!-- 曦潮币tab -->
+		<div id="xichao-coin">
+			<div class="sub-tab">
+				<ul class="idTabs">
+					<h3>我拥有的曦潮币：{{current_user.coin}}</h3>
+				</ul>
+			</div>
+
+			<div class="sub-content">
+				<div>可以兑换的产品：敬请期待</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</div>
+
+
+{% endblock %}

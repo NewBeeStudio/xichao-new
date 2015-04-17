@@ -1,0 +1,230 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/jquery-ui-1.11.2/jquery-ui.css" />
+<link href="{{ url_for('static', filename='css/square.css') }}" rel='stylesheet' type='text/css'/> 
+<link href="{{ url_for('static', filename='css/homepage.css') }}" rel='stylesheet' type='text/css'/> 
+{% endblock %}
+
+<!--content-->
+{% block content %}
+
+{% block home_page_content %}
+
+{% endblock %}
+	
+{% endblock %}
+
+<!--js file used-->
+{% block js %}
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.idTabs.min.js') }}"></script>
+
+<!-- 取消关注效果 -->
+<script type="text/javascript">
+	function onMouseOverImage(image)
+	{
+		$(image).attr('src', "{{url_for('static', filename='images/transparent-circle-cancel.png')}}");
+	}
+
+	function onMouseOutImage(image)
+	{
+		$(image).attr('src', "{{url_for('static', filename='images/transparent-circle.png')}}");
+	}
+</script>
+
+<!-- 发布，收藏，关注AJAX -->
+<script type="text/javascript">
+	function get_delete_url(category, id){ //参数二只在collection_special中有关
+		var delete_url;
+		if(category == "release-article")
+			delete_url = "/homepage/delete/article";
+		else if(category == "release-comment")
+			delete_url = "/homepage/delete/comment";
+		else if(category == "draft")
+			delete_url = "/homepage/delete/article";
+		else if(category == "collection-article")
+			delete_url = "/homepage/delete/collection/article";
+		else if(category == "focus-activity")
+			delete_url = "/homepage/delete/collection/activity";
+		else if(category == "focus-user")
+			delete_url = "/collection_cancel/user";
+		else if(category == "collection-special")
+			delete_url = "/collection_special_cancel?id=" + id; //?
+		else if(category == "fans")
+			delete_url = "";
+		else if(category == "received-message")
+			delete_url = "/homepage/delete/message";
+		else if(category == "received-comment")
+			delete_url = "/homepage/delete/received_comment";
+		else if(category == "notification")
+			delete_url = "/homepage/delete/message";
+		else if(category == "release-special")
+			delete_url = "/homepage/delete/special";
+		return delete_url;
+	}
+
+	function get_refresh_url(category, page_id){
+		var refresh_url;
+		if(category == "release-article")
+			refresh_url = "/homepage/pagination/article/page/";
+		else if(category == "release-comment")
+			refresh_url = "/homepage/pagination/comment/page/";
+		else if(category == "draft")
+			refresh_url = "/homepage/pagination/article_draft/page/";
+		else if(category == "collection-article")
+			refresh_url = "/homepage/pagination/article_collection/page/";
+		else if(category == "collection-activity")
+			refresh_url = "/homepage/pagination/activity_collection/page/";
+		else if(category == "focus-user")
+			refresh_url = "/homepage/pagination/user_collection/page/";
+		else if(category == "focus-special")
+			refresh_url = "/homepage/pagination/special_collection/page/";
+		else if(category == "fans")
+			refresh_url = "/homepage/pagination/fans/page/";
+		else if(category == "received-message")
+			refresh_url = "/homepage/pagination/message/page/";
+		else if(category == "received-comment")
+			refresh_url = "/homepage/pagination/received_comment/page/";
+		else if(category == "notification")
+			refresh_url = "/homepage/pagination/notification/page/";
+		else if(category == "release-special")
+			refresh_url = "/homepage/pagination/special/page/";
+
+		refresh_url += page_id;
+		return refresh_url;
+	}
+
+	//获取对应的id标签
+	function get_refresh_tag(category){
+		var id = "#" + category;
+		return id;
+	}
+
+	//ajax显示分页按钮
+	function show_pagination(pagination, category){
+		// <div class='pagination'>
+		// 	<ul>
+		// 		<li><a href='#'>上一页</a></li>
+		// 		<li><a href='#'>1</a></li>
+		// 		<li><a href='#'>下一页</a></li>
+		// 	</ul>
+		var page = parseInt(pagination.page);
+		var pages = parseInt(pagination.pages);
+		var has_prev = pagination.has_prev;
+		var has_next = pagination.has_next;
+
+		var text = "<div class='pagination'>\
+						<ul>"
+
+		//上一页
+		if(has_prev == 'yes'){
+			var prev_page = page - 1;
+			text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + prev_page + ")'>上一页</li>"
+		}
+		else if(pages != 0){
+			text += "<li class='disabled'><span>上一页</span></li>"
+		}
+
+
+		//最多显示5页，这里判断显示的首页和末页
+		var first_display_page_num = 1;
+		var last_display_page_num = pages;
+
+		if(page - 2 >= 1)
+			first_display_page_num = page - 2;
+		else
+			first_display_page_num = 1;
+
+		if(page + 2 <= pages)
+			last_display_page_num = page + 2;
+		else
+			last_display_page_num = pages;
+
+		for (var i = first_display_page_num; i <= last_display_page_num; i++) {
+			if(i == page) {//当前页
+				text += "<li class='active'><span>" + i + "</span></li>"
+			}
+			else {
+				text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + i + ")'>" + i + "</a></li>"
+			}
+		};
+
+
+		//下一页
+		if(has_next == 'yes'){
+			var next_page = page + 1;
+			text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + next_page + ")'>下一页</li>"
+		}
+		else if(pages != 0){
+			text += "<li class='disabled'><span>下一页</span></li>"
+		}
+
+		return text;
+
+	}
+
+	// 删除
+	function homepage_delete(category, item_id, page_id, length){
+		$.post(get_delete_url(category),
+			{
+				_csrf_token: "{{ csrf_token() }}",
+				item_id: item_id
+			},
+			function(data){
+				if (data != 'fail') {
+					if (length == 1 && page_id > 1) {
+						homepage_refresh(category, page_id - 1);
+					}
+					else {
+						homepage_refresh(category, page_id);
+					}		
+				}
+			});
+	}
+
+	function homepage_refresh(category, page_id){
+		var refresh_tag = get_refresh_tag(category); //对应内容显示框, "bt-xxx" -> "xxx"
+		var refresh_url = get_refresh_url(category, page_id); //对应url地址
+
+		$.get(refresh_url, function(data){
+			var items = data.rows;
+			var text = "<div class='table-layout'>"
+
+			// <div class='table-layout'>
+			// {% for i in range(5) %}
+			// 	<div class='table-row'>
+			// 		<div class='table-cell col-1'><a href='#'>如何快速有效地应对需求频繁更改</a></div>
+			// 		<div class='table-cell col-2'>评论&nbsp;(xx)</div>
+			// 		<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;xx</div>
+			// 		<div class='table-cell col-4'><a href='#'>删除</a></div>
+			// 	</div>
+			// {% endfor %}
+			// </div>
+
+			for(var i = 0; i < items.length; ++i){
+				text += "<div class='table-row'>\
+							<div class='table-cell col-1'><a href='/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
+							<div class='table-cell col-2'>评论&nbsp;(" + items[i].comment_num + ")</div>\
+							<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;" + items[i].coins + "</div>\
+							<div class='table-cell col-4'><a onclick='homepage_delete(\"" + category + "\"," + items[i].article_id + "," + page_id + "," + items.length + ")'>删除</a></div>\
+						</div>";
+			}
+			text += "</div>";
+			pagniation_text = show_pagination(data, category);
+
+			$(refresh_tag).empty();
+			$(refresh_tag).append(text);
+			$(refresh_tag).append(pagniation_text);
+		});
+	}
+
+	$(function(){
+		// $('#bt-release-article').click(function(){
+		// 	homepage_refresh("release-article" , 1);
+		// });
+	});
+</script>
+
+{% endblock %}
