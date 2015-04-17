@@ -170,6 +170,10 @@ img#special-part1-img1{
     margin-right: 10px;
 }
 
+#author-coin > h4{
+    font-size: 14px;
+}
+
 /*专栏简介*/
 #special-part1-content > p{
     margin-top: 5px;
