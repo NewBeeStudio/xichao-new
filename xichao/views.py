@@ -343,13 +343,13 @@ def membercard_validate():
     member_data =  member_data.split('}')[0]+'}'
     #member_data = '{"cardID":"141034", "name":"张云昊", "email":"zhangyunh@gmail.com", "coin":"616"}'
     memberDB = json.loads(member_data)
+    if memberDB['name'] == "":
+            return "name null"
+    if memberDB['email'] == "":
+            return "email null"
     if memberDB['name'] == name and memberDB['email'] == email:
         return memberDB['coin']
     else:
-        if memberDB['name'] == "":
-            return "name null"
-        if memberDB['email'] == "":
-            return "email null"
         if memberDB['name'] != name:
             return "name"
         if memberDB['email'] != email:
