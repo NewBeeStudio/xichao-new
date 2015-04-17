@@ -573,7 +573,7 @@ ul{
 /*关注部分*/
 /*关注作者*/
 /*关注专栏*/
-#focus-user > div, #focus-special > div{
+#focus-user > .focus-info, #focus-special > .focus-info{
 	display: inline-block;
 	width: 144px;
 	padding: 0 10px 0 10px;

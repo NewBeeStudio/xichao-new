@@ -1,4 +1,4 @@
-{% extends "layout_home_page.html" %}
+{% extends "layout_home_page_new.html" %}
 
 {% block home_page_content %}
 <div>
@@ -9,10 +9,10 @@
 	<!-- 四个主tab -->
 	<div id="main-tab">	
 		<ul id="main-tab-ul" class="idTabs"> 
-			<li><a href="#release">发布</a></li> 
-			<li><a href="#collection">收藏</a></li>
-			<li><a class="selected" href="#focus">关注</a></li>
-			<li><a href="#xichao-coin">曦潮币</a></li> 
+			<li><a id="bt-release" href="#release">发布</a></li> 
+			<li><a id="bt-collection" href="#collection">收藏</a></li>
+			<li><a id="bt-focus" href="#focus">关注</a></li>
+			<li><a id="bt-xichao-coin" href="#xichao-coin">曦潮币</a></li> 
 		</ul> 
 	</div>
 
@@ -26,7 +26,7 @@
 				</div> -->
 				<ul class="idTabs">
 					<h3>类型：</h3>
-					<li><a href="#release-article" id="bt-release-article">文章</a></li>
+					<li><a class="selected" href="#release-article" id="bt-release-article">文章</a></li>
 					<li><a href="#release-comment" id="bt-release-comment">帖子</a></li>
 					<!-- <li><a href="#release-all" id="bt-release-all">全部</a></li> -->
 				</ul>
@@ -39,7 +39,7 @@
 
 			<div class="sub-content">
 				<div id="release-article">
-					<div class='table-layout'>
+					<!-- <div class='table-layout'>
 					{% for i in range(5) %}
 						<div class='table-row'>
 							<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
@@ -48,20 +48,20 @@
 							<div class='table-cell col-4'><a href='#'>删除</a></div>
 						</div>
 					{% endfor %}
-					</div>
+					</div> -->
 				</div>
 
 				<div id="release-comment">
-					<div class='table-layout'>
+					<!-- <div class='table-layout'>
 					{% for i in range(5) %}
 						<div class='table-row'>
-							<div class='table-cell col-1'><a href='#'>“加班!”</a></div>
-							<div class='table-cell col-2'>《如何有效地应对需求频繁更改》</div>
+							<div class='table-cell col-1'>“加班!”</div>
+							<div class='table-cell col-2'><a href='#'>《如何有效地应对需求频繁更改》</a></div>
 							<div class='table-cell col-3'>20xx-xx-xx xx:xx</div>
 							<div class='table-cell col-4'><a href='#'>删除</a></div>
 						</div>
 					{% endfor %}
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -78,27 +78,27 @@
 
 			<div class="sub-content">
 				<div id="collection-article">
-					<div class='table-layout'>
+					<!-- <div class='table-layout'>
 					{% for i in range(5) %}
 						<div class='table-row'>
 							<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
+							<div class='table-cell col-2'><a href='#'>名字最长可能达到十位</a></div>
+							<div class='table-cell col-3'><a href='#'>删除</a></div>
+						</div>
+					{% endfor %}
+					</div> -->
+				</div>
+
+				<div id="collection-activity">
+					<!-- <div class='table-layout'>
+					{% for i in range(5) %}
+						<div class='table-row'>
+							<div class='table-cell col-1'><a href='#'>曦潮交流会</a></div>
 							<div class='table-cell col-2'>20xx-xx-xx xx:xx</div>
 							<div class='table-cell col-3'><a href='#'>删除</a></div>
 						</div>
 					{% endfor %}
-					</div>
-				</div>
-
-				<div id="collection-activity">
-					<div class='table-layout'>
-					{% for i in range(5) %}
-						<div class='table-row'>
-							<div class='table-cell col-1'><a href='#'>曦潮交流会</a></div>
-							<div class='table-cell col-2'>名字最长可能达到十位</div>
-							<div class='table-cell col-3'><a href='#'>删除</a></div>
-						</div>
-					{% endfor %}
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -115,21 +115,21 @@
 
 			<div class="sub-content">
 				<div id="focus-user">
-					{% for i in range(8) %}
-						<div>
-							<div><a href="#"><img src='/static/images/transparent-circle.png' style="background-image:url(/static/images/logo.jpg);" onmouseout="onMouseOutImage(this)" onmouseover="onMouseOverImage(this)"></a></div>
-							<div><a href="#">名字最长可能达到十位</a></div>
+					<!-- {% for i in range(8) %}
+						<div class='focus-info'>
+							<div><a href='#'><img src='/static/images/transparent-circle.png' style='background-image:url(/static/images/logo.jpg);' onmouseout='onMouseOutImage(this)' onmouseover='onMouseOverImage(this)'></a></div>
+							<div><a href='#'>名字最长可能达到十位</a></div>
 						</div>
-					{% endfor %}
+					{% endfor %} -->
 				</div>
 
 				<div id="focus-special">
-					{% for i in range(8) %}
-						<div>
-							<div><a href="#"><img src='/static/images/transparent-circle.png' style="background-image:url(/static/images/logo.jpg);" onmouseout="onMouseOutImage(this)" onmouseover="onMouseOverImage(this)"></a></div>
-							<div><a href="#">名字最长可能达到十位</a></div>
+					<!-- {% for i in range(8) %}
+						<div class='focus-info'>
+							<div><a href='#'><img src='/static/images/transparent-circle.png' style='background-image:url(/static/images/logo.jpg);' onmouseout='onMouseOutImage(this)' onmouseover='onMouseOverImage(this)'></a></div>
+							<div><a href='#'>名字最长可能达到十位</a></div>
 						</div>
-					{% endfor %}
+					{% endfor %} -->
 				</div>
 			</div>
 		</div>
