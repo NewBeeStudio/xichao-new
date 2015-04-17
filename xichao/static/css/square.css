@@ -185,7 +185,7 @@ a.square-more{
 }
 
 #pre-read{
-	height: 200px;
+	height: 140px;
     width: 450px;
 	font-family: 宋体;
 	font-size: 14px;
@@ -194,6 +194,9 @@ a.square-more{
 
 	overflow: hidden;	
 	word-wrap: break-word; /*自动换行*/
+    display: -webkit-box;  
+    -webkit-line-clamp: 7;  
+    -webkit-box-orient: vertical;
 
 	position:relative;
 	top:40px;
