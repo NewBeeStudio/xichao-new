@@ -48,7 +48,7 @@
                     
             </table>
             <a href="javascript:return false;" class="next-step" id="next">下一步</a>
-
+            <p id="processing" class="next-step"></p>
         </div>
         <div id='step-2-content'>
             <h2 style="font-size: 30px;text-align: center;">尊敬的会员,您的会员信息如下<h2>
@@ -109,7 +109,10 @@ function getCaptcha(obj) {
                     info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
                 });
 
-                $("#next").text("正在处理,请稍候.");
+                if (flag){
+                $("#processing").show();
+                $("#next").hide();
+                $("#processing").text("正在处理,请稍候.");
                 var wait_time = 0;
                 var request_complete = 0;
                 $(function(){
@@ -120,13 +123,13 @@ function getCaptcha(obj) {
                             clearInterval(wait_timer);
                         } else{
                         if (wait_time % 3 == 1){
-                            $("#next").text("正在处理,请稍候.");
+                            $("#processing").text("正在处理,请稍候.");
                         }
                         if (wait_time % 3 == 2){
-                            $("#next").text("正在处理,请稍候..");
+                            $("#processing").text("正在处理,请稍候..");
                         }
                         if (wait_time % 3 == 0){
-                            $("#next").text("正在处理,请稍候...");
+                            $("#processing").text("正在处理,请稍候...");
                         }
                         }
                     }
@@ -140,23 +143,29 @@ function getCaptcha(obj) {
                 }, function(data){
                     //alert(data);
                     request_complete = 1;
+                    $("#processing").hide();
+                    if (data == 'fail'){
+                        $("#next").show();
+                        layer.msg("会员卡不存在",1,3,function(){});
+                        flag =false;
+                    }
                     if (data == 'name'){
-                        $("#next").text("下一步");
+                        $("#next").show();
                         layer.msg("姓名错误",1,3,function(){});
                         flag =false;
                     }
                     if (data == 'email'){
-                        $("#next").text("下一步");
+                        $("#next").show();
                         layer.msg("邮箱错误",1,3,function(){});
                         flag =false;
                     }
                     if (data == 'name null'){
-                        $("#next").text("下一步");
+                        $("#next").show();
                         layer.msg("该会员卡未注册使用者姓名,请您联系书店前台",2,3,function(){});
                         flag =false;
                     }
                     if (data == 'email null'){
-                        $("#next").text("下一步");
+                        $("#next").show();
                         layer.msg("该会员卡未注册使用者邮箱,请您联系书店前台",2,3,function(){});
                         flag =false;
                     }
@@ -173,7 +182,7 @@ function getCaptcha(obj) {
                     $("#confirm_coin").text(data);
                     }
                 });
-
+                }
                 
             });
         });
@@ -182,6 +191,7 @@ function getCaptcha(obj) {
 
 $(document).ready(function()
 {
+    $("#processing").hide();
 
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     var captcha = {img:"a", captchaCode:"a"};

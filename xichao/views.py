@@ -337,10 +337,12 @@ def membercard_validate():
 
     import urllib, json
     # TODO
-#    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID=141034').read()
-    member_data = '{"cardID":"141034", "name":"张云昊", "email":"zhangyunh@gmail.com", "coin":"616"}'
+    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+cardID).read()
+    if member_data[:4] == "fail":
+        return "fail"
+    member_data =  member_data.split('}')[0]+'}'
+    #member_data = '{"cardID":"141034", "name":"张云昊", "email":"zhangyunh@gmail.com", "coin":"616"}'
     memberDB = json.loads(member_data)
-    time.sleep(3)
     if memberDB['name'] == name and memberDB['email'] == email:
         return memberDB['coin']
     else:
