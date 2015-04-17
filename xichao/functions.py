@@ -38,6 +38,13 @@ def email_exist(email):
 	else:
 		return False
 
+def cardID_exist(cardID):
+	result=db_session.query(User).filter_by(member_id = cardID).all()
+	if len(result)>0:
+		return True
+	else:
+		return False
+
 def encrypt(password):
 	encrypt_password=md5(password).hexdigest()
 	return encrypt_password
@@ -728,7 +735,7 @@ def get_article_pagination_by_user_id(user_id,by_time,page_id):
 		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.special_id==None)).order_by(desc(Article.time))
 	else:
 		query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.special_id==None)).order_by(desc(Article.coins))
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 def get_collection_author_list(user_id):
 	result=db_session.query(User).join(Collection_User,Collection_User.another_user_id==User.user_id).filter(Collection_User.user_id==user_id).all()
@@ -740,15 +747,15 @@ def get_comment_pagination_by_user_id(user_id,page_id):
 
 def get_article_draft_pagination(user_id,page_id):
 	query=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='1'))
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 def get_article_collection_pagination(user_id,page_id):
 	query=db_session.query(Article,Collection_Article,User).join(Collection_Article,Collection_Article.article_id==Article.article_id).join(User,User.user_id==Article.user_id).filter(Collection_Article.user_id==user_id)
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 def get_activity_collection_pagination(user_id,page_id):
 	query=db_session.query(Activity,Collection_Activity).join(Collection_Activity,Collection_Activity.activity_id==Activity.activity_id).filter(Collection_Activity.user_id==user_id)
-	return paginate(query,page_id,10,False)
+	return paginate(query,page_id,5,False)
 
 def get_user_collection_pagination(user_id,page_id):
 	query=db_session.query(User,Collection_User).join(Collection_User,Collection_User.another_user_id==User.user_id).filter(Collection_User.user_id==user_id)

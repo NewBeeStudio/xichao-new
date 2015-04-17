@@ -126,6 +126,10 @@ ul{
     text-align: right;
 }
 
+#nav-bar-search form{
+    margin: 0;
+}
+
 #nav-bar-search input{
     width: 148px;
     height: 25px;

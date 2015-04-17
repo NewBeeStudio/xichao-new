@@ -131,7 +131,7 @@ class User(Base, UserMixin, AutoSerialize):
                               unique = True, index = True)
     email = Column(String(60), nullable = False, 
                               unique = True, index = True)
-    member_id = Column(String(6), nullable = True, 
+    member_id = Column(String(15), nullable = True, 
                               unique = True, index = True)
 
     def __init__(self, nick = None, email = None, 
