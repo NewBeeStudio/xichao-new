@@ -71,7 +71,8 @@
         {% set count = 0 %}
         {% for article in hot_articles %}
         {% set count = count + 1 %}
-        <div class="index-hot-entry">
+        <a class="thumbnail index-hot-entry"href="#">
+        <div class="">
             <div class="index-hot-entry-left" style="
 background-image: url('{{article.picture | safe}}');">
                 <div class="index-hot-entry-left-num">
@@ -98,6 +99,7 @@ background-image: url('{{article.picture | safe}}');">
                 </div>
             </div>
         </div>
+        </a>
         {% endfor %}
 	</div>
 
