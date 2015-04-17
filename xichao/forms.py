@@ -16,7 +16,7 @@ from xichao import app
 class MembercardForm(Form):
 	cardID = TextField(u'会员卡号：',[validators.Required(u'会员卡号必须'),validators.Length(min=6,max=15,message=u'会员卡号长度需在6-15之间'),cardID_validator])
 	name = TextField(u'真实姓名：',[validators.Required(u'真实姓名必须'),validators.Length(min=2,max=10,message=u'姓名长度需在2-10之间')])
-	email = TextField(u'会员卡注册邮箱：', [validators.Required(u'邮箱必须'),validators.Email(message=u'邮箱不合法'),email_validator])
+	email = TextField(u'会员卡注册邮箱：', [validators.Required(u'邮箱必须'),validators.Email(message=u'邮箱不合法')])
 	#avatar = HiddenField()
 	#photo = FileField(u'上传头像')
 
