@@ -1,3 +1,7 @@
+a{
+	display: inline;
+}
+
 /*左侧列表图*/
 #article-group-title{
 	width: 100px;
@@ -13,6 +17,8 @@
 #article-group-content{
 	width: 960px;
 	margin-left: 200px; /*与左边距离*/
+
+	min-height: 200px; /*最小高度*/
 }
 
 
@@ -79,6 +85,10 @@
 	margin-top: 10px;
 	font-size: 12.5px;
 	text-align: right;
+}
+
+.article-group-nick{
+	font-weight: bold;
 }
 
 .article-list-info span{

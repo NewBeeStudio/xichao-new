@@ -232,7 +232,7 @@
 			if(category == "release-article"){
 				var items = data.rows;
 
-				text = "<div class='table-layout'>";
+				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items.length; ++i){
 					text += "<div class='table-row'>\
 								<div class='table-cell col-1'><a href='/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
@@ -241,13 +241,13 @@
 								<div class='table-cell col-4'><a onclick='homepage_delete(\"" + category + "\"," + items[i].article_id + "," + page_id + "," + items.length + ")'>删除</a></div>\
 							</div>";
 				}
-				text += "</div>";
+				text += "</div></div>";
 			}
 			else if(category == "release-comment"){
 				var items_article = data.rows_article;
 				var items_comment = data.rows_comment;
 			
-				text = "<div class='table-layout'>";
+				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items_comment.length; ++i){
 					text += "<div class='table-row'>\
 								<div class='table-cell col-1'>" + items_comment[i].content + "</div>\
@@ -256,14 +256,14 @@
 								<div class='table-cell col-4'><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_comment.length + ")'>删除</a></div>\
 							</div>";
 				}
-				text += "</div>";
+				text += "</div></div>";
 			}
 			else if(category == "collection-article"){
 				var items_article = data.rows_article;
 				var items_user = data.rows_user;
 				var items_collection_article = data.rows_collection_article;
 				
-				text = "<div class='table-layout'>";
+				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items_user.length; ++i){
 					text += "<div class='table-row'>\
 								<div class='table-cell col-1'><a href='/article/" + items_article[i].article_id + "'>" + items_article[i].title + "</a></div>\
@@ -271,13 +271,13 @@
 								<div class='table-cell col-3'><a onclick='homepage_delete(\"" + category + "\"," + items_collection_article[i].collection_article_id + "," + page_id + "," + items_article.length + ")'>删除</a></div>\
 							</div>";
 				}
-				text += "</div>";
+				text += "</div></div>";
 			}
 			else if(category == "collection-activity"){
 				var items_activity = data.rows_activity;
 				var items_collection_activity = data.rows_collection_activity;
 
-				text = "<div class='table-layout'>";
+				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items_activity.length; ++i){
 					text += "<div class='table-row'>\
 								<div class='table-cell col-1'><a href='/activity/" + items_activity[i].activity_id + "'>" + items_activity[i].name + "</a></div>\
@@ -285,12 +285,13 @@
 								<div class='table-cell col-3'><a onclick='homepage_delete(\"" + category + "\"," + items_collection_activity[i].collection_activity_id + "," + page_id + "," + items_activity.length + ")'>删除</a></div>\
 							</div>";
 				}
-				text += "</div>";
+				text += "</div></div>";
 			}
 			else if(category == "focus-user"){
 				var items_user = data.rows_user;
 				var items_collection_user = data.rows_collection_user;
 
+				text = "<div class='content-box'>";
 				for(var i = 0; i < items_user.length; ++i){
 					//后台的接口是获得被关注者的id(user_id)和当前用户id(session获得)，查找并删除对应内容
 					text += "<div class='focus-info'>\
@@ -300,11 +301,13 @@
 								<div><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></div>\
 							</div>";
 				}
+				text += "</div>";
 			}
 			else if(category == "focus-special"){
 				var items_special = data.rows_special;
 				var items_collection_special = data.rows_collection_special;
 
+				text = "<div class='content-box'>";
 				for(var i = 0; i < items_special.length; ++i){
 					//后台的接口是获得被关注者的id(user_id)和当前用户id(session获得)，查找并删除对应内容
 					text += "<div class='focus-info'>\
@@ -314,10 +317,11 @@
 								<div><a href='/special?id=" + items_special[i].special_id + "&page=1'>" + items_special[i].name + "</a></div>\
 							</div>";
 				}
+				text += "</div>";
 			}
 			else if(category == "draft-all"){
 				var items = data.rows;
-				text = "<div class='table-layout'>";
+				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items.length; ++i){
 					text += "<div class='table-row'>\
 								<div class='table-cell col-1'><a href='/article_modify/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
@@ -325,7 +329,7 @@
 								<div class='table-cell col-3'><a onclick='homepage_delete(\"" + category + "\"," + items[i].article_id + "," + page_id + "," + items.length + ")'>删除</a></div>\
 							</div>";
 				}
-				text += "</div>";
+				text += "</div></div>";
 			}
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
