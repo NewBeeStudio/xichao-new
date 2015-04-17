@@ -467,10 +467,10 @@ def paginate(query,page,per_page=20,error_out=True):
 
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
-	query=db_session.query(Article).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.favor))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.article_id).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.favor))
 	return paginate(query,page_id,5,False)
 def get_article_pagination_by_time(group_id,category_id,page_id):
-	query=db_session.query(Article).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.time))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.article_id).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.time))
 	return paginate(query,page_id,5,False)
 	
 	
