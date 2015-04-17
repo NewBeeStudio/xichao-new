@@ -1231,7 +1231,7 @@ def activity_upload():
 @login_required
 def home_page():
 	article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
-	return render_template('home_page.html',article_pagination=article_pagination,user=current_user)
+	return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user)
 
 
 ##能够返回数据
@@ -1459,7 +1459,7 @@ def ajax_home_page_modify_member_id():
 @app.route('/homepage/delete/article',methods=['POST'])
 @login_required
 def ajax_home_page_delete_article():
-	article_id=request.form['article_id']
+	article_id=request.form['item_id']
 	result=delete_article_by_article_id(article_id,current_user.user_id)
 	return result
 
@@ -1469,7 +1469,7 @@ def ajax_home_page_delete_article():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/comment',methods=['POST'])
 def ajax_home_page_delete_comment():
-	comment_id=request.form['comment_id']
+	comment_id=request.form['item_id']
 	result=delete_comment_by_comment_id(comment_id,current_user.user_id)
 	return result
 
@@ -1478,7 +1478,7 @@ def ajax_home_page_delete_comment():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/collection/activity',methods=['POST'])
 def ajax_home_page_delete_collection_activity():
-	collection_activity_id=request.form['collection_activity_id']
+	collection_activity_id=request.form['item_id']
 	result=delete_collection_activity_by_activity_id(collection_activity_id,current_user.user_id)
 	return result
 
@@ -1487,7 +1487,7 @@ def ajax_home_page_delete_collection_activity():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/collection/article',methods=['POST'])
 def ajax_home_page_delete_collection_article():
-	collection_article_id=request.form['collection_article_id']
+	collection_article_id=request.form['item_id']
 	result=delete_collection_article_by_collection_article_id(collection_article_id,current_user.user_id)
 	return result
 
@@ -1496,7 +1496,7 @@ def ajax_home_page_delete_collection_article():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/message',methods=['POST'])
 def ajax_home_page_delete_message():
-	message_id=int(request.form['message_id'])
+	message_id=int(request.form['item_id'])
 	result=delete_message_by_message_id(message_id,current_user.user_id)
 	return result
 
@@ -1505,7 +1505,7 @@ def ajax_home_page_delete_message():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/received_comment',methods=['POST'])
 def ajax_home_page_delete_received_comment():
-	received_comment_id=request.form['comment_id']
+	received_comment_id=request.form['item_id']
 	result=delete_received_comment_by_comment_id(received_comment_id,current_user.user_id)
 	return result
 
@@ -1514,7 +1514,7 @@ def ajax_home_page_delete_received_comment():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/special',methods=['POST'])
 def ajax_home_page_delete_special():
-	special_id=request.form['special_id']
+	special_id=request.form['item_id']
 	result=delete_special_by_special_id(special_id,current_user.user_id)
 	return result
 

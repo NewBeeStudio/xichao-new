@@ -323,15 +323,13 @@
 
 <!-- 图片触碰操作 -->
 <script type="text/javascript">
-	function mouseOverImage(img)
+	function mouseOverImage(image)
 	{
-		var img1 = img
-		$(img1).attr('src', "{{url_for('static', filename='images/transparent-circle-cancel.png')}}");
+		$(image).attr('src', "{{url_for('static', filename='images/transparent-circle-cancel.png')}}");
 	};
-	function mouseOutImage(img)
+	function mouseOutImage(image)
 	{
-		var img1 = img
-		$(img1).attr('src', "{{url_for('static', filename='images/transparent-circle.png')}}");
+		$(image).attr('src', "{{url_for('static', filename='images/transparent-circle.png')}}");
 	};
 
 </script>

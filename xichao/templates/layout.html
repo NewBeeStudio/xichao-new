@@ -74,17 +74,17 @@
                         </li>
                         
 
-                        <li><a href="#">曦潮币(2000)</a></li>
-                        <li><a href="#">草稿箱(2000)</a></li>
+                        <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币(2000)</a></li>
+                        <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
                         <li><a href="#">消息中心</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的发布 
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">发布的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#release-article">发布的文章</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">发布的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#release-comment">发布的帖子</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -92,9 +92,9 @@
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">收藏的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#collection-article">收藏的文章</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">收藏的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#collection-activity">收藏的活动</a></li>
                             </ul>
                         </li>
                          <li class="dropdown">
@@ -102,9 +102,9 @@
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">关注的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#focus-user">关注的作家</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">关注的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#focus-special">关注的专栏</a></li>
                             </ul>
                         </li>
 
