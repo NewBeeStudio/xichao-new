@@ -382,7 +382,7 @@ class Comment(Base,AutoSerialize):
                                  nullable=False, index=True)
 
     ########## 普通列 ##########
-    content = Column(String(255), nullable = False)
+    content = Column(Text, nullable = False)
 
     ########## Index/Unique索引 ##########
     time = Column(DateTime, nullable = False, 
