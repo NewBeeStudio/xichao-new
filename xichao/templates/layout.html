@@ -76,7 +76,18 @@
 
                         <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币(2000)</a></li>
                         <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
-                        <li><a href="#">消息中心</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">消息中心 
+                            <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="{{url_for('home_page')}}#received-message">收到的私信</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#received-comment">收到的评论</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#received-notification">系统消息</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的发布 
                             <b class="caret"></b>
@@ -102,9 +113,11 @@
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="{{url_for('home_page')}}#focus-user">关注的作家</a></li>
+                                <li><a href="{{url_for('home_page')}}#focus-user">关注的作者</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{{url_for('home_page')}}#focus-special">关注的专栏</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#fans">我的粉丝</a></li>
                             </ul>
                         </li>
 
@@ -174,14 +187,14 @@
             </div>
         </div>
 
-            <!--导航栏-->
+            {#<!--导航栏-->
             <!-- <ul id="nav-bar">
                 <li class="nav-bar-item"> <a href="{{url_for('index')}}">首页</a> </li>
                 <li class="nav-bar-item"> <a href="{{url_for('special_all')}}?sort=time&page=1">专栏</a> </li>
                 <li class="nav-bar-item"> <a href="{{url_for('activity_main')}}">活动</a> </li>
                 <li class="nav-bar-item"> <a href="{{url_for('opinion')}}">观点</a> </li>
                 <li class="nav-bar-item"> <a href="{{url_for('square')}}">广场</a> </li>
-            </ul> -->
+            </ul> -->#}
 
         <!--body主题-->
         <div id="content">

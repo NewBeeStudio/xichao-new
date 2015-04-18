@@ -32,7 +32,7 @@
 	}
 </script>
 
-<!-- 发布，收藏，关注AJAX -->
+<!-- 发布，收藏，关注，粉丝，个人信箱AJAX -->
 <script type="text/javascript">
 	//获取删除url
 	function get_delete_url(category, item_id){ //item_id只用于focus-special
@@ -51,13 +51,13 @@
 			delete_url = "/collection_cancel/user";
 		else if(category == "focus-special")
 			delete_url = "/collection_special_cancel?id=" + item_id; //?
-		else if(category == "fans")
+		else if(category == "fans-all")
 			delete_url = "";
-		else if(category == "received-message")
+		else if(category == "received-message-all")
 			delete_url = "/homepage/delete/message";
-		else if(category == "received-comment")
+		else if(category == "received-comment-all")
 			delete_url = "/homepage/delete/received_comment";
-		else if(category == "notification")
+		else if(category == "received-notification-all")
 			delete_url = "/homepage/delete/message";
 		else if(category == "release-special")
 			delete_url = "/homepage/delete/special";
@@ -81,13 +81,13 @@
 			refresh_url = "/homepage/pagination/user_collection/page/";
 		else if(category == "focus-special")
 			refresh_url = "/homepage/pagination/special_collection/page/";
-		else if(category == "fans")
+		else if(category == "fans-all")
 			refresh_url = "/homepage/pagination/fans/page/";
-		else if(category == "received-message")
+		else if(category == "received-message-all")
 			refresh_url = "/homepage/pagination/message/page/";
-		else if(category == "received-comment")
+		else if(category == "received-comment-all")
 			refresh_url = "/homepage/pagination/received_comment/page/";
-		else if(category == "notification")
+		else if(category == "received-notification-all")
 			refresh_url = "/homepage/pagination/notification/page/";
 		else if(category == "release-special")
 			refresh_url = "/homepage/pagination/special/page/";
@@ -331,6 +331,20 @@
 				}
 				text += "</div></div>";
 			}
+			else if(category == "fans-all"){
+				var items = data.rows;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a href='/user/" + items[i].nick + "'>\
+									<img src='" + items[i].photo + "'>\
+									</a></div>\
+								<div><a href='/user/" + items[i].nick + "'>" + items[i].nick + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
 			$(refresh_tag).empty();
@@ -373,48 +387,96 @@
 			$("#bt-focus-user").trigger("click");
 		});
 
-		//draft执行动作与子tab一致
+		//draft, fans, 消息中心执行动作与子tab一致
 		$('#bt-draft').click(function(){
 			homepage_refresh("draft-all", 1);
-		})
+		});
+		$('#bt-fans').click(function(){
+			homepage_refresh("fans-all", 1);
+		});
+		$('#bt-received-message').click(function(){
+			homepage_refresh("received-message-all", 1);
+		});
+		$('#bt-received-comment').click(function(){
+			homepage_refresh("received-comment-all", 1);
+		});
+		$('#bt-received-notification').click(function(){
+			homepage_refresh("received-notification-all", 1);
+		});
 	});
 
 	function navbar_click(){
 		var locationHash = window.location.hash;
 		// alert(locationHash);
-		if(locationHash == '#release-article'){
-			$('#bt-release').trigger("click");
-			$("#bt-release-article").trigger("click");
+		if(locationHash == '#fans'){
+			if($('#homepage-fans').css('display') == 'none'){
+				$('#homepage-info').fadeOut(100);
+				$('#homepage-news').fadeOut(100);
+				$('#homepage-fans').fadeIn(100);
+			}
+			$('#bt-fans').trigger("click");
 		}
-		else if(locationHash == '#release-comment'){
-			$('#bt-release').trigger("click");
-			$('#bt-release-comment').trigger("click");
+		else if(locationHash == '#received-message' || locationHash == '#received-comment' || locationHash == '#received-notification'){
+			if($('#homepage-news').css('display') == 'none'){
+				$('#homepage-info').fadeOut(100);
+				$('#homepage-fans').fadeOut(100);
+				$('#homepage-news').fadeIn(100);
+			}
+			if(locationHash == '#received-message'){
+				$('#bt-received-message').trigger("click");
+			}
+			else if(locationHash == '#received-comment'){
+				$('#bt-received-comment').trigger("click");
+			}
+			else if(locationHash == '#received-notification'){
+				$('#bt-received-notification').trigger("click");
+			}
+			else{
+				$('#bt-received-message').trigger("click");
+			}
 		}
-		else if(locationHash == '#collection-article'){
-			$('#bt-collection').trigger("click");
-			$('#bt-collection-article').trigger("click");
+		else{
+			if($('#homepage-info').css('display') == 'none'){
+				$('#homepage-fans').fadeOut(100);
+				$('#homepage-news').fadeOut(100);
+				$('#homepage-info').fadeIn(100);
+			}
+
+			if(locationHash == '#release-article'){
+				$('#bt-release').trigger("click");
+				$("#bt-release-article").trigger("click");
+			}
+			else if(locationHash == '#release-comment'){
+				$('#bt-release').trigger("click");
+				$('#bt-release-comment').trigger("click");
+			}
+			else if(locationHash == '#collection-article'){
+				$('#bt-collection').trigger("click");
+				$('#bt-collection-article').trigger("click");
+			}
+			else if(locationHash == '#collection-activity'){
+				$('#bt-collection').trigger("click");
+				$('#bt-collection-activity').trigger("click");
+			}
+			else if(locationHash == '#focus-user'){
+				$('#bt-focus').trigger("click");
+				$('#bt-focus-user').trigger("click");
+			}
+			else if(locationHash == '#focus-special'){
+				$('#bt-focus').trigger("click");
+				$('#bt-focus-special').trigger("click");
+			}
+			else if(locationHash == '#xichao-coin'){
+				$('#bt-xichao-coin').trigger("click");
+			}
+			else if(locationHash == '#draft'){
+				$('#bt-draft').trigger("click");
+			}
+			else{ //default
+				$('#bt-release').trigger("click");
+			}
 		}
-		else if(locationHash == '#collection-activity'){
-			$('#bt-collection').trigger("click");
-			$('#bt-collection-activity').trigger("click");
-		}
-		else if(locationHash == '#focus-user'){
-			$('#bt-focus').trigger("click");
-			$('#bt-focus-user').trigger("click");
-		}
-		else if(locationHash == '#focus-special'){
-			$('#bt-focus').trigger("click");
-			$('#bt-focus-special').trigger("click");
-		}
-		else if(locationHash == '#xichao-coin'){
-			$('#bt-xichao-coin').trigger("click");
-		}
-		else if(locationHash == '#draft'){
-			$('#bt-draft').trigger("click");
-		}
-		else{ //default
-			$('#bt-release').trigger("click");
-		}
+		
 
 		window.location.hash = '#'; //跳转到合适的位置
 	}
