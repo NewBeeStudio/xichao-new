@@ -3,8 +3,14 @@
 <!--css file used-->
 {% block css %}
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+
+
 	<link rel="stylesheet" type="text/css" href="/static/css/article.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/button.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+	
+
 {% endblock %}
 
 <!--content-->
@@ -132,9 +138,55 @@
 		{% endif %}
 		</div>
 	</div>
+
+
+
+test:
+<hr>
+
+<ul class="media-list">
+{% for comment in comments %}
+  <div class="well well-lg" >
+  <li class="media" >
+    <a class="pull-left" href="#">
+      <img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">Media heading</h4>
+      <div style="height:64px">content</div>
+ 
+		      <!-- Nested media object -->
+		      <ul class="media-list">
+		      			<li class="media" >
+						    <a class="pull-left" href="#">
+						      <img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
+						    </a>
+						    <div class="media-body">
+						      <h4 class="media-heading">Media heading</h4>
+						      <div style="height:64px">content</div>
+						      </div>
+						      </li>
+						      <li class="media" >
+						    <a class="pull-left" href="#">
+						      <img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
+						    </a>
+						    <div class="media-body">
+						      <h4 class="media-heading">Media heading</h4>
+						      <div style="height:64px">content</div>
+						      </div>
+						      </li>
+ 
+		      </ul>
+      </div>
+  </li>
+    </div>
+{% endfor %}
+</ul>
+
+
+
+
 {% endblock %}
-
-
 <!--js file used-->
 {% block js %}
 <!-- 人人网分享Js代码 -->
