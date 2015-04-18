@@ -51,7 +51,7 @@ from flask import redirect,url_for,render_template,request,flash,session,make_re
 from models import User
 from database import db_session
 from datetime import datetime,date
-from forms import RegistrationForm,LoginForm,ForgetPasswordForm,ResetPasswordForm
+from forms import MembercardForm,RegistrationForm,LoginForm,ForgetPasswordForm,ResetPasswordForm
 from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 from flask.ext.sqlalchemy import Pagination
@@ -308,6 +308,52 @@ def verify():
 		update_state(nick)
 	return redirect(url_for('index'))
 
+################################## 会员卡绑定 ##################################
+
+@app.route('/membercard_associate', methods=['GET', 'POST'])
+@login_required
+def membercard_associate():
+    # myCaptcha = captcha.Captcha()
+    form = MembercardForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = db_session.query(User).filter_by(user_id = current_user.user_id).all()[0]
+        user.member_id = form.cardID.data
+        db_session.commit()
+
+        flash(u'绑定成功，正在跳转')
+        time.sleep(3)
+        return redirect(url_for('index'))
+    return render_template('membercard_associate.html', form=form)
+
+@app.route('/membercard_validate', methods=['GET'])
+@login_required
+def membercard_validate():
+    try:
+        cardID = request.args.get('cardID')
+        name = request.args.get('name')
+        email = request.args.get('email')
+    except Exception:
+        return "fail"
+
+    import urllib, json
+    # TODO
+    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+cardID).read()
+    if member_data[:4] == "fail":
+        return "fail"
+    member_data =  member_data.split('}')[0]+'}'
+    #member_data = '{"cardID":"141034", "name":"张云昊", "email":"zhangyunh@gmail.com", "coin":"616"}'
+    memberDB = json.loads(member_data)
+    if memberDB['name'] == "":
+            return "name null"
+    if memberDB['email'] == "":
+            return "email null"
+    if memberDB['name'] == name and memberDB['email'] == email:
+        return memberDB['coin']
+    else:
+        if memberDB['name'] != name:
+            return "name"
+        if memberDB['email'] != email:
+            return "email"
 
 ##################################  文章首页  ##################################
 @app.route('/article/',methods=['GET', 'POST'])
@@ -373,7 +419,7 @@ def special_all():
                                                   sort_change_url = sort_change_url,
                                                   view_change_url = view_change_url)
     else:   # all view
-        specials_pagination = get_all_specials(sort, page_id, 15)
+        specials_pagination = get_all_specials(sort, page_id, 12)
         return render_template('special_all_allView.html', sort = sort, view=view,
                                                   specials_pagination_all = specials_pagination,
                                                   author = get_special_author,
@@ -887,7 +933,6 @@ def article_finish(group_id,category_id):
     user_id=int(session['user_id'])
     book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
     article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
-    print "#############\n\n\n\n\n\################"
     return str(article_id)
 
 #文章草稿的提交路径
@@ -970,6 +1015,28 @@ def ajax_register_validate():
 			errors_return[param] = form.errors.get(param)
 
 	return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0])
+
+@app.route('/ajax_membercard', methods=['GET'])
+def ajax_register_membercard():
+    cardID = request.args.get('cardID',0,type=unicode)
+    name = request.args.get('name',0,type=unicode)
+    email = request.args.get('email',0,type=unicode)
+
+    request_form_from_ajax = ImmutableMultiDict([('cardID', cardID),('name', name), ('email', email)])
+    form = MembercardForm(request_form_from_ajax)
+    form.validate()
+
+    errors_return = {} #返回去的错误信息字典
+    for param in ['cardID', 'name', 'email']:
+        if form.errors.get(param) == None:
+            errors_return[param] = [u'']
+        else:
+            errors_return[param] = form.errors.get(param)
+            print errors_return[param][0]
+
+    return jsonify(email=errors_return.get('email')[0],
+                   name=errors_return.get('name')[0],
+                   cardID=errors_return.get('cardID')[0])
 
 
 # 收藏专栏
@@ -1164,7 +1231,7 @@ def activity_upload():
 @login_required
 def home_page():
 	article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
-	return render_template('home_page.html',article_pagination=article_pagination,user=current_user)
+	return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user)
 
 
 ##能够返回数据
@@ -1392,7 +1459,7 @@ def ajax_home_page_modify_member_id():
 @app.route('/homepage/delete/article',methods=['POST'])
 @login_required
 def ajax_home_page_delete_article():
-	article_id=request.form['article_id']
+	article_id=request.form['item_id']
 	result=delete_article_by_article_id(article_id,current_user.user_id)
 	return result
 
@@ -1402,7 +1469,7 @@ def ajax_home_page_delete_article():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/comment',methods=['POST'])
 def ajax_home_page_delete_comment():
-	comment_id=request.form['comment_id']
+	comment_id=request.form['item_id']
 	result=delete_comment_by_comment_id(comment_id,current_user.user_id)
 	return result
 
@@ -1411,7 +1478,7 @@ def ajax_home_page_delete_comment():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/collection/activity',methods=['POST'])
 def ajax_home_page_delete_collection_activity():
-	collection_activity_id=request.form['collection_activity_id']
+	collection_activity_id=request.form['item_id']
 	result=delete_collection_activity_by_activity_id(collection_activity_id,current_user.user_id)
 	return result
 
@@ -1420,7 +1487,7 @@ def ajax_home_page_delete_collection_activity():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/collection/article',methods=['POST'])
 def ajax_home_page_delete_collection_article():
-	collection_article_id=request.form['collection_article_id']
+	collection_article_id=request.form['item_id']
 	result=delete_collection_article_by_collection_article_id(collection_article_id,current_user.user_id)
 	return result
 
@@ -1429,7 +1496,7 @@ def ajax_home_page_delete_collection_article():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/message',methods=['POST'])
 def ajax_home_page_delete_message():
-	message_id=int(request.form['message_id'])
+	message_id=int(request.form['item_id'])
 	result=delete_message_by_message_id(message_id,current_user.user_id)
 	return result
 
@@ -1438,7 +1505,7 @@ def ajax_home_page_delete_message():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/received_comment',methods=['POST'])
 def ajax_home_page_delete_received_comment():
-	received_comment_id=request.form['comment_id']
+	received_comment_id=request.form['item_id']
 	result=delete_received_comment_by_comment_id(received_comment_id,current_user.user_id)
 	return result
 
@@ -1447,7 +1514,7 @@ def ajax_home_page_delete_received_comment():
 ##返回操作结果，'fail'、'success'
 @app.route('/homepage/delete/special',methods=['POST'])
 def ajax_home_page_delete_special():
-	special_id=request.form['special_id']
+	special_id=request.form['item_id']
 	result=delete_special_by_special_id(special_id,current_user.user_id)
 	return result
 

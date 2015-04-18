@@ -40,7 +40,7 @@ form {
     vertical-align: text-top;
 }
 
-input#email, input#nick, input#password, input#confirm, input#captcha{
+input#cardID, input#name, input#email, input#nick, input#password, input#confirm, input#captcha{
     width: 300px;
     height: 32px;
     line-height: 32px;

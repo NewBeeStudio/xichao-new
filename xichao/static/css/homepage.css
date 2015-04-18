@@ -381,3 +381,248 @@ h1{
 	width: 22px;
 	height: 22px;
 }
+
+/*祭奠一下上面已经无用的css*/
+/*******************分割线*******************/
+
+a{
+	display: inline;
+	cursor: pointer;
+}
+
+ul{
+	margin: 0;
+	text-decoration: none;
+}
+
+/*四个主分类tab*/
+#main-tab, #sub-tabs{
+	font-family: 微软雅黑; 
+	color: #000;
+}
+
+#main-tab{
+}
+
+#main-tab-ul{
+	width: 100%;
+	height: 50px;
+	font-size: 16px;
+	background-color: #D0D0D0;
+
+	text-align: center;
+}
+
+#main-tab-ul > li{
+	width: 100px;
+	height: 100%;
+	float: left;
+	line-height: 50px;
+}
+
+#main-tab-ul > li > a{
+	display: block;
+}
+
+#main-tab-ul > li > a.selected{
+	background-color: #fff;
+	margin-top: -3px;
+	border-top: 3px solid #D9AE48;
+}
+
+/*次一级分类tab*/
+#sub-tabs{
+	margin-top: 20px;
+}
+
+#total-count{
+	padding: 20px 50px;
+
+	font-size: 25px;
+	letter-spacing: 8px;
+	color: gray;
+	float: right;
+}
+
+#total-count > span{
+	font-size: 46px;
+	color: #D9AE48;
+}
+
+.sub-tab .idTabs{
+	width: 100%;
+	height: 30px;
+
+	font-size: 16px;
+	color: gray;
+	text-align: center;
+}
+
+.sub-tab .idTabs > h3, .sub-tab .idTabs > li{
+	margin: 0;
+	width: 100px;
+	height: 16px;
+
+	font: 16px 微软雅黑;
+	float: left;
+}
+
+.sub-tab .idTabs > li{
+	width: 80px;
+}
+
+.sub-tab .idTabs a.selected{
+	color: #f00;
+}
+
+/*各分类内容*/
+.sub-content{
+	width: 840px;
+	margin: 50px auto;
+	min-height: 400px;
+}
+
+.sub-content a{
+	color: #000;
+}
+
+.content-box{
+	min-height: 300px;
+}
+
+.table-layout{
+	display: table;
+}
+
+.table-row{
+	display: table-row;
+}
+
+.table-cell{
+	display: table-cell;
+	font-size: 15px;
+	padding-top: 20px;
+	padding-right: 10px;
+	letter-spacing: 1px;
+
+	vertical-align: middle;
+}
+
+.table-cell img{
+	width: 16px;
+	height: 16px;
+}
+
+.sub-content .pagination{
+	margin-top: 40px;
+	min-height: 50px;
+	text-align: center;
+}
+
+/*发布部分*/
+
+/*发布的文章*/
+/*total:840px*/
+#release-article .col-1{
+	width: 490px;
+}
+
+#release-article .col-2{
+	width: 140px;
+}
+
+#release-article .col-3{
+	width: 140px;
+}
+
+#release-article .col-4{
+	padding-right: 0;
+}
+
+
+/*发布的评论*/
+#release-comment .col-1{
+	width: 260px;
+}
+
+#release-comment .col-2{
+	width: 350px;
+}
+
+#release-comment .col-3{
+	width: 160px;
+}
+
+#release-comment .col-4{
+	padding-right: 0;
+}
+
+
+/*草稿箱*/
+#draft .col-1{
+	width: 480px;
+}
+
+#draft .col-2{
+	width: 300px;
+}
+
+#draft .col-3{
+	padding-right: 0;
+}
+
+
+/*收藏部分*/
+/*收藏的文章*/
+/*收藏的活动*/
+#collection-article .col-1, #collection-activity .col-1{
+	width: 480px;
+}
+
+#collection-article .col-2, #collection-activity .col-2{
+	width: 300px;
+}
+
+#collection-article .col-3, #collection-activity .col-3{
+	padding-right: 0;
+}
+
+/*关注部分*/
+/*关注作者*/
+/*关注专栏*/
+#focus-user .focus-info, #focus-special .focus-info{
+	display: inline-block;
+	width: 144px;
+	padding: 0 10px 0 10px;
+	margin-bottom: 30px;
+	/*float: left;*/
+
+	font-size: 24px;
+	line-height: 30px;
+	text-align: center;
+	vertical-align: top;
+}
+
+#focus-user > div img, #focus-special > div img{
+	width: 100px;
+	height: 100px;
+	border-radius: 100px;
+
+	background-size: 100px 100px;
+	behavior: url(/static/css/PIE.htc);
+}
+
+.focus-info > div{
+	padding-bottom: 20px;
+}
+
+/*曦潮币部分*/
+#xichao-coin > .sub-tab h3{
+	width: 100%;
+	padding-left: 30px;
+	text-align: left;
+}
+
+#xichao-coin > .sub-content{
+	font-size: 18px;
+}

@@ -11,6 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
+
 DB_URL='mysql://root:Xichao42@localhost/xichao?charset=utf8'
 engine = create_engine(DB_URL, echo=True, convert_unicode=True)
 
@@ -26,7 +27,7 @@ def init_db():
     import models
     Base.metadata.create_all(bind=engine)
 
-    # 对初始化进行测试
+    ## 对初始化进行测试
     test_db()
 
 

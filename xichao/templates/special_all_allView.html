@@ -40,26 +40,25 @@
 
     
     <div class="special-allView-element" style="
-        {% if (special_num-1)%3 != 0 %}
+        {% if (special_num-1)%4 != 0 %}
             margin-right: 40px;
         {% endif %}
                                                 ">
 
-    {% if ((special_num-2) % 6 > 2) and ((special_num-2) % 3 == 0) %}
+    {% if ((special_num-2) % 8 > 2) and ((special_num-2) % 4 == 0) %}
     <div class="long-background special_background_allView">
     </div>
     {% endif %}
     
-    <div class="special-allView-pic-circle" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
+    <div class="special-allView-pic-circle" style="background-image: url({{ url_for('static', filename='images/special-all-left-border-small.png') }});background-repeat:no-repeat;">
    <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time" >
 			<img class="special-allView-pic" src="{{ special.picture | safe }}"/>
-
 			</a>
 </div>
         <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
         <h2>{{ special.name }}</h2>
         </a>
-        <img src="{{ url_for('static', filename='images/special-right-line.png')}}" style="margin-top: -20px;">
+        <img src="{{ url_for('static', filename='images/special-right-line.png')}}" style="margin-top: -35px;">
         
             <div id="author-coin-allView">
 			<h4>
@@ -71,7 +70,7 @@
     </div>
     {% endfor %}
     
-    
+    <div style="clear:both;"></div>
     <div id="special-paging"> 
         <nav>
             <ul class="pager">

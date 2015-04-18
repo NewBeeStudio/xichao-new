@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <title>曦潮书店 | 青春校园，人文曦潮</title>
+        <meta name="Keywords" content="曦潮, xichao, 书店, 校园, 社交, 创业" />
+        <meta name="description" content="曦潮由新蜂工作室负责维护" />
+
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/xichao-logo.png') }}" />
 
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
@@ -71,17 +74,17 @@
                         </li>
                         
 
-                        <li><a href="#">曦潮币(2000)</a></li>
-                        <li><a href="#">草稿箱(2000)</a></li>
+                        <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币(2000)</a></li>
+                        <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
                         <li><a href="#">消息中心</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的发布 
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">发布的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#release-article">发布的文章</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">发布的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#release-comment">发布的帖子</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -89,9 +92,9 @@
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">收藏的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#collection-article">收藏的文章</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">收藏的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#collection-activity">收藏的活动</a></li>
                             </ul>
                         </li>
                          <li class="dropdown">
@@ -99,9 +102,9 @@
                             <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu menu-min-width">
-                                <li><a href="#">关注的文章</a></li>
+                                <li><a href="{{url_for('home_page')}}#focus-user">关注的作家</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">关注的评论</a></li>
+                                <li><a href="{{url_for('home_page')}}#focus-special">关注的专栏</a></li>
                             </ul>
                         </li>
 
@@ -137,27 +140,27 @@
                         <ul class="nav navbar-nav" style="width: 100%;">
                             <li><a href="{{url_for('index')}}">首页</a></li>
                             <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
-                            <li><a href="{{url_for('activity_main')}}">活动</a></li>
+                            <li><a href="{{url_for('activity_main')}}?sort=time&page=1">活动</a></li>
                             <li class="dropdown">
-                                <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">观点 <b class="caret"></b></a>
+                                <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-hover="dropdown">观点 <b class="caret"></b></a>
                                 <ul class="dropdown-menu menu-min-width">
-                                    <li><a href="{{url_for('opinion')}}#subpart1">书评</a></li>
+                                    <li><a href="{{url_for('opinion')}}#book_review">书评</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="{{url_for('opinion')}}#subpart2">影评</a></li>
+                                    <li><a href="{{url_for('opinion')}}#film_review">影评</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="{{url_for('opinion')}}#subpart3">杂文</a></li>
+                                    <li><a href="{{url_for('opinion')}}#essay">杂文</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="{{url_for('square')}}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">广场 
+                                <a href="{{url_for('square')}}" class="dropdown-toggle" data-hover="dropdown">广场 
                                 <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu menu-min-width">
-                                    <li><a href="{{url_for('square')}}#subpart1">书评</a></li>
+                                    <li><a href="{{url_for('square')}}#book_review">书评</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="{{url_for('square')}}#subpart2">影评</a></li>
+                                    <li><a href="{{url_for('square')}}#film_review">影评</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="{{url_for('square')}}#subpart3">杂文</a></li>
+                                    <li><a href="{{url_for('square')}}#essay">杂文</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -192,7 +195,7 @@
         <!---->
 
         <!--footer-->
-        <div id="footer">
+        <div id="footer" style="margin-bottom:-20px;">
             <div id="footer-block">
                 <ul>
                     <h3>关于我们</h3>
@@ -234,7 +237,7 @@
 
             <div id="footer-statement">
                 <div>沪ICP备 15007577号</div>
-                <div><a href="http://newbee.io">新蜂工作室 提供支持</a></div>
+                <div style="margin-top:10px;"><a href="http://newbee.io">新蜂工作室 提供支持</a></div>
             </div>
         </div>
 

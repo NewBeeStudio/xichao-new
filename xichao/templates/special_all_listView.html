@@ -65,13 +65,13 @@
 		<div class="special-part1-right">
 			<div id="special-part1-content">
 			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
-			<h2 style="margin:0px;">
+			<h2>
 			        {{ special.name }}
 			</h2>
 			</a>
 			<img src="{{ url_for('static', filename='images/special-right-line.png')}}">
             <div id="author-coin">
-			<h4>
+			<h4 style="margin:0px;">
 			    &nbsp;&nbsp;{{ author(special.user_id).nick }}
 			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}" style="height: 20px; width: 20px;">
                 {{ special.coin }}

@@ -131,7 +131,7 @@ class User(Base, UserMixin, AutoSerialize):
                               unique = True, index = True)
     email = Column(String(60), nullable = False, 
                               unique = True, index = True)
-    member_id = Column(String(6), nullable = True, 
+    member_id = Column(String(15), nullable = True, 
                               unique = True, index = True)
 
     def __init__(self, nick = None, email = None, 
@@ -395,7 +395,9 @@ class Comment(Base,AutoSerialize):
     to_user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
     article_id = Column(Integer, ForeignKey('article.article_id'), index = True)
 
-
+    root = Column(Integer, ForeignKey('user.user_id'), index = True)
+    father = Column(Integer, ForeignKey('user.user_id'), index = True)
+    
     def __init__(self, article_id = None, content = None,
                        user_id = None, to_user_id = None,
                        time = None):

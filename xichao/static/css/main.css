@@ -126,6 +126,10 @@ ul{
     text-align: right;
 }
 
+#nav-bar-search form{
+    margin: 0;
+}
+
 #nav-bar-search input{
     width: 148px;
     height: 25px;
@@ -323,6 +327,7 @@ src: url(../fonts/liukai-small.ttf);
 #navbar-main{
     margin-top: 20px;
     font: 22px liukai, KaiTi, STKaiti;
+    font-weight: bold;
 }
 
 #navbar-main > .nav > li > a{
