@@ -114,8 +114,10 @@
 
 
 <p id="p_list_review">评论列表</p>
+
+
+<ul class="media-list" id="comment">
 {% if comments!=None %}
-<ul class="media-list">
 {% for comment in comments %}
 
 {% if comment[0].reply_to_comment_id == 0 %}
@@ -165,9 +167,9 @@
    </div>
  {%endif%}  
 {% endfor %}
-</ul>
-{% endif %}
 
+{% endif %}
+</ul>
 
 
 {% endblock %}
@@ -258,7 +260,7 @@ $("#comment_publish_button").click(function(){
     		function(data){
     			$("#comment_publish_time").text(data);
     			layer.msg("评论成功",1,1);
-    			add_commit(data, val_content);
+    			add_commit(data, val_content,{{article.user_id}});
     		});
     	}
 	}
@@ -322,18 +324,15 @@ function get_user_id() {
 	return {{ article.user_id }};
 }
 
-function add_commit(data, val_content) {
+function add_commit(data, val_content,to_user_id) {
+	var d=data.split('@');
+	var time=d[0];
+	var cid=d[1];
+	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
-	$('#comment_new').prepend('<div class="comment">'+
-            	'<a href="' + homeurl + '">' +
-				'<img class="user_pic_2" src="{{avatar}}">'+
-			    '</a>' +
-				'<div class="line"></div>'+
-            	'<a href="' + homeurl + '">' +
-				'<p class="p_review_author">'+ '{{nick}}' +'</p>'+
-			    '</a>' +
-				'<div class="comment_content"><font size="3px">'+val_content+'</font></div>'+
-				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
+	//console.log(time+" "+cid+" "+val_content)
+$("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
+					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复</button>'+time+'</p></div></li></div>')
 }
 
 
@@ -342,13 +341,25 @@ var d=data.split('@');
 var time=d[0];
 var cid=d[1];
  var location="comment-"+reply_to_comment_id;
- console.log(cid)
+
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"
- if($("#"+location+" ul li:last"))
- $("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to('+cid+','+reply_to_comment_id+')">回复</button>'+time+'</p></div></li>')
-else $("#"+location+" div.media-body").append('<ul style="margin:50px"><li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to('+val_user_id+','+reply_to_comment_id+')">回复</button>'+time+'</p></div></li></ul>')
+ if($("#"+location+" ul li:last").length!==0)
+ {$("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
+ 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</button>'+time+'</p></div></li>')
+
+}
+else {
+
+
+	$("#"+location+" div.media-body").append('<ul style="margin:50px">'+
+												'<li class="media"id="comment-'+cid+'">'+
+												'<a class="pull-left" href="'+homeurl+
+ 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+
+ 													val_content+
+ 												'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
+ 													')">回复</button>'+time+
+														'</p></div></li></ul>')
+}
 
 
 }
