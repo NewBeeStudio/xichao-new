@@ -868,7 +868,6 @@ def upload(classfication):
         result = CONFIG
         return json.dumps(result)
 
-
     if action == 'uploadimage':
         result = {}
         upfile = request.files['upfile']  # 这个表单名称以配置文件为准
@@ -877,10 +876,12 @@ def upload(classfication):
         photoname = get_secure_photoname(upfile.filename)
         if classfication=='article':
             path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['article_session_id'] ,photoname)
+            print "\n\n\n\n\n\n\n\n######################\n\n\n\n\n\n\n\n"+"\n\n\n"
             upfile.save(path)
             result = {
                 "state": "SUCCESS",
-                "url": "%s/editor_upload/article_session_id/%s/article/%s" % (app.config['HOST_NAME'], str(session['article_session_id']), photoname),
+                #"url": "%s/editor_upload/article_session_id/%s/article/%s" % (app.config['HOST_NAME'], str(session['article_session_id']), photoname),
+                "url": "/editor_upload/article_session_id/%s/article/%s" % (str(session['article_session_id']), photoname),
                 "title": "article1.jpg",
                 "original": "article1.jpg"
             }
