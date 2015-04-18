@@ -76,7 +76,18 @@
 
                         <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币(2000)</a></li>
                         <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
-                        <li><a href="#">消息中心</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">消息中心 
+                            <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="{{url_for('home_page')}}#received-message">收到的私信</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#received-comment">收到的评论</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#received-notification">系统消息</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的发布 
                             <b class="caret"></b>

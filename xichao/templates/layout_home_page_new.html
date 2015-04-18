@@ -53,11 +53,11 @@
 			delete_url = "/collection_special_cancel?id=" + item_id; //?
 		else if(category == "fans-all")
 			delete_url = "";
-		else if(category == "received-message")
+		else if(category == "received-message-all")
 			delete_url = "/homepage/delete/message";
-		else if(category == "received-comment")
+		else if(category == "received-comment-all")
 			delete_url = "/homepage/delete/received_comment";
-		else if(category == "notification")
+		else if(category == "received-notification-all")
 			delete_url = "/homepage/delete/message";
 		else if(category == "release-special")
 			delete_url = "/homepage/delete/special";
@@ -83,11 +83,11 @@
 			refresh_url = "/homepage/pagination/special_collection/page/";
 		else if(category == "fans-all")
 			refresh_url = "/homepage/pagination/fans/page/";
-		else if(category == "received-message")
+		else if(category == "received-message-all")
 			refresh_url = "/homepage/pagination/message/page/";
-		else if(category == "received-comment")
+		else if(category == "received-comment-all")
 			refresh_url = "/homepage/pagination/received_comment/page/";
-		else if(category == "notification")
+		else if(category == "received-notification-all")
 			refresh_url = "/homepage/pagination/notification/page/";
 		else if(category == "release-special")
 			refresh_url = "/homepage/pagination/special/page/";
@@ -387,13 +387,21 @@
 			$("#bt-focus-user").trigger("click");
 		});
 
-		//draft, fans执行动作与子tab一致
+		//draft, fans, 消息中心执行动作与子tab一致
 		$('#bt-draft').click(function(){
 			homepage_refresh("draft-all", 1);
 		});
-
 		$('#bt-fans').click(function(){
 			homepage_refresh("fans-all", 1);
+		});
+		$('#bt-received-message').click(function(){
+			homepage_refresh("received-message-all", 1);
+		});
+		$('#bt-received-comment').click(function(){
+			homepage_refresh("received-comment-all", 1);
+		});
+		$('#bt-received-notification').click(function(){
+			homepage_refresh("received-notification-all", 1);
 		});
 	});
 
@@ -408,11 +416,23 @@
 			}
 			$('#bt-fans').trigger("click");
 		}
-		else if(locationHash == '#news'){
+		else if(locationHash == '#received-message' || locationHash == '#received-comment' || locationHash == '#received-notification'){
 			if($('#homepage-news').css('display') == 'none'){
 				$('#homepage-info').fadeOut(100);
 				$('#homepage-fans').fadeOut(100);
 				$('#homepage-news').fadeIn(100);
+			}
+			if(locationHash == '#received-message'){
+				$('#bt-received-message').trigger("click");
+			}
+			else if(locationHash == '#received-comment'){
+				$('#bt-received-comment').trigger("click");
+			}
+			else if(locationHash == '#received-notification'){
+				$('#bt-received-notification').trigger("click");
+			}
+			else{
+				$('#bt-received-message').trigger("click");
 			}
 		}
 		else{

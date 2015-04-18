@@ -635,3 +635,10 @@ ul{
 }
 
 
+/*消息中心部分*/
+#homepage-news .main-tab-ul > li {
+    width: 120px;
+    height: 100%;
+    float: left;
+    line-height: 50px;
+}
