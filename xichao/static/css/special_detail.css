@@ -65,7 +65,7 @@
 }
 #special-introduction-content{
 	margin-left: 10px;
-	height: 145px;
+	height: 120px;
 	font-size: 14px;
     font-family: 黑体;
 	overflow-y: hidden;
@@ -74,6 +74,7 @@
 #special-introduction-table{
     font-size: 14px;
     margin-left: 10px;
+    margin-top: 25px;
 }
 /*
 #special-introduction p{
@@ -194,17 +195,16 @@
 	height: 100%;
 }
 
-#special-auther-inner{
+#special-author-inner{
 	position: absolute;
-	
 
-	width: 200px;
+	width: 180px;
 	height: 360px;
 
 	/*border: 1px solid #000000;*/
 }	
 
-#special-auther-inner img{
+#special-author-inner img{
     margin-left: 20px;
     margin-top: 20px;
 	width: 125px;
@@ -220,7 +220,8 @@
     margin-top: 50px;
     overflow-y: hidden;
     border-left: 1px solid #D9AE48;
-    float: right;
+    float: left;
+    margin-left: 190px;
 }
 
 #special-author-right > p{
@@ -238,6 +239,8 @@
     font-size: 13px;
     margin-left: 16px;
     margin-top: 10px;
+    height: 18px;
+    overflow: hidden;
 }
 
 #special-transparent-circle{
@@ -249,7 +252,7 @@
 	overflow: hidden;
 }
 
-#special-auther-inner h2{
+#special-author-inner h2{
 	margin: 160px 0px 0px 5px;
 
 	font-family: 黑体;
@@ -260,7 +263,7 @@
 	overflow: auto;
 }
 
-#special-auther-inner input{
+#special-author-inner input{
 	margin: 10px 0 0 35px;
     width: 105px;
     height: 35px;
@@ -285,7 +288,7 @@
 	text-align: center;
 }
 
-#special-auther-inner p{
+#special-author-inner p{
 	margin-top: 20px;
     margin-left: 15px;
     margin-right: 15px;
