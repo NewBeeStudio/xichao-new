@@ -16,6 +16,8 @@ src: url(../fonts/liukai.ttf);
 	font-size: 25px;
 	font-weight: bold;
 	letter-spacing: 10px;
+    position: relative;
+    top:-25px;
 }
 .hot-title{  
     font-size: 25px;
@@ -52,17 +54,19 @@ src: url(../fonts/liukai.ttf);
 	/*border: 2px solid #dddddd;*/
 }
 .square-hot{
-	margin-top: 35px;
+	position: relative;
+    top:-25px;
 	height: 513px;
 	width: 557px;
-	border: 2px solid #dddddd;
+	border: 1px solid #D9AE48;
 }
 
 #square-hot-article{
-	font-family: 宋体;
-	font-size: 18px;
+	font-family: 黑体;
+	font-size: 14px;
     table-layout:fixed;
     width:30em;
+    line-height: 1;
 }
 
 
@@ -106,15 +110,16 @@ td.square-col-1{
 	padding-left: 15px;
 }
 
-td.square-col-2{
+td.square-col-2 > a{
     width:6em;
 	position:relative;
 	left:9%;
+    color:#6e6e6e;
 }
 
 td.square-col-3{
 	width: 18px;
-	color: gray;
+	color: #6e6e6e;
 	position:relative;
 	left:10%;
 	top:-2px;
@@ -122,11 +127,11 @@ td.square-col-3{
 
 .square-col-4{
 	width: 80px;
-	color: gray;
+	color: #6e6e6e;
 }
 
 .square-col-final{
-	color: gray;
+	color: #6e6e6e;
 	position:relative;
 	left:12%;
 }
@@ -163,8 +168,8 @@ a.square-more{
 
 #recommend-content h3{
 	text-align: center;
-	font-family: 宋体;
-	font-size: 25px;
+	font-family: 黑体;
+	font-size: 18px;
 	position:relative;
 	top:40px;
 }
@@ -179,7 +184,7 @@ a.square-more{
 
 #recommend-title span{
 	margin-left: 8px;
-	font-family: 宋体;
+	font-family: 黑体;
 	font-size: 12.5px;
 	color: white;
 }
@@ -187,8 +192,8 @@ a.square-more{
 #pre-read{
 	height: 140px;
     width: 450px;
-	font-family: 宋体;
-	font-size: 14px;
+	font-family: 黑体;
+	font-size: 12.5px;
 	text-align:left;
 	color:white;
 
@@ -247,8 +252,8 @@ img#square-part1-img1{
     position: relative;
 }
 #square-part1-content, .square-part1-right > a, .square-part2-left > a{
-	font-family: 宋体;
-	font-size: 16.7px;
+	font-family: 黑体;
+	font-size: 14px;
 }
 
 #square-part1-content td{
@@ -259,6 +264,8 @@ img#square-part1-img1{
 .square-part1, .square-part2 {
 	height: 730px;
 	clear: both;
+    position: relative;
+    top: -70px;
 
 }
 
