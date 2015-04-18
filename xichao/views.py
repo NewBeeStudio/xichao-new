@@ -378,8 +378,6 @@ def article(article_id):
             #comment初始显示5-6条，下拉显示全部
             session['article_session_id']=article[0].article_session_id
             comments=get_article_comments(article_id)
-            print type(comments)
-            print "============"
             if article[0].user_id==current_user.user_id:
                 pass
             else:
