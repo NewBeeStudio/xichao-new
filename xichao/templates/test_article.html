@@ -111,79 +111,63 @@
 		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
 	{%endif%}
-	<div id="list_review">
-		<p id="p_list_review">评论列表</p>
-
-		<div id="comment_new">
-
-		{% if comments!=None %}
-			{% for comment in comments %}
-				<div class="comment">
-    				<a href="{{url_for('view_home_page', nick = comment[1])}}">
-					<img class="user_pic_2" src="{{comment[2]}}">
-	                </a>
-	
-					<div class="line"></div>
-
-    				<a href="{{url_for('view_home_page', nick = comment[1])}}">
-					<p class="p_review_author">{{comment[1]}}</p>
-					</a>
-					
-					<div class="comment_content">
-					{{comment[0].content}}
-					</div>
-					<p class="p_publish_time">{{comment[0].time}}</p>
-				</div>
-			{% endfor %}
-		{% endif %}
-		</div>
-	</div>
 
 
-<!--  -->
-<!-- 
+<p id="p_list_review">评论列表</p>
 {% if comments!=None %}
 <ul class="media-list">
 {% for comment in comments %}
-  <div class="well well-lg" >
-  <li class="media" >
-    <a class="pull-left" href="#">
-      <img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
-    </a>
-    <div class="media-body">
-      <h4 class="media-heading">Media heading</h4>
-      <div style="height:64px">content</div>
- 
-		      
-		      <ul class="media-list">
-		      			<li class="media" >
-						    <a class="pull-left" href="#">
-						      <img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
-						    </a>
-						    <div class="media-body">
-						      <h4 class="media-heading">Media heading</h4>
-						      <div style="height:64px">content</div>
-						      </div>
-						      </li>
-						      <li class="media" >
-						    <a class="pull-left" href="#">
-						      <img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
-						    </a>
-						    <div class="media-body">
-						      <h4 class="media-heading">Media heading</h4>
-						      <div style="height:64px">content</div>
-						      </div>
-						      </li>
- 
-		      </ul>
-      </div>
-  </li>
-    </div>
-{% endfor %}
 
+{% if comment[0].reply_to_comment_id == 0 %}
+
+  <div class="well well-lg" >
+	  <li class="media" id="comment-{{comment[0].comment_id}}">
+	    <a class="pull-left" href="{{url_for('view_home_page', nick = comment[1])}}">
+	      <img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
+	    </a>
+	    <div class="media-body">
+		      <h4 class="media-heading">{{comment[1]}}</h4>
+		      <div style="overflow:hidden;height:54px;padding-bottom:10px;">{{comment[0].content}}</div>
+		 	<p>
+								  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</button>
+								 	{{comment[0].time}}</p>
+								
+			      
+	     </div>
+
+
+ 				<ul style="margin:50px">
+	     		{%for subcomment in comments | reverse%}
+	     		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
+	     	  		
+		      			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
+					      			 <a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
+				 		     <img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px">
+				  					  </a>
+				    	 <div class="media-body">
+					      <h4 class="media-heading">{{subcomment[1]}}</h4>
+					      <div style="overflow:hidden;height:54px;padding-bottom:10px;">{{subcomment[0].content}}</div>
+		      				 	
+		      					<p>
+								  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复</button>
+								 	{{subcomment[0].time}}</p>
+								
+	    		 		</div>
+
+		      			</li>
+		      			
+	     		{% endif %}
+	     		{% endfor %}
+	     		</ul>
+	     
+	
+	  </li>
+   </div>
+ {%endif%}  
+{% endfor %}
 </ul>
-	{% endif %}
- -->
+{% endif %}
+
 
 
 {% endblock %}
@@ -202,6 +186,20 @@
 			description : ''	//分享的详细描述
 		};
 		rrShareOnclick(rrShareParam);
+	}
+
+
+	function reply_to(to_user_id,reply_to_comment_id){
+		  $.layer({
+					type: 2,
+					title: ['打赏曦潮币'],
+					shade: [0.65, '#000'],
+					shadeClose: true,
+					closeBtn: [0,true],
+					border: [2, 1, '#D9AE48'],
+					area: ['760px', '300px'],
+					iframe: {src: "{{ url_for('reply_to', article_id=article.article_id) }}?to_user_id="+to_user_id+"&reply_to_comment_id="+reply_to_comment_id},
+			    });
 	}
 </script>
 
@@ -230,6 +228,7 @@
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
 	val_content = $('#input_publish_review').contents().find('body').html();
+	
 	if (val_content == '')
 		{alert("评论不能为空");}
 	else {
@@ -252,7 +251,9 @@ $("#comment_publish_button").click(function(){
     			_csrf_token:"{{ csrf_token() }}",
     			content:val_content,
     			article_id:{{article.article_id}},
-    			to_user_id:{{article.user_id}}
+    			to_user_id:{{article.user_id}},
+    			reply_to_comment_id:0,
+    			
     		},
     		function(data){
     			$("#comment_publish_time").text(data);
@@ -294,23 +295,7 @@ $("#p_review").click(function(){
 
 </script>
 
-<script type="text/javascript">
-	/*$(document).ready(function(){
-		url = "{{ url_for('pay_author', article_id=article.article_id) }}"
-		$("#pay_button").click(function(){
-			$.layer({
-				type: 2,
-				title: ['打赏曦潮币'],
-				shade: [0.65, '#000'],
-				shadeClose: true,
-				closeBtn: false,
-				border: [2, 1, '#D9AE48'],
-				area: ['760px', '300px'],
-				iframe: {src: url},
-			});
-		});
-	});*/
-</script>
+
 
 </script>
 
@@ -349,6 +334,23 @@ function add_commit(data, val_content) {
 			    '</a>' +
 				'<div class="comment_content"><font size="3px">'+val_content+'</font></div>'+
 				'<p class="p_publish_time"><font size="2px">'+data+'</font></p></div>');
+}
+
+
+function add_reply(data,val_content,val_user_id,reply_to_comment_id){
+var d=data.split('@');
+var time=d[0];
+var cid=d[1];
+ var location="comment-"+reply_to_comment_id;
+ console.log(cid)
+ var homeurl = "{{url_for('view_home_page', nick = nick)}}"
+ if($("#"+location+" ul li:last"))
+ $("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
+ 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to('+cid+','+reply_to_comment_id+')">回复</button>'+time+'</p></div></li>')
+else $("#"+location+" div.media-body").append('<ul style="margin:50px"><li class="media"id="comment-'+cid+'">'+
+ 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to('+val_user_id+','+reply_to_comment_id+')">回复</button>'+time+'</p></div></li></ul>')
+
+
 }
 </script>
 

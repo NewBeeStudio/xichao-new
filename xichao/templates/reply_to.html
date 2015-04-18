@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/static/css/pay_author.css" />
+	<meta charset="UTF-8" />
+	<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#button").click(function(){
+				val_award_num=$("#award_num").val();
+				var re = /^[0-9]+.?[0-9]*$/;
+
+				var val_author_id = parent.window.get_author_id();
+				var val_content = $("#input_review").val();
+				
+
+				var val_article_id = parent.window.get_article_id();
+				var val_user_id = parent.window.get_user_id();
+				//alert(val_article_id);
+				//alert(val_user_id);
+			
+					$.post('/article/comment',
+					{
+						_csrf_token:"{{ csrf_token() }}",
+						content:val_content,
+						article_id:val_article_id,
+						to_user_id:val_user_id,
+						reply_to_comment_id:{{reply_to_comment_id}}
+					},
+					function(data){
+						var index=parent.layer.getFrameIndex(window.name);
+						parent.window.add_reply(data, val_content,val_user_id,{{reply_to_comment_id}});
+						layer.msg('回复成功',1,1,function(){
+									parent.window.update_xichao(val_award_num);
+									parent.layer.close(index);
+								});
+					});
+				
+
+			});
+		});
+	</script>
+</head>
+<body>
+
+
+	
+	<div id="review">
+		<textarea id="input_review">回复 {{user_nick}}:{{ comment  }}</textarea>
+	</div>
+
+
+	<div>
+		<button class="register-button" id="button">回复</button>
+	</div>
+
+	
+</body>
+</html>
