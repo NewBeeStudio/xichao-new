@@ -67,7 +67,7 @@
 		<!-- 专栏名称和介绍 -->
 		<div id="special-name">
 			<!-- 专栏封面 -->
-			<div id="special-cover">
+			<div id="special-cover" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
 				<img src="{{ special_image }}">
 			</div>
 
@@ -106,17 +106,29 @@
             </div>
             
 		<div id="special-memo">
-			<!-- 分享和订阅怎么实现 -->
-            <a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
-                		<img src="/static/images/share_sinaweibo.png"/>
-                		</a>
-
-                        <!-- 人人网 -->
-                        <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;" style="margin-left: 10px;margin-right: 10px;">
-                		<img src="/static/images/share_renren.png" />
-                		</a>
+        <div class="btn-group" style="float:left;">
+          <button id="share-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <img src="/static/images/share-logo.png" style="height:22px; width:22px"/>
+          分享 <span class="caret"></span>
+          </button>
+          <ul id="share-option" class="dropdown-menu" role="menu">
+            <li>
+<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">                    
+                        <img src="/static/images/share_sinaweibo.png" style="margin-left:10px"/>
+                        </a>
+            </li>
+            <li class="divider"></li>
+            <li>
+<!-- 人人网 -->
+                <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;" style="margin-left: 10px;margin-right: 10px;">
+                
+                    <img src="/static/images/share_renren.png" />
+                </a>
+            </li>
+          </ul>
+        </div>
+                        
             <div id="special-memo-input">
-            <p>{{special_favor}}人关注</p>
 			{% if not author_itself %}
                 {% if has_collected_special %}
         			<input id="collection_special_cancel" style="float:right" class="input-button" type="submit" value="取消关注">
@@ -126,6 +138,8 @@
             {% else %}
             <input id="write_special_article" style="float:right" class="input-button" type="submit" value="写文章">
             {% endif %}
+            <p>{{special_favor}}人关注</p>
+
             </div>
 		</div>
 	    </div>

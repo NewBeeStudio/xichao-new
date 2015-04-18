@@ -53,7 +53,6 @@
     <div class="special-allView-pic-circle" style="background-image: url({{ url_for('static', filename='images/special-all-left-border-small.png') }});background-repeat:no-repeat;">
    <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time" >
 			<img class="special-allView-pic" src="{{ special.picture | safe }}"/>
-
 			</a>
 </div>
         <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
