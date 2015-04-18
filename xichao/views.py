@@ -370,21 +370,21 @@ def article_main():
 @app.route('/article/<int:article_id>',methods=['GET'])
 @login_required
 def article(article_id):
-	article=get_article_information(article_id)
-	if article!=None:
-		if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
-			abort(404)
-		else:
-			#comment初始显示5-6条，下拉显示全部
-			session['article_session_id']=article[0].article_session_id
-			comments=get_article_comments(article_id)
-			if article[0].user_id==current_user.user_id:
-				pass
-			else:
-				update_read_num(article_id)
-			return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
-	else:
-		abort(404)
+    article=get_article_information(article_id)
+    if article!=None:
+        if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
+            abort(404)
+        else:
+            #comment初始显示5-6条，下拉显示全部
+            session['article_session_id']=article[0].article_session_id
+            comments=get_article_comments(article_id)
+            if article[0].user_id==current_user.user_id:
+                pass
+            else:
+                update_read_num(article_id)
+            return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
+    else:
+        abort(404)
 
 ##################################  专栏页面  ##################################
 # 专栏列表页
@@ -851,6 +851,13 @@ def pay_author(article_id):
     if comment == None:
         comment = ""
     return render_template('pay_author.html', article_id=article_id, comment = comment)
+#回复评论弹窗
+@app.route('/reply_to/<int:article_id>', methods=['GET'])
+def reply_to(article_id):
+    to_user_id = request.args.get('to_user_id')
+    reply_to_comment_id = request.args.get('reply_to_comment_id')
+    user_nick=get_nick_by_userid(to_user_id)
+    return render_template('reply_to.html', article_id=article_id, to_user_id=to_user_id, reply_to_comment_id=reply_to_comment_id,user_nick = user_nick)
 
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
@@ -1139,13 +1146,16 @@ def uploaded_book_picture(filename):
 ##################################	评论处理 ##################################
 @app.route('/article/comment',methods=['POST'])
 def comment():
-	content=request.form['content']
-	to_user_id=request.form['to_user_id']
-	article_id=request.form['article_id']
-	create_comment(content,to_user_id,article_id)
-	update_comment_num(article_id,True)
-	time=str(datetime.now()).rsplit('.',1)[0]
-	return time
+    content=request.form['content']
+    to_user_id=request.form['to_user_id']
+    article_id=request.form['article_id']
+    reply_to_comment_id=request.form['reply_to_comment_id']
+
+    create_comment(content,to_user_id,article_id,reply_to_comment_id)
+    update_comment_num(article_id,True)
+    time=str(datetime.now()).rsplit('.',1)[0]
+    comment_id=get_current_comment_id()
+    return time+'@'+str(comment_id)
 
 @app.route('/activity/comment',methods=['POST'])
 def comment_activity():
