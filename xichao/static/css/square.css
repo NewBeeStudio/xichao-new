@@ -25,6 +25,7 @@ src: url(../fonts/liukai.ttf);
 }
 .opinion-title{
 	position:relative;
+	margin-bottom: 40px;
 	left:39%;
 }
 .opinion-author-text{
@@ -229,10 +230,10 @@ a.square-more{
 	height: 360px;
 }
 .square-part1-img2{
-    position: absolute; 
-    width: 362px;
-    height: 362px;
-    
+    margin-left: 0px;
+    margin-top: 0px;
+    border-left: 0px;
+    position: absolute;
 }
 .square-inside-circle{
     width: 362px;
@@ -243,7 +244,7 @@ a.square-more{
 /*    box-shadow: 3px 1px 3px #aaa;*/
 }
 
-img#square-part1-img1{
+img.square-part1-img1{
 	margin-top: 15px;
 	margin-left: 15px;
 	width: 330px;
@@ -324,13 +325,14 @@ img#square-part1-img, img#square-part2-img, img#square-part3-img{
 
 /*圆下面的竖线*/
 .square-part1-left > div, .square-part2-right > div{
-	margin-top: 40px;
-	height: 58px;
+	/*margin-top: 40px;*/
+	height: 362px;
+	width: 362px;
 }
 
 .square-part1-left > div{
-	margin-left: 187px;
-	border-left: 1px solid #000000;
+	/*margin-left: 187px;*/
+	/*border-left: 1px solid #000000;*/
 }
 
 .square-part2-right > div{

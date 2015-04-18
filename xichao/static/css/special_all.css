@@ -1,7 +1,7 @@
 
 
 .special_background{
-    margin-top: -68px;
+    margin-top: -110px;
     height: 598px;
     background-color: #f5f5f5;
     position: absolute;
@@ -51,7 +51,6 @@
   color: #fff;
   background-color: #D9AE48;
 }
-
 #change-display-list > a{
     color: black;
 }
@@ -87,12 +86,12 @@ a:hover{
 }
 /*专栏图*/
 img#special-part1-img1{
-	margin-top: 15px;
-	margin-left: 15px;
-	width: 330px;
-	height: 330px;
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 340px;
+	height: 340px;
 
-    border-radius: 330px;
+    border-radius: 340px;
     position: relative;
     behavior: url(/static/css/PIE.htc);
 }
@@ -170,17 +169,22 @@ img#special-part1-img1{
     margin-right: 10px;
 }
 
+#author-coin > h4{
+    font-size: 14px;
+}
+
 /*专栏简介*/
 #special-part1-content > p{
-    margin-top: 21px;
+    margin-top: 5px;
 	font-family: 楷体;
     font-size: 18px;
 	overflow-y: auto;
     word-wrap: break-word;
-    height: 120px;
+    height: 70px;
     color: #D9AE48;
     overflow-y: hidden;
     margin-bottom: 0px;
+    line-height: 25px;
 }
 
 #special-part1-content h2{
@@ -200,10 +204,10 @@ img#special-part1-img1{
 /* 专栏最新文章 */
 
 #latest-article{
-    margin-top: -35px;
+    margin-top: -10px;
     text-align: left;
-    font-family: 宋体;
-    font-size: 18px;
+    font-family: 黑体;
+    font-size: 16px;
     background-repeat:no-repeat;
             background-size: 100% 100%;
             height: 170px;  
@@ -229,7 +233,7 @@ img#special-part1-img1{
 
 /* 页码 */
 #special-paging{
-    margin-top: 100px;
+    margin-top: -40px;
 	margin-bottom: 50px;
     width: 100%;
 }
@@ -262,24 +266,29 @@ img#special-part1-img1{
 }
 
 .special-allView-pic{
-	margin-top: 15px;
-	margin-left: 15px;
-	width: 330px;
-	height: 330px;
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 240px;
+	height: 240px;
 
-    border-radius: 330px;
+    border-radius: 240px;
     position: relative;
 }
 
 .special-allView-pic-circle{
-    width: 360px;
-    height: 360px;
+    width: 260px;
+    height: 260px;
 }
 
 .special-allView-element{
     float:left;
-    width: 360px;
+    width: 260px;
     margin-bottom: 50px;
+}
+
+.special-allView-element  h2{
+    font-size: 25px;
+    font-family: 黑体;
 }
 
 .special-allView-element > a{
@@ -299,7 +308,7 @@ img#special-part1-img1{
 
 .special_background_allView{
     margin-top: -20px;
-    height: 500px;
+    height: 400px;
     width: 1160px;
     background-color: #f5f5f5;
     position: absolute;
