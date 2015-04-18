@@ -26,12 +26,16 @@
 	margin-top: 4%;
 }
 
+#pics{
+	width: 1000px;
+}
+
 #pic_4 {
 	float: left;
 }
 
 #pic_1 {
-	margin-left: 10px;
+	margin-left: 4px;
 	float: left;
 }
 
@@ -56,10 +60,18 @@
 	color: #ff9900;
 	font-size: 35px;
 	text-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+	
+	/* 不可选择文字 */
+	-moz-user-select:none;/*火狐*/
+	-webkit-user-select:none;/*webkit浏览器*/
+	-ms-user-select:none;/*IE10*/
+	-khtml-user-select:none;/*早期浏览器*/
+	user-select:none
 }
 
 .p_triangle:hover {
 	color: #ff6600;
+	cursor: pointer;
 }
 
 .p_triangle:active {
@@ -74,6 +86,7 @@
 
 #triangle_right {
 	margin-left: 970px;
+	width: 40px;
 }
 
 #button_upload_pic {
@@ -87,6 +100,7 @@
 	margin-top: 5%;
 	font-family: 微软雅黑;
 }
+
 
 #p_article_title {
 	font-family: 黑体;
@@ -102,12 +116,34 @@
 	margin-right: 20px;
 	padding: 0px;
 	height: 26px;
-	width: 600px;
+	width: 500px;
+	font-family: 黑体;
+	font-size: 18px;
 }
+
+#display-type-select{
+	float:right;
+}
+#display-type-select>.active>a, #display-type-select>.active>a:hover, #display-type-select>.active>a:focus {
+  color: #fff;
+  background-color: #D9AE48;
+}
+
+#change-display-list > a{
+	font-family: 黑体;
+	font-size: 18px;
+    color: black;
+}
+#change-display-list > a:hover{
+  cursor: pointer;
+}
+
 
 #label_article {
 	font-family: 黑体;
 	font-size: 18px;
+	float: right;
+	margin-top: 6px;
 }
 
 #editor {
@@ -166,21 +202,28 @@
 }
 
 #buttons {
-	margin-top: 5%;
+	font-family: 微软雅黑;
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: 50px;
+	padding-left: 340px;
 }
 
 #button_upload_cancel {
-	margin-left: 15%;
-	float: left;
+	height: 27px;
+	width: 108px;
+	margin-left: 100px;
 }
 
 #button_upload_confirm {
-	margin-left: 76%;
+	height: 27px;
+	width: 108px;
 }
 
 #button_upload_draft {
-	margin-left: 19%;
-	float: left;
+	height: 27px;
+	width: 120px;
+	margin-left: 100px;
 }
 
 .register-button{
@@ -199,6 +242,9 @@
 
 #book_information {
 	margin-top: 30px;
+}
+#book_information p{
+	margin: 0px;
 }
 
 #book_image {
@@ -298,6 +344,5 @@
         }
         #selected_book_info{
             float:left;
-            width: 100%;
-            height: 400px;
+            width: 100%;            
         }

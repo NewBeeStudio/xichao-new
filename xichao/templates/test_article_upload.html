@@ -18,30 +18,38 @@
         <img class="pics" id="pic_1" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
         <img class="pics" id="pic_2" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}" />
         <img class="pics" id="pic_3" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
-        <img class="pics" id="pic_5" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_5.jpg')}}" />
+        <img class="pics" id="pic_5" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.jpg')}}" />
         <p class="p_triangle" id="triangle_right">▶</p>
 
         <a href="#" class="button button-border button-primary button-small" id="button_upload_pic">上传题图</a>
         <!--<button class="button button-border button-primary button-small" id="button_upload_pic">上传题图</button>-->
     </div>
 
-   	<div id="article_editor">
+   	<div id="article_editor"> 
    		<p id="p_article_title">文章标题:</p>
    		<input id="input_title" type="text">
-   	
-      <label id="label_article">文章类别：</label>
-      <input type="radio" name="category" value="1" checked="true">书评
-      <input type="radio" name="category" value="2">影评
-      <input type="radio" name="category" value="3">杂文
       
-      <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+      <ul id="display-type-select" class="nav nav-pills">
+        <li role="presentation" id="change-display-list" class="change-article-type active" value="1"><a>书评</a></li>
+        <li role="presentation" id="change-display-list" class="change-article-type" value="2"><a>影评</a></li>
+        <li role="presentation" id="change-display-list" class="change-article-type" value="3"><a>杂文</a></li>
+      </ul>
+      <label id="label_article">文章类别：</label>
+
+      <div style="display:none">
+      <input id = "type-input1" type="radio" name="category" value="1" checked="true">书评
+      <input id = "type-input2" type="radio" name="category" value="2">影评
+      <input id = "type-input3" type="radio" name="category" value="3">杂文
+      </div>
+      
+      <script id="editor" type="text/plain" style="width:1160px;height:300px;"></script>
           
         <div id="search_book_list">
             
             <div id="search_book_input">
                 请搜索要关联的书籍:
-                <input type="text" id="search_content" class="form-control" placeholder="">
-                <button id="search_book_button" class="btn btn-default" style="margin-top: -10px">在线搜索</button>
+                <input type="text" id="search_content" class="form-control" placeholder="" style="margin-top: 10px">
+                <a id="search_book_button" class="button button-border button-primary button-small" id="search_book_button">在线搜索</a>
             </div>
 
             <div id="search_book_result" class="search_book_result col-xs-12 col-md-6 col-lg-6">
@@ -102,9 +110,10 @@
         </div>
       <div style="clear:both;"></div>
       <div id="buttons">
-        <a href="#" class="register-button" id="button_upload_cancel">取消</a>
-        <a href="#" class="register-button" id="button_upload_draft">保存草稿</a>
-        <a href="#" class="register-button" id="button_upload_confirm">确定</a>
+      <a href="#" class="button button-border button-primary button-small" id="button_upload_confirm">提交</a>
+      <a href="#" class="button button-border button-primary button-small" id="button_upload_draft">存入草稿箱</a>
+      <a href="#" class="button button-border button-primary button-small" id="button_upload_cancel">取消</a>
+      
       </div>
    	</div>
 	
@@ -129,7 +138,7 @@
     <script type="text/javascript">
     var ue = UE.getEditor('editor', {
 		serverUrl: "/editor/article",
-    initialFrameWidth: 1058,
+    initialFrameWidth: 1160,
     initialFrameHeight: 500
 	});
 
@@ -225,6 +234,10 @@
           });          
         }
       });
+
+      $("#button_upload_cancel").click(function(){
+          location.href ="/index"
+      });
       //选择默认图片
       $('.pics').click(function(){
         $('#pic_4').attr("src",$(this).attr("src"))
@@ -264,7 +277,7 @@ $('#search_book_button').click(function(){
                         newDiv.css("display", "inline");
                         
                         newDiv.attr("id", divID);
-                            $("#"+divID).css("margin-left", "40px");
+                            $("#"+divID).css("margin-left", "30px");
                         $("#"+divID+" img").attr("id", imgID);
                         $("#"+divID + " h3").attr("id", nameID);
                         
@@ -338,19 +351,21 @@ function update_title_image(data){
 
 
 <script type="text/javascript">
-var cur_index = 2;
+var cur_index = 3;
 var arr = new Array();
 arr[0] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}";
 arr[1] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}";
 arr[2] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}";
-arr[3] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}";
+arr[3] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.jpg')}}";
 arr[4] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_5.jpg')}}";
 arr[5] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}";
+arr[6] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_7.jpg')}}";
 
   $('#triangle_left').click(function(){
     var pic_1 = document.getElementById("pic_1");
     var pic_2 = document.getElementById("pic_2");
     var pic_3 = document.getElementById("pic_3");
+    var pic_5 = document.getElementById("pic_5");
 
     if (cur_index == arr.length - 1)
       {cur_index = 0;}
@@ -359,20 +374,21 @@ arr[5] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_
 
     pic_1.src = pic_2.src;
     pic_2.src = pic_3.src;
-    pic_3.src = arr[cur_index];
+    pic_3.src = pic_5.src;
+    pic_5.src = arr[cur_index];
   })
 
   $('#triangle_right').click(function(){
     var pic_1 = document.getElementById("pic_1");
     var pic_2 = document.getElementById("pic_2");
     var pic_3 = document.getElementById("pic_3");
+    var pic_5 = document.getElementById("pic_5");
 
     var tmp = 0;
-
-    if (cur_index - 3 < 0)
-      {tmp = arr.length + cur_index - 3;}
+    if (cur_index - 4 < 0)
+      {tmp = arr.length + cur_index - 4;}
     else {
-      tmp = cur_index - 3;
+      tmp = cur_index - 4;
     }
 
     if (cur_index == 0)
@@ -380,6 +396,7 @@ arr[5] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_
     else 
       {cur_index -= 1;}
 
+    pic_5.src = pic_3.src;
     pic_3.src = pic_2.src;
     pic_2.src = pic_1.src;
     pic_1.src = arr[tmp];
@@ -387,12 +404,24 @@ arr[5] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_
 </script>
 
 <script>
+/*
 $(document).ready(function(){
   $('input').iCheck({
     checkboxClass: 'icheckbox_square',
     radioClass: 'iradio_square',
     increaseArea: '20%' // optional
   });
+});
+*/
+$(".change-article-type").click(function(){
+    $(".change-article-type").attr("class", "change-article-type");
+    $(this).attr("class", "change-article-type active");
+    var type = "#type-input"+$(this).attr("value").toString();
+//    alert(type);
+    $("#type-input1").attr("checked", "false");
+    $("#type-input2").attr("checked", "false");
+    $("#type-input3").attr("checked", "false");
+    $(type).attr("checked", "true");
 });
 </script>
 
