@@ -11,14 +11,18 @@
 	font-family: 黑体;
 	font-size: 16px;
 	color: rgb(114, 114, 114);
-	font-size: 17px;
+}
+
+#p_pic {
+	margin-top: 35px;
+	margin-left: 200px;
+	margin-bottom: 10px;
+	font-family: 黑体;
+	font-size: 16px;
+	color: rgb(114, 114, 114);
 }
 
 #article_upload {
-	margin-top: 4%;
-}
-
-#div_pics {
 	margin-top: 4%;
 }
 
@@ -27,24 +31,28 @@
 }
 
 #pic_1 {
-	margin-left: 1%;
+	margin-left: 10px;
 	float: left;
 }
 
 #pic_2 {
-	margin-left: 2%;
+	margin-left: 40px;
 	float: left;
 }
 
 #pic_3 {
-	margin-left: 2%;
+	margin-left: 40px;
 	float: left;
 }
 
+#pic_5 {
+	margin-left: 40px;
+	float: left;
+}
 
 .p_triangle {
-	padding-top: 8%;
-	padding-bottom: 6%;
+	padding-top: 70px;
+	padding-bottom: 70px;
 	color: #ff9900;
 	font-size: 35px;
 	text-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
@@ -60,36 +68,46 @@
 }
 
 #triangle_left {
-	margin-left: 6%;
+	margin-left: 10px;
 	float: left;
 }
 
 #triangle_right {
-	margin-left: 96%;
+	margin-left: 970px;
 }
 
 #button_upload_pic {
 	margin-right: 75%;
-	margin-left: 5%;
+	margin-left: 30px;
 	margin-top: 20px;
 }
 
 #article_editor {
+	position: relative;
 	margin-top: 5%;
 	font-family: 微软雅黑;
 }
 
 #p_article_title {
-	font-family: 微软雅黑;
-	font-size: 20px;
-	float: left;
-	margin-top: 0px;
+	font-family: 黑体;
+	font-size: 18px;
+	position: absolute;
+	margin-left: 30px;
+	margin-top: 5px;
+	width: 130px;
 }
 
 #input_title {
-	margin-left: 2%;
+	margin-left: 200px;
+	margin-right: 20px;
+	padding: 0px;
 	height: 26px;
-	width: 50%;
+	width: 600px;
+}
+
+#label_article {
+	font-family: 黑体;
+	font-size: 18px;
 }
 
 #editor {
