@@ -6,7 +6,7 @@
 <link href="{{ url_for('static', filename='css/homepage.css') }}" rel='stylesheet' type='text/css'/> 
 
 <style type="text/css">
-	/*根据分辨率自适应改变图大小*/
+	/*封面和介绍根据分辨率自适应改变大小*/
 	@media screen and (min-width: 1161px) {
 		#content {width: 100%;}
 	}
@@ -14,6 +14,7 @@
 		#content {width: 1160px;}
 	}
 
+	/*个人信息栏宽度是固定的*/
 	#information{
 		width: 1160px;
 		margin-left: auto;
@@ -24,6 +25,30 @@
 
 <!--content-->
 {% block content %}
+
+<div id="cover">
+	<div>
+		<img src="/static/images/logo.jpg">
+		<div id="cover-introduction">
+			{% if current_user == user %}
+			{#只有本人可以修改主页#}
+			<div id="change-cover">
+				更改封面图
+			</div>
+			{% endif %}
+
+			<div id="cover-owner">
+				<div id="cover-owner-nick">
+					最长可能有十位字符厂
+				</div>
+				<!-- <div>
+					的个人空间
+				</div> -->
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <div id="introduction">
 	<div>

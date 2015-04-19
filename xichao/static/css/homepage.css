@@ -395,9 +395,70 @@ ul{
 	text-decoration: none;
 }
 
+/*封面部分*/
+#cover{
+	width: 100%;
+	height: 500px;
+	position: relative;
+
+	font-family: 微软雅黑;
+	color: #fff;
+}
+
+#cover > div{
+	width: 100%;
+	height: 100%;
+}
+
+#cover img{
+	display: block;
+	width: 100%;
+	height: 100%;	
+}
+
+#cover-introduction{
+	top: 0;
+	right: 0;
+	background-color: #000;
+	opacity: 0.4;
+	width: 350px;
+	height: 100%;
+	/*border: 1px solid #000;*/
+	position: absolute;
+}
+
+#change-cover{
+	margin: 20px 20px 0 0;
+	text-align: right;
+	font-size: 15px;
+}
+
+
+#cover-owner{
+	margin-top: 20px;
+	margin-left: 120px;
+	text-align: center;
+}
+
+#cover-owner-nick{
+	font-size: 30px;
+	width: 20px;
+	overflow: hidden;
+
+	line-height: 30px;
+	text-align: center;
+	word-break: break-all;
+	padding-right: 20px;
+	border-right: 1px solid #fff;
+}
+
+
+
+
 /*个人介绍部分*/
 #introduction{
 	font-family: 黑体;
+	margin-top: 50px;
 	min-height: 300px;
 	background-image: url(/static/images/homepage-decoration.png);
 	background-size: 100% 100%;
@@ -421,6 +482,7 @@ ul{
 	width: 200px;
 	height: 200px;
 	border-radius: 100px;
+	behavior: url(/static/css/PIE.htc);
 }
 
 #introduction-left > div{
