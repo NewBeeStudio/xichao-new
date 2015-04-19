@@ -60,9 +60,12 @@
 	<div>
 		<div id="introduction-left">
 			<img src="{{current_user.photo}}">
+			{% if current_user == user %}
+			{#只有本人可以修改个人设置#}
 			<div>
-				<a href="#">更改个人设置</a>
+				<a href="#settings">更改个人设置</a>
 			</div>
+			{% endif %}
 		</div>
 
 		<div id="introduction-right">
@@ -559,7 +562,7 @@
 		if(locationHash == '#' || locationHash == ''){
 			$('#bt-release').trigger("click");
 			locationHash = '#';
-			return
+			return;
 		}
 		else if(locationHash == '#settings'){
 			if($('#homepage-settings').css('display') == 'none'){
@@ -652,6 +655,11 @@
 		// 在主页上点击
 		$('#navbar-info .nav a').click(function(){
 			setTimeout(navbar_click, 100); //直接执行好像不行
+		});
+
+		//个人主页更改个人设置
+		$('#introduction-left a').click(function(){
+			setTimeout(navbar_click, 100); //同上
 		});
 	});
 

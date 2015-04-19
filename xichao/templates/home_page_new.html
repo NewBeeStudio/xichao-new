@@ -220,7 +220,41 @@
 				</div>
 
 				<div class="sub-content">
-					<div id="basicinfo">
+					<div id="basicinfo-all">
+						<div id="basicinfo-img">
+							<img src="/static/images/square.jpg">
+							<a id="change-photo" href="#">更换头像</a>
+						</div>
+						<div id="basicinfo-detail">
+							<div>
+								<label>昵称：</label><input id="change-nick" type="text" value="{{current_user.nick}}">
+							</div>
+							<div>
+								<label>性别：</label>
+								{% if current_user.gender == 'f' %}
+								<input type="radio" name="gender" value="m" /><span>&nbsp;男&nbsp;</span>
+								<input type="radio" name="gender" value="f"  checked="checked"/><span>&nbsp;女</span>
+								{% else %}
+								<input type="radio" name="gender" value="m" checked="checked" /><span>&nbsp;男&nbsp;</span>
+								<input type="radio" name="gender" value="f"/><span>&nbsp;女</span>
+								{% endif %}
+							</div>
+							<div>
+								<label>生日：</label>
+								<input id="change-year" type="text" value="{{current_user.birthday.year}}"/><span>&nbsp;年&nbsp;</span>
+								<input id="change-month" type="text" value="{{current_user.birthday.month}}"/><span>&nbsp;月&nbsp;</span>
+								<input id="change-day" type="text" value="{{current_user.birthday.day}}"/><span>&nbsp;日&nbsp;</span>
+							</div>
+							<div>
+								<label>手机号：</label>
+								<input id="change-phonenumber" type="text" value="{{current_user.phone}}"/>
+							</div>
+							<div id="basicinfo-detail-slogon">
+								<label>个人简介：</label>
+								<textarea class="home-text" id="slogon">{{current_user.slogon}}</textarea>
+							</div>
+						</div>
+						<div id="basicinfo-detail-confirm"><a href="#">确定</a><a href="#">取消</a></div>
 					</div>
 				</div>
 			</div>
@@ -232,7 +266,9 @@
 				</div>
 
 				<div class="sub-content">
-					<div id="card">
+					<div id="card-all">
+						<div><label>卡号：</label>xxx</div>
+						<div><label>绑定日期：</label>xxx</div>
 					</div>
 				</div>
 			</div>
