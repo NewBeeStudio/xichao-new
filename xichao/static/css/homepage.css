@@ -395,6 +395,10 @@ ul{
 	text-decoration: none;
 }
 
+.pagination ul > li > a:hover{
+	background-color: #D9AE48;
+}
+
 /*封面部分*/
 #cover{
 	width: 100%;
