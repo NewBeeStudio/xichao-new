@@ -556,10 +556,24 @@
 		var locationHash = window.location.hash;
 		// alert(locationHash);
 		var transitionTime = 50;
-		if(locationHash == '#fans'){
+		if(locationHash == '#' || locationHash == ''){
+			$('#bt-release').trigger("click");
+			locationHash = '#';
+			return
+		}
+		else if(locationHash == '#settings'){
+			if($('#homepage-settings').css('display') == 'none'){
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-settings').fadeIn(transitionTime);
+			}
+		}
+		else if(locationHash == '#fans'){
 			if($('#homepage-fans').css('display') == 'none'){
 				$('#homepage-info').fadeOut(transitionTime);
 				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
 				$('#homepage-fans').fadeIn(transitionTime);
 			}
 			$('#bt-fans').trigger("click");
@@ -568,6 +582,7 @@
 			if($('#homepage-news').css('display') == 'none'){
 				$('#homepage-info').fadeOut(transitionTime);
 				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
 				$('#homepage-news').fadeIn(transitionTime);
 			}
 			if(locationHash == '#received-message'){
@@ -587,6 +602,7 @@
 			if($('#homepage-info').css('display') == 'none'){
 				$('#homepage-fans').fadeOut(transitionTime);
 				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
 				$('#homepage-info').fadeIn(transitionTime);
 			}
 

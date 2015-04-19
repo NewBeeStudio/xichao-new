@@ -64,7 +64,10 @@
                             </a>
                             <ul class="dropdown-menu menu-min-width">
                                 {% if current_user.role!=3 %}
-                                    <li><a href="{{url_for('home_page')}}">个人中心</a></li>
+                                {#非管理员界面#}
+                                    <li><a href="{{url_for('home_page')}}">我的主页</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('home_page')}}#settings">个人设置</a></li>
                                 {% else %}
                                     <li><a href="/admin">个人中心</a></li>
                                 {% endif %}

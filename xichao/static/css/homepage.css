@@ -549,8 +549,13 @@ span#introduction-category{
 	padding-top: 50px;
 }
 
-#homepage-info, #homepage-fans, #homepage-news{
+#homepage-settings, #homepage-fans, #homepage-news{
 	display: none;
+	position: relative;
+}
+
+#homepage-info{
+	display: block;
 	position: relative;
 }
 
