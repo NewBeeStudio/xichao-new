@@ -439,8 +439,7 @@ def special_search():
 
     specials_pagination = get_search_specials(search)
     return render_template('special_search.html', specials_pagination = specials_pagination,
-                                                  author = get_special_author,
-                                                  articles = get_special_article)
+                                                  author = get_special_author)
 
 # 专栏详情页
 @app.route('/special', methods=['GET'])
