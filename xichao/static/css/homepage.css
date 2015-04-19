@@ -401,6 +401,11 @@ ul{
 }
 
 
+/*个人信息部分*/
+#information{
+	padding-top: 50px;
+}
+
 /*个人信息四个主分类tab*/
 .main-tab, .sub-tabs{
 	font-family: 微软雅黑; 
@@ -641,4 +646,21 @@ ul{
     height: 100%;
     float: left;
     line-height: 50px;
+}
+
+#news-sub-tabs .content-top{
+	margin-bottom: 20px
+}
+
+#news-sub-tabs .content-bottom{
+	margin-bottom: 20px;
+	text-align: right;
+}
+
+#news-sub-tabs .content-bottom > span{
+	margin-left: 20px;
+}
+
+#news-sub-tabs .content-bottom > span > a{
+	margin: 0 10px 0 10px;
 }
