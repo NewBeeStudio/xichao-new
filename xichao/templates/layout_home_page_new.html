@@ -9,15 +9,15 @@
 	/*封面和介绍根据分辨率自适应改变大小*/
 	@media screen and (min-width: 1401px) {
 		#content {width: 1400px;}
-		#cover {height: 300px;} /*保证长宽比一定*/
+		#cover {height: 400px;} /*保证长宽比一定*/
 	}
 	@media screen and (min-width: 1161px) and (max-width: 1400px) {
 		#content {width: 100%;}
-		#cover {height: 300px;}
+		#cover {height: 360px;}
 	}
 	@media screen and (max-width: 1160px) {
 		#content {width: 1160px;}
-		#cover {height: 300px;}
+		#cover {height: 332px;}
 	}
 
 	/*个人信息栏宽度是固定的*/
@@ -129,7 +129,7 @@
 		else if(category == "focus-user")
 			delete_url = "/collection_cancel/user";
 		else if(category == "focus-special")
-			delete_url = "/collection_special_cancel?id=" + item_id; //?
+			delete_url = "/collection_special_cancel?id=" + item_id;
 		else if(category == "fans-all")
 			delete_url = "";
 		else if(category == "received-message-all")
@@ -138,8 +138,8 @@
 			delete_url = "/homepage/delete/received_comment";
 		else if(category == "received-notification-all")
 			delete_url = "/homepage/delete/message";
-		else if(category == "release-special")
-			delete_url = "/homepage/delete/special";
+		else if(category == "special-all")
+			delete_url = "{#/homepage/delete/special#}";
 		return delete_url;
 	}
 
@@ -168,7 +168,7 @@
 			refresh_url = "/homepage/pagination/received_comment/page/";
 		else if(category == "received-notification-all")
 			refresh_url = "/homepage/pagination/notification/page/";
-		else if(category == "release-special")
+		else if(category == "special-all")
 			refresh_url = "/homepage/pagination/special/page/";
 
 		refresh_url += page_id;
@@ -474,6 +474,20 @@
 				}
 				text += "</div>";
 			}
+			else if(category == "special-all"){
+				var items = data.rows;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a href='/special?id=" + items[i].special_id + "&page=1'>\
+									<img src='" + items[i].picture + "'>\
+									</a></div>\
+								<div><a href='/special?id=" + items[i].special_id + "&page=1'>" + items[i].name + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
 			$(refresh_tag).empty();
@@ -531,6 +545,9 @@
 		});
 		$('#bt-received-notification').click(function(){
 			homepage_refresh("received-notification-all", 1);
+		});
+		$('#bt-special').click(function(){
+			homepage_refresh("special-all", 1);
 		});
 	});
 

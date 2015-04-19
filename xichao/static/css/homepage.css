@@ -747,19 +747,23 @@ span#introduction-category{
 /*关注专栏*/
 /*我的粉丝部分*/
 #focus-user .focus-info, #focus-special .focus-info, #fans-all .focus-info{
+	margin-bottom: 20px;
+	font-size: 24px;
+}
+
+#focus-user .focus-info, #focus-special .focus-info, #fans-all .focus-info, #special-all .focus-info{
 	display: inline-block;
 	width: 144px;
 	padding: 0 10px 0 10px;
-	margin-bottom: 30px;
+	
 	/*float: left;*/
 
-	font-size: 24px;
 	line-height: 30px;
 	text-align: center;
 	vertical-align: top;
 }
 
-#focus-user > div img, #focus-special > div img, #fans-all > div img{
+#focus-user > div img, #focus-special > div img, #fans-all > div img, #special-all > div img{
 	width: 100px;
 	height: 100px;
 	border-radius: 100px;
@@ -768,9 +772,13 @@ span#introduction-category{
 	behavior: url(/static/css/PIE.htc);
 }
 
-.focus-info > div{
-	padding-bottom: 20px;
+
+/*我的专栏，往上看*/
+#special-all .content-box .focus-info > div{
+	margin-bottom: 20px;
+	font-size: 24px;
 }
+
 
 /*曦潮币部分*/
 #xichao-coin > .sub-tab h3{
