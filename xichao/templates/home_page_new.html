@@ -5,265 +5,268 @@
 	
 </div>
 
-<!-- 个人信息 -->
-<div id="homepage-info">
-	<!-- 四个主tab -->
-	<div id="info-main-tab" class="main-tab">	
-		<ul id="info-main-tab-ul" class="idTabs main-tab-ul"> 
-			<li><a id="bt-release" href="#release">发布</a></li> 
-			<li><a id="bt-draft" href="#draft">草稿箱</a>
-			<li><a id="bt-collection" href="#collection">收藏</a></li>
-			<li><a id="bt-focus" href="#focus">关注</a></li>
-			<li><a id="bt-xichao-coin" href="#xichao-coin">曦潮币</a></li> 
-		</ul> 
+<div id="information">
+	<!-- 个人信息 -->
+	<div id="homepage-info">
+		<!-- 四个主tab -->
+		<div id="info-main-tab" class="main-tab">	
+			<ul id="info-main-tab-ul" class="idTabs main-tab-ul"> 
+				<li><a id="bt-release" href="#release">发布</a></li> 
+				<li><a id="bt-draft" href="#draft">草稿箱</a>
+				<li><a id="bt-collection" href="#collection">收藏</a></li>
+				<li><a id="bt-focus" href="#focus">关注</a></li>
+				<li><a id="bt-xichao-coin" href="#xichao-coin">曦潮币</a></li> 
+			</ul> 
+		</div>
+
+		<!-- 子tab -->
+		<div id="info-sub-tabs" class="sub-tabs">
+			<!-- 发布tab -->
+			<div id="release">
+				<div class="sub-tab">
+					<!-- <div id="total-count">
+						Total:<span>123</span>
+					</div> -->
+					<ul class="idTabs">
+						<h3>类型：</h3>
+						<li><a class="selected" href="#release-article" id="bt-release-article">文章</a></li>
+						<li><a href="#release-comment" id="bt-release-comment">帖子</a></li>
+						<!-- <li><a href="#release-all" id="bt-release-all">全部</a></li> -->
+					</ul>
+					<!-- <ul class="idTabs">
+						<h3>排序：</h3>
+						<li><a class="selected" href="javascript:void(0);">时间</a></li>
+						<li><a href="javascript:void(0);">热度</a></li>
+					</ul> -->
+				</div>
+
+				<div class="sub-content">
+					<div id="release-article">
+						{#<!-- <div class='content-box'>
+						<div class='table-layout'>
+						{% for i in range(5) %}
+							<div class='table-row'>
+								<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
+								<div class='table-cell col-2'>评论&nbsp;(xx)</div>
+								<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;xx</div>
+								<div class='table-cell col-4'><a href='#'>删除</a></div>
+							</div>
+						{% endfor %}
+						</div></div> -->#}
+					</div>
+
+					<div id="release-comment">
+						{#<!-- <div class='content-box'>
+						<div class='table-layout'>
+						{% for i in range(5) %}
+							<div class='table-row'>
+								<div class='table-cell col-1'>“加班!”</div>
+								<div class='table-cell col-2'><a href='#'>《如何有效地应对需求频繁更改》</a></div>
+								<div class='table-cell col-3'>20xx-xx-xx xx:xx</div>
+								<div class='table-cell col-4'><a href='#'>删除</a></div>
+							</div>
+						{% endfor %}
+						</div></div>-->#}
+					</div>
+				</div>
+			</div>
+
+			<div id="draft">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
+				</div>
+
+				<div class="sub-content">
+					<div id="draft-all">
+						{#<!-- <div class='content-box'>
+						<div class='table-layout'>
+						{% for i in range(5) %}
+							<div class='table-row'>
+								<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
+								<div class='table-cell col-2'>20xx-xx-xx xx:xx</div>
+								<div class='table-cell col-3'><a href='#'>删除</a></div>
+							</div>
+						{% endfor %}
+						</div> </div>-->#}
+					</div>
+				</div>
+			</div>
+
+
+			<!-- 收藏tab -->
+			<div id="collection">
+				<div class="sub-tab">
+					<ul class="idTabs">
+						<h3>类型：</h3>
+						<li><a href="#collection-article" id="bt-collection-article">文章</a></li>
+						<li><a href="#collection-activity" id="bt-collection-activity">活动</a></li>
+					</ul>
+				</div>
+
+				<div class="sub-content">
+					<div id="collection-article">
+						{#<!-- <div class='content-box'>
+						<div class='table-layout'>
+						{% for i in range(5) %}
+							<div class='table-row'>
+								<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
+								<div class='table-cell col-2'><a href='#'>名字最长可能达到十位</a></div>
+								<div class='table-cell col-3'><a href='#'>删除</a></div>
+							</div>
+						{% endfor %}
+						</div> </div>-->#}
+					</div>
+
+					<div id="collection-activity">
+						{#<!-- <div class='content-box'>
+						<div class='table-layout'>
+						{% for i in range(5) %}
+							<div class='table-row'>
+								<div class='table-cell col-1'><a href='#'>曦潮交流会</a></div>
+								<div class='table-cell col-2'>20xx-xx-xx xx:xx</div>
+								<div class='table-cell col-3'><a href='#'>删除</a></div>
+							</div>
+						{% endfor %}
+						</div></div> -->#}
+					</div>
+				</div>
+			</div>
+
+			<!-- 关注tab -->
+			<div id="focus">
+				<div class="sub-tab">
+					<ul class="idTabs">
+						<h3>类型：</h3>
+						<li><a href="#focus-user" id="bt-focus-user">作者</a></li>
+						<li><a href="#focus-special" id="bt-focus-special">专栏</a></li>
+					</ul>
+				</div>
+
+				<div class="sub-content">
+					<div id="focus-user">
+						{#<!-- <div class='content-box'>
+						{% for i in range(8) %}
+							<div class='focus-info'>
+								<div><a href='#'><img src='/static/images/transparent-circle.png' style='background-image:url(/static/images/logo.jpg);' onmouseout='onMouseOutImage(this)' onmouseover='onMouseOverImage(this)'></a></div>
+								<div><a href='#'>名字最长可能达到十位</a></div>
+							</div>
+						{% endfor %} </div>-->#}
+					</div>
+
+					<div id="focus-special">
+						{#<!-- <div class='content-box'>
+						{% for i in range(8) %}
+							<div class='focus-info'>
+								<div><a href='#'><img src='/static/images/transparent-circle.png' style='background-image:url(/static/images/logo.jpg);' onmouseout='onMouseOutImage(this)' onmouseover='onMouseOverImage(this)'></a></div>
+								<div><a href='#'>名字最长可能达到十位</a></div>
+							</div>
+						{% endfor %}</div> -->#}
+					</div>
+				</div>
+			</div>
+
+			<!-- 曦潮币tab -->
+			<div id="xichao-coin">
+				<div class="sub-tab">
+					<ul class="idTabs">
+						<h3>我拥有的曦潮币：{{current_user.coin}}</h3>
+					</ul>
+				</div>
+
+				<div class="sub-content">
+					<div>可以兑换的产品：敬请期待!</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<!-- 子tab -->
-	<div id="info-sub-tabs" class="sub-tabs">
-		<!-- 发布tab -->
-		<div id="release">
-			<div class="sub-tab">
-				<!-- <div id="total-count">
-					Total:<span>123</span>
-				</div> -->
-				<ul class="idTabs">
-					<h3>类型：</h3>
-					<li><a class="selected" href="#release-article" id="bt-release-article">文章</a></li>
-					<li><a href="#release-comment" id="bt-release-comment">帖子</a></li>
-					<!-- <li><a href="#release-all" id="bt-release-all">全部</a></li> -->
-				</ul>
-				<!-- <ul class="idTabs">
-					<h3>排序：</h3>
-					<li><a class="selected" href="javascript:void(0);">时间</a></li>
-					<li><a href="javascript:void(0);">热度</a></li>
-				</ul> -->
-			</div>
+	<!-- 我的粉丝 -->
+	<div id="homepage-fans">
+		<!-- 四个主tab -->
+		<div id="fans-main-tab" class="main-tab">	
+			<ul id="fans-main-tab-ul" class="idTabs main-tab-ul"> 
+				<li><a id="bt-fans" href="#fans">我的粉丝</a></li> 
+			</ul> 
+		</div>
 
-			<div class="sub-content">
-				<div id="release-article">
-					{#<!-- <div class='content-box'>
-					<div class='table-layout'>
-					{% for i in range(5) %}
-						<div class='table-row'>
-							<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
-							<div class='table-cell col-2'>评论&nbsp;(xx)</div>
-							<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;xx</div>
-							<div class='table-cell col-4'><a href='#'>删除</a></div>
-						</div>
-					{% endfor %}
-					</div></div> -->#}
+		<!-- 子tab -->
+		<div id="fans-sub-tabs" class="sub-tabs">
+
+			<div id="fans">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
 				</div>
 
-				<div id="release-comment">
-					{#<!-- <div class='content-box'>
-					<div class='table-layout'>
-					{% for i in range(5) %}
-						<div class='table-row'>
-							<div class='table-cell col-1'>“加班!”</div>
-							<div class='table-cell col-2'><a href='#'>《如何有效地应对需求频繁更改》</a></div>
-							<div class='table-cell col-3'>20xx-xx-xx xx:xx</div>
-							<div class='table-cell col-4'><a href='#'>删除</a></div>
-						</div>
-					{% endfor %}
-					</div></div>-->#}
+				<div class="sub-content">
+					<div id="fans-all">
+						 {#<!-- <div class='content-box'>
+						{% for i in range(8) %}
+							<div class='focus-info'>
+								<div><a href='#'><img src='/static/images/logo.jpg'></a></div>
+								<div><a href='#'>名字最长可能达到十位</a></div>
+							</div>
+						{% endfor %} </div> -->#}
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div id="draft">
-			<div class="sub-tab">
-				<ul class="idTabs">
-				</ul>
-			</div>
-
-			<div class="sub-content">
-				<div id="draft-all">
-					{#<!-- <div class='content-box'>
-					<div class='table-layout'>
-					{% for i in range(5) %}
-						<div class='table-row'>
-							<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
-							<div class='table-cell col-2'>20xx-xx-xx xx:xx</div>
-							<div class='table-cell col-3'><a href='#'>删除</a></div>
-						</div>
-					{% endfor %}
-					</div> </div>-->#}
-				</div>
-			</div>
+	<!-- 消息中心 -->
+	<div id="homepage-news">
+		<!-- 四个主tab -->
+		<div id="news-main-tab" class="main-tab">	
+			<ul id="news-main-tab-ul" class="idTabs main-tab-ul"> 
+				<li><a id="bt-received-message" href="#received-message">收到的私信</a></li>
+				<li><a id="bt-received-comment" href="#received-comment">收到的评论</a></li> 
+				<li><a id="bt-received-notification" href="#received-notification">系统消息</a></li> 
+			</ul> 
 		</div>
 
+		<!-- 子tab -->
+		<div id="news-sub-tabs" class="sub-tabs">
 
-		<!-- 收藏tab -->
-		<div id="collection">
-			<div class="sub-tab">
-				<ul class="idTabs">
-					<h3>类型：</h3>
-					<li><a href="#collection-article" id="bt-collection-article">文章</a></li>
-					<li><a href="#collection-activity" id="bt-collection-activity">活动</a></li>
-				</ul>
-			</div>
-
-			<div class="sub-content">
-				<div id="collection-article">
-					{#<!-- <div class='content-box'>
-					<div class='table-layout'>
-					{% for i in range(5) %}
-						<div class='table-row'>
-							<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
-							<div class='table-cell col-2'><a href='#'>名字最长可能达到十位</a></div>
-							<div class='table-cell col-3'><a href='#'>删除</a></div>
-						</div>
-					{% endfor %}
-					</div> </div>-->#}
+			<div id="received-message">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
 				</div>
 
-				<div id="collection-activity">
-					{#<!-- <div class='content-box'>
-					<div class='table-layout'>
-					{% for i in range(5) %}
-						<div class='table-row'>
-							<div class='table-cell col-1'><a href='#'>曦潮交流会</a></div>
-							<div class='table-cell col-2'>20xx-xx-xx xx:xx</div>
-							<div class='table-cell col-3'><a href='#'>删除</a></div>
-						</div>
-					{% endfor %}
-					</div></div> -->#}
+				<div class="sub-content">
+					<div id="received-message-all">
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- 关注tab -->
-		<div id="focus">
-			<div class="sub-tab">
-				<ul class="idTabs">
-					<h3>类型：</h3>
-					<li><a href="#focus-user" id="bt-focus-user">作者</a></li>
-					<li><a href="#focus-special" id="bt-focus-special">专栏</a></li>
-				</ul>
-			</div>
-
-			<div class="sub-content">
-				<div id="focus-user">
-					{#<!-- <div class='content-box'>
-					{% for i in range(8) %}
-						<div class='focus-info'>
-							<div><a href='#'><img src='/static/images/transparent-circle.png' style='background-image:url(/static/images/logo.jpg);' onmouseout='onMouseOutImage(this)' onmouseover='onMouseOverImage(this)'></a></div>
-							<div><a href='#'>名字最长可能达到十位</a></div>
-						</div>
-					{% endfor %} </div>-->#}
+			<div id="received-comment">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
 				</div>
 
-				<div id="focus-special">
-					{#<!-- <div class='content-box'>
-					{% for i in range(8) %}
-						<div class='focus-info'>
-							<div><a href='#'><img src='/static/images/transparent-circle.png' style='background-image:url(/static/images/logo.jpg);' onmouseout='onMouseOutImage(this)' onmouseover='onMouseOverImage(this)'></a></div>
-							<div><a href='#'>名字最长可能达到十位</a></div>
-						</div>
-					{% endfor %}</div> -->#}
+				<div class="sub-content">
+					<div id="received-comment-all">
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- 曦潮币tab -->
-		<div id="xichao-coin">
-			<div class="sub-tab">
-				<ul class="idTabs">
-					<h3>我拥有的曦潮币：{{current_user.coin}}</h3>
-				</ul>
-			</div>
+			<div id="received-notification">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
+				</div>
 
-			<div class="sub-content">
-				<div>可以兑换的产品：敬请期待!</div>
+				<div class="sub-content">
+					<div id="received-notification-all">
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- 我的粉丝 -->
-<div id="homepage-fans">
-	<!-- 四个主tab -->
-	<div id="fans-main-tab" class="main-tab">	
-		<ul id="fans-main-tab-ul" class="idTabs main-tab-ul"> 
-			<li><a id="bt-fans" href="#fans">我的粉丝</a></li> 
-		</ul> 
-	</div>
-
-	<!-- 子tab -->
-	<div id="fans-sub-tabs" class="sub-tabs">
-
-		<div id="fans">
-			<div class="sub-tab">
-				<ul class="idTabs">
-				</ul>
-			</div>
-
-			<div class="sub-content">
-				<div id="fans-all">
-					 {#<!-- <div class='content-box'>
-					{% for i in range(8) %}
-						<div class='focus-info'>
-							<div><a href='#'><img src='/static/images/logo.jpg'></a></div>
-							<div><a href='#'>名字最长可能达到十位</a></div>
-						</div>
-					{% endfor %} </div> -->#}
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- 消息中心 -->
-<div id="homepage-news">
-	<!-- 四个主tab -->
-	<div id="news-main-tab" class="main-tab">	
-		<ul id="news-main-tab-ul" class="idTabs main-tab-ul"> 
-			<li><a id="bt-received-message" href="#received-message">收到的私信</a></li>
-			<li><a id="bt-received-comment" href="#received-comment">收到的评论</a></li> 
-			<li><a id="bt-received-notification" href="#received-notification">系统消息</a></li> 
-		</ul> 
-	</div>
-
-	<!-- 子tab -->
-	<div id="news-sub-tabs" class="sub-tabs">
-
-		<div id="received-message">
-			<div class="sub-tab">
-				<ul class="idTabs">
-				</ul>
-			</div>
-
-			<div class="sub-content">
-				<div id="received-message-all">
-				</div>
-			</div>
-		</div>
-
-		<div id="received-comment">
-			<div class="sub-tab">
-				<ul class="idTabs">
-				</ul>
-			</div>
-
-			<div class="sub-content">
-				<div id="received-comment-all">
-				</div>
-			</div>
-		</div>
-
-		<div id="received-notification">
-			<div class="sub-tab">
-				<ul class="idTabs">
-				</ul>
-			</div>
-
-			<div class="sub-content">
-				<div id="received-notification-all">
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 
 {% endblock %}

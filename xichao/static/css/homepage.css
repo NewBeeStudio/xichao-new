@@ -401,6 +401,11 @@ ul{
 }
 
 
+/*个人信息部分*/
+#information{
+	padding-top: 50px;
+}
+
 /*个人信息四个主分类tab*/
 .main-tab, .sub-tabs{
 	font-family: 微软雅黑; 

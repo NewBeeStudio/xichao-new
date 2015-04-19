@@ -34,6 +34,7 @@
 
 <!-- 发布，收藏，关注，粉丝，个人信箱AJAX -->
 <script type="text/javascript">
+	//category命名，all后缀代表主tab下只有一项(如draft)，其余代表主tab下有多项（如release-article）
 	//获取删除url
 	function get_delete_url(category, item_id){ //item_id只用于focus-special
 		var delete_url;
@@ -96,7 +97,7 @@
 		return refresh_url;
 	}
 
-	//获取对应的id标签
+	//获取对应的id标签，标签名为#+category
 	function get_refresh_tag(category){
 		var id = "#" + category;
 		return id;
@@ -405,22 +406,24 @@
 		});
 	});
 
+	//通过最顶上navbar点击进行的后台ajax
 	function navbar_click(){
 		var locationHash = window.location.hash;
 		// alert(locationHash);
+		var transitionTime = 500;
 		if(locationHash == '#fans'){
 			if($('#homepage-fans').css('display') == 'none'){
-				$('#homepage-info').fadeOut(100);
-				$('#homepage-news').fadeOut(100);
-				$('#homepage-fans').fadeIn(100);
+				$('#homepage-info').slideUp(transitionTime);
+				$('#homepage-news').slideUp(transitionTime);
+				$('#homepage-fans').slideDown(transitionTime);
 			}
 			$('#bt-fans').trigger("click");
 		}
 		else if(locationHash == '#received-message' || locationHash == '#received-comment' || locationHash == '#received-notification'){
 			if($('#homepage-news').css('display') == 'none'){
-				$('#homepage-info').fadeOut(100);
-				$('#homepage-fans').fadeOut(100);
-				$('#homepage-news').fadeIn(100);
+				$('#homepage-info').slideUp(transitionTime);
+				$('#homepage-fans').slideUp(transitionTime);
+				$('#homepage-news').slideDown(transitionTime);
 			}
 			if(locationHash == '#received-message'){
 				$('#bt-received-message').trigger("click");
@@ -437,9 +440,9 @@
 		}
 		else{
 			if($('#homepage-info').css('display') == 'none'){
-				$('#homepage-fans').fadeOut(100);
-				$('#homepage-news').fadeOut(100);
-				$('#homepage-info').fadeIn(100);
+				$('#homepage-fans').slideUp(transitionTime);
+				$('#homepage-news').slideUp(transitionTime);
+				$('#homepage-info').slideDown(transitionTime);
 			}
 
 			if(locationHash == '#release-article'){
@@ -478,7 +481,7 @@
 		}
 		
 
-		window.location.hash = '#'; //跳转到合适的位置
+		window.location.hash = '#information'; //跳转到合适的位置
 	}
 
 	//navbar点击后触发AJAX（模拟点击发布按钮）
