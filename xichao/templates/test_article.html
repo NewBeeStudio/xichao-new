@@ -213,18 +213,7 @@
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 
 
-<script type="text/javascript">
 
-	$(function(){
-		$d = $("#input_publish_review").val();
-		$d.designMode="on";
-    	$d.contentEditable= true;
-    	$d.open();
-    	$d.close();
-	});
-
-
-</script>  
 
 
 <!--获取评论内容，更新数据库，返回评论时间-->
@@ -327,9 +316,8 @@ function get_user_id() {
 }
 
 function add_commit(data, val_content,to_user_id) {
-	var d=jQuery.parseJSON(data);
-	var time=d.time;
-	var cid=d.comment_id;
+	var time=data.time;
+	var cid=data.comment_id;
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	//console.log(time+" "+cid+" "+val_content)
@@ -339,10 +327,8 @@ $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'
 
 
 function add_reply(data,val_content,val_user_id,reply_to_comment_id){
-
-	var d=jQuery.parseJSON(data);
-	var time=d.time;
-	var cid=d.comment_id;
+	var time=data.time;
+	var cid=data.comment_id;
  	var location="comment-"+reply_to_comment_id;
 
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"

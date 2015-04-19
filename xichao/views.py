@@ -1154,7 +1154,7 @@ def comment():
     update_comment_num(article_id,True)
     time=str(datetime.now()).rsplit('.',1)[0]
     comment_id=get_current_comment_id()
-    return json.dumps({'time':time,'comment_id':comment_id})
+    return jsonify(time=time,comment_id=comment_id)
 
 @app.route('/activity/comment',methods=['POST'])
 def comment_activity():
