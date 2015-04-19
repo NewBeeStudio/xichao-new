@@ -6,95 +6,64 @@
 
 <!--content-->
 {% block content %}
- 
+ <!--
     <div id="special-search">
     <p>搜索专栏</p>
     <form action="/special_search" method="get">
         <input type="text" name="search" />
     </form>
     </div>
+-->
 
+<div id="seperator"></div>
 
+<div id="display-all" style="margin-top: 25px">
+    <h1 style="font-size:27px;margin-bottom:30px">搜索结果:</h1>
     {% set special_num = 1 %}
     {% for special in specials_pagination.items %}
     {% set special_num = special_num + 1 %}
-    
-	<!-- 专栏 -->
-	<div class="special-part1">
-		<!-- 专栏标题图片 -->
-		<div class="special-part1-left" style = "
-		{% if special_num%2 == 0 %}
-		float: left;
-		{% else %}
-		float: right;
-		{% endif %}
-		">
-			<h2></h2>
-			
-			<img id="special-part1-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"
-			style="background-image: url({{ special.picture | safe }});"/>
-			<div></div>
-		</div>
 
-		<!-- 内容 -->
-		<div class="special-part1-right" style= "
-		{% if special_num%2 == 0 %}
-		float: right;
-		{% else %}
-		float: left;
-		{% endif %}
-		">
-			<div id="special-part1-content" style="width:703px">
-			
-			<h2>
-			        {{ special.name }}
-			</h2>
-			<hr />
-            <div id="author-coin">
+    <div class="special-allView-element" style="
+        {% if (special_num-1)%4 != 0 %}
+            margin-right: 40px;
+        {% endif %}
+                                                ">
+
+    {% if ((special_num-2) % 8 > 2) and ((special_num-2) % 4 == 0) %}
+    <div class="long-background special_background_allView">
+    </div>
+    {% endif %}
+    
+    <div class="special-allView-pic-circle" style="background-image: url({{ url_for('static', filename='images/special-all-left-border-small.png') }});background-repeat:no-repeat;">
+   <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time" >
+			<img class="special-allView-pic" src="{{ special.picture | safe }}"/>
+			</a>
+</div>
+        <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
+        <h2>{{ special.name }}</h2>
+        </a>
+        <img src="{{ url_for('static', filename='images/special-right-line.png')}}" style="margin-top: -35px;">
+        
+            <div id="author-coin-allView">
 			<h4>
-			    by:&nbsp;&nbsp;{{ author(special.user_id).nick }}
-			    &nbsp;&nbsp;
-			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
+			    &nbsp;&nbsp;{{ author(special.user_id).nick }}
+			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}" style="height: 20px; width: 20px;">
                 {{ special.coin }}
 			</h4>
 			</div>
-			
-            <p>
-                    &nbsp;&nbsp;&nbsp;&nbsp; 专栏介绍：
-                    {{ special.introduction | safe }}
-            </p>
-            <br>    
-            <br>
-            
-            
-            <table id="latest-article" style="
-            background-image: url({{ url_for('static', filename='images/special_list_border.png') }});">
-                <tr>
-                <td height="40"><i>最新文章:</i></td>
-                </tr>
-                {% for article in articles(special.special_id, 1, "time", 3).items %}
-                  <tr>
-                    <td width="380">    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </td>
-                    <td width="170" style="color:grey;">{{ article.time | time_split_5 }}</td>
-                    <td>
-                    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
-                    {{ article.coins }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            
-            
-			</div>
-			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">进入专栏&gt;</a>
-		</div>
-	
-	</div>
-
-
+    </div>
     {% endfor %}
     
+    {% if specials_pagination.items == [] %}
+    <div style="margin-left: 20px; font-size: 20px">
+        对不起，没有搜索到相关专栏
+    </div>
+    {% endif %}
     
+    <div style="clear:both;"></div>
+
+</div>
+
 {% endblock %}
 
 <!--js file used-->
@@ -102,6 +71,55 @@
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
 
+$(document).ready(function(){
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    })(jQuery);
+    
+    var Order = $.getUrlParam('sort');
+    if (Order == "time"){
+        $("#sort_by_time").attr("selected", "selected");
+    } else{
+        $("#sort_by_favor").attr("selected", "selected");
+    }
+    
+});
 
+$("#sort").change(function(){
+    location.href = "{{sort_change_url | safe}}";
+});
+
+    
+$(".change-display-type").click(function(){
+    location.href = "{{view_change_url | safe}}";
+    /*
+    var wasFocus = $(this).attr("class");
+    var thisID = $(this).attr("id");
+    var otherID;
+    if (thisID == "change-display-list")
+        otherID = "#change-display-all";
+    else
+        otherID = "#change-display-list";
+
+//    alert(thisID);
+//    alert(otherID);
+    if (wasFocus == "change-display-type"){
+        $(this).attr("class", "change-display-type active");
+        $(otherID).attr("class", "change-display-type");
+        
+        if (otherID == "#change-display-list"){
+            $("#display-list").css("display", "none");
+            $("#display-all").css("display", "inline");
+        } else{
+            $("#display-list").css("display", "inline");
+            $("#display-all").css("display", "none");
+        }
+    }
+    */
+});
 </script>
 {% endblock %}

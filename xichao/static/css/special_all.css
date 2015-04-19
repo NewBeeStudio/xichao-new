@@ -22,14 +22,22 @@
 */
 
 #special-search{
-    margin-top: 51px;
+    margin-top: 10px;
     float: left;
-    font-family: 微软雅黑;
-    font-size: 20px;
+    font-family: 黑体;
+    font-size: 22px;
+    width: 270px;
+
+}
+#special-search p{
+    float: left;
+    margin-top: 8px;
 }
 
 #special-search  input{
     height: 25px;
+    float: right;
+    width: 200px;
 }
 
 
