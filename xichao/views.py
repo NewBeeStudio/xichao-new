@@ -1207,9 +1207,26 @@ def article_group_favor(group_id,category_id,page_id=1):
 ##活动主页
 @app.route('/activity')
 def activity_main():
-	current_activity_list=get_current_activity_list(datetime.now())
-	passed_activity_list=get_passed_activity_list(datetime.now())
-	return render_template('activity.html',current_activity_list=current_activity_list,passed_activity_list=passed_activity_list)
+#	current_activity_list=get_current_activity_list(datetime.now())
+#	passed_activity_list=get_passed_activity_list(datetime.now())
+#	return render_template('activity.html',current_activity_list=current_activity_list,passed_activity_list=passed_activity_list)
+    try:
+        sort = request.args.get('sort')
+        page_id = int(request.args.get('page'))
+    except Exception:
+        abort(404)
+
+    if sort != 'favor':
+        sort = 'time'
+        sort_change_url = '/activity?sort=favor&page=1'
+    else:
+        sort_change_url = '/activity?sort=time&page=1'
+    current_activity_list=get_current_activity_list(datetime.now())
+    passed_activity_list=get_passed_activity_pagination(sort, page_id, 5)
+    return render_template('activity.html', sort = sort, 
+                            sort_change_url = sort_change_url,
+                            current_activity_list = current_activity_list,
+                            passed_activity_list = passed_activity_list)
 
 ##读取活动
 @app.route('/activity/<int:activity_id>')

@@ -208,6 +208,14 @@ def create_activity(title,content,title_image,activity_session_id,activity_time,
 		result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).first()
 		return result.activity_id
 
+def get_passed_activity_pagination(sort, page_id, perpage):
+    if sort == 'time':
+        query = db_session.query(Activity).order_by(Activity.activity_time.desc(), Activity.favor.desc())
+    else:
+        query = db_session.query(Activity).order_by(Activity.favor.desc(), Activity.activity_time.desc())
+    return paginate(query = query, page = page_id, per_page = perpage, error_out = True)
+
+
 def get_user_id(nick):
 	user_id=db_session.query(User.user_id).filter_by(nick=nick).first()
 	return user_id[0]
