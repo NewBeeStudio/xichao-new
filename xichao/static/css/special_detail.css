@@ -74,7 +74,7 @@
 #special-introduction-table{
     font-size: 14px;
     margin-left: 10px;
-    margin-top: 25px;
+    margin-top: 10px;
 }
 /*
 #special-introduction p{
@@ -205,8 +205,8 @@
 }	
 
 #special-author-inner img{
-    margin-left: 20px;
-    margin-top: 20px;
+    margin-left: 27px;
+    margin-top: 27px;
 	width: 125px;
 	height: 125px;
 
@@ -215,13 +215,13 @@
 }
 
 #special-author-right{
-    width: 160px;
+    width: 170px;
     height: 260px;
     margin-top: 50px;
     overflow-y: hidden;
     border-left: 1px solid #D9AE48;
     float: left;
-    margin-left: 190px;
+    margin-left: 180px;
 }
 
 #special-author-right > p{
@@ -237,7 +237,7 @@
 #special-author-right > a{
     color: grey;
     font-size: 13px;
-    margin-left: 16px;
+    margin-left: 10px;
     margin-top: 10px;
     height: 18px;
     overflow: hidden;
@@ -253,7 +253,7 @@
 }
 
 #special-author-inner h2{
-	margin: 160px 0px 0px 5px;
+	margin: 160px 0px 0px 14px;
 
 	font-family: 黑体;
 	font-size: 18px;
@@ -264,7 +264,7 @@
 }
 
 #special-author-inner input{
-	margin: 10px 0 0 35px;
+	margin: 10px 0 0 40px;
     width: 105px;
     height: 35px;
     background-color: white;
@@ -333,7 +333,7 @@
 }
 
 .special-article-entry{
-    height: 160px;
+    height: 140px;
     margin-left: 10px;
     margin-right: 10px;
     /*border-bottom: 1px solid #D9AE48;*/
@@ -351,8 +351,8 @@
 }
 
 #special-article h3{
-	margin-top: 20px;
-	margin-bottom: 25px;
+	margin-top: 5px;
+	margin-bottom: 15px;
 	color: #D9AE48;
 	font-size: 22px;
     font-family: 黑体;
