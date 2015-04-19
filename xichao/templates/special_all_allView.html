@@ -74,14 +74,19 @@
     <div id="special-paging"> 
         <nav>
             <ul class="pager">
-                {% if specials_pagination_all.has_prev %}
-                <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_all.prev_num }}">上一页</a></li>
-                {% endif %}
+                
+                <li>
+                <a href="/special_all?view={{view}}&sort={{sort}}&page=1">
+                       首页</a></li>
+                <li {% if not specials_pagination_all.has_prev %}class="disabled"{%endif%}>
+                <a {% if specials_pagination_all.has_prev %} href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_all.prev_num }}"{%endif%}>
+                       上一页</a></li>
+                
                 <li>{{ specials_pagination_all.page }} / {{specials_pagination_all.pages }}</li>
                 
-                {% if specials_pagination_all.has_next %}
-                <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_all.next_num }}">下一页</a> </li>
-                {% endif %}
+                <li {% if not specials_pagination_all.has_next %}class="disabled"{%endif%}><a {% if specials_pagination_all.has_next %}href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_all.next_num }}"{%endif%}>下一页</a>                     </li>
+                <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{specials_pagination_all.pages}}">末页</a>                     </li>
+                
             </ul>
         </nav>
     </div>

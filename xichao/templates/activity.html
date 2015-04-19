@@ -100,27 +100,21 @@ terminal进入到xichao-new，再进入到xichao
     <div id="activity-paging"> 
         <nav class="pager"> 
         <li>
-            {% if passed_activity_list.has_prev %}
+            
                 <a href="/activity?sort={{sort}}&page=1">首页</a> 
-            {% endif %}  
+         
         </li>
-        <li>           
-            {% if passed_activity_list.has_prev %}
-                <a href="/activity?sort={{sort}}&page={{ passed_activity_list.prev_num }}">上一页</a> 
-            {% endif %} 
+        <li {% if not passed_activity_list.has_prev %}class="disabled"{%endif%}>           
+                <a {% if passed_activity_list.has_prev %}href="/activity?sort={{sort}}&page={{ passed_activity_list.prev_num }}"{%endif%}>上一页</a> 
         </li>
         <li> 
             {{ passed_activity_list.page }} / {{passed_activity_list.pages }}
         </li> 
-        <li>
-            {% if passed_activity_list.has_next %} 
-                <a href="/activity?sort={{sort}}&page={{ passed_activity_list.next_num }}">下一页</a> 
+        <li {% if not passed_activity_list.has_next %}class="disabled"{%endif%}>
+            <a {% if passed_activity_list.has_next %} href="/activity?sort={{sort}}&page={{ passed_activity_list.next_num }}" {% endif %} >下一页</a> 
         </li>
         <li>
-            {% endif %} 
-            {% if passed_activity_list.has_next %} 
-                <a href="/activity?sort={{sort}}&page={{ passed_activity_list.pages }}">末页</a> 
-            {% endif %}
+            <a href="/activity?sort={{sort}}&page={{ passed_activity_list.pages }}">末页</a> 
         </li> 
         </nav> 
     </div>

@@ -546,6 +546,6 @@
 	font-size: 16.7px;
 }
 
-#special-paging a:hover{
+.pager li>a:hover{
     background-color: #D9AE48;
 }
