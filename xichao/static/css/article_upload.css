@@ -90,6 +90,9 @@
 }
 
 #button_upload_pic {
+	font-family: 微软雅黑;
+	font-size: 15px;
+	border-radius: 2px;
 	margin-right: 75%;
 	margin-left: 30px;
 	margin-top: 20px;
@@ -201,12 +204,20 @@
 	margin-top: 18%;
 }
 
-#buttons {
+#search_book_button{
 	font-family: 微软雅黑;
-	font-size: 14px;
-	font-weight: bold;
+	font-size: 15px;
+	border-radius: 2px;
+}
+
+#buttons {
 	margin-top: 50px;
 	padding-left: 340px;
+}
+#buttons a{
+	font-family: 微软雅黑;
+	font-size: 15px;
+	border-radius: 2px;
 }
 
 #button_upload_cancel {
@@ -341,6 +352,10 @@
             max-width: 100%;
             width: auto;
             position: relative;
+        }
+        .search_book_result a:hover{
+        	cursor: pointer;
+        	border: 1px solid #D9AE48;
         }
         #selected_book_info{
             float:left;

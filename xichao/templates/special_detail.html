@@ -180,7 +180,7 @@
                 &nbsp;&nbsp;该作者没有其他文章
             {% endif %}
             {% for article in other %}
-            <a href="/article/{{article[1]}}">{{article[0]}}</a>
+            <a href="{{ url_for('article', article_id=article[1])}}">{{article[0]}}</a>
             {% endfor %}
         </div>
 	</div>
@@ -217,7 +217,7 @@
 		<!-- 专栏文章 -->
 		<div  id="special-article">
             {%- for entry in articles_pagination.items %}
-            <a class="thumbnail"href="article/{{ entry.article_id }}">
+            <a class="thumbnail"href="{{ url_for('article', article_id=entry.article_id)}}">
         		<div class="special-article-entry">
         			<h3>{{ entry.title }}</h3>
         			<p>{{ entry.abstract }}</p>

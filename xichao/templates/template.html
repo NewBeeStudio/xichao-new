@@ -85,8 +85,8 @@ background-image: url('{{url_for('static', filename='images/index-up-middle-laye
         {% set count = 0 %}
         {% for article in hot_articles %}
         {% set count = count + 1 %}
-        <a class="thumbnail index-hot-entry"href="#">
-        <div class="">
+        <a class="thumbnail index-hot-entry"href="{{ url_for('article', article_id=article.article_id)}}">
+        <div>
             <div class="index-hot-entry-left" style="
 background-image: url('{{article.picture | safe}}');">
                 <div class="index-hot-entry-left-num">
