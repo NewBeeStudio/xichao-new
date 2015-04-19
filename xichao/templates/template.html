@@ -88,7 +88,8 @@ background-image: url('{{url_for('static', filename='images/index-up-middle-laye
         <a class="thumbnail index-hot-entry"href="{{ url_for('article', article_id=article.article_id)}}">
         <div>
             <div class="index-hot-entry-left" style="
-background-image: url('{{article.picture | safe}}');">
+background-image: url('{{article.picture | safe}}');
+background-size: 100%, 100%">
                 <div class="index-hot-entry-left-num">
                     {{count}}
                 </div>
