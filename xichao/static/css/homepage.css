@@ -395,15 +395,77 @@ ul{
 	text-decoration: none;
 }
 
-#homepage-info, #homepage-fans, #homepage-news{
-	display: none;
-	position: relative;
+/*个人介绍部分*/
+#introduction{
+	font-family: 黑体;
+	min-height: 300px;
+	background-image: url(/static/images/homepage-decoration.png);
+	background-size: 100% 100%;
 }
 
+/*个人介绍部分，注意分辨率兼容*/
+#introduction > div{
+	width: 920px;
+	height: 300px;
+	margin: auto;
+	padding: 70px 120px 70px 120px;
+	/*border: 1px solid #000;*/
+}
+
+/*左侧图*/
+#introduction-left{
+	float: left;
+}
+
+#introduction-left > img{
+	width: 200px;
+	height: 200px;
+	border-radius: 100px;
+}
+
+#introduction-left > div{
+	text-align: center;
+	margin-top: 30px;
+	font-size: 16px;
+}
+
+#introduction-left > div > a, #introduction-left > div > a:hover{
+	color: #888;
+}
+
+/*右侧介绍*/
+#introduction-right{
+	margin-left: 280px;
+	margin-top: 40px;
+}
+
+span#introduction-name{
+	font-size: 25px;
+}
+
+span#introduction-category{
+	margin-left: 20px;
+	font-size: 16px;
+	color: #D9AE48;
+}
+
+#introduction-slogon{
+	margin-top: 50px;
+	margin-left: 40px;
+	margin-right: 40px;
+
+	font-size: 22px;
+	line-height: 30px;
+}
 
 /*个人信息部分*/
 #information{
 	padding-top: 50px;
+}
+
+#homepage-info, #homepage-fans, #homepage-news{
+	display: none;
+	position: relative;
 }
 
 /*个人信息四个主分类tab*/
