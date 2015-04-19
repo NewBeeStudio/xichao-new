@@ -216,7 +216,7 @@
 <script type="text/javascript">
 
 	$(function(){
-		$d =$("#input_publish_review").val();
+		$d = $("#input_publish_review").val();
 		$d.designMode="on";
     	$d.contentEditable= true;
     	$d.open();
@@ -327,28 +327,28 @@ function get_user_id() {
 }
 
 function add_commit(data, val_content,to_user_id) {
-	var d=JSON.parse(data);
+	var d=jQuery.parseJSON(data);
 	var time=d.time;
 	var cid=d.comment_id;
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	//console.log(time+" "+cid+" "+val_content)
 $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
-					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></li></div>')
+					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></div></li></div>')
 }
 
 
 function add_reply(data,val_content,val_user_id,reply_to_comment_id){
 
-	var d=JSON.parse(data);
+	var d=jQuery.parseJSON(data);
 	var time=d.time;
 	var cid=d.comment_id;
- var location="comment-"+reply_to_comment_id;
+ 	var location="comment-"+reply_to_comment_id;
 
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"
  if($("#"+location+" ul li:last").length!==0)
  {$("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复  </button>'+time+'</p></div></li>')
+ 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复  </button>'+time+'</p></div></div></li>')
 
 }
 else {
@@ -359,9 +359,9 @@ else {
 												'<a class="pull-left" href="'+homeurl+
  												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+
  													val_content+
- 												'</pre></div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
- 													')">回复  </button>'+time+
-														'</p></div></li></ul>')
+ 												'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
+ 													')">回复</button>'+time+
+														'</p></div></div></li></ul>')
 }
 
 
