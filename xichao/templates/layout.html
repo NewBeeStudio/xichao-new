@@ -142,19 +142,19 @@
                 </div>
                     
                 <div id="nav-bar-right">
-                    <div id="nav-bar-search">
+                    {#<div id="nav-bar-search">
                         <form action="#" method="post">
                             <input type="text" name="search">
                         </form>
-                    </div>
+                    </div>#}
                     
 
                     <div id="navbar-main" class="navbar navbar-default">
-                        <ul class="nav navbar-nav" style="width: 100%;">
+                        <ul class="nav navbar-nav">
                             <li><a href="{{url_for('index')}}">首页</a></li>
                             <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
                             <li><a href="{{url_for('activity_main')}}?sort=time&page=1">活动</a></li>
-                            <li class="dropdown">
+                            {#<li class="dropdown">
                                 <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-hover="dropdown">观点 <b class="caret"></b></a>
                                 <ul class="dropdown-menu menu-min-width">
                                     <li><a href="{{url_for('opinion')}}#book_review">书评</a></li>
@@ -163,7 +163,7 @@
                                     <li class="divider"></li>
                                     <li><a href="{{url_for('opinion')}}#essay">杂文</a></li>
                                 </ul>
-                            </li>
+                            </li>#}
                             <li class="dropdown">
                                 <a href="{{url_for('square')}}" class="dropdown-toggle" data-hover="dropdown">广场 
                                 <b class="caret"></b>

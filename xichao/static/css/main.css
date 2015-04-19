@@ -75,16 +75,16 @@ ul{
 }
 
 #nav-bar-header{
-    height: 100px;
+    height: 75px;
     width: 100%;
     padding-top: 40px;
 }
 
 #nav-bar-logo{
     float: left;
-    width: 160px;
-    height: 80px;
-    margin-top: 20px;
+    width: 120px;
+    height: 60px;
+    margin-top: 10px;
     /*margin-top: 10px;*/
 }
 
@@ -261,7 +261,7 @@ input:focus{
 /*个人信息栏相关css*/
 #navbar-info {
     height: 40px;
-    background-color: #444;
+    background-color: #252525;
     z-index: 1000;
     position: fixed; 
     width: 100%;
@@ -325,9 +325,13 @@ src: url(../fonts/liukai-small.ttf);
 }
 
 #navbar-main{
-    margin-top: 20px;
+    margin-top: 40px;
     font: 22px liukai, KaiTi, STKaiti;
     font-weight: bold;
+}
+
+#navbar-main > .nav{
+    float: right;
 }
 
 #navbar-main > .nav > li > a{
@@ -367,6 +371,7 @@ src: url(../fonts/liukai-small.ttf);
 
 /*导航栏下分割线*/
 #parting-line{
+    line-height: 0;
     /*margin-top: 10px;*/
 }
 
@@ -378,7 +383,7 @@ src: url(../fonts/liukai-small.ttf);
 /*footer*/
 #footer{
     margin-top: 20px;
-    background-color: #444;
+    background-color: #252525;
 }
 
 #footer > div{
@@ -421,6 +426,7 @@ src: url(../fonts/liukai-small.ttf);
 }
 
 #footer-statement{
+    padding-bottom: 10px;
     text-align: center;
     font: 15px 微软雅黑;
     color: #aaa;
