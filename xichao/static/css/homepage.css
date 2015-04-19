@@ -647,3 +647,20 @@ ul{
     float: left;
     line-height: 50px;
 }
+
+#news-sub-tabs .content-top{
+	margin-bottom: 20px
+}
+
+#news-sub-tabs .content-bottom{
+	margin-bottom: 20px;
+	text-align: right;
+}
+
+#news-sub-tabs .content-bottom > span{
+	margin-left: 20px;
+}
+
+#news-sub-tabs .content-bottom > span > a{
+	margin: 0 10px 0 10px;
+}

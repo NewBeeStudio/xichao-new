@@ -346,6 +346,56 @@
 				}
 				text += "</div>";
 			}
+			else if(category == "received-message-all"){
+				var items_message = data.rows_message;
+				var items_user = data.rows_user;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_user.length; ++i){
+					text += "<div>\
+								<div class='content-top'>“" + items_message[i].content + "”</div>\
+								<div class='content-bottom'>\
+									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></span>\
+									<span>" + items_message[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items_message[i].message_id + "," + page_id + "," + items_message.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+				}
+				text += "</div>";
+			}
+			else if(category == "received-comment-all"){
+				var items_comment = data.rows_comment;
+				var items_user = data.rows_user;
+				var items_article = data.rows_article;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_article.length; ++i){
+					text += "<div>\
+								<div class='content-top'>“" + items_comment[i].content + "”</div>\
+								<div class='content-bottom'>\
+									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a>评论<a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></span>\
+									<span>" + items_comment[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_article.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+				}
+				text += "</div>";
+			}
+			else if(category == "received-notification-all"){
+				var items=data.rows;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div>\
+								<div class='content-top'>" + items[i].content + "</div>\
+								<div class='content-bottom'>\
+									<span>" + items[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items[i].message_id + "," + page_id + "," + items.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+				}
+				text += "</div>";
+			}
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
 			$(refresh_tag).empty();
