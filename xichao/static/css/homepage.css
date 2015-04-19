@@ -395,6 +395,10 @@ ul{
 	text-decoration: none;
 }
 
+.pagination ul > li > a:hover{
+	background-color: #D9AE48;
+}
+
 /*封面部分*/
 #cover{
 	width: 100%;
@@ -477,7 +481,8 @@ ul{
 /*个人介绍部分*/
 #introduction{
 	font-family: 黑体;
-	margin-top: 50px;
+	margin-top: 0;
+	margin-bottom: -50px;
 	min-height: 300px;
 	background-image: url(/static/images/homepage-decoration.png);
 	background-size: 100% 100%;
@@ -544,8 +549,13 @@ span#introduction-category{
 	padding-top: 50px;
 }
 
-#homepage-info, #homepage-fans, #homepage-news{
+#homepage-settings, #homepage-fans, #homepage-news{
 	display: none;
+	position: relative;
+}
+
+#homepage-info{
+	display: block;
 	position: relative;
 }
 
@@ -746,19 +756,23 @@ span#introduction-category{
 /*关注专栏*/
 /*我的粉丝部分*/
 #focus-user .focus-info, #focus-special .focus-info, #fans-all .focus-info{
+	margin-bottom: 20px;
+	font-size: 24px;
+}
+
+#focus-user .focus-info, #focus-special .focus-info, #fans-all .focus-info, #special-all .focus-info{
 	display: inline-block;
 	width: 144px;
 	padding: 0 10px 0 10px;
-	margin-bottom: 30px;
+	
 	/*float: left;*/
 
-	font-size: 24px;
 	line-height: 30px;
 	text-align: center;
 	vertical-align: top;
 }
 
-#focus-user > div img, #focus-special > div img, #fans-all > div img{
+#focus-user > div img, #focus-special > div img, #fans-all > div img, #special-all > div img{
 	width: 100px;
 	height: 100px;
 	border-radius: 100px;
@@ -767,9 +781,13 @@ span#introduction-category{
 	behavior: url(/static/css/PIE.htc);
 }
 
-.focus-info > div{
-	padding-bottom: 20px;
+
+/*我的专栏，往上看*/
+#special-all .content-box .focus-info > div{
+	margin-bottom: 20px;
+	font-size: 24px;
 }
+
 
 /*曦潮币部分*/
 #xichao-coin > .sub-tab h3{
@@ -807,3 +825,99 @@ span#introduction-category{
 #news-sub-tabs .content-bottom > span > a{
 	margin: 0 10px 0 10px;
 }
+
+/*个人信息修改*/
+#basicinfo-img{
+	float: left;
+	width: 100px;
+	height: 100px;
+	font-family: 黑体;
+}
+
+#basicinfo-img > img{
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+
+a#change-photo{
+	display: block;
+	text-align: center;
+	margin-top: 20px;
+	font-size: 18px;
+}
+
+#basicinfo-detail{
+	margin-left: 240px;
+}
+
+#basicinfo-detail > div{
+	height: 45px;
+}
+
+#basicinfo-detail > div > label{
+	font-size: 22px;
+	text-align: left;
+
+	display: inline-block;
+	width: 120px;
+	vertical-align: top;
+}
+
+#basicinfo-detail > div > input{
+	margin: 0;
+	vertical-align: bottom;
+	font-size: 18px;
+}
+
+#basicinfo-detail > div > span{
+	margin: 0;
+	font-size: 18px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#change-year, #change-month, #change-day{
+	width: 50px;
+} 
+
+#basicinfo-detail > #basicinfo-detail-slogon{
+	height: 200px;
+}
+
+#basicinfo-detail > div > textarea{
+	width: 420px;
+	height: 200px;
+}
+
+#basicinfo-detail-confirm{
+	margin-top: 60px;
+	margin-left: 70px;
+	text-align: center;
+	clear: both;
+}
+
+#basicinfo-detail-confirm > a{
+	margin-right: 100px;
+	padding: 3px 25px 3px 25px;
+	font-size: 20px;
+	border: 1px solid #D9AE48;
+	border-radius: 5px;
+}
+
+#basicinfo-detail-confirm > a:hover{
+	color: #fff;
+	background-color: #D9AE48;
+}
+
+#card-all{
+	margin-top: 50px;
+	margin-left: 300px;
+}
+
+#card-all > div, #card-all > div > label{
+	height: 50px;
+	font-size: 20px;
+}
+
+/*修改封面*/

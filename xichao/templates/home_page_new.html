@@ -11,6 +11,7 @@
 				<li><a id="bt-draft" href="#draft">草稿箱</a>
 				<li><a id="bt-collection" href="#collection">收藏</a></li>
 				<li><a id="bt-focus" href="#focus">关注</a></li>
+				<li><a id="bt-special" href="#special">专栏</a></li>
 				<li><a id="bt-xichao-coin" href="#xichao-coin">曦潮币</a></li> 
 			</ul> 
 		</div>
@@ -20,9 +21,9 @@
 			<!-- 发布tab -->
 			<div id="release">
 				<div class="sub-tab">
-					<!-- <div id="total-count">
+					<div id="total-count">
 						Total:<span>123</span>
-					</div> -->
+					</div>
 					<ul class="idTabs">
 						<h3>类型：</h3>
 						<li><a class="selected" href="#release-article" id="bt-release-article">文章</a></li>
@@ -162,6 +163,27 @@
 				</div>
 			</div>
 
+			<!-- 专栏tab -->
+			<div id="special">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
+				</div>
+
+				<div class="sub-content">
+
+					<div id="special-all">
+						{#<!-- <div class='content-box'>
+						{% for i in range(8) %}
+							<div class='focus-info'>
+								<div><a href='#'><img src='/static/images/logo.jpg'></a></div>
+								<div><a href='#'>名字最长可能达到十位</a></div>
+							</div>
+						{% endfor %} </div> -->#}
+					</div>
+				</div>
+			</div>
+
 			<!-- 曦潮币tab -->
 			<div id="xichao-coin">
 				<div class="sub-tab">
@@ -177,6 +199,82 @@
 		</div>
 	</div>
 
+	<!-- 个人设置 -->
+	<div id="homepage-settings">
+		<!-- 主tab -->
+		<div id="setting-main-tab" class="main-tab">	
+			<ul id="setting-main-tab-ul" class="idTabs main-tab-ul"> 
+				<li><a id="bt-basicinfo" href="#basicinfo">基本信息</a></li>
+				<li><a id="bt-card" href="#card">会员卡
+				</a></li> 
+			</ul> 
+		</div>
+
+		<!-- 子tab -->
+		<div id="setting-sub-tabs" class="sub-tabs">
+
+			<div id="basicinfo">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
+				</div>
+
+				<div class="sub-content">
+					<div id="basicinfo-all">
+						<div id="basicinfo-img">
+							<img src="/static/images/square.jpg">
+							<a id="change-photo" href="#">更换头像</a>
+						</div>
+						<div id="basicinfo-detail">
+							<div>
+								<label>昵称：</label><input id="change-nick" type="text" value="{{current_user.nick}}">
+							</div>
+							<div>
+								<label>性别：</label>
+								{% if current_user.gender == 'f' %}
+								<input type="radio" name="gender" value="m" /><span>&nbsp;男&nbsp;</span>
+								<input type="radio" name="gender" value="f"  checked="checked"/><span>&nbsp;女</span>
+								{% else %}
+								<input type="radio" name="gender" value="m" checked="checked" /><span>&nbsp;男&nbsp;</span>
+								<input type="radio" name="gender" value="f"/><span>&nbsp;女</span>
+								{% endif %}
+							</div>
+							<div>
+								<label>生日：</label>
+								<input id="change-year" type="text" value="{{current_user.birthday.year}}"/><span>&nbsp;年&nbsp;</span>
+								<input id="change-month" type="text" value="{{current_user.birthday.month}}"/><span>&nbsp;月&nbsp;</span>
+								<input id="change-day" type="text" value="{{current_user.birthday.day}}"/><span>&nbsp;日&nbsp;</span>
+							</div>
+							<div>
+								<label>手机号：</label>
+								<input id="change-phonenumber" type="text" value="{{current_user.phone}}"/>
+							</div>
+							<div id="basicinfo-detail-slogon">
+								<label>个人简介：</label>
+								<textarea class="home-text" id="slogon">{{current_user.slogon}}</textarea>
+							</div>
+						</div>
+						<div id="basicinfo-detail-confirm"><a href="#">确定</a><a href="#">取消</a></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="card">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
+				</div>
+
+				<div class="sub-content">
+					<div id="card-all">
+						<div><label>卡号：</label>xxx</div>
+						<div><label>绑定日期：</label>xxx</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- 我的粉丝 -->
 	<div id="homepage-fans">
 		<!-- 主tab -->

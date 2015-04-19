@@ -9,12 +9,15 @@
 	/*封面和介绍根据分辨率自适应改变大小*/
 	@media screen and (min-width: 1401px) {
 		#content {width: 1400px;}
+		#cover {height: 400px;} /*保证长宽比一定*/
 	}
 	@media screen and (min-width: 1161px) and (max-width: 1400px) {
 		#content {width: 100%;}
+		#cover {height: 360px;}
 	}
 	@media screen and (max-width: 1160px) {
 		#content {width: 1160px;}
+		#cover {height: 332px;}
 	}
 
 	/*个人信息栏宽度是固定的*/
@@ -57,9 +60,12 @@
 	<div>
 		<div id="introduction-left">
 			<img src="{{current_user.photo}}">
+			{% if current_user == user %}
+			{#只有本人可以修改个人设置#}
 			<div>
-				<a href="#">更改个人设置</a>
+				<a href="#settings">更改个人设置</a>
 			</div>
+			{% endif %}
 		</div>
 
 		<div id="introduction-right">
@@ -126,7 +132,7 @@
 		else if(category == "focus-user")
 			delete_url = "/collection_cancel/user";
 		else if(category == "focus-special")
-			delete_url = "/collection_special_cancel?id=" + item_id; //?
+			delete_url = "/collection_special_cancel?id=" + item_id;
 		else if(category == "fans-all")
 			delete_url = "";
 		else if(category == "received-message-all")
@@ -135,8 +141,8 @@
 			delete_url = "/homepage/delete/received_comment";
 		else if(category == "received-notification-all")
 			delete_url = "/homepage/delete/message";
-		else if(category == "release-special")
-			delete_url = "/homepage/delete/special";
+		else if(category == "special-all")
+			delete_url = "{#/homepage/delete/special#}";
 		return delete_url;
 	}
 
@@ -165,7 +171,7 @@
 			refresh_url = "/homepage/pagination/received_comment/page/";
 		else if(category == "received-notification-all")
 			refresh_url = "/homepage/pagination/notification/page/";
-		else if(category == "release-special")
+		else if(category == "special-all")
 			refresh_url = "/homepage/pagination/special/page/";
 
 		refresh_url += page_id;
@@ -471,6 +477,20 @@
 				}
 				text += "</div>";
 			}
+			else if(category == "special-all"){
+				var items = data.rows;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a href='/special?id=" + items[i].special_id + "&page=1'>\
+									<img src='" + items[i].picture + "'>\
+									</a></div>\
+								<div><a href='/special?id=" + items[i].special_id + "&page=1'>" + items[i].name + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
 			$(refresh_tag).empty();
@@ -529,26 +549,44 @@
 		$('#bt-received-notification').click(function(){
 			homepage_refresh("received-notification-all", 1);
 		});
+		$('#bt-special').click(function(){
+			homepage_refresh("special-all", 1);
+		});
 	});
 
 	//通过最顶上navbar点击进行的后台ajax
 	function navbar_click(){
 		var locationHash = window.location.hash;
 		// alert(locationHash);
-		var transitionTime = 500;
-		if(locationHash == '#fans'){
+		var transitionTime = 50;
+		if(locationHash == '#' || locationHash == ''){
+			$('#bt-release').trigger("click");
+			locationHash = '#';
+			return;
+		}
+		else if(locationHash == '#settings'){
+			if($('#homepage-settings').css('display') == 'none'){
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-settings').fadeIn(transitionTime);
+			}
+		}
+		else if(locationHash == '#fans'){
 			if($('#homepage-fans').css('display') == 'none'){
-				$('#homepage-info').slideUp(transitionTime);
-				$('#homepage-news').slideUp(transitionTime);
-				$('#homepage-fans').slideDown(transitionTime);
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
+				$('#homepage-fans').fadeIn(transitionTime);
 			}
 			$('#bt-fans').trigger("click");
 		}
 		else if(locationHash == '#received-message' || locationHash == '#received-comment' || locationHash == '#received-notification'){
 			if($('#homepage-news').css('display') == 'none'){
-				$('#homepage-info').slideUp(transitionTime);
-				$('#homepage-fans').slideUp(transitionTime);
-				$('#homepage-news').slideDown(transitionTime);
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
+				$('#homepage-news').fadeIn(transitionTime);
 			}
 			if(locationHash == '#received-message'){
 				$('#bt-received-message').trigger("click");
@@ -565,9 +603,10 @@
 		}
 		else{
 			if($('#homepage-info').css('display') == 'none'){
-				$('#homepage-fans').slideUp(transitionTime);
-				$('#homepage-news').slideUp(transitionTime);
-				$('#homepage-info').slideDown(transitionTime);
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
+				$('#homepage-info').fadeIn(transitionTime);
 			}
 
 			if(locationHash == '#release-article'){
@@ -616,6 +655,11 @@
 		// 在主页上点击
 		$('#navbar-info .nav a').click(function(){
 			setTimeout(navbar_click, 100); //直接执行好像不行
+		});
+
+		//个人主页更改个人设置
+		$('#introduction-left a').click(function(){
+			setTimeout(navbar_click, 100); //同上
 		});
 	});
 

@@ -42,7 +42,7 @@ a{
 #article-list-part a{
 }
 
-#article-list-part a:hover{
+#article-list-part > a:hover{
 	border: 1px solid #D9AE48;
 }
 
@@ -75,7 +75,7 @@ a{
 
 /*右侧内容*/
 .article-list-content{
-	margin-left: 200px;
+	margin-left: 190px; /*需要抵消border造成的额外px*/
 	font-family: 黑体, 冬青黑体;
 	width: 760px;
 }
@@ -122,4 +122,8 @@ a{
 
 .pagination a{
 	cursor: pointer;
+}
+
+.pagination ul > li > a:hover{
+	background-color: #D9AE48;
 }
