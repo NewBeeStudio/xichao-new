@@ -325,9 +325,9 @@ function get_user_id() {
 }
 
 function add_commit(data, val_content,to_user_id) {
-	var d=data.split('@');
-	var time=d[0];
-	var cid=d[1];
+	var d=JSON.parse(data);
+	var time=d.time;
+	var cid=d.comment_id;
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	//console.log(time+" "+cid+" "+val_content)
@@ -337,9 +337,10 @@ $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'
 
 
 function add_reply(data,val_content,val_user_id,reply_to_comment_id){
-var d=data.split('@');
-var time=d[0];
-var cid=d[1];
+
+	var d=JSON.parse(data);
+	var time=d.time;
+	var cid=d.comment_id;
  var location="comment-"+reply_to_comment_id;
 
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"

@@ -56,7 +56,7 @@ from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 from flask.ext.sqlalchemy import Pagination
 import os
-
+import json
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from itsdangerous import constant_time_compare, BadData
 from hashlib import md5
@@ -1154,7 +1154,7 @@ def comment():
     update_comment_num(article_id,True)
     time=str(datetime.now()).rsplit('.',1)[0]
     comment_id=get_current_comment_id()
-    return time+'@'+str(comment_id)
+    return json.dumps({'time':time,'comment_id':comment_id})
 
 @app.route('/activity/comment',methods=['POST'])
 def comment_activity():
