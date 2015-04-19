@@ -34,28 +34,29 @@
 	<!-- 列表内容 -->
 	<div id="article-list-part"> 
 		{% for item in article_pagination.items %}
+		<a class = "thumbnail" href="{{url_for('article', article_id = item.Article.article_id)}}">
 		<div class="article-list-item">
 			<!-- 图片 -->
 			<div class="article-list-picture">
-				<a href="{{url_for('article', article_id = item.Article.article_id)}}"><img src="{{item.Article.picture}}"/>
-				</a>
+				<img src="{{item.Article.picture}}"/>
 			</div>
 			<!-- 正文 -->
 			<div class="article-list-content">
-				<h3><a href="{{url_for('article', article_id = item.Article.article_id)}}">{{item.Article.title}}</a></h3>
+				<h3>{{item.Article.title}}</h3>
 				<div class="article-list-info">
-					<span> <a href="/user/{{item.nick}}" class="article-group-nick"><font color="#D9AE48">{{item.nick}}</font></a></span>
+					<span> <font color="#D9AE48">{{item.nick}}</font></span>
 					<span> {{item.Article.time|time_split_6}}</span>
 					<span> <font color="#D9AE48">收藏</font>({{item.Article.favor}})</span>
 					<span> <font color="#D9AE48">评论</font>({{item.Article.comment_num}})</span>
 					<span> <font color="#D9AE48">曦潮币</font>({{item.Article.coins}})</span>
 				</div>
-				<a href="{{url_for('article', article_id = item.Article.article_id)}}"><pre>{{item.Article.abstract}} </pre></a>
+				<pre>{{item.Article.abstract}} </pre>
 				<!-- <a href="{{url_for('article', article_id = item.Article.article_id)}}">MORE></a> -->
 			</div>
 	
 		</div>
 		<!-- <hr class="clear" style="border:1px solid #D9AE48"/> -->
+		</a>
 		{% endfor %}
 		
 		<!-- 不同排序方式 -->
