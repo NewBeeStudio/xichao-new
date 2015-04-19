@@ -63,17 +63,18 @@ terminal进入到xichao-new，再进入到xichao
 
 	<div id="activity-past-info">
 		{%for passed_activity in passed_activity_list.items %}
+		<a class="thumbnail" href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">
 		<div class="passed-activity">
 		<div class="passed-activity-image-container">
-			<a href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">
+			
 				<div class="passed-activity-image">
 					<img src="{{passed_activity.picture}}">
 				</div>
-	        </a>
+	       
 		</div>
         <div class="passed-activity-content">
 			<div class="passed-activity-name">
-				<a href="{{url_for('activity', activity_id = passed_activity.activity_id)}}">{{passed_activity.name}}</a>
+				{{passed_activity.name}}
 			</div>
 			<div class="passed-activity-abstract">
 				<span>活动介绍：</span>{{passed_activity.abstract}}
@@ -93,32 +94,27 @@ terminal进入到xichao-new，再进入到xichao
 		</div>
 		<div style="clear:both;"></div>
         </div>
+         </a>
 		{%endfor%}
 	</div>
     <div id="activity-paging"> 
         <nav class="pager"> 
         <li>
-            {% if passed_activity_list.has_prev %}
+            
                 <a href="/activity?sort={{sort}}&page=1">首页</a> 
-            {% endif %}  
+         
         </li>
-        <li>           
-            {% if passed_activity_list.has_prev %}
-                <a href="/activity?sort={{sort}}&page={{ passed_activity_list.prev_num }}">上一页</a> 
-            {% endif %} 
+        <li {% if not passed_activity_list.has_prev %}class="disabled"{%endif%}>           
+                <a {% if passed_activity_list.has_prev %}href="/activity?sort={{sort}}&page={{ passed_activity_list.prev_num }}"{%endif%}>上一页</a> 
         </li>
         <li> 
             {{ passed_activity_list.page }} / {{passed_activity_list.pages }}
         </li> 
-        <li>
-            {% if passed_activity_list.has_next %} 
-                <a href="/activity?sort={{sort}}&page={{ passed_activity_list.next_num }}">下一页</a> 
+        <li {% if not passed_activity_list.has_next %}class="disabled"{%endif%}>
+            <a {% if passed_activity_list.has_next %} href="/activity?sort={{sort}}&page={{ passed_activity_list.next_num }}" {% endif %} >下一页</a> 
         </li>
         <li>
-            {% endif %} 
-            {% if passed_activity_list.has_next %} 
-                <a href="/activity?sort={{sort}}&page={{ passed_activity_list.pages }}">末页</a> 
-            {% endif %}
+            <a href="/activity?sort={{sort}}&page={{ passed_activity_list.pages }}">末页</a> 
         </li> 
         </nav> 
     </div>

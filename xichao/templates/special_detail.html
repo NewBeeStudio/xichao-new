@@ -260,20 +260,17 @@
     <div id="special-paging"> 
         <nav>
             <ul class="pager">
-                
-                {% if articles_pagination.has_prev %}
-<li><a href=/special?id={{special_id}}&page=1&sort={{sort}}>
+                <li><a href=/special?id={{special_id}}&page=1&sort={{sort}}>
                        首页</a></li>
-                <li><a href=/special?id={{special_id}}&page={{ articles_pagination.prev_num }}&sort={{sort}}>
+                <li {% if not articles_pagination.has_prev %}class="disabled"{% endif %}><a {% if articles_pagination.has_prev %}href=/special?id={{special_id}}&page={{ articles_pagination.prev_num }}&sort={{sort}}{% endif %}>
                        上一页</a></li>
-                {% endif %}
+                
                 
                 <li>{{ articles_pagination.page }} / {{articles_pagination.pages }}</li>
                 
-                {% if articles_pagination.has_next %}
-                <li><a href="/special?id={{special_id}}&page={{ articles_pagination.next_num }}&sort={{sort}}">下一页</a>                     </li>
+                
+                <li {% if not articles_pagination.has_next %}class="disabled"{%endif%}><a {% if articles_pagination.has_next %} href="/special?id={{special_id}}&page={{ articles_pagination.next_num }}&sort={{sort}}" {%endif%}>下一页</a>                     </li>
                 <li><a href="/special?id={{special_id}}&page={{ articles_pagination.pages }}&sort={{sort}}">末页</a>                     </li>
-                {% endif %}
                 
             </ul>
         </nav>

@@ -134,11 +134,22 @@ div.flexslider{
 }
 
 .passed-activity{
-	margin-top: 22px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
-.activity-past-info{
+#activity-past-info{
 	margin-top: 30px;
+}
+
+#activity-past-info a{
+	width: 960px;
+	margin-left: 100px;
+	margin-top: 15px;
+}
+
+#activity-past-info a:hover{
+	border: 1px solid #D9AE48;
 }
 
 .passed-activity-image{
@@ -161,7 +172,7 @@ div.flexslider{
 
 .passed-activity-content{
 	float: right;
-	width: 960px;
+	width: 760px;
 }
 
 .passed-activity-abstract{
@@ -195,7 +206,7 @@ div.flexslider{
 
 /* 页码 */
 #activity-paging{
-    margin-top: 100px;
+    margin-top: 40px;
 	margin-bottom: 50px;
     width: 100%;
 }
