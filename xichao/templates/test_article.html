@@ -103,7 +103,7 @@
 			<p id="p_user_name" style="text-align: center; margin: auto;">{{nick}}</p>
 		</div>
 
-		<iframe id="input_publish_review"></iframe>
+		<textarea id="input_publish_review"></textarea> 
 		<div class="clear"> </div>
 		<input type="checkbox" name="pay_author" id="comment_pay_button" />
 		同时打赏作者
@@ -129,10 +129,10 @@
 	    </a>
 	    <div class="media-body">
 		      <h4 class="media-heading">{{comment[1]}}</h4>
-		      <div style="overflow:hidden;height:54px;padding-bottom:10px;">{{comment[0].content}}</div>
-		 	<p>
-								  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</button>
-								 	{{comment[0].time}}</p>
+		      <div style="overflow:hidden;padding-bottom:10px;"><pre>{{comment[0].content}}</pre></div>
+		 		
+		 		<div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复  </button>
+								 	{{comment[0].time}}</p></div>
 								
 			      
 	     </div>
@@ -148,11 +148,13 @@
 				  					  </a>
 				    	 <div class="media-body">
 					      <h4 class="media-heading">{{subcomment[1]}}</h4>
-					      <div style="overflow:hidden;height:54px;padding-bottom:10px;">{{subcomment[0].content}}</div>
+					      <div style="overflow:hidden;padding-bottom:10px;"><pre>{{subcomment[0].content}}</pre></div>
 		      				 	
-		      					<p>
-								  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复</button>
+		      					
+		      					<div><p>
+								  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复  </button>
 								 	{{subcomment[0].time}}</p>
+								 	</div>
 								
 	    		 		</div>
 
@@ -214,7 +216,7 @@
 <script type="text/javascript">
 
 	$(function(){
-		$d =$("#input_publish_review")[0].contentWindow.document;
+		$d =$("#input_publish_review").val();
 		$d.designMode="on";
     	$d.contentEditable= true;
     	$d.open();
@@ -229,7 +231,7 @@
 <script type="text/javascript">
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
-	val_content = $('#input_publish_review').contents().find('body').html();
+	val_content = $("#input_publish_review").val();
 	
 	if (val_content == '')
 		{alert("评论不能为空");}
@@ -267,7 +269,7 @@ $("#comment_publish_button").click(function(){
 });
 
 $("#comment_reset_button").click(function(){
-	$('#input_publish_review').contents().find('body').empty();
+	$("#input_publish_review").val("");;
 });
 
 $("#p_collection").click(function(){
@@ -332,7 +334,7 @@ function add_commit(data, val_content,to_user_id) {
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	//console.log(time+" "+cid+" "+val_content)
 $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
-					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复</button>'+time+'</p></div></li></div>')
+					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></li></div>')
 }
 
 
@@ -346,7 +348,7 @@ function add_reply(data,val_content,val_user_id,reply_to_comment_id){
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"
  if($("#"+location+" ul li:last").length!==0)
  {$("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</button>'+time+'</p></div></li>')
+ 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复  </button>'+time+'</p></div></li>')
 
 }
 else {
@@ -355,10 +357,10 @@ else {
 	$("#"+location+" div.media-body").append('<ul style="margin:50px">'+
 												'<li class="media"id="comment-'+cid+'">'+
 												'<a class="pull-left" href="'+homeurl+
- 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+
+ 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+
  													val_content+
- 												'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
- 													')">回复</button>'+time+
+ 												'</pre></div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
+ 													')">回复  </button>'+time+
 														'</p></div></li></ul>')
 }
 
