@@ -3,12 +3,57 @@
 <!--css file used-->
 {% block css %}
 <link rel="stylesheet" type="text/css" href="/static/jquery-ui-1.11.2/jquery-ui.css" />
-<link href="{{ url_for('static', filename='css/square.css') }}" rel='stylesheet' type='text/css'/> 
 <link href="{{ url_for('static', filename='css/homepage.css') }}" rel='stylesheet' type='text/css'/> 
+
+<style type="text/css">
+	/*根据分辨率自适应改变图大小*/
+	@media screen and (min-width: 1161px) {
+		#content {width: 100%;}
+	}
+	@media screen and (max-width: 1160px) {
+		#content {width: 1160px;}
+	}
+
+	#information{
+		width: 1160px;
+		margin-left: auto;
+		margin-right: auto; 
+	}
+</style>
 {% endblock %}
 
 <!--content-->
 {% block content %}
+
+<div id="introduction">
+	<div>
+		<div id="introduction-left">
+			<img src="{{current_user.photo}}">
+			<div>
+				<a href="#">更改个人设置</a>
+			</div>
+		</div>
+
+		<div id="introduction-right">
+			<div>
+				<span id="introduction-name">{{current_user.nick}}</span>
+				<span id="introduction-category">
+					{% if current_user.role == 1 %}
+						普通用户
+					{% elif current_user.role == 2 %}
+						专栏作家
+					{% elif current_user.role == 3 %}
+						管理员
+					{% endif %}
+				</span>
+			</div>
+
+			<div id="introduction-slogon">
+				{{current_user.slogon}}
+			</div>
+		</div>
+	</div>
+</div>
 
 {% block home_page_content %}
 
@@ -32,7 +77,9 @@
 	}
 </script>
 
-<!-- 发布，收藏，关注，粉丝，个人信箱AJAX -->
+<!-- 发布，收藏，关注，粉丝，消息中心AJAX -->
+<!-- 最上方个人信息栏点击AJAX -->
+<!-- 总之所有和个人主页最下方选项卡有关的AJAX基本上都在这 -->
 <script type="text/javascript">
 	//category命名，all后缀代表主tab下只有一项(如draft)，其余代表主tab下有多项（如release-article）
 	//获取删除url
