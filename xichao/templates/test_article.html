@@ -152,7 +152,7 @@
 		      				 	
 		      					
 		      					<div><p>
-								  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复  </button>
+								  <button class="btn btn-mini btn-primary" type="button" onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复  </button>
 								 	{{subcomment[0].time}}</p>
 								 	</div>
 								
@@ -236,7 +236,7 @@ $("#comment_publish_button").click(function(){
 	if (val_content == '')
 		{alert("评论不能为空");}
 	else {
-	$('#input_publish_review').contents().find('body').empty();
+	$("#input_publish_review").val("");
 	
 	if ($('#comment_pay_button').attr('checked') == 'checked'){
 	    $.layer({
