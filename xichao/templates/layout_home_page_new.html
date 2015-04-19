@@ -9,12 +9,15 @@
 	/*封面和介绍根据分辨率自适应改变大小*/
 	@media screen and (min-width: 1401px) {
 		#content {width: 1400px;}
+		#cover {height: 300px;} /*保证长宽比一定*/
 	}
 	@media screen and (min-width: 1161px) and (max-width: 1400px) {
 		#content {width: 100%;}
+		#cover {height: 300px;}
 	}
 	@media screen and (max-width: 1160px) {
 		#content {width: 1160px;}
+		#cover {height: 300px;}
 	}
 
 	/*个人信息栏宽度是固定的*/
@@ -535,20 +538,20 @@
 	function navbar_click(){
 		var locationHash = window.location.hash;
 		// alert(locationHash);
-		var transitionTime = 500;
+		var transitionTime = 50;
 		if(locationHash == '#fans'){
 			if($('#homepage-fans').css('display') == 'none'){
-				$('#homepage-info').slideUp(transitionTime);
-				$('#homepage-news').slideUp(transitionTime);
-				$('#homepage-fans').slideDown(transitionTime);
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-fans').fadeIn(transitionTime);
 			}
 			$('#bt-fans').trigger("click");
 		}
 		else if(locationHash == '#received-message' || locationHash == '#received-comment' || locationHash == '#received-notification'){
 			if($('#homepage-news').css('display') == 'none'){
-				$('#homepage-info').slideUp(transitionTime);
-				$('#homepage-fans').slideUp(transitionTime);
-				$('#homepage-news').slideDown(transitionTime);
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-news').fadeIn(transitionTime);
 			}
 			if(locationHash == '#received-message'){
 				$('#bt-received-message').trigger("click");
@@ -565,9 +568,9 @@
 		}
 		else{
 			if($('#homepage-info').css('display') == 'none'){
-				$('#homepage-fans').slideUp(transitionTime);
-				$('#homepage-news').slideUp(transitionTime);
-				$('#homepage-info').slideDown(transitionTime);
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-info').fadeIn(transitionTime);
 			}
 
 			if(locationHash == '#release-article'){
