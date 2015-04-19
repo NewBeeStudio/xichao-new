@@ -67,7 +67,6 @@ h2{
 }
 
 .index-up-content-left > h4{
-    margin-top: 230px;
     margin-left: 100px;
     position: relative;
     font-family: 黑体;
@@ -80,7 +79,8 @@ h2{
     text-align: center;
     word-break: break-all;
     color: #fff;
-
+    position: absolute;
+    bottom: 137px;
 }
 
 .index-up-content-right{
@@ -153,11 +153,18 @@ div.index-special-abstract{
 .index-hot-entry{
     width: 750px;
     height: 190px;
-    margin-top: 26px;
+    margin-top: 20px;
     background-color: #white;
       -webkit-box-shadow:2px 2px 3px 0px #f0f0f0;  
     -moz-box-shadow:2px 2px 3px 0px #f0f0f0;  
-    box-shadow:2px 2px 3px 0px #f0f0f0; 
+    box-shadow:2px 2px 3px 0px #f0f0f0;
+
+
+  background-image: -moz-linear-gradient(top,#fbfbfb,#fbfbfb);
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(#fbfbfb),to(#fbfbfb));
+  background-image: -webkit-linear-gradient(top,#fbfbfb,#fbfbfb);
+  background-image: -o-linear-gradient(top,#fbfbfb,#fbfbfb);
+  background-image: linear-gradient(to bottom,#fbfbfb,#fbfbfb);
 }
 
 #index-middle a:hover{

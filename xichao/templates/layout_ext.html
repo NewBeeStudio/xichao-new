@@ -13,7 +13,7 @@
 	{% block opinion_content %}
     {% endblock %}
 	<!-- 书评 -->
-	<div class="square-part1" style="margin-top:50px;" id="book_review">
+	<div class="square-part1"  id="book_review">
 		<!-- 标题图片 -->
 		<div class="square-part1-left">
 			<!-- <h2>书评</h2> -->
@@ -33,9 +33,9 @@
 			{% for (article) in (book_review_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
-					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:55px;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
-					<td class="square-col-3" style="text-align:left;position:relative;left:9%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-					<td class="square-col-4" style="text-align:left;position:relative;left:10%;">{{article[0].coins}}</td>
+					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:6%;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:12%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:13%;">{{article[0].coins}}</td>
 					<td class="square-col-final" style="text-align:left;position:relative;left:12%;">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
@@ -63,9 +63,9 @@
 			{% for (article) in (film_review_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
-					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:55px;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
-					<td class="square-col-3" style="text-align:left;position:relative;left:9%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-					<td class="square-col-4" style="text-align:left;position:relative;left:10%;">{{article[0].coins}}</td>
+					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:6%;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:12%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:13%;">{{article[0].coins}}</td>
 					<td class="square-col-final" style="text-align:left;position:relative;left:12%;">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
@@ -96,9 +96,9 @@
 			{% for (article) in (essay_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
-					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:8%;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
-					<td class="square-col-3" style="text-align:left;position:relative;left:9%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-					<td class="square-col-4" style="text-align:left;position:relative;left:10%;">{{article[0].coins}}</td>
+					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:6%;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:12%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:13%;">{{article[0].coins}}</td>
 					<td class="square-col-final" style="text-align:left;position:relative;left:12%;">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
