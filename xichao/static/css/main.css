@@ -195,6 +195,7 @@ input:focus{
     height:3100px;
     */
     margin: auto;
+    padding-bottom: 20px;
 }
 #footer-rect{
     width:100%;
@@ -382,7 +383,7 @@ src: url(../fonts/liukai-small.ttf);
 
 /*footer*/
 #footer{
-    margin-top: 20px;
+    margin-top: 0px;
     background-color: #252525;
 }
 

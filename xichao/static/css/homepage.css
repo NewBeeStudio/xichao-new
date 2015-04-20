@@ -395,6 +395,15 @@ ul{
 	text-decoration: none;
 }
 
+/*背景色*/
+#content{
+	background-color: #f5f5f5;
+}
+
+#information > div{
+	background-color: #fff;
+}
+
 .pagination ul > li > a:hover{
 	background-color: #D9AE48;
 }
@@ -483,7 +492,7 @@ ul{
 	font-family: 黑体;
 	margin-top: 0;
 	margin-bottom: -50px;
-	min-height: 300px;
+	min-height: 350px;
 	background-image: url(/static/images/homepage-decoration.png);
 	background-size: 100% 100%;
 }
@@ -491,9 +500,9 @@ ul{
 /*个人介绍部分，注意分辨率兼容*/
 #introduction > div{
 	width: 920px;
-	height: 300px;
+	/*height: 300px;*/
 	margin: auto;
-	padding: 70px 120px 70px 120px;
+	padding: 50px 120px;
 	/*border: 1px solid #000;*/
 }
 
@@ -536,12 +545,13 @@ span#introduction-category{
 }
 
 #introduction-slogon{
-	margin-top: 50px;
+	margin-top: 29px;
 	margin-left: 40px;
-	margin-right: 40px;
+	margin-right: 80px;
 
 	font-size: 22px;
 	line-height: 30px;
+	color: #0e050a;
 }
 
 /*个人信息部分*/
@@ -561,19 +571,21 @@ span#introduction-category{
 
 /*个人信息四个主分类tab*/
 .main-tab, .sub-tabs{
-	font-family: 微软雅黑; 
+	font-family: 黑体; 
 	color: #000;
 }
 
 .main-tab{
 }
 
+
 .main-tab-ul{
 	width: 100%;
 	height: 50px;
 	font-size: 16px;
-	background-color: #D0D0D0;
+	background-color: #eeeeee;
 
+	border-top: 3px solid #f6f6f6;
 	text-align: center;
 }
 
@@ -586,6 +598,8 @@ span#introduction-category{
 
 .main-tab-ul > li > a{
 	display: block;
+	border-left: 1px solid #dcdcdc;
+	border-right: 1px solid #dcdcdc; 
 }
 
 .main-tab-ul > li > a.selected{
@@ -627,8 +641,13 @@ span#introduction-category{
 	width: 100px;
 	height: 16px;
 
-	font: 16px 微软雅黑;
+	font: 16px 黑体;
+	color: #a8a7a6;
 	float: left;
+}
+
+.sub-tab .idTabs > li > a{
+	color: #a8a7a6;
 }
 
 .sub-tab .idTabs > li{
@@ -642,7 +661,7 @@ span#introduction-category{
 /*各分类内容*/
 .sub-content{
 	width: 840px;
-	margin: 50px auto;
+	margin: 50px auto 0 auto;
 	min-height: 400px;
 }
 
@@ -700,9 +719,19 @@ span#introduction-category{
 }
 
 #release-article .col-4{
-	padding-right: 0;
+	padding-right: 0;	
 }
 
+#release-article .col-1 > a{
+	color: #797979;
+	font-weight: bold;
+}
+
+#release-article .col-2,
+#release-article .col-3,
+#release-article .col-4 > a{
+	color: #a5a5a5;
+}
 
 /*发布的评论*/
 #release-comment .col-1{
@@ -721,6 +750,16 @@ span#introduction-category{
 	padding-right: 0;
 }
 
+#release-comment .col-1{
+	color: #797979;
+	font-weight: bold;
+}
+
+#release-comment .col-2 > a, 
+#release-comment .col-3,
+#release-comment .col-4 > a{
+	color: #a5a5a5;
+}
 
 /*草稿箱*/
 #draft .col-1{
@@ -735,6 +774,15 @@ span#introduction-category{
 	padding-right: 0;
 }
 
+#draft .col-1 > a{
+	color: #797979;
+	font-weight: bold;
+}
+
+#draft .col-2,
+#draft .col-3 > a{
+	color: #a5a5a5;
+}
 
 /*收藏部分*/
 /*收藏的文章*/
@@ -749,6 +797,19 @@ span#introduction-category{
 
 #collection-article .col-3, #collection-activity .col-3{
 	padding-right: 0;
+}
+
+#collection-article .col-1 > a, 
+#collection-activity .col-1 > a{
+	color: #797979;
+	font-weight: bold;
+}
+
+#collection-article .col-2 > a, 
+#collection-activity .col-2,
+#collection-article .col-3 > a, 
+#collection-activity .col-3 > a{
+	color: #a5a5a5;
 }
 
 /*关注部分*/
@@ -781,6 +842,9 @@ span#introduction-category{
 	behavior: url(/static/css/PIE.htc);
 }
 
+.focus-info a{
+	color: #797979;
+}
 
 /*我的专栏，往上看*/
 #special-all .content-box .focus-info > div{
@@ -798,6 +862,7 @@ span#introduction-category{
 
 #xichao-coin > .sub-content{
 	font-size: 18px;
+	color: #797979;
 }
 
 
@@ -810,7 +875,9 @@ span#introduction-category{
 }
 
 #news-sub-tabs .content-top{
-	margin-bottom: 20px
+	margin-bottom: 20px;
+	color: #797979;
+	font-weight: bold;
 }
 
 #news-sub-tabs .content-bottom{
@@ -820,10 +887,12 @@ span#introduction-category{
 
 #news-sub-tabs .content-bottom > span{
 	margin-left: 20px;
+	color: #a5a5a5;
 }
 
 #news-sub-tabs .content-bottom > span > a{
 	margin: 0 10px 0 10px;
+	color: #a5a5a5;
 }
 
 /*个人信息修改*/

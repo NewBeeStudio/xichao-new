@@ -9,15 +9,19 @@
 	/*封面和介绍根据分辨率自适应改变大小*/
 	@media screen and (min-width: 1401px) {
 		#content {width: 1400px;}
-		#cover {height: 400px;} /*保证长宽比一定*/
+		#cover {height: 565px;} /*保证长宽比一定*/
 	}
-	@media screen and (min-width: 1161px) and (max-width: 1400px) {
+	@media screen and (min-width: 1301px) and (max-width: 1400px) {
 		#content {width: 100%;}
-		#cover {height: 360px;}
+		#cover {height: 551px;}
+	}
+	@media screen and (min-width: 1161px) and (max-width: 1300px) {
+		#content {width: 100%;}
+		#cover {height: 517px;}
 	}
 	@media screen and (max-width: 1160px) {
 		#content {width: 1160px;}
-		#cover {height: 332px;}
+		#cover {height: 468px;}
 	}
 
 	/*个人信息栏宽度是固定的*/
@@ -34,7 +38,7 @@
 
 <div id="cover">
 	<div>
-		<img src="/static/images/login-lantern.png">
+		<img src="/static/images/homepage-cover.jpg">
 		<div id="cover-introduction">
 			{% if current_user == user %}
 			{#只有本人可以修改主页#}
