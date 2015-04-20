@@ -3,7 +3,7 @@ from xichao import app
 from flask import redirect,url_for,abort
 from flask.ext.admin import Admin,BaseView,expose
 from flask.ext.login import current_user,login_required,logout_user
-from models import User,Article,Book,Comment,Special,Activity,Comment_activity
+from models import User,Article,Book,Comment,Special,Activity,Comment_activity,HomePage
 from database import db_session
 from flask.ext.admin.contrib.sqla import ModelView
 
@@ -57,6 +57,7 @@ class CreateSpecialView(BaseView):
 	def index(self):
 		return redirect(url_for('create_special'))
 		
+
 		
 class UserView(ModelView):
 	def is_accessible(self):
@@ -167,10 +168,24 @@ class CommentActivityView(ModelView):
 		super(CommentActivityView,self).__init__(Comment_activity,session,**kwargs)		
 
 
+class HomePageView(ModelView):
+	def is_accessible(self):
+		if current_user.is_authenticated():
+			if current_user.role==3:
+				return True
+			else:
+				return False
+		else:
+			return False
+	can_create = False
+	column_list=('special1','special2','special3','special1','ground_recommended_article')
+	def __init__(self,session,**kwargs):
+		super(HomePageView,self).__init__(HomePage,session,**kwargs)		
 
 admin=Admin(app)
 admin.add_view(LoginView(name=u'登录'))
 admin.add_view(LogoutView(name=u'注销'))
+admin.add_view(HomePageView(db_session))
 admin.add_view(UserView(db_session))
 admin.add_view(ArticleView(db_session))
 admin.add_view(BookView(db_session))

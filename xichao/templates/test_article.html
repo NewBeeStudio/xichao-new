@@ -99,11 +99,15 @@
 			<p id="p_user_name">{{nick}}</p>
 		</div>
 
+<<<<<<< HEAD
 		<textarea id="input_publish_review"></textarea>
 		<div class="pay_author_div">
 			<input type="checkbox" name="pay_author" id="comment_pay_button" /><span>&nbsp;同时打赏作者</span>
 		</div>
 		<button  class="register-button" id="comment_publish_button">发表</button>
+=======
+		<textarea id="input_publish_review"></textarea> 
+>>>>>>> 36b5512fd35174a35c052e952154b9252f7d03bd
 		<div class="clear"> </div>
 	</div>
 	{%endif%}
@@ -125,6 +129,7 @@
 	    </a>
 	    <div class="media-body">
 		      <h4 class="media-heading">{{comment[1]}}</h4>
+<<<<<<< HEAD
 		      <div class="media-content">{{comment[0].content}}</div>
 		 	<p>
 		 	<div class="comment-info">
@@ -150,6 +155,42 @@
  		{% endif %}
  		{% endfor %}
  		</ul>
+=======
+		      <div style="overflow:hidden;padding-bottom:10px;"><pre>{{comment[0].content}}</pre></div>
+		 		
+		 		<div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复  </button>
+								 	{{comment[0].time}}</p></div>
+								
+			      
+	     </div>
+
+
+ 				<ul style="margin:50px">
+	     		{%for subcomment in comments | reverse%}
+	     		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
+	     	  		
+		      			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
+					      			 <a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
+				 		     <img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px">
+				  					  </a>
+				    	 <div class="media-body">
+					      <h4 class="media-heading">{{subcomment[1]}}</h4>
+					      <div style="overflow:hidden;padding-bottom:10px;"><pre>{{subcomment[0].content}}</pre></div>
+		      				 	
+		      					
+		      					<div><p>
+								  <button class="btn btn-mini btn-primary" type="button" onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复  </button>
+								 	{{subcomment[0].time}}</p>
+								 	</div>
+								
+	    		 		</div>
+
+		      			</li>
+		      			
+	     		{% endif %}
+	     		{% endfor %}
+	     		</ul>
+>>>>>>> 36b5512fd35174a35c052e952154b9252f7d03bd
 	     
 	
 	  </li>
@@ -199,16 +240,27 @@
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> 36b5512fd35174a35c052e952154b9252f7d03bd
 <!--获取评论内容，更新数据库，返回评论时间-->
 <script type="text/javascript">
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
+<<<<<<< HEAD
 	val_content = $('#input_publish_review').val();
+=======
+	val_content = $("#input_publish_review").val();
+>>>>>>> 36b5512fd35174a35c052e952154b9252f7d03bd
 	
 	if (val_content == '')
 		{alert("评论不能为空");}
 	else {
-	$('#input_publish_review').contents().find('body').empty();
+	$("#input_publish_review").val("");
 	
 	if ($('#comment_pay_button').attr('checked') == 'checked'){
 	    $.layer({
@@ -241,7 +293,7 @@ $("#comment_publish_button").click(function(){
 });
 
 $("#comment_reset_button").click(function(){
-	$('#input_publish_review').contents().find('body').empty();
+	$("#input_publish_review").val("");;
 });
 
 $("#p_collection").click(function(){
@@ -299,27 +351,25 @@ function get_user_id() {
 }
 
 function add_commit(data, val_content,to_user_id) {
-	var d=data.split('@');
-	var time=d[0];
-	var cid=d[1];
+	var time=data.time;
+	var cid=data.comment_id;
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	//console.log(time+" "+cid+" "+val_content)
 $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
-					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复</button>'+time+'</p></div></li></div>')
+					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></div></li></div>')
 }
 
 
 function add_reply(data,val_content,val_user_id,reply_to_comment_id){
-var d=data.split('@');
-var time=d[0];
-var cid=d[1];
- var location="comment-"+reply_to_comment_id;
+	var time=data.time;
+	var cid=data.comment_id;
+ 	var location="comment-"+reply_to_comment_id;
 
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"
  if($("#"+location+" ul li:last").length!==0)
  {$("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+val_content+'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</button>'+time+'</p></div></li>')
+ 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复  </button>'+time+'</p></div></div></li>')
 
 }
 else {
@@ -328,11 +378,11 @@ else {
 	$("#"+location+" div.media-body").append('<ul style="margin:50px">'+
 												'<li class="media"id="comment-'+cid+'">'+
 												'<a class="pull-left" href="'+homeurl+
- 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;height:54px;padding-bottom:10px;">'+
+ 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+
  													val_content+
- 												'</div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
+ 												'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
  													')">回复</button>'+time+
-														'</p></div></li></ul>')
+														'</p></div></div></li></ul>')
 }
 
 

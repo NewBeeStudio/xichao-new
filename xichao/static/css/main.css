@@ -195,6 +195,7 @@ input:focus{
     height:3100px;
     */
     margin: auto;
+    padding-bottom: 20px;
 }
 #footer-rect{
     width:100%;
@@ -382,7 +383,7 @@ src: url(../fonts/liukai-small.ttf);
 
 /*footer*/
 #footer{
-    margin-top: 20px;
+    margin-top: 0px;
     background-color: #252525;
 }
 
@@ -478,3 +479,29 @@ src: url(../fonts/liukai-small.ttf);
     float: left;
 }
 
+.message-center-ul a{
+    position: relative;
+}
+
+.message-number-display{
+    display: inline;
+    position: absolute;
+    height: 15px;
+    border: solid 2px #fff;
+    border-radius: 9px;
+    background: #FF5D54;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 0 4px;
+    color: #fff;
+
+    padding-bottom: -5px;
+    top: -5px;
+}
+
+span#all-message-number{
+    font-size: 12px;
+    top: 0px;
+    margin-left:67px;
+}
+                                

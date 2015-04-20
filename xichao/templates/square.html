@@ -2,6 +2,14 @@
 
 <!--content-->
 {% block square_content %}
+<script type="text/javascript">
+
+    function square_change_img (name)
+    {
+        console.log($(name).children("td:eq(4)").text());     
+        $("#square-pic-left").attr("src",$(name).children("td:eq(4)").text());
+    }
+</script>
 <!-- 热门文章 -->
 <div class="square-headline">
 	<h2>热门文章</h2>
@@ -13,11 +21,12 @@
 			<table id="square-hot-article" >
 			<!-- 热门文章2~10 -->
 			{% for (i, article) in hot_ground_article_list[1:]|zip %}
-				<tr>
+				<tr id="tr{{i}}" onmouseover="square_change_img(tr{{i}})">
 					<td class="square-col-1" style="width:18.6em"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{i}}.{{article[0].title}}</a></td>
 					<td class="square-col-2"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
 					<td class="square-col-3"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
 					<td class="square-col-final">{{article[0].coins}}</td>
+                    <td class="square-img" style="display:none">{{article[0].picture}}</td>
 				</tr>
 			{% endfor %}
 			</table>
@@ -28,7 +37,7 @@
 
 <!-- 今日推荐 -->
 <div class="square-headline square-recommend " style="margin-bottom: 105px;">
-	<h2>今日推荐</h2>
+	<h2 style="margin-left:45%">今日推荐</h2>
 	<div id="recommend-content" class="square-hot2">
 		<div id="recommend-img">
 			<img src="{{hot_ground_article_list[0][0].picture}}"/>
@@ -53,4 +62,8 @@
 	</div>
 </div>
 
+
+
 {% endblock %}
+
+

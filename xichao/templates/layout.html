@@ -5,7 +5,6 @@
         <title>曦潮书店 | 青春校园，人文曦潮</title>
         <meta name="Keywords" content="曦潮, xichao, 书店, 校园, 社交, 创业" />
         <meta name="description" content="曦潮由新蜂工作室负责维护" />
-
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/xichao-logo.png') }}" />
 
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
@@ -64,7 +63,10 @@
                             </a>
                             <ul class="dropdown-menu menu-min-width">
                                 {% if current_user.role!=3 %}
-                                    <li><a href="{{url_for('home_page')}}">个人中心</a></li>
+                                {#非管理员界面#}
+                                    <li><a href="{{url_for('home_page')}}">我的主页</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('home_page')}}#settings">个人设置</a></li>
                                 {% else %}
                                     <li><a href="/admin">个人中心</a></li>
                                 {% endif %}
@@ -80,12 +82,26 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">消息中心 
                             <b class="caret"></b>
                             </a>
-                            <ul class="dropdown-menu menu-min-width">
-                                <li><a href="{{url_for('home_page')}}#received-message">收到的私信</a></li>
+                            <span id="all-message-number" class="message-number-display">24</span>
+
+                            <ul class="dropdown-menu menu-min-width message-center-ul">
+                                <li>
+                                    <a href="{{url_for('home_page')}}#received-message">
+                                        <span>收到的私信</span>
+                                        <span id="message-number" class="message-number-display">8</span>
+                                </a>
+                                    
+                                </li>
                                 <li class="divider"></li>
-                                <li><a href="{{url_for('home_page')}}#received-comment">收到的评论</a></li>
+                                <li>
+                                    <a href="{{url_for('home_page')}}#received-comment"><span>收到的评论</span><span id="comment-number" class="message-number-display">9</span></a>
+                                    
+                                </li>
                                 <li class="divider"></li>
-                                <li><a href="{{url_for('home_page')}}#received-notification">系统消息</a></li>
+                                <li>
+                                    <a href="{{url_for('home_page')}}#received-notification"><span>系统消息</span><span id="notification-number" class="message-number-display">7</span></a>
+                                    
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown">

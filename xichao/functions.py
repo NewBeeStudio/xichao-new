@@ -502,10 +502,10 @@ def paginate(query,page,per_page=20,error_out=True):
 
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
-	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.favor))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.favor))
 	return paginate(query,page_id,10,False)
 def get_article_pagination_by_time(group_id,category_id,page_id):
-	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.time))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.time))
 	return paginate(query,page_id,10,False)
 
 	
@@ -616,8 +616,13 @@ def update_collection_num(user_id,another_user_id,is_add):
 	db_session.commit()
 
 def get_hot_ground_acticle():
-	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(9).all()
 	return result
+
+def get_recommended_ground_article():
+	result=db_session.query(Article).join(HomePage,HomePage.ground_recommended_article==Article.article_id).filter(and_(Article.groups=='1',Article.is_draft=='0')).first()
+	return result
+
 
 def get_most_hot_ground_article():
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).first()
@@ -1011,5 +1016,16 @@ def delete_special_by_special_id(special_id,user_id):
 		db_session.query(Special).filter_by(special_id=special_id).delete()
 		db_session.commit()
 		return 'success'
-#######################################  删除一个专栏 end ########################################		
+#######################################  删除一个专栏 end ########################################	
+
+
+#######################################  获取发表的文章数目 start ########################################
+
+def get_article_number(user_id):
+	result=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).all();
+	return len(result)
+
+#######################################  获取发表的文章数目 end ########################################
+
+
 

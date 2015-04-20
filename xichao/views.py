@@ -56,7 +56,7 @@ from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 from flask.ext.sqlalchemy import Pagination
 import os
-
+import json
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from itsdangerous import constant_time_compare, BadData
 from hashlib import md5
@@ -256,6 +256,8 @@ def login():
 			user=User.query.filter_by(email=form.email.data).first()
 			login_user(user, remember=form.stay.data) #参数2：是否保存cookie
 			flash(u'登陆成功，正在跳转')
+
+
 			response=make_response(redirect(request.form.get("request_url") or url_for("index")))
 			#if form.stay.data:
 			#	response.set_cookie('user',nick)
@@ -939,7 +941,7 @@ def article_finish(group_id,category_id):
         abstract=abstract_plain_text[0:190]+'......'
     user_id=int(session['user_id'])
     book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
-    article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=group_id,category_id=category_id,abstract=abstract,book_id=book_id)
+    article_id=create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='0',group_id=1,category_id=category_id,abstract=abstract,book_id=book_id)
     return str(article_id)
 
 #文章草稿的提交路径
@@ -1154,7 +1156,7 @@ def comment():
     update_comment_num(article_id,True)
     time=str(datetime.now()).rsplit('.',1)[0]
     comment_id=get_current_comment_id()
-    return time+'@'+str(comment_id)
+    return jsonify(time=time,comment_id=comment_id)
 
 @app.route('/activity/comment',methods=['POST'])
 def comment_activity():
@@ -1258,7 +1260,9 @@ def activity_upload():
 @login_required
 def home_page():
 	article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
-	return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user)
+	article_number=get_article_number(current_user.user_id)
+	return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user,article_number=article_number)
+
 
 
 ##能够返回数据
@@ -1565,12 +1569,15 @@ def opinion():
 #广场主页
 @app.route('/square')
 def square():
-	hot_ground_article_list=get_hot_ground_acticle()
-	##参数1表示广场
-	book_review_list=get_article_group_by_coin('1','1')
-	film_review_list=get_article_group_by_coin('1','2')
-	essay_list=get_article_group_by_coin('1','3')
-	return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list)
+    ##拿9篇热门文章
+    hot_ground_article_list=get_hot_ground_acticle()
+    ##拿一篇推荐文章
+    recommended_ground_article=get_recommended_ground_article()
+    ##参数1表示广场
+    book_review_list=get_article_group_by_coin('1','1')
+    film_review_list=get_article_group_by_coin('1','2')
+    essay_list=get_article_group_by_coin('1','3')
+    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article)
 
 
 @app.route('/user/<nick>')
@@ -1586,7 +1593,7 @@ def view_home_page(nick):
 		##默认按时间排序
 		article_pagination=get_article_pagination_by_user_id(user.user_id,True,1)
 		collection_author_list=get_collection_author_list(user.user_id)
-		return render_template('view_home_page.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list)
+		return render_template('view_home_page_new.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list)
 
 @app.route('/user/<int:user_id>/article/pagination/by_coins/page/<int:page_id>',methods=['GET'])
 @login_required

@@ -22,7 +22,7 @@
 			<div id="release">
 				<div class="sub-tab">
 					<div id="total-count">
-						Total:<span>123</span>
+						Total:<span>{{article_number}}</span>
 					</div>
 					<ul class="idTabs">
 						<h3>类型：</h3>
@@ -199,6 +199,102 @@
 		</div>
 	</div>
 
+	<!-- 个人设置 -->
+	<div id="homepage-settings">
+		<!-- 主tab -->
+		<div id="setting-main-tab" class="main-tab">	
+			<ul id="setting-main-tab-ul" class="idTabs main-tab-ul"> 
+				<li><a id="bt-basicinfo" href="#basicinfo">基本信息</a></li>
+				<li><a id="bt-card" href="#card">会员卡
+				</a></li> 
+			</ul> 
+		</div>
+
+		<!-- 子tab -->
+		<div id="setting-sub-tabs" class="sub-tabs">
+
+			<div id="basicinfo">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
+				</div>
+
+				<div class="sub-content">
+					<div id="basicinfo-all">
+						<div id="basicinfo-img">
+							<img src="/static/images/square.jpg">
+							<a id="change-photo" href="#">更换头像</a>
+						</div>
+						<div id="basicinfo-detail">
+							<div>
+								<label>昵称：</label>
+								<span class="basicinfo-change"><input id="change-nick" type="text" value="{{current_user.nick}}"></span>
+								<span class="basicinfo-view">{{current_user.nick}}</span>
+							</div>
+							<div>
+								<label>性别：</label>
+								{% if current_user.gender == 'f' %}
+								<span class="basicinfo-change">
+									<input type="radio" name="gender" value="m" /><span>&nbsp;男&nbsp;</span>
+									<input type="radio" name="gender" value="f"  checked="checked"/><span>&nbsp;女</span>
+								</span>
+
+								<span class="basicinfo-view">女</span>
+								{% else %}
+								<span class="basicinfo-change">
+									<input type="radio" name="gender" value="m" checked="checked" /><span>&nbsp;男&nbsp;</span>
+									<input type="radio" name="gender" value="f"/><span>&nbsp;女</span>
+								</span>
+
+								<span class="basicinfo-view">男</span>
+								{% endif %}
+							</div>
+							<div>
+								<label>生日：</label>
+								<span class="basicinfo-change">
+									<input id="change-year" type="text" value="{{current_user.birthday.year}}"/><span>&nbsp;年&nbsp;</span>
+									<input id="change-month" type="text" value="{{current_user.birthday.month}}"/><span>&nbsp;月&nbsp;</span>
+									<input id="change-day" type="text" value="{{current_user.birthday.day}}"/><span>&nbsp;日&nbsp;</span>
+								</span>
+								
+								<span class="basicinfo-view">{{current_user.birthday.year}}年{{current_user.birthday.month}}月{{current_user.birthday.day}}日</span>
+							</div>
+							<div>
+								<label>手机号：</label>
+								<span class="basicinfo-change"><input id="change-phonenumber" type="text" value="{{current_user.phone}}"/></span>
+								
+								<span class="basicinfo-view">{{current_user.phone}}</span>
+							</div>
+							<div id="basicinfo-detail-slogon">
+								<label>个人简介：</label>
+								<span class="basicinfo-change"><textarea class="home-text" id="slogon">{{current_user.slogon}}</textarea></span>
+								<span class="basicinfo-view">{{current_user.slogon}}</span>
+							</div>
+
+							<div class="basicinfo-change basicinfo-button"><a class="button-default" id="basicinfo-finish-change">确认</a><a class="button-default">取消</a></div>
+							<div class="basicinfo-view basicinfo-button"><a class="button-default" id="basicinfo-start-change">修改</a></div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<div id="card">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
+				</div>
+
+				<div class="sub-content">
+					<div id="card-all">
+						<div><label>卡号：</label>xxx</div>
+						<div><label>绑定日期：</label>xxx</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- 我的粉丝 -->
 	<div id="homepage-fans">
 		<!-- 主tab -->

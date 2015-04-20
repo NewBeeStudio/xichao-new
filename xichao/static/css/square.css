@@ -18,7 +18,7 @@ src: url(../fonts/liukai.ttf);
 	letter-spacing: 10px;
     position: relative;
     top:-25px;
-    left:48%;
+    left:4%;
 }
 .hot-title{  
     font-size: 25px;
@@ -40,7 +40,7 @@ src: url(../fonts/liukai.ttf);
 }
 .opinion-headline-text{
 	position:relative;
-	bottom:220px;
+	bottom:200px;
     left:1%;
 	font-family:liukai, KaiTi, STKaiti;
 	font-size:24px;
@@ -81,7 +81,7 @@ src: url(../fonts/liukai.ttf);
 
 #square-part1-content{
 	position:relative;
-	bottom:120px;
+	bottom:150px;
     table-layout:fixed;
     width:703px;
 }
@@ -125,7 +125,7 @@ td.square-col-1{
 	padding-left: 15px;
 }
 td.square-col-2{
-    width:9em;
+    width:9.6em;
 }
 td.square-col-2 >a{
 	position:relative;
@@ -241,8 +241,7 @@ a.square-more{
 	height: 360px;
 }
 .square-part1-img2{
-    margin-left: 0px;
-    margin-top: 0px;
+    margin-top: -20px;
     border-left: 0px;
     position: absolute;
 }
@@ -354,7 +353,7 @@ img#square-part1-img, img#square-part2-img, img#square-part3-img{
 
 /*专栏文章区域*/
 .square-part1-right, .square-part2-left{
-	margin-top: 45px;
+	margin-top: 25px;
 }
 
 .square-part1-right{

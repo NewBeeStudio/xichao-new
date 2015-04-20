@@ -395,6 +395,15 @@ ul{
 	text-decoration: none;
 }
 
+/*背景色*/
+#content{
+	background-color: #f5f5f5;
+}
+
+#information > div{
+	background-color: #fff;
+}
+
 .pagination ul > li > a:hover{
 	background-color: #D9AE48;
 }
@@ -402,8 +411,10 @@ ul{
 /*封面部分*/
 #cover{
 	width: 100%;
-	height: 500px;
+	height: 565px;
 	position: relative;
+	background-image: url(/static/images/homepage-cover.jpg);
+	background-size: cover;
 
 	font-family: 黑体;
 	color: #fff;
@@ -414,18 +425,12 @@ ul{
 	height: 100%;
 }
 
-#cover img{
-	display: block;
-	width: 100%;
-	height: 100%;	
-}
-
 #cover-introduction{
 	top: 0;
 	right: 0;
 	background-color: #000;
 	opacity: 0.4;
-	width: 350px;
+	width: 340px;
 	height: 100%;
 	/*border: 1px solid #000;*/
 	position: absolute;
@@ -483,7 +488,7 @@ ul{
 	font-family: 黑体;
 	margin-top: 0;
 	margin-bottom: -50px;
-	min-height: 300px;
+	height: 350px;
 	background-image: url(/static/images/homepage-decoration.png);
 	background-size: 100% 100%;
 }
@@ -491,9 +496,9 @@ ul{
 /*个人介绍部分，注意分辨率兼容*/
 #introduction > div{
 	width: 920px;
-	height: 300px;
+	/*height: 300px;*/
 	margin: auto;
-	padding: 70px 120px 70px 120px;
+	padding: 50px 120px;
 	/*border: 1px solid #000;*/
 }
 
@@ -536,12 +541,13 @@ span#introduction-category{
 }
 
 #introduction-slogon{
-	margin-top: 50px;
+	margin-top: 29px;
 	margin-left: 40px;
-	margin-right: 40px;
+	margin-right: 80px;
 
 	font-size: 22px;
 	line-height: 30px;
+	color: #0e050a;
 }
 
 /*个人信息部分*/
@@ -549,26 +555,33 @@ span#introduction-category{
 	padding-top: 50px;
 }
 
-#homepage-info, #homepage-fans, #homepage-news{
+#homepage-settings, #homepage-fans, #homepage-news{
 	display: none;
+	position: relative;
+}
+
+#homepage-info{
+	display: block;
 	position: relative;
 }
 
 /*个人信息四个主分类tab*/
 .main-tab, .sub-tabs{
-	font-family: 微软雅黑; 
+	font-family: 黑体; 
 	color: #000;
 }
 
 .main-tab{
 }
 
+
 .main-tab-ul{
 	width: 100%;
 	height: 50px;
 	font-size: 16px;
-	background-color: #D0D0D0;
+	background-color: #eeeeee;
 
+	border-top: 3px solid #f6f6f6;
 	text-align: center;
 }
 
@@ -581,6 +594,8 @@ span#introduction-category{
 
 .main-tab-ul > li > a{
 	display: block;
+	border-left: 1px solid #dcdcdc;
+	border-right: 1px solid #dcdcdc; 
 }
 
 .main-tab-ul > li > a.selected{
@@ -622,8 +637,13 @@ span#introduction-category{
 	width: 100px;
 	height: 16px;
 
-	font: 16px 微软雅黑;
+	font: 16px 黑体;
+	color: #a8a7a6;
 	float: left;
+}
+
+.sub-tab .idTabs > li > a{
+	color: #a8a7a6;
 }
 
 .sub-tab .idTabs > li{
@@ -637,7 +657,7 @@ span#introduction-category{
 /*各分类内容*/
 .sub-content{
 	width: 840px;
-	margin: 50px auto;
+	margin: 50px auto 0 auto;
 	min-height: 400px;
 }
 
@@ -695,9 +715,19 @@ span#introduction-category{
 }
 
 #release-article .col-4{
-	padding-right: 0;
+	padding-right: 0;	
 }
 
+#release-article .col-1 > a{
+	color: #797979;
+	font-weight: bold;
+}
+
+#release-article .col-2,
+#release-article .col-3,
+#release-article .col-4 > a{
+	color: #a5a5a5;
+}
 
 /*发布的评论*/
 #release-comment .col-1{
@@ -716,6 +746,16 @@ span#introduction-category{
 	padding-right: 0;
 }
 
+#release-comment .col-1{
+	color: #797979;
+	font-weight: bold;
+}
+
+#release-comment .col-2 > a, 
+#release-comment .col-3,
+#release-comment .col-4 > a{
+	color: #a5a5a5;
+}
 
 /*草稿箱*/
 #draft .col-1{
@@ -730,6 +770,15 @@ span#introduction-category{
 	padding-right: 0;
 }
 
+#draft .col-1 > a{
+	color: #797979;
+	font-weight: bold;
+}
+
+#draft .col-2,
+#draft .col-3 > a{
+	color: #a5a5a5;
+}
 
 /*收藏部分*/
 /*收藏的文章*/
@@ -744,6 +793,19 @@ span#introduction-category{
 
 #collection-article .col-3, #collection-activity .col-3{
 	padding-right: 0;
+}
+
+#collection-article .col-1 > a, 
+#collection-activity .col-1 > a{
+	color: #797979;
+	font-weight: bold;
+}
+
+#collection-article .col-2 > a, 
+#collection-activity .col-2,
+#collection-article .col-3 > a, 
+#collection-activity .col-3 > a{
+	color: #a5a5a5;
 }
 
 /*关注部分*/
@@ -776,6 +838,9 @@ span#introduction-category{
 	behavior: url(/static/css/PIE.htc);
 }
 
+.focus-info a{
+	color: #797979;
+}
 
 /*我的专栏，往上看*/
 #special-all .content-box .focus-info > div{
@@ -793,6 +858,7 @@ span#introduction-category{
 
 #xichao-coin > .sub-content{
 	font-size: 18px;
+	color: #797979;
 }
 
 
@@ -805,7 +871,9 @@ span#introduction-category{
 }
 
 #news-sub-tabs .content-top{
-	margin-bottom: 20px
+	margin-bottom: 20px;
+	color: #797979;
+	font-weight: bold;
 }
 
 #news-sub-tabs .content-bottom{
@@ -815,8 +883,134 @@ span#introduction-category{
 
 #news-sub-tabs .content-bottom > span{
 	margin-left: 20px;
+	color: #a5a5a5;
 }
 
 #news-sub-tabs .content-bottom > span > a{
 	margin: 0 10px 0 10px;
+	color: #a5a5a5;
 }
+
+/*个人信息修改*/
+#basicinfo-img{
+	float: left;
+	width: 100px;
+	height: 100px;
+	font-family: 黑体;
+}
+
+#basicinfo-img > img{
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+
+a#change-photo{
+	display: block;
+	text-align: center;
+	margin-top: 20px;
+	font-size: 18px;
+}
+
+#basicinfo-detail{
+	margin-left: 240px;
+}
+
+#basicinfo-detail > div{
+	min-height: 45px;
+}
+
+#basicinfo-detail > div > label{
+	font-size: 22px;
+	text-align: left;
+
+	display: inline-block;
+	width: 120px;
+
+	cursor: auto;
+	vertical-align: top;
+}
+
+#basicinfo-detail > div input{
+	margin: 0;
+	/*vertical-align: top;*/
+	font-size: 18px;
+}
+
+#basicinfo-detail > div > span{
+	margin: 0;
+	font-size: 18px;
+	/*display: inline-block;*/
+	vertical-align: top;
+}
+
+#change-year, #change-month, #change-day{
+	width: 50px;
+} 
+
+#basicinfo-detail > #basicinfo-detail-slogon{
+	/*height: 200px;*/
+}
+
+#basicinfo-detail textarea{
+	width: 420px;
+	height: 200px;
+}
+
+.basicinfo-button{
+	margin-top: 50px;
+	text-align: left;
+	clear: both;
+}
+
+.basicinfo-button > a{
+	margin-right: 100px;
+}
+
+
+/*个人信息修改*/
+.basicinfo-change{
+	display: none;
+}
+
+#card-all{
+	margin-top: 50px;
+	margin-left: 300px;
+}
+
+#card-all > div, #card-all > div > label{
+	height: 50px;
+	font-size: 20px;
+}
+
+/*关注/私信*/
+a.button-default{
+	padding: 3px 25px;
+	font-size: 20px;
+	color: #000;
+	border: 2px solid #D9AE48;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+a.button-default:hover{
+	color: #fff;
+	background-color: #D9AE48;
+}
+
+#focus-and-message{
+	display: inline-block;
+	float: right;
+}
+
+#focus-and-message a{
+	display: inline-block;
+	width: 80px;
+	font-family: 微软雅黑;
+	text-align: center;
+	padding: 5px 10px;
+	margin-left: 30px;
+}
+
+
+/*修改封面*/
