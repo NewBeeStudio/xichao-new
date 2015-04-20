@@ -252,7 +252,7 @@ $("#comment_publish_button").click(function(){
     			$("#comment_publish_time").text(data);
     			layer.msg("评论成功",1,1);
     			add_commit(data, val_content,{{article.user_id}});
-    		});
+    		},'json');
     	}
 	}
 });
