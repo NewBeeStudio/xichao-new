@@ -29,12 +29,37 @@
 <!--content-->
 {% block content %}
 
+{% if current_user == user %}
+<div id="change-cover">
+	<div id="cover-to-use">
+		<div><img src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}"></div>
+		<div id="upload-cover"><a class="button-default">上传封面图</a></div>
+	</div>
+
+	<div id="cover-default">
+		<div id="text-default-img">默认图库：</div>
+		<div id="cover-choice">
+			<a id="arrow-left">◀</a>
+			<img class="cover-choice" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}">
+			<img class="cover-choice" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}">
+			<img class="cover-choice" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}">
+ 			<a id="arrow-right">▶</a>
+		</div>
+	</div>
+
+	<div id="change-cover-save-cancel">
+		<a id="change-cover-save" class="button-default">保存设置</a>
+		<a id="change-cover-cancel" class="button-default">取消更改</a>
+	</div>
+</div>
+{% endif %}
+
 <div id="cover">
 	<div>
 		<div id="cover-introduction">
 			{% if current_user == user %}
 			{#只有本人可以修改主页#}
-			<div id="change-cover">
+			<div id="button-change-cover">
 				更改封面图
 			</div>
 			{% endif %}
@@ -695,6 +720,20 @@
 		$('#basicinfo-finish-change').click(function(){
 			$('.basicinfo-change').css('display', 'none');
 			$('.basicinfo-view').css('display', 'inline');
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		$('#button-change-cover').click(function(){
+			$('#change-cover').slideDown(200);
+		});
+		$('#change-cover-save').click(function(){
+			$('#change-cover').slideUp(200);
+		});
+		$('#change-cover-cancel').click(function(){
+			$('#change-cover').slideUp(200);
 		});
 	});
 </script>
