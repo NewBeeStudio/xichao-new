@@ -1260,7 +1260,8 @@ def activity_upload():
 @login_required
 def home_page():
 	article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
-	return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user)
+    article_number=get_article_number(current_user.user_id)
+	return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user,article_number=article_number)
 
 
 ##能够返回数据
