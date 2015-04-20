@@ -5,15 +5,16 @@
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
 <link rel="stylesheet" type="text/css" href="/static/css/article_upload.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/button.css" />
-<link href="/static/square/orange.css" rel="stylesheet">
 {% endblock %}
 
 <!--content-->
 {% block content %}
- <p id="title">&nbsp;首页&nbsp;>&nbsp;文章&nbsp;>&nbsp;书评&nbsp;>&nbsp;<font color='#D18719'>文章详情</font></p>
+<div id="title">
+ <p class="title">&nbsp;<a href="{{url_for('index')}}" >首页</a>&nbsp;>&nbsp;<a href="{{url_for('square')}}">文章</a>&nbsp;>&nbsp;<a href="/article/order_time/group/1/category/1/page/1">书评</a>&nbsp;>&nbsp;<font color='#D18719'>文章详情</font></p>
+</div>
  <p id="p_pic">默认题图</p>
     <div id="pics">
-        <img class="pics" id="pic_4" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}" />
+        <img class="pics" id="pic_4" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}" />
         <p class="p_triangle" id="triangle_left">◀</p>
         <img class="pics" id="pic_1" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
         <img class="pics" id="pic_2" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}" />
