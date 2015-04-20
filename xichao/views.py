@@ -1263,7 +1263,6 @@ def home_page():
     article_number=get_article_number(current_user.user_id)
     return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user,article_number=article_number)
 
-
 ##能够返回数据
 ##返回当前用户所发布的文章
 ##不是草稿
@@ -1592,7 +1591,7 @@ def view_home_page(nick):
 		##默认按时间排序
 		article_pagination=get_article_pagination_by_user_id(user.user_id,True,1)
 		collection_author_list=get_collection_author_list(user.user_id)
-		return render_template('view_home_page.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list)
+		return render_template('view_home_page_new.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list)
 
 @app.route('/user/<int:user_id>/article/pagination/by_coins/page/<int:page_id>',methods=['GET'])
 @login_required
