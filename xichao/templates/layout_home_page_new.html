@@ -7,21 +7,14 @@
 
 <style type="text/css">
 	/*封面和介绍根据分辨率自适应改变大小*/
-	@media screen and (min-width: 1401px) {
-		#content {width: 1400px;}
-		#cover {height: 565px;} /*保证长宽比一定*/
+	#content{
+		width: 100%;
 	}
-	@media screen and (min-width: 1301px) and (max-width: 1400px) {
-		#content {width: 100%;}
-		#cover {height: 551px;}
-	}
-	@media screen and (min-width: 1161px) and (max-width: 1300px) {
-		#content {width: 100%;}
-		#cover {height: 517px;}
-	}
-	@media screen and (max-width: 1160px) {
-		#content {width: 1160px;}
-		#cover {height: 468px;}
+
+	@media screen and (max-width: 1160px){
+		#cover {width: 1160px; background-color: #f5f5f5;}
+
+		#introduction {width: 1160px; background-color: #f5f5f5;}
 	}
 
 	/*个人信息栏宽度是固定的*/
@@ -38,7 +31,6 @@
 
 <div id="cover">
 	<div>
-		<img src="/static/images/homepage-cover.jpg">
 		<div id="cover-introduction">
 			{% if current_user == user %}
 			{#只有本人可以修改主页#}
@@ -669,4 +661,18 @@
 
 </script>
 
+<!-- 修改个人信息 -->
+<script type="text/javascript">
+$(function(){
+	$('#basicinfo-start-change').click(function(){
+		$('.basicinfo-view').css('display', 'none');
+		$('.basicinfo-change').css('display', 'inline');
+	});
+
+	$('#basicinfo-finish-change').click(function(){
+		$('.basicinfo-change').css('display', 'none');
+		$('.basicinfo-view').css('display', 'inline');
+	});
+});
+</script>
 {% endblock %}
