@@ -385,7 +385,7 @@ class Comment(Base,AutoSerialize):
                                  nullable=False, index=True)
 
     ########## 普通列 ##########
-    content = Column(String(255), nullable = False)
+    content = Column(Text, nullable = False)
 
     ########## Index/Unique索引 ##########
     time = Column(DateTime, nullable = False, 
@@ -397,18 +397,18 @@ class Comment(Base,AutoSerialize):
     user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
     to_user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
     article_id = Column(Integer, ForeignKey('article.article_id'), index = True)
+    reply_to_comment_id = Column(Integer, nullable=False, index=True)
 
-    root = Column(Integer, ForeignKey('user.user_id'), index = True)
-    father = Column(Integer, ForeignKey('user.user_id'), index = True)
-    
+       
     def __init__(self, article_id = None, content = None,
                        user_id = None, to_user_id = None,
-                       time = None):
+                      reply_to_comment_id=reply_to_comment_id,time = None):
         self.content = content
         self.time = time
         self.user_id = user_id
         self.to_user_id = to_user_id
         self.article_id = article_id
+        self.reply_to_comment_id = reply_to_comment_id
 
 
     def __repr__(self):

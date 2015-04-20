@@ -56,7 +56,7 @@ from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
 from flask.ext.sqlalchemy import Pagination
 import os
-
+import json
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from itsdangerous import constant_time_compare, BadData
 from hashlib import md5
@@ -372,21 +372,21 @@ def article_main():
 @app.route('/article/<int:article_id>',methods=['GET'])
 @login_required
 def article(article_id):
-	article=get_article_information(article_id)
-	if article!=None:
-		if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
-			abort(404)
-		else:
-			#comment初始显示5-6条，下拉显示全部
-			session['article_session_id']=article[0].article_session_id
-			comments=get_article_comments(article_id)
-			if article[0].user_id==current_user.user_id:
-				pass
-			else:
-				update_read_num(article_id)
-			return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
-	else:
-		abort(404)
+    article=get_article_information(article_id)
+    if article!=None:
+        if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
+            abort(404)
+        else:
+            #comment初始显示5-6条，下拉显示全部
+            session['article_session_id']=article[0].article_session_id
+            comments=get_article_comments(article_id)
+            if article[0].user_id==current_user.user_id:
+                pass
+            else:
+                update_read_num(article_id)
+            return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
+    else:
+        abort(404)
 
 ##################################  专栏页面  ##################################
 # 专栏列表页
@@ -421,7 +421,7 @@ def special_all():
                                                   sort_change_url = sort_change_url,
                                                   view_change_url = view_change_url)
     else:   # all view
-        specials_pagination = get_all_specials(sort, page_id, 15)
+        specials_pagination = get_all_specials(sort, page_id, 12)
         return render_template('special_all_allView.html', sort = sort, view=view,
                                                   specials_pagination_all = specials_pagination,
                                                   author = get_special_author,
@@ -441,8 +441,7 @@ def special_search():
 
     specials_pagination = get_search_specials(search)
     return render_template('special_search.html', specials_pagination = specials_pagination,
-                                                  author = get_special_author,
-                                                  articles = get_special_article)
+                                                  author = get_special_author)
 
 # 专栏详情页
 @app.route('/special', methods=['GET'])
@@ -853,6 +852,13 @@ def pay_author(article_id):
     if comment == None:
         comment = ""
     return render_template('pay_author.html', article_id=article_id, comment = comment)
+#回复评论弹窗
+@app.route('/reply_to/<int:article_id>', methods=['GET'])
+def reply_to(article_id):
+    to_user_id = request.args.get('to_user_id')
+    reply_to_comment_id = request.args.get('reply_to_comment_id')
+    user_nick=get_nick_by_userid(to_user_id)
+    return render_template('reply_to.html', article_id=article_id, to_user_id=to_user_id, reply_to_comment_id=reply_to_comment_id,user_nick = user_nick)
 
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])
@@ -870,7 +876,6 @@ def upload(classfication):
         result = CONFIG
         return json.dumps(result)
 
-
     if action == 'uploadimage':
         result = {}
         upfile = request.files['upfile']  # 这个表单名称以配置文件为准
@@ -879,10 +884,12 @@ def upload(classfication):
         photoname = get_secure_photoname(upfile.filename)
         if classfication=='article':
             path = os.path.join(app.config['ARTICLE_CONTENT_DEST'], session['article_session_id'] ,photoname)
+            print "\n\n\n\n\n\n\n\n######################\n\n\n\n\n\n\n\n"+"\n\n\n"
             upfile.save(path)
             result = {
                 "state": "SUCCESS",
-                "url": "%s/editor_upload/article_session_id/%s/article/%s" % (app.config['HOST_NAME'], str(session['article_session_id']), photoname),
+                #"url": "%s/editor_upload/article_session_id/%s/article/%s" % (app.config['HOST_NAME'], str(session['article_session_id']), photoname),
+                "url": "/editor_upload/article_session_id/%s/article/%s" % (str(session['article_session_id']), photoname),
                 "title": "article1.jpg",
                 "original": "article1.jpg"
             }
@@ -1140,13 +1147,16 @@ def uploaded_book_picture(filename):
 ##################################	评论处理 ##################################
 @app.route('/article/comment',methods=['POST'])
 def comment():
-	content=request.form['content']
-	to_user_id=request.form['to_user_id']
-	article_id=request.form['article_id']
-	create_comment(content,to_user_id,article_id)
-	update_comment_num(article_id,True)
-	time=str(datetime.now()).rsplit('.',1)[0]
-	return time
+    content=request.form['content']
+    to_user_id=request.form['to_user_id']
+    article_id=request.form['article_id']
+    reply_to_comment_id=request.form['reply_to_comment_id']
+
+    create_comment(content,to_user_id,article_id,reply_to_comment_id)
+    update_comment_num(article_id,True)
+    time=str(datetime.now()).rsplit('.',1)[0]
+    comment_id=get_current_comment_id()
+    return jsonify(time=time,comment_id=comment_id)
 
 @app.route('/activity/comment',methods=['POST'])
 def comment_activity():
@@ -1198,9 +1208,26 @@ def article_group_favor(group_id,category_id,page_id=1):
 ##活动主页
 @app.route('/activity')
 def activity_main():
-	current_activity_list=get_current_activity_list(datetime.now())
-	passed_activity_list=get_passed_activity_list(datetime.now())
-	return render_template('activity.html',current_activity_list=current_activity_list,passed_activity_list=passed_activity_list)
+#	current_activity_list=get_current_activity_list(datetime.now())
+#	passed_activity_list=get_passed_activity_list(datetime.now())
+#	return render_template('activity.html',current_activity_list=current_activity_list,passed_activity_list=passed_activity_list)
+    try:
+        sort = request.args.get('sort')
+        page_id = int(request.args.get('page'))
+    except Exception:
+        abort(404)
+
+    if sort != 'favor':
+        sort = 'time'
+        sort_change_url = '/activity?sort=favor&page=1'
+    else:
+        sort_change_url = '/activity?sort=time&page=1'
+    current_activity_list=get_current_activity_list(datetime.now())
+    passed_activity_list=get_passed_activity_pagination(sort, page_id, 5)
+    return render_template('activity.html', sort = sort, 
+                            sort_change_url = sort_change_url,
+                            current_activity_list = current_activity_list,
+                            passed_activity_list = passed_activity_list)
 
 ##读取活动
 @app.route('/activity/<int:activity_id>')

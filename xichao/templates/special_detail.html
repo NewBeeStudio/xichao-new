@@ -67,7 +67,7 @@
 		<!-- 专栏名称和介绍 -->
 		<div id="special-name">
 			<!-- 专栏封面 -->
-			<div id="special-cover">
+			<div id="special-cover" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
 				<img src="{{ special_image }}">
 			</div>
 
@@ -106,17 +106,29 @@
             </div>
             
 		<div id="special-memo">
-			<!-- 分享和订阅怎么实现 -->
-            <a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
-                		<img src="/static/images/share_sinaweibo.png"/>
-                		</a>
-
-                        <!-- 人人网 -->
-                        <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;" style="margin-left: 10px;margin-right: 10px;">
-                		<img src="/static/images/share_renren.png" />
-                		</a>
+        <div class="btn-group" style="float:left;">
+          <button id="share-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <img src="/static/images/share-logo.png" style="height:22px; width:22px"/>
+          分享 <span class="caret"></span>
+          </button>
+          <ul id="share-option" class="dropdown-menu" role="menu">
+            <li>
+<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">                    
+                        <img src="/static/images/share_sinaweibo.png" style="margin-left:10px"/>
+                        </a>
+            </li>
+            <li class="divider"></li>
+            <li>
+<!-- 人人网 -->
+                <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;" style="margin-left: 10px;margin-right: 10px;">
+                
+                    <img src="/static/images/share_renren.png" />
+                </a>
+            </li>
+          </ul>
+        </div>
+                        
             <div id="special-memo-input">
-            <p>{{special_favor}}人关注</p>
 			{% if not author_itself %}
                 {% if has_collected_special %}
         			<input id="collection_special_cancel" style="float:right" class="input-button" type="submit" value="取消关注">
@@ -126,6 +138,8 @@
             {% else %}
             <input id="write_special_article" style="float:right" class="input-button" type="submit" value="写文章">
             {% endif %}
+            <p>{{special_favor}}人关注</p>
+
             </div>
 		</div>
 	    </div>
@@ -137,11 +151,14 @@
 	<div id="special-auther">
 
 		<!-- 作者信息 -->
-		<div id="special-auther-inner">
-			<img id="special-transparent-circle" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
+		<div id="special-author-inner">
+            <a href="{{url_for('view_home_page', nick = special_author)}}">
 
+			<img id="special-transparent-circle" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
 			<!-- 作者头像 -->
 			<img id="special-auther-pic" src="{{ special_author_avatar }}">
+            
+            </a>
 
 			<h2> {{ special_author }} </h2>
 
@@ -163,7 +180,7 @@
                 &nbsp;&nbsp;该作者没有其他文章
             {% endif %}
             {% for article in other %}
-            <a href="/article/{{article[1]}}">{{article[0]}}</a>
+            <a href="{{ url_for('article', article_id=article[1])}}">{{article[0]}}</a>
             {% endfor %}
         </div>
 	</div>
@@ -200,7 +217,7 @@
 		<!-- 专栏文章 -->
 		<div  id="special-article">
             {%- for entry in articles_pagination.items %}
-            <a class="thumbnail"href="article/{{ entry.article_id }}">
+            <a class="thumbnail"href="{{ url_for('article', article_id=entry.article_id)}}">
         		<div class="special-article-entry">
         			<h3>{{ entry.title }}</h3>
         			<p>{{ entry.abstract }}</p>
@@ -243,20 +260,17 @@
     <div id="special-paging"> 
         <nav>
             <ul class="pager">
-                
-                {% if articles_pagination.has_prev %}
-<li><a href=/special?id={{special_id}}&page=1&sort={{sort}}>
+                <li><a href=/special?id={{special_id}}&page=1&sort={{sort}}>
                        首页</a></li>
-                <li><a href=/special?id={{special_id}}&page={{ articles_pagination.prev_num }}&sort={{sort}}>
+                <li {% if not articles_pagination.has_prev %}class="disabled"{% endif %}><a {% if articles_pagination.has_prev %}href=/special?id={{special_id}}&page={{ articles_pagination.prev_num }}&sort={{sort}}{% endif %}>
                        上一页</a></li>
-                {% endif %}
+                
                 
                 <li>{{ articles_pagination.page }} / {{articles_pagination.pages }}</li>
                 
-                {% if articles_pagination.has_next %}
-                <li><a href="/special?id={{special_id}}&page={{ articles_pagination.next_num }}&sort={{sort}}">下一页</a>                     </li>
+                
+                <li {% if not articles_pagination.has_next %}class="disabled"{%endif%}><a {% if articles_pagination.has_next %} href="/special?id={{special_id}}&page={{ articles_pagination.next_num }}&sort={{sort}}" {%endif%}>下一页</a>                     </li>
                 <li><a href="/special?id={{special_id}}&page={{ articles_pagination.pages }}&sort={{sort}}">末页</a>                     </li>
-                {% endif %}
                 
             </ul>
         </nav>
@@ -364,10 +378,10 @@ $("#collection_special").click(function () {
         },
     function(data){
            if (data == "success"){
-            layer.msg("您已成功收藏该专栏",1,1,function(){location.reload();});
+            layer.msg("您已成功关注该专栏",1,1,function(){location.reload();});
            }
            if (data == "already"){
-            layer.msg("对不起，您已经收藏过该专栏",1,3,function(){location.reload();});
+            layer.msg("对不起，您已经关注该专栏",1,3,function(){location.reload();});
            }
            if (data == "login"){
             layer.msg("请您先登陆",1,3,function(){
@@ -394,10 +408,10 @@ $("#collection_special_cancel").click(function () {
 },
     function(data){
            if (data == "success"){
-            layer.msg("您已成功取消收藏该专栏",1,1,function(){location.reload();});
+            layer.msg("您已成功取消关注该专栏",1,1,function(){location.reload();});
            }
            if (data == "already"){
-            layer.msg("对不起，您尚未收藏该专栏",1,3,function(){location.reload();});
+            layer.msg("对不起，您尚未关注该专栏",1,3,function(){location.reload();});
            }
            if (data == "login"){
             layer.msg("请您先登陆",1,3,function(){
@@ -426,13 +440,13 @@ $("#collection_user").click(function () {
         _csrf_token:"{{ csrf_token() }}"
     }, function(data){
            if (data == "success"){
-            layer.msg("您已成功关注该用户",1,1,function(){location.reload();});
+            layer.msg("您已成功关注该用户作者",1,1,function(){location.reload();});
            }
            if (data == "self"){
             layer.msg("对不起，您不能关注自己",1,3,function(){location.reload();});
            }
            if (data == "already"){
-            layer.msg("对不起，您已经关注了该用户",1,3,function(){location.reload();});
+            layer.msg("对不起，您已经关注了该作者",1,3,function(){location.reload();});
            }
            if (data == "login"){
             layer.msg("请您先登陆",1,3,function(){
@@ -460,13 +474,13 @@ $("#collection_user_cancel").click(function () {
         _csrf_token:"{{ csrf_token() }}"
     }, function(data){
            if (data == "success"){
-            layer.msg("您已成功取消关注该用户",1,1,function(){location.reload();});
+            layer.msg("您已成功取消关注该作者",1,1,function(){location.reload();});
            }
            if (data == "self"){
             layer.msg("非法操作",1,3,function(){location.reload();});
            }
            if (data == "already"){
-            layer.msg("对不起，您尚未关注该用户",1,3,function(){location.reload();});
+            layer.msg("对不起，您尚未关注该作者",1,3,function(){location.reload();});
            }
            if (data == "login"){
             layer.msg("请您先登陆",1,3,function(){

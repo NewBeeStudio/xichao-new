@@ -6,14 +6,13 @@
 
 <!--content-->
 {% block content %}
- <!--
+ 
     <div id="special-search">
-    <p>搜索专栏</p>
+    <p>搜索</p>
     <form action="/special_search" method="get">
         <input type="text" name="search" />
     </form>
     </div>
--->
 
 
 
@@ -79,7 +78,6 @@
 			</div>
 			
             <p>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     {{ special.introduction | safe }}
             </p>
             <br>    
@@ -111,28 +109,24 @@
 		</div>
 	
 	</div>
-
-
     {% endfor %}
-
+    
     <div style="clear:both"></div>
-    <div id="special-paging" style="margin-top: 120px;"> 
+    <div id="special-paging" style="margin-top: 30px;"> 
         <nav>
             <ul class="pager">
                 
-                {% if specials_pagination_list.has_prev %}
-<li><a href="/special_all?view={{view}}&sort={{sort}}&page=1">
+                <li>
+                <a href="/special_all?view={{view}}&sort={{sort}}&page=1">
                        首页</a></li>
-                <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_list.prev_num }}">
+                <li {% if not specials_pagination_list.has_prev %}class="disabled"{%endif%}>
+                <a {% if specials_pagination_list.has_prev %} href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_list.prev_num }}"{%endif%}>
                        上一页</a></li>
-                {% endif %}
                 
                 <li>{{ specials_pagination_list.page }} / {{specials_pagination_list.pages }}</li>
                 
-                {% if specials_pagination_list.has_next %}
-                <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_list.next_num }}">下一页</a>                     </li>
+                <li {% if not specials_pagination_list.has_next %}class="disabled"{%endif%}><a {% if specials_pagination_list.has_next %}href="/special_all?view={{view}}&sort={{sort}}&page={{ specials_pagination_list.next_num }}"{%endif%}>下一页</a>                     </li>
                 <li><a href="/special_all?view={{view}}&sort={{sort}}&page={{specials_pagination_list.pages}}">末页</a>                     </li>
-                {% endif %}
                 
             </ul>
         </nav>

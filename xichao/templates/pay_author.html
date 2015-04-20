@@ -34,7 +34,8 @@
 						_csrf_token:"{{ csrf_token() }}",
 						content:val_content,
 						article_id:val_article_id,
-						to_user_id:val_user_id
+						to_user_id:val_user_id,
+						reply_to_comment_id:0
 					},
 					function(data){
 						parent.window.add_commit(data, val_content);

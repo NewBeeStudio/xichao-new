@@ -208,6 +208,14 @@ def create_activity(title,content,title_image,activity_session_id,activity_time,
 		result=db_session.query(Activity).filter_by(activity_session_id=activity_session_id).first()
 		return result.activity_id
 
+def get_passed_activity_pagination(sort, page_id, perpage):
+    if sort == 'time':
+        query = db_session.query(Activity).order_by(Activity.activity_time.desc(), Activity.favor.desc())
+    else:
+        query = db_session.query(Activity).order_by(Activity.favor.desc(), Activity.activity_time.desc())
+    return paginate(query = query, page = page_id, per_page = perpage, error_out = True)
+
+
 def get_user_id(nick):
 	user_id=db_session.query(User.user_id).filter_by(nick=nick).first()
 	return user_id[0]
@@ -229,14 +237,17 @@ def get_activity_information(activity_id):
 	else:
 		return None
 
-#返回一个列表，列表中的元素为元组，result[x][0]是Comment类的数据库实例，result[x][1]是该Comment所对应的用户昵称,result[x][2]是该Comment所对应的用户头像
+#返回一个列表，列表中的元素为元组，result[x][0]是Comment类的数据库实例，result[x][1]是该Comment所对应的用户昵称,result[x][2]是该Comment所对应的用户头像,result[x][3]是该Comment所对应的用户id
 def get_article_comments(article_id):
-	result=db_session.query(Comment,User.nick,User.photo).join(User,Comment.user_id==User.user_id).filter(Comment.article_id==article_id).order_by(desc(Comment.time)).all()
+	result=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(Comment.article_id==article_id).order_by(desc(Comment.time)).all()
 	if len(result)>0:
 		return result
 	else:
 		return None
-
+def get_current_comment_id():
+	result=db_session.query(Comment).order_by(desc(Comment.comment_id)).all()
+	return result[0].comment_id
+	
 def get_activity_comments(activity_id):
 	result=db_session.query(Comment_activity,User.nick,User.photo).join(User,Comment_activity.user_id==User.user_id).filter(Comment_activity.activity_id==activity_id).order_by(desc(Comment_activity.time)).all()
 	if len(result)>0:
@@ -441,9 +452,9 @@ def get_avatar():
 	avatar=db_session.query(User.photo).filter_by(nick=nick).first()
 	return avatar[0]
 ###################################  评论函数  ####################################
-def create_comment(content,to_user_id,article_id):
+def create_comment(content,to_user_id,article_id,reply_to_comment_id):
 	user_id=int(session['user_id'])
-	comment=Comment(article_id=article_id,content=content,user_id=user_id,to_user_id=to_user_id,time=datetime.now())
+	comment=Comment(article_id=article_id,content=content,user_id=user_id,to_user_id=to_user_id,time=datetime.now(),reply_to_comment_id=reply_to_comment_id)
 	db_session.add(comment)
 	db_session.commit()
 def update_comment_num(article_id,is_add):
@@ -491,10 +502,10 @@ def paginate(query,page,per_page=20,error_out=True):
 
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
-	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.article_id).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.favor))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.favor))
 	return paginate(query,page_id,10,False)
 def get_article_pagination_by_time(group_id,category_id,page_id):
-	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.article_id).filter(and_(Article.groups==group_id,Article.category==category_id)).order_by(desc(Article.time))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.time))
 	return paginate(query,page_id,10,False)
 
 	

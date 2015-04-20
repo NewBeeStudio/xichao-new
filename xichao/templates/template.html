@@ -16,8 +16,14 @@
 
 	{% for i in range(4) %}
 		<!-- data-index值从"0"到"3" -->
-		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}');">
-			<div class="index-up-content">
+		<div id="index-up-{{i}}" data-index="{{i}}" style="background-image: url('{{slideUrl[i]}}');
+		z-index: 0;">
+		<div class="index-up-middle-layer" style="
+background-image: url('{{url_for('static', filename='images/index-up-middle-layer.png')}}');
+		z-index: -1;">
+
+		</div>
+			<div class="index-up-content" style="z-index: 1;">
                 <a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time">
 				<div class="index-up-content-left">
 					
@@ -26,31 +32,39 @@
 						{{ special_list[i].name }}
 					</h3>
                     
-                    
+                    <h4>
+                    	{{get_author(special_list[i].user_id)}}
+                    </h4>
 				</div>
 				    </a>
 
 				<div class="index-up-content-right">
 					<div>
 						<div class="index-special-abstract">
-							<font style="font-size: 18.8px; font-weight: bold;">简介：</font>{{ special_list[i].introduction }}
+							{{ special_list[i].introduction }}
 						</div>
 						<table class="index-special-recommend">
 						<ul>
                             {% for article in articles(special_list[i].special_id, 1, "time", 5).items %}
                                 <tr>
-                                    <td width="250">    <a href = "{{url_for('article', article_id = article.article_id)}}" > <li>{{ article.title }}</li> </a> </td>
-                                    <td width="150" style="color:grey;">{{ article.time | time_split_2 }}</td>
-                                    <td>
-                                    <img style="width: 21px;height: 21px;" src="{{ url_for('static', filename='images/coins.png') }}">
+                                    <td style="
+                                    width: 490px;
+                                    height: 35px;
+                                    max-width: 490px;
+                                    overflow: hidden;
+                                    ">    <a href = "{{url_for('article', article_id = article.article_id)}}" > <li>{{ article.title }}</li> </a> </td>
+                                    <td width="90">
+                                    <img style="width: 16px;height: 16px;" src="{{ url_for('static', filename='images/coins.png') }}">
                                     {{ article.coins }}
                                     </td>
+                                     <td width="150">{{ article.time | time_split_2 }}</td>
+
                                 </tr>
                             {% endfor %}
 						</ul>
 						</table>
-	
-						<a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time" style="float:right;font-family: 微软雅黑;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
+	<!--
+						<a href="{{url_for('special')}}?id={{special_list[i].special_id}}&page=1&sort=time" style="float:right;font-family: 微软雅黑; margin-top: 20px;">&gt;&gt;&gt;&gt;&nbsp;View More</a>-->
 					</div>
 				</div>
 			</div>
@@ -71,15 +85,18 @@
         {% set count = 0 %}
         {% for article in hot_articles %}
         {% set count = count + 1 %}
-        <a class="thumbnail index-hot-entry"href="#">
-        <div class="">
+        <a class="thumbnail index-hot-entry"href="{{ url_for('article', article_id=article.article_id)}}">
+        <div>
             <div class="index-hot-entry-left" style="
-background-image: url('{{article.picture | safe}}');">
+background-image: url('{{article.picture | safe}}');
+background-size: 100%, 100%">
                 <div class="index-hot-entry-left-num">
                     {{count}}
                 </div>
                 <div class="index-hot-entry-left-title">
+	                <p>
                     {{article.title}}
+                    </p>
                 </div>
             </div>
             
@@ -89,7 +106,7 @@ background-image: url('{{article.picture | safe}}');">
         			<tr>
                     <td>文|{{get_author(article.user_id)}}&nbsp;&nbsp;</td>
         			<td>{{ article.time | time_split_2 }}&nbsp;&nbsp;</td>
-        			<td>阅读({{ article.read_num }})&nbsp;&nbsp;</td>
+        			<td>评论({{ article.comment_num }})&nbsp;&nbsp;</td>
         			<td><font color="#d19413">收藏&nbsp;</font>({{ article.favor }})&nbsp;&nbsp;</td>
         			<td><img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}" style="height: 20px; width: 20px;">&nbsp;{{ article.coins }}</td>
         			</tr>
@@ -129,7 +146,7 @@ background-image: url('{{article.picture | safe}}');">
         
         <div class="index-right-point">
         <h2>
-			热门观点
+			广场热门
 		</h2>
             <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
 		<div class="index-hot-point">
@@ -257,7 +274,7 @@ background-image: url('{{article.picture | safe}}');">
     {% endif %}	
 		
 		// 主页上面的四副图片
-		var gap = 80; //图片间距，折叠后的边长
+		var gap = 30; //图片间距，折叠后的边长
 		var picNum = 4; //不可变
 		var slideTime = 500; //毫秒，越大滑动时间越长
 		var MouseIn = false;

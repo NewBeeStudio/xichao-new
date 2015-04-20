@@ -12,30 +12,36 @@
 	
 	{% block opinion_content %}
     {% endblock %}
+
 	<!-- 书评 -->
-	<div class="square-part1" style="margin-top:50px;" id="book_review">
+	<div class="square-part1"  id="book_review">
 		<!-- 标题图片 -->
 		<div class="square-part1-left">
 			<!-- <h2>书评</h2> -->
-			<img class="opinion-title" src="{{ url_for('static', filename='images/shuping.png') }}"/>
+            <a href="{{url_for('article_group_time', group_id = type, category_id = 1, page_id = 1)}}">
+			     <img class="opinion-title" src="{{ url_for('static', filename='images/shuping.png') }}"/>
+            </a>
 			       
             <div class="square-part1-img2" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
-            <img class="square-part1-img1" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+            <a href="{{url_for('article_group_time', group_id = type, category_id = 1, page_id = 1)}}">
+                <img class="square-part1-img1" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+             </a>
             </div>
 
 		</div>
 
 		<!-- 内容 -->
 		<div class="square-part1-right">
-			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			<div class="opinion-headline-text">
+                <img  src="{{ url_for('static', filename='images/shuping-text.png') }}"/>
 			</div>
 			<table id="square-part1-content" >
 			{% for (article) in (book_review_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
-					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:55px;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
-					<td class="square-col-3" style="text-align:left;position:relative;left:9%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-					<td class="square-col-4" style="text-align:left;position:relative;left:10%;">{{article[0].coins}}</td>
+					<td class="square-col-2" style="text-align:left;position:relative;left:6%;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:12%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:13%;">{{article[0].coins}}</td>
 					<td class="square-col-final" style="text-align:left;position:relative;left:12%;">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
@@ -45,27 +51,33 @@
 	
 	</div>
 	
+
 	<!-- 影评 -->
 	<div class="square-part1" id="film_review">
 		<!-- 标题图片 -->
 		<div class="square-part1-left">
 			<!-- <h2>影评</h2> -->
-			<img  class="opinion-title" src="{{ url_for('static', filename='images/yingping.png') }}"/>
+            <a href="{{url_for('article_group_time', group_id = type, category_id = 2, page_id = 1)}}">
+			     <img  class="opinion-title" src="{{ url_for('static', filename='images/yingping.png') }}"/>
+            </a>
             <div class="square-part1-img2" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
-            <img class="square-part1-img1" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+            <a href="{{url_for('article_group_time', group_id = type, category_id = 2, page_id = 1)}}">
+                <img class="square-part1-img1" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+             </a>
             </div>
 		</div>
 		<!-- 内容 -->
 		<div class="square-part1-right">
-			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			<div class="opinion-headline-text">
+                <img  src="{{ url_for('static', filename='images/yingping-text.png') }}"/>
 			</div>
 			<table id="square-part1-content">
 			{% for (article) in (film_review_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
-					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:55px;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
-					<td class="square-col-3" style="text-align:left;position:relative;left:9%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-					<td class="square-col-4" style="text-align:left;position:relative;left:10%;">{{article[0].coins}}</td>
+					<td class="square-col-2" style="text-align:left;position:relative;left:6%;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:12%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:13%;">{{article[0].coins}}</td>
 					<td class="square-col-final" style="text-align:left;position:relative;left:12%;">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
@@ -82,23 +94,29 @@
 		<!-- 标题图片 -->
 		<div class="square-part1-left">
 			<!-- <h2>杂文</h2> -->
-			<img class="opinion-title" src="{{ url_for('static', filename='images/zawen.png') }}"/>
+            <a href="{{url_for('article_group_time', group_id = type, category_id = 3, page_id = 1)}}">
+			     <img class="opinion-title" src="{{ url_for('static', filename='images/zawen.png') }}"/>
+            </a>
             <div class="square-part1-img2" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
-            <img class="square-part1-img1" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+            
+                <a href="{{url_for('article_group_time', group_id = type, category_id = 3, page_id = 1)}}">
+                    <img class="square-part1-img1" src="{{ url_for('static', filename='images/square.jpg') }}"/>
+                </a>
             </div>
 		</div>
 		
 		<!-- 内容 -->
 		<div class="square-part1-right">
-			<div class="opinion-headline-text">在充满美好憧憬的2015年，您有新的计划了吗？莫尼有一个建议：代码能早写就早写，别指望着deadline是第一生产力。熬夜写代码有害身体健康。这句话应该刻在主机上。
+			<div class="opinion-headline-text">
+                <img  src="{{ url_for('static', filename='images/zawen-text.png') }}"/>
 			</div>
 			<table id="square-part1-content">
 			{% for (article) in (essay_list) %}
 				<tr>
 					<td class="square-col-1"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{article[0].title}}</a></td>
-					<td class="square-col-2" style="width:9.2em;text-align:left;position:relative;left:8%;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
-					<td class="square-col-3" style="text-align:left;position:relative;left:9%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
-					<td class="square-col-4" style="text-align:left;position:relative;left:10%;">{{article[0].coins}}</td>
+					<td class="square-col-2" style="text-align:left;position:relative;left:6%;"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
+					<td class="square-col-3" style="text-align:left;position:relative;left:12%;"><img src="{{ url_for('static', filename='images/coins.png') }}"></td>
+					<td class="square-col-4" style="text-align:left;position:relative;left:13%;">{{article[0].coins}}</td>
 					<td class="square-col-final" style="text-align:left;position:relative;left:12%;">{{article[0].time|time_split}}</td>
 				</tr>
 			{% endfor %}
