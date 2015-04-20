@@ -41,13 +41,11 @@
 }
 
 .register-button{
-    width: 118px;
-    height: 38px;
-
+	width: 100px;
+	border: 1px rgb(218, 164, 23) solid;
+	background-color: white;
+    height: 30px;
     font-family: 黑体;
     font-size: 17px;
-
-    border-radius: 8px;
-    background-color: #D9AE48;
-    color: #ffffff;
+    border-radius: 5px;
 }

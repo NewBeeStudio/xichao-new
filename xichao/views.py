@@ -1264,6 +1264,7 @@ def home_page():
 	return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user,article_number=article_number)
 
 
+
 ##能够返回数据
 ##返回当前用户所发布的文章
 ##不是草稿
