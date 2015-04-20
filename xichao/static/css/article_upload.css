@@ -33,7 +33,7 @@
 }
 
 #pics{
-	width: 1000px;
+	/*width: 1000px;*/
 }
 
 #pic_4 {
@@ -41,7 +41,6 @@
 }
 
 #pic_1 {
-	margin-left: 4px;
 	float: left;
 }
 
@@ -60,42 +59,41 @@
 	float: left;
 }
 
-.p_triangle {
-	padding-top: 70px;
+.triangle {
+	/*padding-top: 70px;
 	padding-bottom: 70px;
 	color: #ff9900;
 	font-size: 35px;
-	text-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+	text-shadow: 0 0 7px rgba(0, 0, 0, 0.7);*/
 	
 	/* 不可选择文字 */
-	-moz-user-select:none;/*火狐*/
-	-webkit-user-select:none;/*webkit浏览器*/
-	-ms-user-select:none;/*IE10*/
-	-khtml-user-select:none;/*早期浏览器*/
-	user-select:none
+	/*-moz-user-select:none;火狐*/
+	/*-webkit-user-select:none;/*webkit浏览器*/
+	/*-ms-user-select:none;/*IE10*/
+	/*-khtml-user-select:none;/*早期浏览器*/
+	/*user-select:none*/
 }
 
-.p_triangle:hover {
+.triangle:hover {
 	color: #ff6600;
 	cursor: pointer;
 }
 
-.p_triangle:active {
+.triangle:active {
 	position:relative;
 	top:1px;
 }
 
 #triangle_left {
-	margin-left: 10px;
 	float: left;
 }
 
 #triangle_right {
-	margin-left: 970px;
-	width: 40px;
+	float: left;
 }
 
 #button_upload_pic {
+	clear: left;
 	font-family: 微软雅黑;
 	font-size: 15px;
 	border-radius: 2px;

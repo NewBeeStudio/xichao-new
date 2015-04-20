@@ -44,23 +44,19 @@
 	<div id="article_content_html"></br>{{article.content|safe}}</div>
 	{%if current_user.state=='1'%}
 	<div id="share">
-	
         <!-- 新浪微博 -->
   		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 文章 | ','  {{ article.title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
 		<img class="img_share" src="/static/images/share_sinaweibo.png"/>
         </a>
-
         <!-- 人人网 -->
         <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;">
 		<img class="img_share" src="/static/images/share_renren.png"/>
         </a>
-
         <!--
 		<img class="img_share" src="/static/images/share_qzone.png"/>
 		<img class="img_share" src="/static/images/share_rss.png"/>
 		<p id="p_share">分享</p>
 		-->
-
 	</div>
 
 	<div class="bdsharebuttonbox"><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
@@ -81,7 +77,7 @@
 			<p id="date">出版年份</p>
 			<p id="page">页数</p>
 			<p id="price">定价</p>
-			<p id="ISBN">ＩＳＢＮ</p>
+			<p id="ISBN">ISBN</p>
 		</div>
 		<div id="p_book_info_content">
 			<p id="name_content">{{book.title}}</p>
@@ -96,19 +92,21 @@
 
 	{%if current_user.state=='1'%}
 
-	<div id="publish_review">
+	<div id="publish_review" class="long-background">
 		<p id="p_publish_review">发表评论 :</p>
-		<div id="img_user" style="width: 90px;">
+		<div id="img_user">
 			<img id="user_pic_1" src="{{avatar}}">
-			<p id="p_user_name" style="text-align: center; margin: auto;">{{nick}}</p>
+			<p id="p_user_name">{{nick}}</p>
 		</div>
 
-		<textarea id="input_publish_review"></textarea> 
+
+		<textarea id="input_publish_review"></textarea>
+		<div class="pay_author_div">
+			<input type="checkbox" name="pay_author" id="comment_pay_button" /><span>&nbsp;同时打赏作者</span>
+		</div>
+		<button  class="register-button" id="comment_publish_button">发表</button>
+
 		<div class="clear"> </div>
-		<input type="checkbox" name="pay_author" id="comment_pay_button" />
-		同时打赏作者
-		<button  class="register-button" id="comment_reset_button">取消</button>
-		<button  class="register-button" id="comment_publish_button">确认</button>
 	</div>
 	{%endif%}
 
@@ -129,42 +127,32 @@
 	    </a>
 	    <div class="media-body">
 		      <h4 class="media-heading">{{comment[1]}}</h4>
-		      <div style="overflow:hidden;padding-bottom:10px;"><pre>{{comment[0].content}}</pre></div>
-		 		
-		 		<div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复  </button>
-								 	{{comment[0].time}}</p></div>
-								
-			      
+		      <div class="media-content">{{comment[0].content}}</div>
+		 	<p>
+		 	<div class="comment-info">
+		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
+		 	</div>
 	     </div>
+		<ul>
+ 		{%for subcomment in comments | reverse%}
+ 		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
+  			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
+      			 <a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
+	 		     <img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px"></a>
+	    	 	<div class="media-body">
+		      		<h4 class="media-heading">{{subcomment[1]}}</h4>
+		      		<div style="overflow:hidden;height:54px;padding-bottom:10px;">{{subcomment[0].content}}</div>
+  					<p>
+					  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复</button>
+					 	{{subcomment[0].time}}
+					 </p>
+		 		</div>
+  			</li>
+  			
+ 		{% endif %}
+ 		{% endfor %}
+ 		</ul>
 
-
- 				<ul style="margin:50px">
-	     		{%for subcomment in comments | reverse%}
-	     		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
-	     	  		
-		      			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
-					      			 <a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
-				 		     <img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px">
-				  					  </a>
-				    	 <div class="media-body">
-					      <h4 class="media-heading">{{subcomment[1]}}</h4>
-					      <div style="overflow:hidden;padding-bottom:10px;"><pre>{{subcomment[0].content}}</pre></div>
-		      				 	
-		      					
-		      					<div><p>
-								  <button class="btn btn-mini btn-primary" type="button" onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复  </button>
-								 	{{subcomment[0].time}}</p>
-								 	</div>
-								
-	    		 		</div>
-
-		      			</li>
-		      			
-	     		{% endif %}
-	     		{% endfor %}
-	     		</ul>
-	     
-	
 	  </li>
    </div>
  {%endif%}  
@@ -213,15 +201,13 @@
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 
 
-
-
-
 <!--获取评论内容，更新数据库，返回评论时间-->
 <script type="text/javascript">
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
-	val_content = $("#input_publish_review").val();
-	
+
+	val_content = $('#input_publish_review').val();
+
 	if (val_content == '')
 		{alert("评论不能为空");}
 	else {
@@ -252,7 +238,7 @@ $("#comment_publish_button").click(function(){
     			$("#comment_publish_time").text(data);
     			layer.msg("评论成功",1,1);
     			add_commit(data, val_content,{{article.user_id}});
-    		});
+    		},'json');
     	}
 	}
 });
@@ -382,12 +368,12 @@ else {
 			var pay_action = function(){
 				$.layer({
 					type: 2,
-					title: ['打赏曦潮币'],
-					shade: [0.65, '#000'],
+					/*title: ['打赏曦潮币'],*/
+					shade: [0.45, '#000'],
 					shadeClose: true,
 					closeBtn: [0,true],
 					border: [2, 1, '#D9AE48'],
-					area: ['760px', '300px'],
+					area: ['760px', '350px'],
 					iframe: {src: url},
 			    });
 		    }

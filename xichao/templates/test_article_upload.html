@@ -15,12 +15,14 @@
  <p id="p_pic">默认题图</p>
     <div id="pics">
         <img class="pics" id="pic_4" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}" />
-        <p class="p_triangle" id="triangle_left">◀</p>
+       <!-- <p class="p_triangle" id="triangle_left">◀</p>-->
+       <img class="triangle" id="triangle_left" src="{{ url_for('static', filename='images/right.png') }}" />
         <img class="pics" id="pic_1" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
         <img class="pics" id="pic_2" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}" />
         <img class="pics" id="pic_3" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
         <img class="pics" id="pic_5" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.jpg')}}" />
-        <p class="p_triangle" id="triangle_right">▶</p>
+        <img class="triangle" id="triangle_right"  src="{{ url_for('static', filename='images/left.png') }}" />
+        <!--<p class="p_triangle" id="triangle_right">▶</p>-->
 
         <a href="#" class="button button-border button-primary button-small" id="button_upload_pic">上传题图</a>
         <!--<button class="button button-border button-primary button-small" id="button_upload_pic">上传题图</button>-->
