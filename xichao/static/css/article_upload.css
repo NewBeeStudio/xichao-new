@@ -6,12 +6,18 @@
 	margin-top: 2%;
 }
 
-#title {
+.title {
 	margin-top: 45px;
 	font-family: 黑体;
 	font-size: 16px;
 	color: rgb(114, 114, 114);
 }
+
+#title a{
+	display:inline;
+	color: rgb(114, 114, 114);
+}
+
 
 #p_pic {
 	margin-top: 35px;
@@ -119,12 +125,13 @@
 	margin-right: 20px;
 	padding: 0px;
 	height: 26px;
-	width: 500px;
+	width: 650px;
 	font-family: 黑体;
 	font-size: 18px;
 }
 
 #display-type-select{
+	margin-top: -3px;
 	float:right;
 }
 #display-type-select>.active>a, #display-type-select>.active>a:hover, #display-type-select>.active>a:focus {
@@ -146,7 +153,7 @@
 	font-family: 黑体;
 	font-size: 18px;
 	float: right;
-	margin-top: 6px;
+	margin-top: 3px;
 }
 
 #editor {
@@ -205,6 +212,7 @@
 }
 
 #search_book_button{
+	margin-left: 25px;
 	font-family: 微软雅黑;
 	font-size: 15px;
 	border-radius: 2px;
