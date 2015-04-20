@@ -66,7 +66,7 @@
 
 		<div id="introduction-right">
 			<div>
-				<span id="introduction-name">{{current_user.nick}}</span>
+				<span id="introduction-name">{{ user.nick }}</span>
 				<span id="introduction-category">
 					{% if current_user.role == 1 %}
 						普通用户
@@ -76,10 +76,26 @@
 						管理员
 					{% endif %}
 				</span>
+				{% if current_user != user %}
+				<span id="focus-and-message">
+					<span>
+						<a class="button-default" id="collection_user">
+							{% if collection=='yes' %}
+								取消关注
+							{% else %}
+								关注
+							{% endif %}
+						</a>
+					</span>
+					<span>
+						<a class="button-default" id="message_button">私信</a>
+					</span>
+				</span>
+				{% endif %}
 			</div>
 
 			<div id="introduction-slogon">
-				{{current_user.slogon}}
+				{{ user.slogon }}
 			</div>
 		</div>
 	</div>
@@ -95,7 +111,14 @@
 {% block js %}
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.idTabs.min.js') }}"></script>
+<script type="text/javascript">
+	$(function(){
+		$.ajaxSetup({cache:false});
+	})
+</script>
 
+{% if current_user == user %}
+{# 个人主页下AJAX #}
 <!-- 关注tab下取消关注的效果 -->
 <script type="text/javascript">
 	function onMouseOverImage(image){
@@ -663,16 +686,88 @@
 
 <!-- 修改个人信息 -->
 <script type="text/javascript">
-$(function(){
-	$('#basicinfo-start-change').click(function(){
-		$('.basicinfo-view').css('display', 'none');
-		$('.basicinfo-change').css('display', 'inline');
-	});
+	$(function(){
+		$('#basicinfo-start-change').click(function(){
+			$('.basicinfo-view').css('display', 'none');
+			$('.basicinfo-change').css('display', 'inline');
+		});
 
-	$('#basicinfo-finish-change').click(function(){
-		$('.basicinfo-change').css('display', 'none');
-		$('.basicinfo-view').css('display', 'inline');
+		$('#basicinfo-finish-change').click(function(){
+			$('.basicinfo-change').css('display', 'none');
+			$('.basicinfo-view').css('display', 'inline');
+		});
 	});
-});
 </script>
+
+{% else %}
+{# 看别人主页下的AJAX #}
+
+<!-- 关注和私信别人 -->
+<script type="text/javascript">
+	$(function(){
+		if ('{{collection}}'=='yes'){
+			flag=true;
+		}
+		else{
+			flag=false;
+		}
+		$("#collection_user").click(function()
+		{
+			if (flag) {url='/collection_cancel/user';}
+			else{url='/collection/user';}
+			$.post(url,
+			{
+				_csrf_token:"{{ csrf_token() }}",
+				user_id: {{user.user_id}}
+			},
+			function(data){
+			if (data=='success'){
+				//var follow_num = parseInt($('#home_be_followed_num').html());
+				if (flag) {
+					layer.msg("取消关注成功",1,1);
+					$("#collection_user").html("关注");
+					//var newstr = (follow_num-1);
+					//$('#home_be_followed_num').html(newstr);
+					flag=false;
+				}
+				else{
+					layer.msg("关注成功",1,1);
+					$("#collection_user").html("取消关注");
+					//var newstr = (follow_num+1);
+					//$('#home_be_followed_num').html(newstr);
+					flag=true;
+				}
+			}
+			else {
+				if ('{{collection}}'=='yes'){
+					layer.msg("关注失败",1,3);
+				}
+				else{
+					layer.msg("取消关注失败",1,3);
+				}
+			}
+			});  
+		});
+
+
+		$("#message_button").click(function()
+		{
+			var url = "{{ url_for('message_page', to_user_id=user.user_id) }}";
+			$.layer({
+				type: 2,
+				title: ['私信'],
+				shade: [0.65, '#000'],
+				shadeClose: true,
+				closeBtn: false,
+				border: [2, 1, '#D9AE48'],
+				area: ['560px', '258px'],
+				iframe: {src: url},
+			});
+		});
+	});
+</script>
+
+
+{% endif %}
+
 {% endblock %}

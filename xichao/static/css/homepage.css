@@ -965,20 +965,8 @@ a#change-photo{
 
 .basicinfo-button > a{
 	margin-right: 100px;
-	padding: 3px 25px 3px 25px;
-	font-size: 20px;
-	border: 2px solid #D9AE48;
-	border-radius: 5px;
 }
 
-a#basicinfo-start-change{
-	/*margin-left: 300px;*/
-}
-
-.basicinfo-button > a:hover{
-	color: #fff;
-	background-color: #D9AE48;
-}
 
 /*个人信息修改*/
 .basicinfo-change{
@@ -994,5 +982,35 @@ a#basicinfo-start-change{
 	height: 50px;
 	font-size: 20px;
 }
+
+/*关注/私信*/
+a.button-default{
+	padding: 3px 25px;
+	font-size: 20px;
+	color: #000;
+	border: 2px solid #D9AE48;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+a.button-default:hover{
+	color: #fff;
+	background-color: #D9AE48;
+}
+
+#focus-and-message{
+	display: inline-block;
+	float: right;
+}
+
+#focus-and-message a{
+	display: inline-block;
+	width: 80px;
+	font-family: 微软雅黑;
+	text-align: center;
+	padding: 5px 10px;
+	margin-left: 30px;
+}
+
 
 /*修改封面*/
