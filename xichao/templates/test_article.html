@@ -98,16 +98,11 @@
 			<img id="user_pic_1" src="{{avatar}}">
 			<p id="p_user_name">{{nick}}</p>
 		</div>
-
-<<<<<<< HEAD
 		<textarea id="input_publish_review"></textarea>
 		<div class="pay_author_div">
 			<input type="checkbox" name="pay_author" id="comment_pay_button" /><span>&nbsp;同时打赏作者</span>
 		</div>
 		<button  class="register-button" id="comment_publish_button">发表</button>
-=======
-		<textarea id="input_publish_review"></textarea> 
->>>>>>> 36b5512fd35174a35c052e952154b9252f7d03bd
 		<div class="clear"> </div>
 	</div>
 	{%endif%}
@@ -121,83 +116,40 @@
 {% for comment in comments %}
 
 {% if comment[0].reply_to_comment_id == 0 %}
-
-  <div class="well well-lg" >
-	  <li class="media" id="comment-{{comment[0].comment_id}}">
-	    <a class="pull-left" href="{{url_for('view_home_page', nick = comment[1])}}">
-	      <img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
-	    </a>
+  	<div class="well well-lg" >
+	  	<li class="media" id="comment-{{comment[0].comment_id}}">
+	    	<a class="pull-left" href="{{url_for('view_home_page', nick = comment[1])}}">
+	      		<img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
+	    	</a>
 	    <div class="media-body">
-		      <h4 class="media-heading">{{comment[1]}}</h4>
-<<<<<<< HEAD
-		      <div class="media-content">{{comment[0].content}}</div>
-		 	<p>
+		    <h4 class="media-heading">{{comment[1]}}</h4>
+		    <div class="media-content">{{comment[0].content}}</div>
 		 	<div class="comment-info">
 		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
 		 	</div>
-	     </div>
-		<ul>
+	    </div>
+		<ul class="comment-reply-ul">
  		{%for subcomment in comments | reverse%}
  		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
   			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
-      			 <a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
-	 		     <img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px"></a>
+      			<a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
+	 		    	<img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px">
+	 		    </a>
 	    	 	<div class="media-body">
 		      		<h4 class="media-heading">{{subcomment[1]}}</h4>
-		      		<div style="overflow:hidden;height:54px;padding-bottom:10px;">{{subcomment[0].content}}</div>
-  					<p>
-					  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复</button>
-					 	{{subcomment[0].time}}
-					 </p>
+		      		<div class="media-content">{{subcomment[0].content}}</div>
+		      		<div class="comment-info">
+		 				<span class="comment-time">{{subcomment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
+		 			</div>
 		 		</div>
   			</li>
   			
  		{% endif %}
  		{% endfor %}
  		</ul>
-=======
-		      <div style="overflow:hidden;padding-bottom:10px;"><pre>{{comment[0].content}}</pre></div>
-		 		
-		 		<div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复  </button>
-								 	{{comment[0].time}}</p></div>
-								
-			      
-	     </div>
-
-
- 				<ul style="margin:50px">
-	     		{%for subcomment in comments | reverse%}
-	     		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
-	     	  		
-		      			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
-					      			 <a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
-				 		     <img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px">
-				  					  </a>
-				    	 <div class="media-body">
-					      <h4 class="media-heading">{{subcomment[1]}}</h4>
-					      <div style="overflow:hidden;padding-bottom:10px;"><pre>{{subcomment[0].content}}</pre></div>
-		      				 	
-		      					
-		      					<div><p>
-								  <button class="btn btn-mini btn-primary" type="button" onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复  </button>
-								 	{{subcomment[0].time}}</p>
-								 	</div>
-								
-	    		 		</div>
-
-		      			</li>
-		      			
-	     		{% endif %}
-	     		{% endfor %}
-	     		</ul>
->>>>>>> 36b5512fd35174a35c052e952154b9252f7d03bd
-	     
-	
-	  </li>
-   </div>
- {%endif%}  
+	</div>
+{%endif%}  
 {% endfor %}
-
 {% endif %}
 </ul>
 
@@ -239,24 +191,12 @@
 
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
-
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> 36b5512fd35174a35c052e952154b9252f7d03bd
 <!--获取评论内容，更新数据库，返回评论时间-->
 <script type="text/javascript">
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
-<<<<<<< HEAD
 	val_content = $('#input_publish_review').val();
-=======
 	val_content = $("#input_publish_review").val();
->>>>>>> 36b5512fd35174a35c052e952154b9252f7d03bd
-	
 	if (val_content == '')
 		{alert("评论不能为空");}
 	else {
