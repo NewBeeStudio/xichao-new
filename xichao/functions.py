@@ -605,8 +605,13 @@ def update_collection_num(user_id,another_user_id,is_add):
 	db_session.commit()
 
 def get_hot_ground_acticle():
-	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(9).all()
 	return result
+
+def get_recommended_ground_article():
+	result=db_session.query(Article).join(HomePage,HomePage.ground_recommended_article==Article.article_id).filter(and_(Article.groups=='1',Article.is_draft=='0')).first()
+	return result
+
 
 def get_most_hot_ground_article():
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).first()

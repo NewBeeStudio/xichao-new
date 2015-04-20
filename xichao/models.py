@@ -80,6 +80,9 @@ class HomePage(Base, AutoSerialize):
     special2_image = Column(String(255), nullable = False)
     special3_image = Column(String(255), nullable = False)
     special4_image = Column(String(255), nullable = False)
+
+    ground_recommended_article=Column(Integer,nullable=False,default=1)
+
     
     ########## Index/Unique索引 ##########
     def __init__(self, special1=1, special2=2, special3=3, special4=4):
@@ -176,7 +179,7 @@ class Book(Base,AutoSerialize):
 
     ########## 普通列 ##########
     picture = Column(String(255), nullable = False)
-    author = Column(String(50), nullable = False)
+    author = Column(String(255), nullable = False)
     press = Column(String(50), nullable = False)
     page_num = Column(String(5), nullable = False)
     price = Column(String(10), nullable = False)
