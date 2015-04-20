@@ -1259,9 +1259,9 @@ def activity_upload():
 @app.route('/homepage')
 @login_required
 def home_page():
-	article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
+    article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
     article_number=get_article_number(current_user.user_id)
-	return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user,article_number=article_number)
+    return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user,article_number=article_number)
 
 
 ##能够返回数据
@@ -1370,36 +1370,42 @@ def ajax_home_page_fans(page_id):
 @app.route('/homepage/pagination/message/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_message(page_id):
-	pagination=get_message_pagination(current_user.user_id,page_id)
-	has_prev=get_has_prev(pagination)
-	has_next=get_has_next(pagination)
-	page=str(pagination.page)
-	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_message=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items])
+    pagination=get_message_pagination(current_user.user_id,page_id)
+    update_message_read_state(pagination)
+    has_prev=get_has_prev(pagination)
+    has_next=get_has_next(pagination)
+    page=str(pagination.page)
+    pages=str(pagination.pages)
+    ##未读信息打上标记
+    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_message=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items])
 
 ##能够返回数据
 ##返回当前用户接收到的评论
 @app.route('/homepage/pagination/received_comment/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_received_comment(page_id):
-	pagination=get_received_comment_pagination(current_user.user_id,page_id)
-	has_prev=get_has_prev(pagination)
-	has_next=get_has_next(pagination)
-	page=str(pagination.page)
-	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_comment=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items],rows_article=[item[2].get_serialize() for item in pagination.items])
+    pagination=get_received_comment_pagination(current_user.user_id,page_id)
+    update_comment_read_state(pagination)
+    has_prev=get_has_prev(pagination)
+    has_next=get_has_next(pagination)
+    page=str(pagination.page)
+    pages=str(pagination.pages)
+    ##未读信息打上标记
+    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_comment=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items],rows_article=[item[2].get_serialize() for item in pagination.items])
 
 ##能够返回数据
 ##返回当前用户接收到的通知
 @app.route('/homepage/pagination/notification/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_notification(page_id):
-	pagination=get_notification_pagination(current_user.user_id,page_id)
-	has_prev=get_has_prev(pagination)
-	has_next=get_has_next(pagination)
-	page=str(pagination.page)
-	pages=str(pagination.pages)
-	return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+    pagination=get_notification_pagination(current_user.user_id,page_id)
+    update_notification_read_state(pagination)
+    has_prev=get_has_prev(pagination)
+    has_next=get_has_next(pagination)
+    page=str(pagination.page)
+    pages=str(pagination.pages)
+    ##未读信息打上标记
+    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
 
 ##能够返回数据
 ##返回当前专栏用户的专栏
@@ -1670,7 +1676,19 @@ def award_article():
 		result=process_article_award(user_id=current_user.user_id,article_id=article_id,award_num=award_num)
 	return result
 
-
+@app.route('/ajax_news',methods=['GET'])
+def ajax_news():
+    if current_user.is_anonymous():
+        all_message_number=0
+        message_number=0
+        comment_number=0
+        notification_number=0
+    else:
+        message_number=get_message_number(current_user.user_id)
+        comment_number=get_comment_number(current_user.user_id)
+        notification_number=get_notification_number(current_user.user_id)
+        all_message_number=message_number+comment_number+notification_number
+    return jsonify(all_message_number=str(all_message_number),message_number=str(message_number),comment_number=str(comment_number),notification_number=str(notification_number))
 
 
 ##################################	已废弃 ##################################

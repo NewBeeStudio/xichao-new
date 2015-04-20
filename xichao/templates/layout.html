@@ -284,7 +284,47 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $.get("/ajax_news",function(result){
+                //新消息总数目
+                if (result.all_message_number!="0") {
+                    $("#all-message-number").css("display","inline");
+                    $("#all-message-number").text(result.all_message_number);
+                }
+                else{
+                    $("#all-message-number").css("display","none");
+                }
+                //私信数目
+                if (result.message_number!="0") {
+                    //alert(result.message_number);
+                    $("#message-number").css("display","inline");
+                    $("#message-number").text(result.message_number);
+                }
+                else{
+                    $("#message-number").css("display","none");
+                }
+                //评论数目
+                if (result.comment_number!="0") {
+                    $("#comment-number").css("display","inline");
+                    $("#comment-number").text(result.comment_number);
+                }
+                else{
+                    $("#comment-number").css("display","none");
+                }
+                //通知数目
+                if (result.notification_number!="0") {
+                    $("#notification-number").css("display","inline");
+                    $("#notification-number").text(result.notification_number);
+                }
+                else{
+                    $("#notification-number").css("display","none");
+                }
+            });
+        });
+    </script>
     {% block js %}
+    
     {% endblock %}
     </body>
 
