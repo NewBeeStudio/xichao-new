@@ -707,6 +707,67 @@
 		});
 	});
 
+
+		// 点击修改完成进行的操作
+	$('#basicinfo-finish-change').click(function()
+	{
+		val_nick=$('#change-nick').val();
+		val_genger=$('input[name="gender"]:checked').val();
+		val_birthday_year=$('#change-year').val();
+		val_birthday_month=$('#change-month').val();
+		val_birthday_day=$('#change-day').val();
+		val_phone=$('#change-phonenumber').val();
+		$.post('/homepage/modify/basic_information',
+			{
+				_csrf_token:"{{ csrf_token() }}",
+				nick: val_nick,
+				gender: val_genger,
+				birthday_year: val_birthday_year,
+				birthday_month: val_birthday_month,
+				birthday_day: val_birthday_day,
+				phone: val_phone
+			},
+			function(result){
+				if (result=='birthday_error') {layer.msg("生日格式错误",1,3);}
+				else if (result=='birthday_time_error') {layer.msg("生日时间不正确",1,3);}
+				else if (result=='nick_length_error') {layer.msg("该昵称长度不合法",1,3);}
+				else if (result=='nick_error') {layer.msg("该昵称已存在",1,3);}
+				else if (result=='phone_error') {layer.msg("手机号格式错误",1,3);}
+				else{
+					//$('.one1-orig').removeClass('display-none');
+					//$('.one1-new').addClass('display-none');
+					$('#show-nick').text(val_nick);
+					if (val_genger=='f') {$('#show-sex').text('女');}
+					else{
+						$('#show-sex').text('男');
+					}
+					if (result=='success_no_birthday' || result=='success_no_birthday_phone') {$('#show-birthday').text('暂未填写');}
+					else{
+						$('#show-birthday').text(val_birthday_year+'年'+val_birthday_month+'月'+val_birthday_day+'日');
+					}
+					if (result=='success_no_phone' || result=='success_no_birthday_phone') {$('#show-phonenumber').text('暂未填写');}
+					else{
+						$('#show-phonenumber').text(val_phone);
+					}
+					layer.msg("修改成功",1,1);
+					
+				}
+			});
+
+
+	});
+	
+	$("#basicinfo-finish-change").click(function(){
+	val_slogon=$("#slogon").val();
+	$.post('/homepage/modify/slogon',
+		{
+			_csrf_token:"{{ csrf_token() }}",
+			slogon: val_slogon
+		},
+		function(result){
+			$('#show-slogon').text(val_slogon);
+		});
+	});
 </script>
 
 <!-- 修改个人信息 -->
@@ -724,6 +785,39 @@
 	});
 </script>
 
+<!-- 更新头像AJAX -->
+<script type="text/javascript">
+function update_avatar(data){
+  $('#basicinfo-img img').attr("src",data);
+  $('#introduction-left img').attr("src",data);
+
+  $.post('/homepage/modify/avatar',
+  	{
+  		_csrf_token:"{{ csrf_token() }}",
+  		avatar:data
+  	},
+  	function(result){
+  	});
+  
+}
+</script>
+
+<script type="text/javascript">
+	$("#change-photo").click(function(){
+		$.layer({
+	        type: 2,
+	        title: [
+	            '上传头像', 
+	            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+	        ],
+	        shadeClose: true,
+	        closeBtn: false,
+	        border:[0],
+	        area: ['90%', '90%'],
+	        iframe: {src: "{{url_for('upload_avatar')}}"},
+	    });
+	});
+</script>
 <script type="text/javascript">
 	$(function(){
 		$('#button-change-cover').click(function(){
@@ -805,7 +899,6 @@
 		});
 	});
 </script>
-
 
 {% endif %}
 

@@ -1022,10 +1022,44 @@ def delete_special_by_special_id(special_id,user_id):
 #######################################  获取发表的文章数目 start ########################################
 
 def get_article_number(user_id):
-	result=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).all();
+	result=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).all()
 	return len(result)
 
 #######################################  获取发表的文章数目 end ########################################
 
+#######################################  获取消息数目 start ########################################
+def get_message_number(user_id):
+	result=db_session.query(models.Message).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,models.Message.is_read=='0',User.role!=3)).all()
+	return len(result)
+def get_comment_number(user_id):
+	result=db_session.query(Comment).filter(and_(Comment.to_user_id==user_id,Comment.is_read=='0')).all()
+	return len(result)
+def get_notification_number(user_id):
+	result=db_session.query(models.Message).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,models.Message.is_read=='0',User.role==3)).all()
+	return len(result)
+#######################################  获取消息数目 end ########################################
 
+#######################################  更新消息阅读状态 start ########################################
+def update_message_read_state_by_message_id(message_id):
+	db_session.query(models.Message).filter(models.Message.message_id==message_id).update({'is_read':'1'})
+	db_session.commit()
+
+def update_comment_read_state_by_comment_id(comment_id):
+	db_session.query(Comment).filter(Comment.comment_id==comment_id).update({'is_read':'1'})
+	db_session.commit()
+
+def update_notification_read_state_by_notification_id(notification_id):
+	update_message_read_state_by_message_id(notification_id)
+
+
+def update_message_read_state(message_pagination):
+	for item in message_pagination.items:
+		update_message_read_state_by_message_id(item[0].message_id)
+def update_comment_read_state(comment_pagination):
+	for item in comment_pagination.items:
+		update_comment_read_state_by_comment_id(item[0].comment_id)
+def update_notification_read_state(notification_pagination):
+	for item in notification_pagination.items:
+		update_notification_read_state_by_notification_id(item.message_id)
+#######################################  更新消息阅读状态 end ########################################
 

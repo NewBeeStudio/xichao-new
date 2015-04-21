@@ -222,14 +222,14 @@
 				<div class="sub-content">
 					<div id="basicinfo-all">
 						<div id="basicinfo-img">
-							<img src="/static/images/square.jpg">
+							<img src="{{current_user.photo}}">
 							<a id="change-photo" href="#">更换头像</a>
 						</div>
 						<div id="basicinfo-detail">
 							<div>
 								<label>昵称：</label>
 								<span class="basicinfo-change"><input id="change-nick" type="text" value="{{current_user.nick}}"></span>
-								<span class="basicinfo-view">{{current_user.nick}}</span>
+								<span class="basicinfo-view" id="show-nick">{{current_user.nick}}</span>
 							</div>
 							<div>
 								<label>性别：</label>
@@ -239,14 +239,14 @@
 									<input type="radio" name="gender" value="f"  checked="checked"/><span>&nbsp;女</span>
 								</span>
 
-								<span class="basicinfo-view">女</span>
+								<span class="basicinfo-view" id="show-sex">女</span>
 								{% else %}
 								<span class="basicinfo-change">
 									<input type="radio" name="gender" value="m" checked="checked" /><span>&nbsp;男&nbsp;</span>
 									<input type="radio" name="gender" value="f"/><span>&nbsp;女</span>
 								</span>
 
-								<span class="basicinfo-view">男</span>
+								<span class="basicinfo-view" id="show-sex">男</span>
 								{% endif %}
 							</div>
 							<div>
@@ -256,19 +256,28 @@
 									<input id="change-month" type="text" value="{{current_user.birthday.month}}"/><span>&nbsp;月&nbsp;</span>
 									<input id="change-day" type="text" value="{{current_user.birthday.day}}"/><span>&nbsp;日&nbsp;</span>
 								</span>
-								
-								<span class="basicinfo-view">{{current_user.birthday.year}}年{{current_user.birthday.month}}月{{current_user.birthday.day}}日</span>
+								{% if current_user.birthday==None %}
+								<span class="basicinfo-view" id="show-birthday">暂未填写</span>
+								{% else %}
+								<span class="basicinfo-view" id="show-birthday">{{current_user.birthday.year}}年{{current_user.birthday.month}}月{{current_user.birthday.day}}日</span>
+								{% endif %}
 							</div>
 							<div>
 								<label>手机号：</label>
-								<span class="basicinfo-change"><input id="change-phonenumber" type="text" value="{{current_user.phone}}"/></span>
 								
-								<span class="basicinfo-view">{{current_user.phone}}</span>
+								{% if current_user.phone==None %}
+								<span class="basicinfo-change"><input id="change-phonenumber" type="text" value=""/></span>
+								<span class="basicinfo-view" id="show-phonenumber">暂未填写</span>
+								{% else %}
+								<span class="basicinfo-change"><input id="change-phonenumber" type="text" value="{{current_user.phone}}"/></span>
+								<span class="basicinfo-view" id="show-phonenumber">{{current_user.phone}}</span>
+
+								{% endif %}
 							</div>
 							<div id="basicinfo-detail-slogon">
 								<label>个人简介：</label>
 								<span class="basicinfo-change"><textarea class="home-text" id="slogon">{{current_user.slogon}}</textarea></span>
-								<span class="basicinfo-view">{{current_user.slogon}}</span>
+								<span class="basicinfo-view" id="show-slogon">{{current_user.slogon}}</span>
 							</div>
 
 							<div class="basicinfo-change basicinfo-button"><a class="button-default" id="basicinfo-finish-change">确认</a><a class="button-default">取消</a></div>
