@@ -123,9 +123,7 @@
 				{% endif %}
 			</div>
 
-			<div id="introduction-slogon">
-				{{ user.slogon }}
-			</div>
+			<div id="introduction-slogon"><pre>{{ user.slogon }}</pre></div>
 		</div>
 	</div>
 </div>
@@ -731,7 +729,7 @@
 	});
 
 
-		// 点击修改完成进行的操作
+	// 点击修改完成进行的操作
 	$('#basicinfo-finish-change').click(function()
 	{
 		val_nick=$('#change-nick').val();
@@ -760,6 +758,8 @@
 					//$('.one1-orig').removeClass('display-none');
 					//$('.one1-new').addClass('display-none');
 					$('#show-nick').text(val_nick);
+					$('#introduction-name').text(val_nick); //改个人介绍中显示
+
 					if (val_genger=='f') {$('#show-sex').text('女');}
 					else{
 						$('#show-sex').text('男');
@@ -788,7 +788,8 @@
 			slogon: val_slogon
 		},
 		function(result){
-			$('#show-slogon').text(val_slogon);
+			$('#slogon-after-change').text(val_slogon);
+			$('#introduction-slogon > pre').text(val_slogon); //个人介绍中slogon
 		});
 	});
 </script>
@@ -802,6 +803,11 @@
 		});
 
 		$('#basicinfo-finish-change').click(function(){
+			$('.basicinfo-change').css('display', 'none');
+			$('.basicinfo-view').css('display', 'inline');
+		});
+
+		$("#basicinfo-cancel-change").click(function(){
 			$('.basicinfo-change').css('display', 'none');
 			$('.basicinfo-view').css('display', 'inline');
 		});

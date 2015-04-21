@@ -542,12 +542,17 @@ span#introduction-category{
 
 #introduction-slogon{
 	margin-top: 29px;
-	margin-left: 40px;
-	margin-right: 80px;
+	margin-left: 30px;
+	margin-right: 70px;
+}
 
+#introduction-slogon > pre{
+	width: 100%;
+	min-height: 100%;
 	font-size: 22px;
 	line-height: 30px;
 	color: #0e050a;
+	border: none;
 }
 
 /*个人信息部分*/
@@ -959,6 +964,7 @@ a#change-photo{
 #basicinfo-detail textarea{
 	width: 420px;
 	height: 200px;
+	line-height: 25px;
 }
 
 .basicinfo-button{
@@ -971,6 +977,12 @@ a#change-photo{
 	margin-right: 100px;
 }
 
+textarea#slogon-after-change{
+	background-color: #fff;
+	border: none;
+	cursor: auto;
+	box-shadow: none;
+}
 
 /*个人信息修改*/
 .basicinfo-change{

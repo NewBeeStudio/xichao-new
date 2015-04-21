@@ -277,10 +277,10 @@
 							<div id="basicinfo-detail-slogon">
 								<label>个人简介：</label>
 								<span class="basicinfo-change"><textarea class="home-text" id="slogon">{{current_user.slogon}}</textarea></span>
-								<span class="basicinfo-view" id="show-slogon">{{current_user.slogon}}</span>
+								<span class="basicinfo-view" id="show-slogon"><textarea class="home-text" id="slogon-after-change" readonly="readonly">{{current_user.slogon}}</textarea></span>
 							</div>
 
-							<div class="basicinfo-change basicinfo-button"><a class="button-default" id="basicinfo-finish-change">确认</a><a class="button-default">取消</a></div>
+							<div class="basicinfo-change basicinfo-button"><a class="button-default" id="basicinfo-finish-change">确认</a><a class="button-default" id="basicinfo-cancel-change">取消</a></div>
 							<div class="basicinfo-view basicinfo-button"><a class="button-default" id="basicinfo-start-change">修改</a></div>
 						</div>
 						
