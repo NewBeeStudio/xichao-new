@@ -129,6 +129,10 @@ class User(Base, UserMixin, AutoSerialize):
 
     follow_num=Column(Integer,nullable=False,default=0)
     be_followed_num=Column(Integer,nullable=False,default=0)
+
+
+    cover=Column(String(255),nullable=False,default='/upload/cover/default.jpg')
+
     ########## Index/Unique索引 ##########
     nick = Column(String(60), nullable = False, 
                               unique = True, index = True)

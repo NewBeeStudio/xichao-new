@@ -94,6 +94,8 @@ MAX_CONTENT_LENGTH=16*1024*1024
 
 #头像路径
 PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
+#封面路径
+COVER_DEST=os.path.join(os.path.dirname(__file__),'upload/cover')
 #主机地址
 HOST_NAME='xichao-o.com'
 

@@ -6,3 +6,9 @@ alter table message add is_read char(1) not null default '0';
 create index is_read on message(is_read);
 alter table comment add is_read char(1) not null default '0';
 create index is_read on comment(is_read);
+
+
+
+
+
+alter table user add cover varchar(255) not null default '/upload/cover/default.jpg';

@@ -32,17 +32,17 @@
 {% if current_user == user %}
 <div id="change-cover">
 	<div id="cover-to-use">
-		<div><img src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}"></div>
-		<div id="upload-cover"><a class="button-default">上传封面图</a></div>
+		<div><img src="{{user.cover}}"></div>
+		<div id="upload-cover"><a class="button-default" >上传封面图</a></div>
 	</div>
 
 	<div id="cover-default">
 		<div id="text-default-img">默认图库：</div>
 		<div id="cover-choice">
 			<a id="arrow-left">◀</a>
-			<img class="cover-choice" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}">
-			<img class="cover-choice" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}">
-			<img class="cover-choice" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}">
+			<img class="cover-choice" src="/upload/cover/default1.jpg">
+			<img class="cover-choice" src="/upload/cover/default2.jpg">
+			<img class="cover-choice" src="/upload/cover/default3.jpg">
  			<a id="arrow-right">▶</a>
 		</div>
 	</div>
@@ -54,7 +54,7 @@
 </div>
 {% endif %}
 
-<div id="cover">
+<div id="cover" style="background-image:url({{user.cover}})">
 	<div>
 		<div id="cover-introduction">
 			{% if current_user == user %}
@@ -93,11 +93,11 @@
 			<div>
 				<span id="introduction-name">{{ user.nick }}</span>
 				<span id="introduction-category">
-					{% if current_user.role == 1 %}
+					{% if user.role == 1 %}
 						普通用户
-					{% elif current_user.role == 2 %}
+					{% elif user.role == 2 %}
 						专栏作家
-					{% elif current_user.role == 3 %}
+					{% elif user.role == 3 %}
 						管理员
 					{% endif %}
 				</span>
@@ -897,6 +897,12 @@ function update_avatar(data){
 				iframe: {src: url},
 			});
 		});
+	});
+</script>
+
+<script type="text/javascript">
+	$("#cover-to-use a").click(function(){
+		
 	});
 </script>
 

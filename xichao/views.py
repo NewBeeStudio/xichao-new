@@ -1270,7 +1270,12 @@ def home_page():
 @app.route('/homepage/pagination/article/page/<int:page_id>',methods=['GET'])
 @login_required
 def ajax_home_page_article(page_id):
-    pagination=get_article_pagination_by_user_id(current_user.user_id,True,page_id)
+    sort=request.args.get('sort')
+    if sort=="by_time":
+        sort_by=True
+    else:
+        sort_by=False
+    pagination=get_article_pagination_by_user_id(current_user.user_id,sort_by,page_id)
     has_prev=get_has_prev(pagination)
     has_next=get_has_next(pagination)
     page=str(pagination.page)
@@ -1598,7 +1603,8 @@ def view_home_page(nick):
         ##默认按时间排序
         article_pagination=get_article_pagination_by_user_id(user.user_id,True,1)
         collection_author_list=get_collection_author_list(user.user_id)
-        return render_template('view_home_page_new.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list)
+        article_number=get_article_number(user.user_id)
+        return render_template('view_home_page_new.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list,article_number=article_number)
 
 @app.route('/user/<int:user_id>/article/pagination/by_coins/page/<int:page_id>',methods=['GET'])
 @login_required
@@ -1689,6 +1695,25 @@ def ajax_news():
         notification_number=get_notification_number(current_user.user_id)
         all_message_number=message_number+comment_number+notification_number
     return jsonify(all_message_number=str(all_message_number),message_number=str(message_number),comment_number=str(comment_number),notification_number=str(notification_number))
+
+
+
+#接收上传的封面文件，保存并返回路径
+@app.route('/upload/cover',methods=['POST'])
+def save_cover():
+    cover=request.files['cover']
+    cover_name='default.jpg'
+    if cover:
+        if allowed_file(cover.filename):
+            cover_name=get_secure_photoname(cover.filename)
+            cover_url=os.path.join(app.config['COVER_DEST'],cover_name)
+            avatar.save(cover_url)
+    return '/upload/cover/'+cover_name
+
+#为上传的封面文件提供服务
+@app.route('/upload/cover/<filename>')
+def uploaded_cover(filename):
+    return send_from_directory(app.config['COVER_DEST'],filename)
 
 
 ##################################    已废弃 ##################################

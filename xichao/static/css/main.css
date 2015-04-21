@@ -484,7 +484,7 @@ src: url(../fonts/liukai-small.ttf);
 }
 
 .message-number-display{
-    display: inline;
+    display: none;
     position: absolute;
     height: 15px;
     border: solid 2px #fff;
