@@ -34,7 +34,7 @@
 		<p id="p_num_xichao">曦潮币<span>+</span>  (</p>
 		<p id="p_num_xichao_content">{{article.coins}}</p>
 		<p id="p_num_xichao_bracket">)</p>
-		<p id="p_review">评论<span>+</span> ({{article.comment_num}})</p>
+		<p id="p_review">评论<span>+</span>({{article.comment_num}})</p>
 		<p id="p_collection">收藏<span>+</span> ({{article.favor}})</p>
 		<p id="p_article_author_1">作者</p>
 		<p id="p_article_author_2"><a href="{{url_for('view_home_page', nick = author.nick)}}">{{author.nick}}</a></p>
@@ -108,7 +108,7 @@
 	{%endif%}
 
 
-<p id="p_list_review">评论列表(<span></span>)</p>
+<p id="p_list_review">评论列表(<span>{{article.comment_num}}</span>)</p>
 
 
 <ul class="media-list" id="comment">
@@ -160,8 +160,7 @@
 <!-- 人人网分享Js代码 -->
 <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
 <script type="text/javascript">
-	$("#p_list_review span").html($("#comment ul").length)
-
+	
 
 	function shareClick() {
     	var link = window.location.href;
@@ -294,7 +293,8 @@ function get_user_id() {
 }
 
 function add_commit(data, val_content,to_user_id) {
-		var time=data.time;
+	
+	var time=data.time;
 	var cid=data.comment_id;
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
@@ -302,8 +302,9 @@ function add_commit(data, val_content,to_user_id) {
 $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
 					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></div></li></div>')
 
-$("#p_list_review span").html($("#comment ul").length)
-
+var article_num=parseInt('{{article.comment_num}}')+1
+$("#p_list_review span").html(article_num)
+$("#p_review ").html($("#p_review ").html().replace(/[1-9]+/,article_num))
 }
 
 
