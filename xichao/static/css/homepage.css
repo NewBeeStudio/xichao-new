@@ -900,6 +900,14 @@ span#introduction-category{
 	color: #a5a5a5;
 }
 
+.new-message-flag:after{
+	content: "NEW";
+	color: #F00;
+	padding-bottom: 30px;
+	position: relative;
+	top: -10px;
+}
+
 /*个人信息修改*/
 #basicinfo-img{
 	float: left;
