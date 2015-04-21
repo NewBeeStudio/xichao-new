@@ -1099,7 +1099,7 @@ a.button-default:hover{
 }
 
 #cover-choice{
-	padding: 20px 40px;
+	padding: 20px 30px;
 }
 
 #cover-choice > a{
@@ -1111,6 +1111,7 @@ a.button-default:hover{
 	width: 135px;
 	height: 55px;
 	cursor: pointer;
+	border: 3px solid #fff;
 }
 
 #change-cover-save-cancel{

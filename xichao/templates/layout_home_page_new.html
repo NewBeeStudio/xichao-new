@@ -44,9 +44,9 @@
 		<div id="text-default-img">默认图库：</div>
 		<div id="cover-choice">
 			<a id="arrow-left">◀</a>
-			<img class="cover-choice" src="/upload/cover/default1.jpg">
-			<img class="cover-choice" src="/upload/cover/default2.jpg">
-			<img class="cover-choice" src="/upload/cover/default3.jpg">
+			<img id="cover-choice-1" src="/upload/cover/default1.jpg">
+			<img id="cover-choice-2" src="/upload/cover/default2.jpg">
+			<img id="cover-choice-3" src="/upload/cover/default3.jpg">
  			<a id="arrow-right">▶</a>
 		</div>
 	</div>
@@ -841,6 +841,44 @@ function update_avatar(data){
 
 <!-- 更新封面AJAX -->
 <script type="text/javascript">
+
+//点击默认图库更新左侧大图，左右箭头效果
+$(function(){
+	$('#cover-choice > img').click(function(){
+		$('#cover-choice > img').each(function(){
+				$(this).css('border', '3px solid #fff');
+		});
+
+		$(this).css('border', '3px solid #D9AE48');
+		// alert($(this).attr('src'));
+		$('#cover-to-use img').attr('src', $(this).attr('src'));
+	});
+
+	$('#arrow-left').click(function(){
+		var leftestCoverNum = parseInt($('#cover-choice-1').attr('src').slice(21, -4));
+		if(leftestCoverNum != 1){
+			$('#cover-choice > img').each(function(){
+				var coverCount = parseInt($(this).attr('src').slice(21, -4)) - 1;
+				var coverSrc = '/upload/cover/default' + coverCount + '.jpg';
+				$(this).attr('src', coverSrc);
+			});
+		}
+	});
+
+	$('#arrow-right').click(function(){
+		var maxCoverNum = 9;
+		var rightestCoverNum = parseInt($('#cover-choice-3').attr('src').slice(21, -4));
+		if(rightestCoverNum != 9){
+			$('#cover-choice > img').each(function(){
+				var coverCount = parseInt($(this).attr('src').slice(21, -4)) + 1;
+				var coverSrc = '/upload/cover/default' + coverCount + '.jpg';
+				$(this).attr('src', coverSrc);
+			});
+		}
+	});
+});
+
+
 function update_cover(data){
   $('#cover-to-use img').attr("src",data);
   $('#cover').css("background-image","url('"+data+"')");
