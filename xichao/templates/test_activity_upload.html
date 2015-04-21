@@ -59,8 +59,8 @@
         </div>
       </div>
       
-      <a href="#" class="register-button" id="button_upload_cancel">取消</a>
-      <a href="#" class="register-button" id="button_upload_confirm">确定</a>
+      <a href="#" class="button button-border button-primary button-small" id="activity_button_upload_cancel">取消</a>
+      <a href="#" class="button button-border button-primary button-small" id="activity_button_upload_confirm">确定</a>
       
 
    	</div>
@@ -95,7 +95,7 @@
         val_activity_time=$("#activity_time").val();
         val_title = $("#input_title").val();
         val_content = UE.getEditor('editor').getContent();
-        val_abstract = UE.getEditor('editor').getPlainTxt();
+        val_abstract = $("#input_abstract").val();
         val_place=$("#activity_place").val();
         val_title_image=$('#pic_4').attr('src');
         if (val_activity_time==''){alert("活动时间不能为空");}
