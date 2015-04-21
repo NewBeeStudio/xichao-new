@@ -6,15 +6,19 @@
 <link href="{{ url_for('static', filename='css/homepage.css') }}" rel='stylesheet' type='text/css'/> 
 
 <style type="text/css">
-	/*封面和介绍根据分辨率自适应改变大小*/
+	body{
+		background-color: #f5f5f5;
+	}
+
 	#content{
 		width: 100%;
 	}
 
+	/*封面和介绍根据分辨率自适应改变宽大小,大屏100%，小屏固定宽*/
 	@media screen and (max-width: 1160px){
-		#cover {width: 1160px; background-color: #f5f5f5;}
+		#cover {width: 1160px;}
 
-		#introduction {width: 1160px; background-color: #f5f5f5;}
+		#introduction {width: 1160px;}
 	}
 
 	/*个人信息栏宽度是固定的*/
@@ -80,7 +84,7 @@
 <div id="introduction">
 	<div>
 		<div id="introduction-left">
-			<img src="{{current_user.photo}}">
+			<img src="{{user.photo}}">
 			{% if current_user == user %}
 			{#只有本人可以修改个人设置#}
 			<div>
@@ -193,8 +197,15 @@
 	//获取更新url
 	function get_refresh_url(category, page_id){
 		var refresh_url;
-		if(category == "release-article")
-			refresh_url = "/homepage/pagination/article/page/";
+		if(category == "release-article"){
+			if($('#bt-release-by-time').hasClass('selected'))
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			else if($('#bt-release-by-coins').hasClass('selected'))
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_coins";
+			else 
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			return refresh_url;
+		}
 		else if(category == "release-comment")
 			refresh_url = "/homepage/pagination/comment/page/";
 		else if(category == "draft-all")
@@ -546,9 +557,13 @@
 	//子tab按钮触发AJAX
 	$(function(){
 		$('#bt-release-article').click(function(){
+			if($('#release-sort-ul').css('display') == 'none')
+				$('#release-sort-ul').css('display', 'block')
 			homepage_refresh("release-article", 1);
 		});
 		$('#bt-release-comment').click(function(){
+			if($('#release-sort-ul').css('display') == 'block')
+				$('#release-sort-ul').css('display', 'none')
 			homepage_refresh("release-comment", 1);
 		});
 		$('#bt-collection-article').click(function(){
@@ -562,6 +577,14 @@
 		});
 		$('#bt-focus-special').click(function(){
 			homepage_refresh("focus-special", 1);
+		});
+
+		//排序功能
+		$('#bt-release-by-time').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+		$('#bt-release-by-coins').click(function(){
+			$("#bt-release-article").trigger("click");
 		});
 	});
 

@@ -488,6 +488,7 @@ ul{
 	margin-top: 0;
 	margin-bottom: -50px;
 	height: 350px;
+	width: 100%;
 	background-image: url(/static/images/homepage-decoration.png);
 	background-size: 100% 100%;
 }
@@ -701,6 +702,10 @@ span#introduction-category{
 
 /*发布的文章*/
 /*total:840px*/
+#release-sort-ul{
+	display: block;
+}
+
 #release-article .col-1{
 	width: 490px;
 }
