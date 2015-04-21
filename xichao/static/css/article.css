@@ -355,7 +355,8 @@
 	font-family: 宋体;
 	font-size: 18px;
 	letter-spacing: 1px;
-	line-height: 150%;	
+	line-height: 150%;
+	height: 55px;
 }
 
 .comment-info span{
@@ -374,6 +375,9 @@
 	cursor: pointer;
 }
 
+.comment-reply-ul {
+	margin-top: 20px;
+}
 
 #pay_button{
 
