@@ -21,24 +21,31 @@
 
 <!--content-->
 {% block content %}
- <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发布活动</p>
+ <p id="title">&nbsp;<a href="{{url_for('index')}}" ><font color="black">首页</font></a>&nbsp;>>>&nbsp;发布活动</p>
     <div id="pics">
-        <img class="pics" id="pic_4" style="width:225px;height:205px;" src="{{url_for('uploaded_activity_title_image',filename='activity_upload_pic_4.png')}}" />
-       	<p class="p_triangle" id="triangle_left">◀</p>
-        <img class="pics" id="pic_1" src="{{url_for('uploaded_activity_title_image',filename='activity_upload_pic_1.jpg')}}" />
-        <img class="pics" id="pic_2" src="{{url_for('uploaded_activity_title_image',filename='activity_upload_pic_2.jpg')}}" />
-        <img class="pics" id="pic_3" src="{{url_for('uploaded_activity_title_image',filename='activity_upload_pic_3.jpg')}}" />
-        <p class="p_triangle" id="triangle_right">▶</p>
+        <img class="pics" id="pic_4" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}" />
+       <!-- <p class="p_triangle" id="triangle_left">◀</p>-->
+       <img class="triangle" id="triangle_left" src="{{ url_for('static', filename='images/right.png') }}" />
+        <img class="pics" id="pic_1" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
+        <img class="pics" id="pic_2" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}" />
+        <img class="pics" id="pic_3" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
+        <img class="pics" id="pic_5" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.jpg')}}" />
+        <img class="triangle" id="triangle_right"  src="{{ url_for('static', filename='images/left.png') }}" />
+        <!--<p class="p_triangle" id="triangle_right">▶</p>-->
 
-        <a href="#" class="register-button" id="button_upload_pic">上传题图</a>
+        <a href="#" class="button button-border button-primary button-small" id="button_upload_pic">上传题图</a>
     </div>
 
    	<div id="article_editor">
    		<p id="p_article_title">活动标题:</p>
    		<input id="input_title" type="text">
+            <div id="spare">
+            </div>
+            <p id="p_article_abstract">活动摘要:</p>
+            <input id="input_abstract" type="text">
       <!--<label>请选择活动时间</label>
       <input type="text" id="activity_time" /> -->
-      <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+      <script id="editor" type="text/plain" style="width:1160px;height:300px;"></script>
       
 
       <div id="activity_info">
@@ -78,7 +85,7 @@
     <script type="text/javascript">
     var ue = UE.getEditor('editor', {
 		serverUrl: "/editor/activity",
-    initialFrameWidth: 1058,
+    initialFrameWidth: 1160,
     initialFrameHeight: 500
 	});
 
