@@ -1612,9 +1612,30 @@ def view_home_page(nick):
         collection=has_collected(user_id=current_user.user_id,another_user_id=user.user_id)
         ##默认按时间排序
         article_pagination=get_article_pagination_by_user_id(user.user_id,True,1)
-        collection_author_list=get_collection_author_list(user.user_id)
+        #collection_author_list=get_collection_author_list(user.user_id)
         article_number=get_article_number(user.user_id)
-        return render_template('view_home_page_new.html',user=user,collection=collection,article_pagination=article_pagination,collection_author_list=collection_author_list,article_number=article_number)
+        return render_template('view_home_page_new.html',user=user,collection=collection,article_pagination=article_pagination,article_number=article_number)
+
+@app.route('/user/<int:user_id>/collection_author/pagination/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_collection_user_pagination(user_id,page_id):
+    pagination=get_user_collection_pagination(user_id,page_id)
+    has_prev=get_has_prev(pagination)
+    has_next=get_has_next(pagination)
+    page=str(pagination.page)
+    pages=str(pagination.pages)
+    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_user=[item[0].get_serialize() for item in pagination.items],rows_collection_user=[item[1].get_serialize() for item in pagination.items])
+
+
+@app.route('/user/<int:user_id>/comment/pagination/page/<int:page_id>',methods=['GET'])
+def ajax_comment_pagination(user_id,page_id):
+    pagination=get_comment_pagination_by_user_id(user_id,page_id)
+    has_prev=get_has_prev(pagination)
+    has_next=get_has_next(pagination)
+    page=str(pagination.page)
+    pages=str(pagination.pages)
+    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_comment=[item[0].get_serialize() for item in pagination.items],rows_article=[item[1].get_serialize() for item in pagination.items])
+
 
 @app.route('/user/<int:user_id>/article/pagination/by_coins/page/<int:page_id>',methods=['GET'])
 @login_required
