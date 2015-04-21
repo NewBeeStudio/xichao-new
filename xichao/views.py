@@ -1382,13 +1382,15 @@ def ajax_home_page_fans(page_id):
 @login_required
 def ajax_home_page_message(page_id):
     pagination=get_message_pagination(current_user.user_id,page_id)
-    update_message_read_state(pagination)
+    
     has_prev=get_has_prev(pagination)
     has_next=get_has_next(pagination)
     page=str(pagination.page)
     pages=str(pagination.pages)
     ##未读信息打上标记
-    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_message=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items])
+    result=jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_message=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items])
+    update_message_read_state(pagination)
+    return result
 
 ##能够返回数据
 ##返回当前用户接收到的评论
@@ -1396,13 +1398,15 @@ def ajax_home_page_message(page_id):
 @login_required
 def ajax_home_page_received_comment(page_id):
     pagination=get_received_comment_pagination(current_user.user_id,page_id)
-    update_comment_read_state(pagination)
+    
     has_prev=get_has_prev(pagination)
     has_next=get_has_next(pagination)
     page=str(pagination.page)
     pages=str(pagination.pages)
     ##未读信息打上标记
-    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_comment=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items],rows_article=[item[2].get_serialize() for item in pagination.items])
+    result=jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows_comment=[item[0].get_serialize() for item in pagination.items],rows_user=[item[1].get_serialize() for item in pagination.items],rows_article=[item[2].get_serialize() for item in pagination.items])
+    update_comment_read_state(pagination)
+    return result
 
 ##能够返回数据
 ##返回当前用户接收到的通知
@@ -1410,13 +1414,15 @@ def ajax_home_page_received_comment(page_id):
 @login_required
 def ajax_home_page_notification(page_id):
     pagination=get_notification_pagination(current_user.user_id,page_id)
-    update_notification_read_state(pagination)
+    ##update_notification_read_state(pagination)
     has_prev=get_has_prev(pagination)
     has_next=get_has_next(pagination)
     page=str(pagination.page)
     pages=str(pagination.pages)
     ##未读信息打上标记
-    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+    result=jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+    update_notification_read_state(pagination)
+    return result
 
 ##能够返回数据
 ##返回当前专栏用户的专栏
