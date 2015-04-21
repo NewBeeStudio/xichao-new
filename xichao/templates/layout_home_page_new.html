@@ -989,6 +989,10 @@ function update_cover(data){
 			refresh_url = "/user/" + {{user.user_id}} + "/comment/pagination/page/" + page_id;
 			return refresh_url;
 		}
+		else if(category == "focus-user"){
+			refresh_url = "/user/" + {{user.user_id}} + "/collection_author/pagination/page/" + page_id;
+			return refresh_url;
+		}
 
 		// refresh_url += page_id;
 		return refresh_url;
@@ -1098,6 +1102,21 @@ function update_cover(data){
 				}
 				text += "</div></div>";
 			}
+			else if(category == "focus-user"){
+				var items_user = data.rows_user;
+				var items_collection_user = data.rows_collection_user;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_user.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a onclick='homepage_delete(\"" + category + "\"," + items_user[i].user_id + "," + page_id + "," + items_user.length + ")'>\
+									<img src='/static/images/transparent-circle.png' style='background-image:url("+ items_user[i].photo + ");'>\
+									</a></div>\
+								<div><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
 			
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
@@ -1135,6 +1154,10 @@ function update_cover(data){
 	$(function(){
 		$('#bt-release').click(function(){
 			$("#bt-release-article").trigger("click");
+		});
+
+		$('#bt-focus').click(function(){
+			homepage_refresh("focus-user", 1);
 		});
 	});
 
