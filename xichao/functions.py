@@ -106,7 +106,7 @@ def send_resetpassword_email(nick,password,email):
 	mail=Mail(app)
 	msg=Message(u'重置曦潮网站的密码',sender='xichao_test@163.com',recipients=[email])
 	msg.body='text body'
-	msg.html = render_template('test_reset_password_email.html',verify_url=verify_url,nick=nick)
+	msg.html = render_template('resetPasswordMail.html',nick=nick,verify_url=verify_url)
 	with app.app_context():
 		try:
 			mail.send(msg)
