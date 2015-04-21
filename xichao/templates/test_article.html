@@ -302,9 +302,9 @@ function add_commit(data, val_content,to_user_id) {
 $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
 					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></div></li></div>')
 
-var article_num=parseInt('{{article.comment_num}}')+1
+var article_num=parseInt($("#p_list_review span").html())+1
 $("#p_list_review span").html(article_num)
-$("#p_review ").html($("#p_review ").html().replace(/[1-9]+/,article_num))
+$("#p_review ").html($("#p_review ").html().replace(/[0-9]+/,article_num))
 }
 
 
