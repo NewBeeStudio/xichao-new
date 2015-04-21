@@ -16,8 +16,8 @@
 <!--content-->
 {% block content %}
 	<div id="p_title">
-		<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;文章&nbsp;>&nbsp;书评&nbsp;></p>
-		<p id="p_title_2">&nbsp;文章详情</p>
+		<p id="p_title_1">&nbsp;<a href="{{url_for('index')}}" >首页</a>&nbsp;>&nbsp;<a href="{{url_for('square')}}">文章</a>&nbsp;>&nbsp;<a href="/article/order_time/group/1/category/1/page/1">书评</a>&nbsp;></p>
+		<p id="p_title_2">&nbsp;{{article.title}}</p>
 	</div>
 	
 	<div id="article">
@@ -143,8 +143,9 @@
 		      		<h4 class="media-heading">{{subcomment[1]}}</h4>
 		      		<div style="overflow:hidden;height:54px;padding-bottom:10px;">{{subcomment[0].content}}</div>
   					<p>
-					  <button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复</button>
-					 	{{subcomment[0].time}}
+					  <button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{subcomment[3]}},{{comment[0].comment_id}})">回复</button>
+					  {{subcomment[0].time}}
+					 	<!--btn btn-mini btn-primary-->
 					 </p>
 		 		</div>
   			</li>
@@ -311,7 +312,7 @@ function add_commit(data, val_content,to_user_id) {
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	//console.log(time+" "+cid+" "+val_content)
 $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
-					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></div></li></div>')
+					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></div></li></div>')
 
 $("#p_list_review span").html($("#comment ul").length)
 
@@ -326,7 +327,7 @@ function add_reply(data,val_content,val_user_id,reply_to_comment_id){
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"
  if($("#"+location+" ul li:last").length!==0)
  {$("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复  </button>'+time+'</p></div></div></li>')
+ 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复  </button>'+time+'</p></div></div></li>')
 
 }
 else {
@@ -337,7 +338,7 @@ else {
 												'<a class="pull-left" href="'+homeurl+
  												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+
  													val_content+
- 												'</pre></div><div><p><button class="btn btn-mini btn-primary" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
+ 												'</pre></div><div><p><button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
  													')">回复</button>'+time+
 														'</p></div></div></li></ul>')
 }
