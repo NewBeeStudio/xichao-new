@@ -76,6 +76,10 @@ def upload_title_image():
 def upload_avatar():
     return render_template('upload_avatar_tailor.html')
 
+@app.route('/upload/tailor/cover')
+def upload_cover():
+    return render_template('upload_cover_tailor.html')
+
 @app.route('/upload/tailor/activity/title_image')
 def upload_activity_title_image():
     return render_template('upload_activity_title_image_tailor.html')
@@ -1136,13 +1140,14 @@ def ajax_collection_special_author_cancel():
 
     err = collection_special_author_cancel(user_id, special_id)
     return err
+'''
 ##################################    书籍 ##################################
 #书籍图片的存储路径
 @app.route('/book/picture/<filename>')
 def uploaded_book_picture(filename):
     return send_from_directory(app.config['BOOK_PICTURE_DEST'],filename)
 
-
+'''
 
 ##################################    评论处理 ##################################
 @app.route('/article/comment',methods=['POST'])
@@ -1472,7 +1477,12 @@ def ajax_home_page_modify_avatar():
     result=update_user_avatar(current_user.user_id,avatar)
     return result
 
-
+@app.route('/homepage/modify/cover',methods=['POST'])
+@login_required
+def ajax_home_page_modify_cover():
+    cover=request.form['cover']
+    result=update_user_cover(current_user.user_id,cover)
+    return result
 
 ##测试成功
 ##返回操作结果，'fail'、'success'
@@ -1707,7 +1717,7 @@ def save_cover():
         if allowed_file(cover.filename):
             cover_name=get_secure_photoname(cover.filename)
             cover_url=os.path.join(app.config['COVER_DEST'],cover_name)
-            avatar.save(cover_url)
+            cover.save(cover_url)
     return '/upload/cover/'+cover_name
 
 #为上传的封面文件提供服务

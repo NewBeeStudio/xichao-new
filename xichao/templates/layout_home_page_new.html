@@ -802,6 +802,23 @@ function update_avatar(data){
 }
 </script>
 
+<!-- 更新封面AJAX -->
+<script type="text/javascript">
+function update_cover(data){
+  $('#cover-to-use img').attr("src",data);
+  $('#cover').css("background-image","url('"+data+"')");
+
+  $.post('/homepage/modify/cover',
+  	{
+  		_csrf_token:"{{ csrf_token() }}",
+  		cover:data
+  	},
+  	function(result){
+  	});
+  
+}
+</script>
+
 <script type="text/javascript">
 	$("#change-photo").click(function(){
 		$.layer({
@@ -831,6 +848,23 @@ function update_avatar(data){
 		});
 	});
 </script>
+<script type="text/javascript">
+	$("#upload-cover a").click(function(){
+		$.layer({
+	        type: 2,
+	        title: [
+	            '上传封面', 
+	            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+	        ],
+	        shadeClose: true,
+	        closeBtn: false,
+	        border:[0],
+	        area: ['90%', '90%'],
+	        iframe: {src: "{{url_for('upload_cover')}}"},
+	    });
+	});
+</script>
+
 
 {% else %}
 {# 看别人主页下的AJAX #}
@@ -900,11 +934,7 @@ function update_avatar(data){
 	});
 </script>
 
-<script type="text/javascript">
-	$("#cover-to-use a").click(function(){
-		
-	});
-</script>
+
 
 {% endif %}
 

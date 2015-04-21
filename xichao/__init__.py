@@ -93,7 +93,7 @@ ADMINS = ['xichao_test@163.com']
 MAX_CONTENT_LENGTH=16*1024*1024
 
 #头像路径
-PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avator')
+PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avatar')
 #封面路径
 COVER_DEST=os.path.join(os.path.dirname(__file__),'upload/cover')
 #主机地址
@@ -111,14 +111,14 @@ ACTIVITY_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/activity/a
 #专栏图片路径
 SPECIAL_DEST=os.path.join(os.path.dirname(__file__),'upload/special')
 #书籍图片路径
-BOOK_PICTURE_DEST=os.path.join(os.path.dirname(__file__),'upload/book')
+##BOOK_PICTURE_DEST=os.path.join(os.path.dirname(__file__),'upload/book')
 
 #首页图片路径
 HOMEPAGE_DEST=os.path.join(os.path.dirname(__file__),'upload/homepage')
 
 DEFAULT_ARTICLE_TITLT_IMAGE=['article_upload_pic_1.jpg','article_upload_pic_2.jpg','article_upload_pic_3.jpg','article_upload_pic_4.png','article_upload_pic_5.jpg','article_upload_pic_6.jpg']
 
-
+DEFAULT_FILE=['default.jpg','default1.jpg','default2.jpg','default3.jpg','default4.jpg','default5.jpg','default6.jpg','default7.jpg','default8.jpg','default9.jpg','tailor_default.jpg']
 
 
 app.config.from_object(__name__)

@@ -833,10 +833,34 @@ def updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
 	else:
 		return 'success'
 
+def delete(file_path):
+	file_path_list=file_path.split('/')
+	file_path_list_length=len(file_path_list)
+	filename=file_path_list[file_path_list_length-1]
+	if filename in app.config['DEFAULT_FILE']:
+		pass
+	else:
+		try:
+			os.remove(os.path.join(os.path.dirname(__file__),file_path[1:]))
+			print 'delete file success'
+		except Exception,e:
+			print 'delete file fail'
+			print e
+
 def update_user_avatar(user_id,avatar):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	old_avatar=user.photo
 	user.photo=avatar
 	db_session.commit()
+	delete(old_avatar)
+	return 'success'
+
+def update_user_cover(user_id,cover):
+	user=db_session.query(User).filter_by(user_id=user_id).scalar()
+	old_cover=user.cover
+	user.cover=cover
+	db_session.commit()
+	delete(old_cover)
 	return 'success'
 
 def update_user_slogon(user_id,slogon):
