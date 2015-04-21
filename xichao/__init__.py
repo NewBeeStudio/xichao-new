@@ -80,7 +80,7 @@ REMEMBER_COOKIE_DURATION = timedelta(days=7)
 
 
 # email server
-MAIL_SERVER = 'smtp.exmail.qq.com '
+MAIL_SERVER = 'smtp.exmail.qq.com'
 MAIL_PORT = 465
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True

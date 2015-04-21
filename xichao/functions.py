@@ -79,10 +79,11 @@ def send_verify_email(nick,password,email):
     with app.app_context():
         try:
             mail.send(msg)
+            return True
         except Exception,e:
             print "\n\n\n\n\n\n", "NoNoNoNoNoNoNo!", "\n\n\n\n\n\n"
             print str(e)
-            pass
+            return False
 
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
@@ -115,8 +116,9 @@ def send_resetpassword_email(nick,password,email):
 	with app.app_context():
 		try:
 			mail.send(msg)
+			return True
 		except:
-			pass
+			return False
 
 #是否存在该用户名，用户名和密码是否匹配
 def check_nickpassword_match(nick, password):
