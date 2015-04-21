@@ -10,8 +10,7 @@
 <!--content-->
 {% block content %}
 	<div id="p_title">
-		<p id="p_title_1">&nbsp;首页&nbsp;>&nbsp;活动&nbsp;>&nbsp;</p>
-		<p id="p_title_2">活动详情</p>
+		<p id="p_title_1">&nbsp;<a href="{{url_for('index')}}" >首页</a>&nbsp;>&nbsp;<a href="{{url_for('activity_main')}}?sort=time&page=1">活动</a>&nbsp;>&nbsp;<font color="#D9AE48">{{ activity.name }}</font></p>
 	</div>
 
 	<div id="article_title">
