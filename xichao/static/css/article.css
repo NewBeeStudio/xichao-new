@@ -1,18 +1,23 @@
 #p_title {
 	margin-top: 45px;
-	font-size: 16.67px;
-	letter-spacing: 2px;
+	font-size: 16px;
+	font-family: 黑体;
+}
+
+
+#p_title a{
+	display:inline;
+	text-decoration: none;
+	color: rgb(114, 114, 114);
 }
 
 #p_title_1 {
 	float: left;
-	font-family: 黑体;
 	color: rgb(114, 114, 114);
 }
 
 #p_title_2 {
 	color: #D9AE48;
-	font-family: 黑体;
 } 
 
 #article {
@@ -306,6 +311,10 @@
 	margin-left: 70%;
 	margin-right: 2%;
 	float: left;
+}
+
+.button-reply {
+	margin-right: 10px;
 }
 
 .register-button{

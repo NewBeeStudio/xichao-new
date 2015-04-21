@@ -128,6 +128,29 @@
 	font-size: 18px;
 }
 
+#spare {
+	margin: 15px;
+}
+
+#p_article_abstract {
+	font-family: 黑体;
+	font-size: 18px;
+	position: absolute;
+	margin-left: 30px;
+	margin-top: 20px;
+	width: 130px;
+}
+
+#input_abstract {
+	margin-left: 200px;
+	margin-right: 20px;
+	padding: 0px;
+	height: 50px;
+	width: 650px;
+	font-family: 黑体;
+	font-size: 18px;
+}
+
 #display-type-select{
 	margin-top: -3px;
 	float:right;
@@ -308,6 +331,7 @@
 #p_activity_time {
 	float: left;
 	margin-right: 10px;
+	margin-top: 5px;
 }
 
 #activity_time {
@@ -319,6 +343,7 @@
 #p_activity_place {
 	float: left;
 	margin-right: 10px;
+	margin-top: 5px;
 }
 
 #activity_place {
@@ -367,3 +392,17 @@
             float:left;
             width: 100%;            
         }
+
+#activity_button_upload_cancel {
+	position: relative;
+	left:300px;
+	height: 27px;
+	width: 108px;
+}
+
+#activity_button_upload_confirm {
+	position: absolute;
+	left:750px;
+	height: 27px;
+	width: 108px;
+}

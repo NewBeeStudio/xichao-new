@@ -59,22 +59,22 @@ src: url(../fonts/liukai.ttf);
 	position: relative;
     top:-25px;
 	height: 380px;
-	width: 800px;
+	width: 780px;
 	border: 1px solid #D9AE48;
 }
 .square-hot2{
 	position: relative;
     top:-25px;
-    left:47%;
+    left:43%;
 	height: 380px;
-	width: 341px;
+	width: 360px;
 	border: 1px solid #D9AE48;
 }
 #square-hot-article{
 	font-family: 黑体;
 	font-size: 14px;
     table-layout:fixed;
-    width:440px;
+    width:465px;
     line-height: 1;
 }
 
@@ -137,7 +137,7 @@ td.square-col-3{
 	width: 18px;
 	color: #6e6e6e;
 	position:relative;
-	left:6%;
+/*	left:6%;*/
 	top:-1px;
 }
 
@@ -149,7 +149,7 @@ td.square-col-4{
 td.square-col-final{
 	color: #6e6e6e;
 	position:relative;
-	left:8%;
+	left:2%;
 }
 
 a.square-more{
