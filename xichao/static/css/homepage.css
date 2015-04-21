@@ -963,12 +963,12 @@ a#change-photo{
 
 #basicinfo-detail textarea{
 	width: 420px;
-	height: 200px;
+	min-height: 150px;
 	line-height: 25px;
 }
 
 .basicinfo-button{
-	margin-top: 50px;
+	margin-top: 20px;
 	text-align: left;
 	clear: both;
 }

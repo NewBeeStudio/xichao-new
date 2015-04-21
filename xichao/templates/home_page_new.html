@@ -11,7 +11,9 @@
 				<li><a id="bt-draft" href="#draft">草稿箱</a>
 				<li><a id="bt-collection" href="#collection">收藏</a></li>
 				<li><a id="bt-focus" href="#focus">关注</a></li>
+				{% if user.role == 2 %}
 				<li><a id="bt-special" href="#special">专栏</a></li>
+				{% endif %}
 				<li><a id="bt-xichao-coin" href="#xichao-coin">曦潮币</a></li> 
 			</ul> 
 		</div>
@@ -163,6 +165,7 @@
 				</div>
 			</div>
 
+			{% if user.role == 2 %}
 			<!-- 专栏tab -->
 			<div id="special">
 				<div class="sub-tab">
@@ -183,6 +186,7 @@
 					</div>
 				</div>
 			</div>
+			{% endif %}
 
 			<!-- 曦潮币tab -->
 			<div id="xichao-coin">
