@@ -717,8 +717,8 @@
 			}
 		}
 		
-
-		window.location.hash = '#information'; //跳转到合适的位置
+		$('html, body').animate({scrollTop: $('#information').offset().top}, 500); //滑动到锚点位置
+		// window.location.hash = '#information'; //跳转到合适的位置
 	}
 
 	//navbar点击后触发AJAX（模拟点击发布按钮）
