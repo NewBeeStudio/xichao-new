@@ -80,15 +80,15 @@ REMEMBER_COOKIE_DURATION = timedelta(days=7)
 
 
 # email server
-MAIL_SERVER = 'smtp.163.com'
+MAIL_SERVER = 'smtp.exmail.qq.com '
 MAIL_PORT = 465
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
-MAIL_USERNAME = 'xichao_test'
-MAIL_PASSWORD = 'xichaoxichao'
+MAIL_USERNAME = 'info'
+MAIL_PASSWORD = 'io1896'
 
 # administrator list
-ADMINS = ['xichao_test@163.com']
+ADMINS = ['info@xichao-sjtu.com']
 
 MAX_CONTENT_LENGTH=16*1024*1024
 
@@ -97,7 +97,7 @@ PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avatar')
 #封面路径
 COVER_DEST=os.path.join(os.path.dirname(__file__),'upload/cover')
 #主机地址
-HOST_NAME='xichao-o.com'
+HOST_NAME='http://xichao-o.com'
 
 #文章题图路径
 ARTICLE_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_title')

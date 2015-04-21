@@ -41,7 +41,7 @@
 
     <body>
         
-        <div class="reference-block">
+        {#<div class="reference-block">
         <div class="reference-line">
             {% for i in range(5) %}
             <div class="width-160"></div>
@@ -49,7 +49,7 @@
             {% endfor %}
             <div class="width-160-last"></div>
         </div>
-        </div>
+        </div>#}
 
 
         <div id="navbar-info">
@@ -57,7 +57,15 @@
                 <div class="floatright">
                     <ul class="nav navbar-nav">
                     {% if current_user.is_authenticated() %}
-                        <li><a href="{{url_for('article_upload')}}"><img src="{{ url_for('static', filename='images/pen.png') }}">&nbsp;写文章</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><img src="{{ url_for('static', filename='images/pen.png') }}">&nbsp;写文章<b class="caret"></b></a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="{{url_for('article_upload')}}">新文章</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
+                            </ul>
+                            
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">{{current_user.nick}}<b class="caret"></b>
                             </a>
@@ -69,6 +77,8 @@
                                     <li><a href="{{url_for('home_page')}}#settings">个人设置</a></li>
                                 {% else %}
                                     <li><a href="/admin">个人中心</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">发送通知</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li><a href="/logout">注销</a></li>
@@ -77,7 +87,6 @@
                         
 
                         <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币({{current_user.coin}})</a></li>
-                        <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">消息中心 
                             <b class="caret"></b>
@@ -228,39 +237,39 @@
             <div id="footer-block">
                 <ul>
                     <h3>关于我们</h3>
-                    {% for i in range(4)%}
+                    {#{% for i in range(4)%}
                         <li><a href="#">新蜂工作室</a></li>
-                    {% endfor %}
+                    {% endfor %}#}
                 </ul>
                 <ul>
                     <h3>曦潮招募</h3>
-                    {% for i in range(3)%}
+                    {#{% for i in range(3)%}
                         <li><a href="#">新蜂工作室</a></li>
-                    {% endfor %}
+                    {% endfor %}#}
                 </ul>
                 <ul>
                     <h3>友情链接</h3>
-                    {% for i in range(2)%}
+                    {#{% for i in range(2)%}
                         <li><a href="#">新蜂工作室</a></li>
-                    {% endfor %}
+                    {% endfor %}#}
                 </ul>
                 <ul>
                     <h3>联系我们</h3>
-                    {% for i in range(3)%}
+                    {#{% for i in range(3)%}
                         <li><a href="#">新蜂工作室</a></li>
-                    {% endfor %}
+                    {% endfor %}#}
                 </ul>
                 <ul>
                     <h3>合作伙伴</h3>
-                    {% for i in range(1)%}
+                    {#{% for i in range(1)%}
                         <li><a href="#">新蜂工作室</a></li>
-                    {% endfor %}
+                    {% endfor %}#}
                 </ul>
                 <ul style="width:100px;">
                     <h3>版权说明</h3>
-                    {% for i in range(2)%}
+                    {#{% for i in range(2)%}
                         <li><a href="#">新蜂工作室</a></li>
-                    {% endfor %}
+                    {% endfor %}#}
                 </ul>
             </div>
 

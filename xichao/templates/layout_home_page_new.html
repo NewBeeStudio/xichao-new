@@ -6,15 +6,19 @@
 <link href="{{ url_for('static', filename='css/homepage.css') }}" rel='stylesheet' type='text/css'/> 
 
 <style type="text/css">
-	/*封面和介绍根据分辨率自适应改变大小*/
+	body{
+		background-color: #f5f5f5;
+	}
+
 	#content{
 		width: 100%;
 	}
 
+	/*封面和介绍根据分辨率自适应改变宽大小,大屏100%，小屏固定宽*/
 	@media screen and (max-width: 1160px){
-		#cover {width: 1160px; background-color: #f5f5f5;}
+		#cover {width: 1160px;}
 
-		#introduction {width: 1160px; background-color: #f5f5f5;}
+		#introduction {width: 1160px;}
 	}
 
 	/*个人信息栏宽度是固定的*/
@@ -40,9 +44,9 @@
 		<div id="text-default-img">默认图库：</div>
 		<div id="cover-choice">
 			<a id="arrow-left">◀</a>
-			<img class="cover-choice" src="/upload/cover/default1.jpg">
-			<img class="cover-choice" src="/upload/cover/default2.jpg">
-			<img class="cover-choice" src="/upload/cover/default3.jpg">
+			<img id="cover-choice-1" src="/upload/cover/default1.jpg">
+			<img id="cover-choice-2" src="/upload/cover/default2.jpg">
+			<img id="cover-choice-3" src="/upload/cover/default3.jpg">
  			<a id="arrow-right">▶</a>
 		</div>
 	</div>
@@ -80,7 +84,7 @@
 <div id="introduction">
 	<div>
 		<div id="introduction-left">
-			<img src="{{current_user.photo}}">
+			<img src="{{user.photo}}">
 			{% if current_user == user %}
 			{#只有本人可以修改个人设置#}
 			<div>
@@ -119,9 +123,7 @@
 				{% endif %}
 			</div>
 
-			<div id="introduction-slogon">
-				{{ user.slogon }}
-			</div>
+			<div id="introduction-slogon"><pre>{{ user.slogon }}</pre></div>
 		</div>
 	</div>
 </div>
@@ -193,8 +195,15 @@
 	//获取更新url
 	function get_refresh_url(category, page_id){
 		var refresh_url;
-		if(category == "release-article")
-			refresh_url = "/homepage/pagination/article/page/";
+		if(category == "release-article"){
+			if($('#bt-release-by-time').hasClass('selected'))
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			else if($('#bt-release-by-coins').hasClass('selected'))
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_coins";
+			else 
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			return refresh_url;
+		}
 		else if(category == "release-comment")
 			refresh_url = "/homepage/pagination/comment/page/";
 		else if(category == "draft-all")
@@ -336,6 +345,10 @@
 			},
 			function(data){
 				if (data != 'fail') {
+					if (category == "release-article"){ //刷新total总数
+						var oldTotalCount = parseInt($('#total-count > span').text());
+						$('#total-count > span').text(oldTotalCount - 1);
+					}
 					if (length == 1 && page_id > 1) {
 						homepage_refresh(category, page_id - 1);
 					}
@@ -376,7 +389,7 @@
 				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items_comment.length; ++i){
 					text += "<div class='table-row'>\
-								<div class='table-cell col-1'>" + items_comment[i].content + "</div>\
+								<div class='table-cell col-1'>“" + items_comment[i].content + "”</div>\
 								<div class='table-cell col-2'><a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></div>\
 								<div class='table-cell col-3'>" + items_comment[i].time.slice(0, -3) + "</div>\
 								<div class='table-cell col-4'><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_comment.length + ")'>删除</a></div>\
@@ -477,7 +490,8 @@
 
 				text = "<div class='content-box'>";
 				for(var i = 0; i < items_user.length; ++i){
-					text += "<div>\
+					if(items_message[i].is_read == '1'){ //已读
+						text += "<div>\
 								<div class='content-top'>“" + items_message[i].content + "”</div>\
 								<div class='content-bottom'>\
 									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></span>\
@@ -485,6 +499,16 @@
 									<span><a onclick='homepage_delete(\"" + category + "\"," + items_message[i].message_id + "," + page_id + "," + items_message.length + ")'>删除</a></span>\
 								</div>\
 							</div>";
+					} else{ //未读
+						text += "<div>\
+								<div class='content-top new-message-flag'>“" + items_message[i].content + "”</div>\
+								<div class='content-bottom'>\
+									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></span>\
+									<span>" + items_message[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items_message[i].message_id + "," + page_id + "," + items_message.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					}
 				}
 				text += "</div>";
 			}
@@ -495,7 +519,8 @@
 
 				text = "<div class='content-box'>";
 				for(var i = 0; i < items_article.length; ++i){
-					text += "<div>\
+					if(items_comment[i].is_read == '1'){ //已读
+						text += "<div>\
 								<div class='content-top'>“" + items_comment[i].content + "”</div>\
 								<div class='content-bottom'>\
 									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a>评论<a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></span>\
@@ -503,6 +528,16 @@
 									<span><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_article.length + ")'>删除</a></span>\
 								</div>\
 							</div>";
+					} else{
+						text += "<div>\
+								<div class='content-top new-message-flag'>“" + items_comment[i].content + "”</div>\
+								<div class='content-bottom'>\
+									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a>评论<a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></span>\
+									<span>" + items_comment[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_article.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					}
 				}
 				text += "</div>";
 			}
@@ -511,13 +546,23 @@
 
 				text = "<div class='content-box'>";
 				for(var i = 0; i < items.length; ++i){
-					text += "<div>\
+					if(items[i].is_read == '1'){ //已读
+						text += "<div>\
 								<div class='content-top'>" + items[i].content + "</div>\
 								<div class='content-bottom'>\
 									<span>" + items[i].time.slice(0, -3) + "</span>\
 									<span><a onclick='homepage_delete(\"" + category + "\"," + items[i].message_id + "," + page_id + "," + items.length + ")'>删除</a></span>\
 								</div>\
 							</div>";
+					} else{
+						text += "<div>\
+								<div class='content-top new-message-flag'>" + items[i].content + "</div>\
+								<div class='content-bottom'>\
+									<span>" + items[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items[i].message_id + "," + page_id + "," + items.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					}
 				}
 				text += "</div>";
 			}
@@ -546,9 +591,17 @@
 	//子tab按钮触发AJAX
 	$(function(){
 		$('#bt-release-article').click(function(){
+			if($('#release-sort-ul').css('display') == 'none')
+				$('#release-sort-ul').css('display', 'block')
+			$('#total-count').css('display', 'block');
+
 			homepage_refresh("release-article", 1);
 		});
 		$('#bt-release-comment').click(function(){
+			if($('#release-sort-ul').css('display') == 'block')
+				$('#release-sort-ul').css('display', 'none')
+			$('#total-count').css('display', 'none');
+
 			homepage_refresh("release-comment", 1);
 		});
 		$('#bt-collection-article').click(function(){
@@ -562,6 +615,14 @@
 		});
 		$('#bt-focus-special').click(function(){
 			homepage_refresh("focus-special", 1);
+		});
+
+		//排序功能
+		$('#bt-release-by-time').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+		$('#bt-release-by-coins').click(function(){
+			$("#bt-release-article").trigger("click");
 		});
 	});
 
@@ -688,8 +749,8 @@
 			}
 		}
 		
-
-		window.location.hash = '#information'; //跳转到合适的位置
+		$('html, body').animate({scrollTop: $('#information').offset().top}, 500); //滑动到锚点位置
+		// window.location.hash = '#information'; //跳转到合适的位置
 	}
 
 	//navbar点击后触发AJAX（模拟点击发布按钮）
@@ -708,7 +769,7 @@
 	});
 
 
-		// 点击修改完成进行的操作
+	// 点击修改完成进行的操作
 	$('#basicinfo-finish-change').click(function()
 	{
 		val_nick=$('#change-nick').val();
@@ -737,6 +798,8 @@
 					//$('.one1-orig').removeClass('display-none');
 					//$('.one1-new').addClass('display-none');
 					$('#show-nick').text(val_nick);
+					$('#introduction-name').text(val_nick); //改个人介绍中显示
+
 					if (val_genger=='f') {$('#show-sex').text('女');}
 					else{
 						$('#show-sex').text('男');
@@ -765,7 +828,8 @@
 			slogon: val_slogon
 		},
 		function(result){
-			$('#show-slogon').text(val_slogon);
+			$('#slogon-after-change').text(val_slogon);
+			$('#introduction-slogon > pre').text(val_slogon); //个人介绍中slogon
 		});
 	});
 </script>
@@ -775,12 +839,17 @@
 	$(function(){
 		$('#basicinfo-start-change').click(function(){
 			$('.basicinfo-view').css('display', 'none');
-			$('.basicinfo-change').css('display', 'inline');
+			$('.basicinfo-change').css('display', 'inline-block');
 		});
 
 		$('#basicinfo-finish-change').click(function(){
 			$('.basicinfo-change').css('display', 'none');
-			$('.basicinfo-view').css('display', 'inline');
+			$('.basicinfo-view').css('display', 'inline-block');
+		});
+
+		$("#basicinfo-cancel-change").click(function(){
+			$('.basicinfo-change').css('display', 'none');
+			$('.basicinfo-view').css('display', 'inline-block');
 		});
 	});
 </script>
@@ -804,6 +873,44 @@ function update_avatar(data){
 
 <!-- 更新封面AJAX -->
 <script type="text/javascript">
+
+//点击默认图库更新左侧大图，左右箭头效果
+$(function(){
+	$('#cover-choice > img').click(function(){
+		$('#cover-choice > img').each(function(){
+				$(this).css('border', '3px solid #fff');
+		});
+
+		$(this).css('border', '3px solid #D9AE48');
+		// alert($(this).attr('src'));
+		$('#cover-to-use img').attr('src', $(this).attr('src'));
+	});
+
+	$('#arrow-left').click(function(){
+		var leftestCoverNum = parseInt($('#cover-choice-1').attr('src').slice(21, -4));
+		if(leftestCoverNum != 1){
+			$('#cover-choice > img').each(function(){
+				var coverCount = parseInt($(this).attr('src').slice(21, -4)) - 1;
+				var coverSrc = '/upload/cover/default' + coverCount + '.jpg';
+				$(this).attr('src', coverSrc);
+			});
+		}
+	});
+
+	$('#arrow-right').click(function(){
+		var maxCoverNum = 9;
+		var rightestCoverNum = parseInt($('#cover-choice-3').attr('src').slice(21, -4));
+		if(rightestCoverNum != 9){
+			$('#cover-choice > img').each(function(){
+				var coverCount = parseInt($(this).attr('src').slice(21, -4)) + 1;
+				var coverSrc = '/upload/cover/default' + coverCount + '.jpg';
+				$(this).attr('src', coverSrc);
+			});
+		}
+	});
+});
+
+
 function update_cover(data){
   $('#cover-to-use img').attr("src",data);
   $('#cover').css("background-image","url('"+data+"')");
@@ -838,13 +945,13 @@ function update_cover(data){
 <script type="text/javascript">
 	$(function(){
 		$('#button-change-cover').click(function(){
-			$('#change-cover').slideDown(200);
+			$('#change-cover').slideDown(500);
 		});
 		$('#change-cover-save').click(function(){
-			$('#change-cover').slideUp(200);
+			$('#change-cover').slideUp(500);
 		});
 		$('#change-cover-cancel').click(function(){
-			$('#change-cover').slideUp(200);
+			$('#change-cover').slideUp(500);
 		});
 	});
 </script>
@@ -934,6 +1041,201 @@ function update_cover(data){
 	});
 </script>
 
+<!-- 看别人主页下的内容 -->
+<script type="text/javascript">
+	//获取更新url
+	function get_refresh_url(category, page_id){
+		var refresh_url;
+		if(category == "release-article"){
+			if($('#bt-release-by-time').hasClass('selected'))
+				refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_time/page/" + page_id;
+			else if($('#bt-release-by-coins').hasClass('selected'))
+				refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_coins/page/" + page_id;
+			else 
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			return refresh_url;
+		}
+		else if(category == "release-comment"){
+			refresh_url = "/user/" + {{user.user_id}} + "/comment/pagination/page/" + page_id;
+			return refresh_url;
+		}
+		else if(category == "focus-user"){
+			refresh_url = "/user/" + {{user.user_id}} + "/collection_author/pagination/page/" + page_id;
+			return refresh_url;
+		}
+
+		// refresh_url += page_id;
+		return refresh_url;
+	}
+
+	//获取对应的id标签，标签名为#+category
+	function get_refresh_tag(category){
+		var id = "#" + category;
+		return id;
+	}
+
+	//显示分页部分AJAX
+	function show_pagination(pagination, category){
+		// <div class='pagination'>
+		// 	<ul>
+		// 		<li><a href='#'>上一页</a></li>
+		// 		<li><a href='#'>1</a></li>
+		// 		<li><a href='#'>下一页</a></li>
+		// 	</ul>
+		var page = parseInt(pagination.page);
+		var pages = parseInt(pagination.pages);
+		var has_prev = pagination.has_prev;
+		var has_next = pagination.has_next;
+
+		var text = "<div class='pagination'>\
+						<ul>"
+
+		//上一页
+		if(has_prev == 'yes'){
+			var prev_page = page - 1;
+			text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + prev_page + ")'>上一页</li>"
+		}
+		else if(pages != 0){
+			text += "<li class='disabled'><span>上一页</span></li>"
+		}
+
+
+		//最多显示5页，这里判断显示的首页和末页
+		var first_display_page_num = 1;
+		var last_display_page_num = pages;
+
+		if(page - 2 >= 1)
+			first_display_page_num = page - 2;
+		else
+			first_display_page_num = 1;
+
+		if(page + 2 <= pages)
+			last_display_page_num = page + 2;
+		else
+			last_display_page_num = pages;
+
+		for (var i = first_display_page_num; i <= last_display_page_num; i++) {
+			if(i == page) {//当前页
+				text += "<li class='active'><span>" + i + "</span></li>"
+			}
+			else {
+				text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + i + ")'>" + i + "</a></li>"
+			}
+		};
+
+
+		//下一页
+		if(has_next == 'yes'){
+			var next_page = page + 1;
+			text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + next_page + ")'>下一页</li>"
+		}
+		else if(pages != 0){
+			text += "<li class='disabled'><span>下一页</span></li>"
+		}
+
+		return text;
+
+	}
+
+	//更新部分AJAX 
+	function homepage_refresh(category, page_id){
+		var refresh_tag = get_refresh_tag(category); //对应内容显示框, "bt-xxx" -> "xxx"
+		var refresh_url = get_refresh_url(category, page_id); //对应url地址
+
+		$.get(refresh_url, function(data){
+			var text = "";
+
+			if(category == "release-article"){
+				var items = data.rows;
+
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'><a href='/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
+								<div class='table-cell col-2'>评论&nbsp;(" + items[i].comment_num + ")</div>\
+								<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;" + items[i].coins + "</div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "release-comment"){
+				var items_article = data.rows_article;
+				var items_comment = data.rows_comment;
+
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items_comment.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'>“" + items_comment[i].content + "”</div>\
+								<div class='table-cell col-2'><a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></div>\
+								<div class='table-cell col-3'>" + items_comment[i].time.slice(0, -3) + "</div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "focus-user"){
+				var items_user = data.rows_user;
+				var items_collection_user = data.rows_collection_user;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_user.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a onclick='homepage_delete(\"" + category + "\"," + items_user[i].user_id + "," + page_id + "," + items_user.length + ")'>\
+									<img src='/static/images/transparent-circle.png' style='background-image:url("+ items_user[i].photo + ");'>\
+									</a></div>\
+								<div><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
+			
+			//分页处理
+			var pagniation_text = show_pagination(data, category);
+			$(refresh_tag).empty();
+			$(refresh_tag).append(text);
+			$(refresh_tag).append(pagniation_text);
+		});
+	}
+
+	//子tab按钮触发AJAX
+	$(function(){
+		$('#bt-release-article').click(function(){
+			if($('#release-sort-ul').css('display') == 'none')
+				$('#release-sort-ul').css('display', 'block')
+			$('#total-count').css('display', 'block');
+			homepage_refresh("release-article", 1);
+		});
+		$('#bt-release-comment').click(function(){
+			if($('#release-sort-ul').css('display') == 'block')
+				$('#release-sort-ul').css('display', 'none')
+			$('#total-count').css('display', 'none');
+			homepage_refresh("release-comment", 1);
+		});
+
+		//排序功能
+		$('#bt-release-by-time').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+		$('#bt-release-by-coins').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+	});
+
+	//主tab按钮触发AJAX
+	$(function(){
+		$('#bt-release').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+
+		$('#bt-focus').click(function(){
+			homepage_refresh("focus-user", 1);
+		});
+	});
+
+	//进入当前页面触发AJAX
+	$(function(){
+		$('#bt-release').trigger("click");
+	});
+</script>
 
 
 {% endif %}

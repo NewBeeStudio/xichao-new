@@ -4,11 +4,19 @@
 <link href="{{ url_for('static', filename='css/login.css') }}" rel='stylesheet' type='text/css'/>
 {% endblock %}
 
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 {% block content %}
-<!--当前位置-->
-<div class="current-position">
-    <p style="font-size: 16px; font-family: 黑体;">登陆</p>
-</div>
+
+
 <!--登陆入口-->
 <div id="login-content">
     <img src="{{ url_for('static', filename='images/login-lantern.png') }}" id="login-lantern">
