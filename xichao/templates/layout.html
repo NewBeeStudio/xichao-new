@@ -57,7 +57,15 @@
                 <div class="floatright">
                     <ul class="nav navbar-nav">
                     {% if current_user.is_authenticated() %}
-                        <li><a href="{{url_for('article_upload')}}"><img src="{{ url_for('static', filename='images/pen.png') }}">&nbsp;写文章</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><img src="{{ url_for('static', filename='images/pen.png') }}">&nbsp;写文章<b class="caret"></b></a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="{{url_for('article_upload')}}">新文章</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
+                            </ul>
+                            
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">{{current_user.nick}}<b class="caret"></b>
                             </a>
@@ -77,7 +85,6 @@
                         
 
                         <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币({{current_user.coin}})</a></li>
-                        <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">消息中心 
                             <b class="caret"></b>
