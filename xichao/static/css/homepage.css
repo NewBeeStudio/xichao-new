@@ -436,13 +436,12 @@ ul{
 	position: absolute;
 }
 
-#change-cover{
+#button-change-cover{
 	margin: 10px 10px 0 0;
 	text-align: right;
 	font-size: 15px;
 	cursor: pointer;
 }
-
 
 #cover-owner{
 	margin-top: 10px;
@@ -989,7 +988,7 @@ a.button-default{
 	font-size: 20px;
 	color: #000;
 	border: 2px solid #D9AE48;
-	border-radius: 5px;
+	/*border-radius: 5px;*/
 	cursor: pointer;
 }
 
@@ -1014,3 +1013,98 @@ a.button-default:hover{
 
 
 /*修改封面*/
+#change-cover{
+	width: 1160px;
+	margin: auto;
+	padding-bottom: 50px;
+
+	font-family: 黑体;
+	display: none;
+}
+
+#arrow-left, #arrow-right{
+	padding-top: 70px;
+	padding-bottom: 70px;
+	color: #F90;
+	font-size: 35px;
+	text-shadow: 0px 0px 7px rgba(0, 0, 0, 0.7);
+	
+	/* 不可选择文字 */
+	-moz-user-select:none;/*火狐*/
+	-webkit-user-select:none;/*webkit浏览器*/
+	-ms-user-select:none;/*IE10*/
+	-khtml-user-select:none;/*早期浏览器*/
+	user-select:none;
+}
+
+#arrow-left:hover, #arrow-right:hover{
+	color: #ff6600;
+	cursor: pointer;
+}
+
+#cover-to-use{
+	float: left;
+	width: 540px;
+	height: 300px;
+}
+
+#cover-to-use img{
+	width: 540px;
+	height: 218px;
+}
+
+#upload-cover{
+	text-align: center;
+	margin-top: 30px;
+}
+
+#upload-cover > a, #change-cover-save, #change-cover-cancel{
+	background-color: #aaa;
+	height: 50px;
+	padding: 10px 25px;
+
+	border: 0;
+	box-shadow: 2px 2px 5px #888;
+}
+
+#cover-default{
+	margin-left: 560px;
+	width: 600px;
+	height: 218px;
+	text-align: left;
+
+	padding-top: 120px;
+}
+
+#text-default-img{
+	font-size: 20px;
+	color: gray;
+}
+
+#cover-choice{
+	padding: 20px 40px;
+}
+
+#cover-choice > a{
+	padding: 0 5px;
+	vertical-align: middle;
+}
+
+#cover-choice > img{
+	width: 135px;
+	height: 55px;
+	cursor: pointer;
+}
+
+#change-cover-save-cancel{
+	width: 100%;
+	text-align: center;
+}
+
+#change-cover-save-cancel > a{
+	margin: 0 50px;
+}
+
+#change-cover-save{
+	background-color: #D9AE48;
+}
