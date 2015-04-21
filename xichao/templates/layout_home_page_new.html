@@ -389,7 +389,7 @@
 				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items_comment.length; ++i){
 					text += "<div class='table-row'>\
-								<div class='table-cell col-1'>" + items_comment[i].content + "</div>\
+								<div class='table-cell col-1'>“" + items_comment[i].content + "”</div>\
 								<div class='table-cell col-2'><a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></div>\
 								<div class='table-cell col-3'>" + items_comment[i].time.slice(0, -3) + "</div>\
 								<div class='table-cell col-4'><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_comment.length + ")'>删除</a></div>\
@@ -1089,7 +1089,7 @@ function update_cover(data){
 				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items_comment.length; ++i){
 					text += "<div class='table-row'>\
-								<div class='table-cell col-1'>" + items_comment[i].content + "</div>\
+								<div class='table-cell col-1'>“" + items_comment[i].content + "”</div>\
 								<div class='table-cell col-2'><a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></div>\
 								<div class='table-cell col-3'>" + items_comment[i].time.slice(0, -3) + "</div>\
 							</div>";
