@@ -127,7 +127,7 @@
 		 	<div class="comment-info">
 		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
 		 	</div>
-	    </div>
+	   
 		<ul class="comment-reply-ul">
  		{%for subcomment in comments | reverse%}
  		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
@@ -147,6 +147,7 @@
  		{% endif %}
  		{% endfor %}
  		</ul>
+ 		 </div>
 	</div>
 {%endif%}  
 {% endfor %}
@@ -299,8 +300,10 @@ function add_commit(data, val_content,to_user_id) {
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
 	//console.log(time+" "+cid+" "+val_content)
+
+
 $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
-					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{current_user.user_id}},'+cid+')">回复  </button>'+time+'</p></div></div></li></div>')
+					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+cid+')">回复</span></div></div></li></div>')
 
 var article_num=parseInt($("#p_list_review span").html())+1
 $("#p_list_review span").html(article_num)
@@ -316,20 +319,14 @@ function add_reply(data,val_content,val_user_id,reply_to_comment_id){
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"
  if($("#"+location+" ul li:last").length!==0)
  {$("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+val_content+'</pre></div><div><p><button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复  </button>'+time+'</p></div></div></li>')
+ 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></div></div></li>')
 
 }
 else {
-
-
-	$("#"+location+" div.media-body").append('<ul style="margin:50px">'+
+	$("#"+location+" div.media-body").append('<ul class="comment-reply-ul">'+
 												'<li class="media"id="comment-'+cid+'">'+
 												'<a class="pull-left" href="'+homeurl+
- 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div style="overflow:hidden;padding-bottom:10px;"><pre>'+
- 													val_content+
- 												'</pre></div><div><p><button class="button-reply button-border button-primary button-small button" type="button"onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+
- 													')">回复</button>'+time+
-														'</p></div></div></li></ul>')
+ 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></div></div></li></ul>')
 }
 
 
