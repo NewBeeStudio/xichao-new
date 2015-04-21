@@ -985,10 +985,12 @@ function update_cover(data){
 				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
 			return refresh_url;
 		}
-		else if(category == "release-comment")
-			refresh_url = "/homepage/pagination/comment/page/";
+		else if(category == "release-comment"){
+			refresh_url = "/user/" + {{user.user_id}} + "/comment/pagination/page/" + page_id;
+			return refresh_url;
+		}
 
-		refresh_url += page_id;
+		// refresh_url += page_id;
 		return refresh_url;
 	}
 
@@ -1085,7 +1087,7 @@ function update_cover(data){
 			else if(category == "release-comment"){
 				var items_article = data.rows_article;
 				var items_comment = data.rows_comment;
-			
+
 				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items_comment.length; ++i){
 					text += "<div class='table-row'>\
