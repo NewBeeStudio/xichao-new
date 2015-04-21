@@ -100,11 +100,12 @@ def logout():
     #弹出sessio
     # session.pop('user', None)
     logout_user()
+    flash('你已退出')
     response=make_response(redirect(url_for('index')))
     #删除cookie，flask-login已完成相应操作
     #if request.cookies.get('user')!=None:
     #    response.set_cookie('user','',expires=datetime.now())
-    flash('你已退出')
+    
     return response
 ####################################  index  ##################################
 @app.route('/')
