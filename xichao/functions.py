@@ -1046,7 +1046,7 @@ def delete_special_by_special_id(special_id,user_id):
 #######################################  获取发表的文章数目 start ########################################
 
 def get_article_number(user_id):
-	result=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0')).all()
+	result=db_session.query(Article).filter(and_(Article.user_id==user_id,Article.is_draft=='0',Article.groups!='3')).all()
 	return len(result)
 
 #######################################  获取发表的文章数目 end ########################################
