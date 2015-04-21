@@ -88,7 +88,7 @@ MAIL_USERNAME = 'info@xichao-sjtu.com'
 MAIL_PASSWORD = 'io1896'
 
 # administrator list
-ADMINS = ['info@xichao-sjtu.com']
+ADMINS = 'info@xichao-sjtu.com'
 
 MAX_CONTENT_LENGTH=16*1024*1024
 
