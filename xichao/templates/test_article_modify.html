@@ -10,62 +10,118 @@
 
 <!--content-->
 {% block content %}
- <p id="title">&nbsp;首页&nbsp;>>>&nbsp;修改文章</p>
+ <p id="title">&nbsp;<a href="{{url_for('index')}}" ><font color="black">首页</font></a>&nbsp;>>>&nbsp;修改文章</p>
     <div id="pics">
-        <img class="pics" id="pic_4" style="width:225px;height:205px;" src="{{article.picture}}" />
-       	<p class="p_triangle" id="triangle_left">◀</p>
-        <img class="pics" id="pic_1" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
-        <img class="pics" id="pic_2" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}" />
-        <img class="pics" id="pic_3" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
-        <p class="p_triangle" id="triangle_right">▶</p>
+        <img class="pics" id="pic_4" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}" />
+       <!-- <p class="p_triangle" id="triangle_left">◀</p>-->
+       <img class="triangle" id="triangle_left" src="{{ url_for('static', filename='images/right.png') }}" />
+        <img class="pics" id="pic_1" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
+        <img class="pics" id="pic_2" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}" />
+        <img class="pics" id="pic_3" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
+        <img class="pics" id="pic_5" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.jpg')}}" />
+        <img class="triangle" id="triangle_right"  src="{{ url_for('static', filename='images/left.png') }}" />
+        <!--<p class="p_triangle" id="triangle_right">▶</p>-->
 
-        <a href="#" class="register-button" id="button_upload_pic">上传题图</a>
+        <a href="#" class="button button-border button-primary button-small" id="button_upload_pic">上传题图</a>
     </div>
 
    	<div id="article_editor">
    		<p id="p_article_title">文章标题:</p>
    		<input id="input_title" type="text" value="{{article.title}}">
-      <label>文章类别：</label>
-      {% if article.category=='1' %}
-        <input type="radio" name="category" value="1" checked="true">书评
-      {% else %}
-        <input type="radio" name="category" value="1">书评
-      {% endif %}
-      {% if article.category=='2' %}
-        <input type="radio" name="category" value="2" checked="true">影评
-      {% else %}
-        <input type="radio" name="category" value="2">影评
-      {% endif %}
-      {% if article.category=='3' %}
-        <input type="radio" name="category" value="3" checked="true">杂文
-      {% else %}
-        <input type="radio" name="category" value="3">杂文
-      {% endif %}
+
+      <ul id="display-type-select" class="nav nav-pills">
+        {% if article.category=='1' %}
+        <li role="presentation" id="change-display-list" class="change-article-type active" value="1"><a>书评</a></li>
+        {% else %}
+        <li role="presentation" id="change-display-list" class="change-article-type" value="1"><a>书评</a></li>
+        {% endif %}
+        {% if article.category=='2' %}
+        <li role="presentation" id="change-display-list" class="change-article-type active" value="2"><a>影评</a></li>
+        {% else %}
+        <li role="presentation" id="change-display-list" class="change-article-type" value="2"><a>影评</a></li>
+        {% endif %}
+        {% if article.category=='3' %}
+        <li role="presentation" id="change-display-list" class="change-article-type active" value="3"><a>杂文</a></li>
+        {% else %}
+        <li role="presentation" id="change-display-list" class="change-article-type" value="3"><a>杂文</a></li>
+        {% endif %}
+      </ul>
+      <label id="label_article">文章类别：</label>
+
       <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
       <div style="display:none;">
         <p id="article_content">{{article.content}}</p>
       </div>
-      <!--<div style="height:20px;">
-        <label>请输入书籍ISBN号</label>
-        <input id="book_isbn" type="text" style="height:20px;">
-        <input id="book_button" type="button" style="height:20px;" value="确定">
-      </div>
-      <div id="book_information">
-        <p id="book_name">{{book.title}}</p>
-        <p id="book_author">{{book.author}}</p>
-        <p id="book_publisher">{{book.press}}</p>
-        <p id="book_pubdate">{{book.press_time}}</p>
-        <p id="book_pages">{{book.page_num}}</p>
-        <p id="book_price">{{book.price}}</p>
-        <p id="book_binding">XXX</p>
-        <p id="book_isbn">{{book.ISBN}}</p>
-        <img id="book_image" src="{{book.picture}}">
-      </div>-->
 
-      <div id="book_info">
+      <div id="search_book_list">
+            
+            <div id="search_book_input">
+                请搜索要关联的书籍:
+                <input type="text" id="search_content" class="form-control" placeholder="" style="margin-top: 10px" value="{{book.title}}">
+                <a id="search_book_button" class="button button-border button-primary button-small" id="search_book_button">在线搜索</a>
+            </div>
+
+            <div id="search_book_result" class="search_book_result col-xs-12 col-md-6 col-lg-6">
+            <article class="post tag-ad">
+                <section class="post-featured-image">
+            <a class="thumbnail">
+              <img  id="search_book_result_image" src="" width="800" height="600" alt="Book Image" style="display: block;" data-original="">
+            </a>
+                </section>
+            <header class="post-header">
+                <h3 id="search_book_result_name" class="post-title">Search Result</h3>
+            </header>
+        
+            </article>
+            </div>
+            
+            
+            <div id="selected_book_info">
+      <div id="book_information">
+        <img id="book_image" style="width:150px;height:220px;" src="{{book.picture}}">
+          <table>
+              <tr>
+                <td width="100"><p class="p_book_info">书名</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_name">{{book.title}}</p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">作者</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_author">{{book.author}}</p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">出版社</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_publisher">{{book.press}}</p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">出版时间</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_pubdate">{{book.press_time}}</p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">页数</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_pages">{{book.page_num}}</p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">价格</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_price">{{book.price}}</p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">装帧</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_binding">{{book.binding}}</p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">ISBN</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_isbn">{{book.ISBN}}</p></td>
+              </tr>
+          </table>
+      </div>
+            </div>
+
+        </div>
+
+      <!--<div id="book_info">
         <label>请输入书籍ISBN号</label>
         <input id="book_isbn" type="text">
-        <input  class="register-button" id="book_button" type="button"value="确定">
+        <input  class="button button-border button-primary button-tiny" id="search_book_button" value="确定">
       </div>
       <div id="book_information">
         <img id="book_image" style="width:150px;height:220px;" src="{{book.picture}}">
@@ -94,6 +150,13 @@
         <a href="#" class="register-button" id="button_upload_cancel">取消</a>
         <a href="#" class="register-button" id="button_upload_draft">保存草稿</a>
         <a href="#" class="register-button" id="button_upload_confirm">确定</a>
+      </div>-->
+      <div style="clear:both;"></div>
+      <div id="buttons">
+      <a href="#" class="button button-border button-primary button-small" id="button_upload_confirm">提交</a>
+      <a href="#" class="button button-border button-primary button-small" id="button_upload_draft">存入草稿箱</a>
+      <a href="#" class="button button-border button-primary button-small" id="button_upload_cancel">取消</a>
+      
       </div>
    	</div>
 	
@@ -116,7 +179,7 @@
     <script type="text/javascript">
     var ue = UE.getEditor('editor', {
 		serverUrl: "/editor/article",
-    initialFrameWidth: 1058,
+    initialFrameWidth: 1160,
     initialFrameHeight: 500
 	});
 
@@ -128,6 +191,7 @@
       UE.getEditor('editor').addListener("ready",function(){
         UE.getEditor('editor').setContent($("#article_content").text());
       });
+      $("#search_book_result").css("display", "none");
       //完成文章，上传到服务器
       $("#button_upload_confirm").click(function(){
         val_title = $("#input_title").val();
@@ -299,6 +363,109 @@ arr[5] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_
     pic_2.src = pic_1.src;
     pic_1.src = arr[tmp];
   })
+</script>
+
+<script>
+/*
+$(document).ready(function(){
+  $('input').iCheck({
+    checkboxClass: 'icheckbox_square',
+    radioClass: 'iradio_square',
+    increaseArea: '20%' // optional
+  });
+});
+*/
+$(".change-article-type").click(function(){
+    $(".change-article-type").attr("class", "change-article-type");
+    $(this).attr("class", "change-article-type active");
+    var type = "#type-input"+$(this).attr("value").toString();
+//    alert(type);
+    $("#type-input1").attr("checked", "false");
+    $("#type-input2").attr("checked", "false");
+    $("#type-input3").attr("checked", "false");
+    $(type).attr("checked", "true");
+});
+</script>
+
+<script>
+$('#search_book_button').click(function(){            
+            var book_name=$('#search_content').val();
+            if (book_name == "" || book_name == null || book_name == undefined)
+                alert("Please enter book name");
+            else{
+                $("#selected_book_info").css("display", "none");
+                var url='https://api.douban.com/v2/book/search?q='+book_name+'&count=4&callback=?';
+                $.getJSON(url,function(json){
+                    var Total = json.books.length;
+//                    alert(Total);
+                    var oldDiv = $("#search_book_result");
+                    
+                    for(var j=0; j<Total; j++){
+                        var olddivID = "#search_book_result"+j.toString();
+                        var old = $(olddivID)
+                        if (old.length > 0){
+                            old.remove();
+                        }
+                    }
+                    
+                    for(var i=0; i<Total; i++){
+                        var book = json.books[i];
+                        var divID = "search_book_result"+i.toString();
+                        var imgID = "search_book_result_image"+i.toString();
+                        var nameID = "search_book_result_name"+i.toString();
+                        
+                        var newDiv = oldDiv.clone(true);
+                        oldDiv.after(newDiv);
+                        newDiv.css("display", "inline");
+                        
+                        newDiv.attr("id", divID);
+                            $("#"+divID).css("margin-left", "30px");
+                        $("#"+divID+" img").attr("id", imgID);
+                        $("#"+divID + " h3").attr("id", nameID);
+                        
+                        
+                    // Attributes
+                        $("#"+divID+" img").attr("number", i.toString());
+                        $("#"+divID+" img").attr("book_name", book.title);
+                        $("#"+divID+" img").attr("book_author", book.author);
+                        $("#"+divID+" img").attr("book_publisher", book.publisher);
+                        $("#"+divID+" img").attr("book_pubdate", book.pubdate);
+                        $("#"+divID+" img").attr("book_pages", book.pages);
+                        $("#"+divID+" img").attr("book_price", book.price);
+                        $("#"+divID+" img").attr("book_binding", book.binding);
+                        $("#"+divID+" img").attr("book_ISBN", book.isbn13);
+                        
+                        
+                        $("#"+imgID).attr("src", book.images["large"]);
+                        $("#"+imgID).attr("data-original", book.images["large"]);
+                        $("#"+nameID).text(book.title);
+                    }
+                });
+            }
+        });
+    
+$('.search_book_result img').click(function(){            
+            var preserve = parseInt($(this).attr("number"));
+            for(var j=0; j<4; j++){
+                var olddivID = "#search_book_result"+j.toString();
+                var old = $(olddivID)
+                old.remove();
+                if (old.length > 0 && j != preserve){
+                    
+                }
+            }
+
+      $("#book_name").text($(this).attr("book_name"));
+      $("#book_author").text($(this).attr("book_author"));
+      $("#book_publisher").text($(this).attr("book_publisher"));
+      $("#book_pubdate").text($(this).attr("book_pubdate"));
+      $("#book_pages").text($(this).attr("book_pages"));
+      $("#book_price").text($(this).attr("book_price"));
+      $("#book_binding").text($(this).attr("book_binding"));
+      $("#book_isbn").text($(this).attr("book_ISBN"));
+      $("#book_image").attr("src",$(this).attr("src"));
+      $("#selected_book_info").css("display", "inline");
+        });
 </script>
 
 {% endblock %}
