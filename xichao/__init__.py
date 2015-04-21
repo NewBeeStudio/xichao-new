@@ -97,7 +97,7 @@ PHOTO_DEST=os.path.join(os.path.dirname(__file__),'upload/avatar')
 #封面路径
 COVER_DEST=os.path.join(os.path.dirname(__file__),'upload/cover')
 #主机地址
-HOST_NAME='xichao-o.com'
+HOST_NAME='http://xichao-o.com'
 
 #文章题图路径
 ARTICLE_TITLE_DEST = os.path.join(os.path.dirname(__file__), 'upload/article/article_title')

@@ -71,7 +71,7 @@ def get_secure_photoname(filename):
 def send_verify_email(nick,password,email):
     verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
     mail=Mail(app)
-    msg=Message(u'曦潮书店',sender='xichao_test@163.com',recipients=[email])
+    msg=Message(u'曦潮书店',sender=app.config['ADMINS'],recipients=[email])
     msg.body='text body'
     msg.html = render_template('test_verify_email.html',verify_url=verify_url)
     with app.app_context():
@@ -104,7 +104,7 @@ def get_password_by_email(email):
 def send_resetpassword_email(nick,password,email):
 	verify_url=app.config['HOST_NAME']+'/resetPassword/'+nick+'/'+password #/nick/MD5(password)
 	mail=Mail(app)
-	msg=Message(u'重置曦潮网站的密码',sender='xichao_test@163.com',recipients=[email])
+	msg=Message(u'重置曦潮网站的密码',sender=app.config['ADMINS'],recipients=[email])
 	msg.body='text body'
 	msg.html = render_template('test_verify_email.html',verify_url=verify_url)
 	with app.app_context():
