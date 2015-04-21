@@ -345,6 +345,10 @@
 			},
 			function(data){
 				if (data != 'fail') {
+					if (category == "release-article"){ //刷新total总数
+						var oldTotalCount = parseInt($('#total-count > span').text());
+						$('#total-count > span').text(oldTotalCount - 1);
+					}
 					if (length == 1 && page_id > 1) {
 						homepage_refresh(category, page_id - 1);
 					}
@@ -557,11 +561,15 @@
 		$('#bt-release-article').click(function(){
 			if($('#release-sort-ul').css('display') == 'none')
 				$('#release-sort-ul').css('display', 'block')
+			$('#total-count').css('display', 'block');
+
 			homepage_refresh("release-article", 1);
 		});
 		$('#bt-release-comment').click(function(){
 			if($('#release-sort-ul').css('display') == 'block')
 				$('#release-sort-ul').css('display', 'none')
+			$('#total-count').css('display', 'none');
+
 			homepage_refresh("release-comment", 1);
 		});
 		$('#bt-collection-article').click(function(){
@@ -867,13 +875,13 @@ function update_cover(data){
 <script type="text/javascript">
 	$(function(){
 		$('#button-change-cover').click(function(){
-			$('#change-cover').slideDown(200);
+			$('#change-cover').slideDown(500);
 		});
 		$('#change-cover-save').click(function(){
-			$('#change-cover').slideUp(200);
+			$('#change-cover').slideUp(500);
 		});
 		$('#change-cover-cancel').click(function(){
-			$('#change-cover').slideUp(200);
+			$('#change-cover').slideUp(500);
 		});
 	});
 </script>
@@ -1102,11 +1110,13 @@ function update_cover(data){
 		$('#bt-release-article').click(function(){
 			if($('#release-sort-ul').css('display') == 'none')
 				$('#release-sort-ul').css('display', 'block')
+			$('#total-count').css('display', 'block');
 			homepage_refresh("release-article", 1);
 		});
 		$('#bt-release-comment').click(function(){
 			if($('#release-sort-ul').css('display') == 'block')
 				$('#release-sort-ul').css('display', 'none')
+			$('#total-count').css('display', 'none');
 			homepage_refresh("release-comment", 1);
 		});
 
