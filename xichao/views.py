@@ -1703,6 +1703,17 @@ def message():
     else:
         return 'fail'
 
+@app.route('/notify',methods=['POST'])
+@login_required
+def notify():
+    if current_user.role!=3:
+        return 'fail'
+    else:
+        content=request.form['content']
+        create_notification(user_id=current_user.user_id,content=content)
+        return 'success'
+
+
 
 @app.route('/award',methods=['POST'])
 @login_required
@@ -1764,6 +1775,14 @@ def article_test():
 @login_required
 def message_page(to_user_id):
     return render_template('message_page.html', to_user_id=to_user_id)
+
+@app.route('/notification_page')
+@login_required
+def notification_page():
+    if current_user.role!=3:
+        abort(404)
+    else:
+        return render_template('notification_page.html')
 
 @app.route('/verify_remind/')
 @login_required

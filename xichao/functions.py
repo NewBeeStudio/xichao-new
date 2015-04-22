@@ -651,6 +651,12 @@ def create_message(to_user_id,user_id,content):
 	db_session.add(message)
 	db_session.commit()
 
+def create_notification(user_id,content):
+	user_list=db_session.query(User).filter(User.role!=3).all();
+	for user in user_list:
+		create_message(user.user_id,user_id,content)
+
+
 def user_coin_add(user_id,num):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
 	user.coin+=num
@@ -788,15 +794,15 @@ def get_fans_pagination(user_id,page_id):
 
 ##目前来说，3是管理员
 def get_message_pagination(user_id,page_id):
-	query=db_session.query(models.Message,User).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role!=3))
+	query=db_session.query(models.Message,User).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role!=3)).order_by(desc(models.Message.time))
 	return paginate(query,page_id,4,False)
 
 def get_received_comment_pagination(user_id,page_id):
-	query=db_session.query(Comment,User,Article).join(User,User.user_id==Comment.user_id).join(Article,Article.article_id==Comment.article_id).filter(Comment.to_user_id==user_id)
+	query=db_session.query(Comment,User,Article).join(User,User.user_id==Comment.user_id).join(Article,Article.article_id==Comment.article_id).filter(Comment.to_user_id==user_id).order_by(desc(Comment.time))
 	return paginate(query,page_id,4,False)
 ##目前来说，3是管理员
 def get_notification_pagination(user_id,page_id):
-	query=db_session.query(models.Message).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role==3))
+	query=db_session.query(models.Message).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role==3)).order_by(desc(models.Message.time))
 	return paginate(query,page_id,4,False)
 
 def get_special_pagination(user_id,page_id):
