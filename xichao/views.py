@@ -283,7 +283,7 @@ def forgetPassword():
         send_resetpassword_email(nick, password, form.email.data) #待修改
         flash(u'我们已向你的注册邮箱发送了密码重置邮件,请至邮箱查收')
         return render_template('forgetPassword.html', form = form, error = error)
-        return redirect(url_for('index'))
+
     return render_template('forgetPassword.html', form = form, error = error)
 
 ##################################  重置密码  ##################################
@@ -298,7 +298,6 @@ def resetPassword(nick, password):
             user=User.query.filter_by(nick=nick).first()
             login_user(user)
             flash(u'密码修改成功')
- 
             return redirect(url_for('index'))
         else:
             return render_template('resetPassword.html', form=form)
