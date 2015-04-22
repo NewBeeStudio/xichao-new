@@ -259,7 +259,7 @@ def login():
             # session['user']=nick
             user=User.query.filter_by(email=form.email.data).first()
             login_user(user, remember=form.stay.data) #参数2：是否保存cookie
-            flash(u'登陆成功，正在跳转')
+            
 
             response=make_response(redirect(request.form.get("request_url") or url_for("index")))
             #if form.stay.data:
@@ -378,6 +378,7 @@ def article_main():
 @login_required
 def article(article_id):
     article=get_article_information(article_id)
+    get_article_comments_pagination(article_id,1,5)
     if article!=None:
         if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
             abort(404)

@@ -251,6 +251,12 @@ def get_article_comments(article_id):
 		return result
 	else:
 		return None
+def get_article_comments_pagination(article_id,page_id,perpage):
+	root_comment=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==0)).order_by(desc(Comment.time)).all()
+	print "======================================="
+	print root_comment
+	#root_comment_reply=
+
 def get_current_comment_id():
 	result=db_session.query(Comment).order_by(desc(Comment.comment_id)).all()
 	return result[0].comment_id
@@ -956,6 +962,7 @@ def delete_comment_by_comment_id(comment_id,user_id):
 	else:
 		pretreamentment_comment_delete(comment_id)
 		db_session.query(Comment).filter_by(comment_id=comment_id).delete()
+		db_session.query(Comment).filter_by(reply_to_comment_id=comment_id).delete()
 		db_session.commit()
 		return 'success'
 #######################################  删除一条评论 end ########################################
