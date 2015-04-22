@@ -91,11 +91,13 @@ a:hover{
 .special-left-top{
     position: relative;
     margin-left: 170px;
+    margin-bottom: 20px;
 }
 /*专栏图*/
 img#special-part1-img1{
-	margin-top: 10px;
-	margin-left: 10px;
+    margin: 0;
+	padding-top: 10px;
+	padding-left: 10px;
 	width: 340px;
 	height: 340px;
 
@@ -106,7 +108,7 @@ img#special-part1-img1{
 
 #special-part1-img2{
     margin-left: 0px;
-    margin-top: 20px;
+    margin-top: 0px;
     border-left: 0px;
     position: absolute;
     
