@@ -44,9 +44,15 @@
 		<div id="text-default-img">默认图库：</div>
 		<div id="cover-choice">
 			<a id="arrow-left">◀</a>
-			<img id="cover-choice-1" src="/upload/cover/default1.jpg">
-			<img id="cover-choice-2" src="/upload/cover/default2.jpg">
-			<img id="cover-choice-3" src="/upload/cover/default3.jpg">
+			<img class="cover-choice first-cover first-display-cover" src="/upload/cover/default1.jpg" style="display:inline;">
+			<img class="cover-choice" src="/upload/cover/default2.jpg" style="display:inline;">
+			<img class="cover-choice last-display-cover" src="/upload/cover/default3.jpg" style="display:inline;">
+			<img class="cover-choice" src="/upload/cover/default4.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default5.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default6.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default7.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default8.jpg" style="display:none;">
+			<img class="cover-choice last-cover" src="/upload/cover/default9.jpg" style="display:none;">
  			<a id="arrow-right">▶</a>
 		</div>
 	</div>
@@ -876,6 +882,7 @@ function update_avatar(data){
 
 //点击默认图库更新左侧大图，左右箭头效果
 $(function(){
+	//选中效果
 	$('#cover-choice > img').click(function(){
 		$('#cover-choice > img').each(function(){
 				$(this).css('border', '3px solid #fff');
@@ -886,26 +893,30 @@ $(function(){
 		$('#cover-to-use img').attr('src', $(this).attr('src'));
 	});
 
+	//左右箭头效果
 	$('#arrow-left').click(function(){
-		var leftestCoverNum = parseInt($('#cover-choice-1').attr('src').slice(21, -4));
-		if(leftestCoverNum != 1){
-			$('#cover-choice > img').each(function(){
-				var coverCount = parseInt($(this).attr('src').slice(21, -4)) - 1;
-				var coverSrc = '/upload/cover/default' + coverCount + '.jpg';
-				$(this).attr('src', coverSrc);
-			});
+		if($('.first-cover').css('display') == 'none'){ //第一张未被选中
+			var lastDisplayCover = $('.last-display-cover');
+			var firstDisplayCover = $('.first-display-cover');
+			lastDisplayCover.prev().addClass('last-display-cover');
+			firstDisplayCover.prev().addClass('first-display-cover');
+			lastDisplayCover.removeClass('last-display-cover');
+			firstDisplayCover.removeClass('first-display-cover');
+			lastDisplayCover.css('display', 'none');
+			firstDisplayCover.prev().css('display', 'inline');
 		}
 	});
 
 	$('#arrow-right').click(function(){
-		var maxCoverNum = 9;
-		var rightestCoverNum = parseInt($('#cover-choice-3').attr('src').slice(21, -4));
-		if(rightestCoverNum != 9){
-			$('#cover-choice > img').each(function(){
-				var coverCount = parseInt($(this).attr('src').slice(21, -4)) + 1;
-				var coverSrc = '/upload/cover/default' + coverCount + '.jpg';
-				$(this).attr('src', coverSrc);
-			});
+		if($('.last-cover').css('display') == 'none'){ //最后一张未被选中
+			var lastDisplayCover = $('.last-display-cover');
+			var firstDisplayCover = $('.first-display-cover');
+			lastDisplayCover.next().addClass('last-display-cover');
+			firstDisplayCover.next().addClass('first-display-cover');
+			lastDisplayCover.removeClass('last-display-cover');
+			firstDisplayCover.removeClass('first-display-cover');
+			firstDisplayCover.css('display', 'none');
+			lastDisplayCover.next().css('display', 'inline');
 		}
 	});
 });
