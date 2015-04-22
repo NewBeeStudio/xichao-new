@@ -201,7 +201,7 @@ def register():
         # session['user']=request.form['nick']
         user=User.query.filter_by(email=form.email.data).first()
         login_user(user)
-        
+        time.sleep(3)
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
@@ -253,6 +253,8 @@ def load_token(token):
 ##TODO：cookie的过期时间
 @app.route('/login',methods=['GET','POST'])
 def login():
+    if not current_user.is_anonymous():
+        return redirect(url_for("index"))
     error=None
     form=LoginForm(request.form)
     if request.method=='POST' and form.validate():
@@ -263,7 +265,7 @@ def login():
             # session['user']=nick
             user=User.query.filter_by(email=form.email.data).first()
             login_user(user, remember=form.stay.data) #参数2：是否保存cookie
-            flash(u'登陆成功，正在跳转')
+            
 
             response=make_response(redirect(request.form.get("request_url") or url_for("index")))
             #if form.stay.data:
@@ -381,19 +383,37 @@ def article_main():
 @app.route('/article/<int:article_id>',methods=['GET'])
 @login_required
 def article(article_id):
+    comment_page=request.args.get("comment_page")
+    if not comment_page:
+        comment_page=1
+    #if comment_page
     article=get_article_information(article_id)
+    comment_page=get_article_comments_pagination(article_id,int(comment_page),5)
+    comment_reply=[]
+    for item in comment_page.items:
+        
+        comment_reply.append(get_comment_reply(article_id,int(item[0].comment_id)))
     if article!=None:
         if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
             abort(404)
         else:
-            #comment初始显示5-6条，下拉显示全部
             session['article_session_id']=article[0].article_session_id
             comments=get_article_comments(article_id)
+            try:
+                comment_num = len(comments);
+            except:
+                comment_num = 0;
+            if(article[0].groups == '3'):
+                special = get_special_information(article[0].special_id);
+            else:
+                special = 0;
             if article[0].user_id==current_user.user_id:
                 pass
             else:
                 update_read_num(article_id)
-            return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
+
+            return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,comment_page=comment_page,comment_reply=comment_reply,nick=getNick())
+
     else:
         abort(404)
 
@@ -1026,13 +1046,15 @@ def ajax_register_validate():
     form.validate()
 
     errors_return = {} #返回去的错误信息字典
+    success = True
     for param in ['email', 'nick', 'password', 'confirm']:
         if form.errors.get(param) == None:
             errors_return[param] = [u'']
         else:
             errors_return[param] = form.errors.get(param)
+            success = False
 
-    return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0])
+    return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0],success=success)
 
 @app.route('/ajax_membercard', methods=['GET'])
 def ajax_register_membercard():
@@ -1604,11 +1626,12 @@ def square():
     hot_ground_article_list=get_hot_ground_acticle()
     ##拿一篇推荐文章
     recommended_ground_article=get_recommended_ground_article()
+    recommend_words=get_recommend_words()[0]
     ##参数1表示广场
     book_review_list=get_article_group_by_coin('1','1')
     film_review_list=get_article_group_by_coin('1','2')
     essay_list=get_article_group_by_coin('1','3')
-    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article)
+    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article,recommend_words=recommend_words)
 
 
 @app.route('/user/<nick>')
