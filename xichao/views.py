@@ -1774,5 +1774,7 @@ def verify_remind():
 @app.route('/verify_email_again/',methods=['GET'])
 @login_required
 def verify_email_again():
-    send_verify_email(current_user.nick, current_user.password, current_user.email)
-    return 'success'
+    if send_verify_email(current_user.nick, current_user.password, current_user.email):
+        return 'success'
+    else:
+        return 'fail'

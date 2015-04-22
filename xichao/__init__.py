@@ -80,11 +80,11 @@ REMEMBER_COOKIE_DURATION = timedelta(days=7)
 
 
 # email server
-MAIL_SERVER = 'smtp.exmail.qq.com '
+MAIL_SERVER = 'smtp.exmail.qq.com'
 MAIL_PORT = 465
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
-MAIL_USERNAME = 'info'
+MAIL_USERNAME = 'info@xichao-sjtu.com'
 MAIL_PASSWORD = 'io1896'
 
 # administrator list
