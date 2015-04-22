@@ -241,6 +241,11 @@ span#introduction-category{
 	margin-top: 20px;
 }
 
+.sub-tab{
+	height: 75px; /*父节点已经有20px的margin*/
+	border-bottom: 2px solid #f5f5f5;
+}
+
 #total-count{
 	padding: 20px 50px;
 
@@ -289,7 +294,7 @@ span#introduction-category{
 /*各分类内容*/
 .sub-content{
 	width: 840px;
-	margin: 50px auto 0 auto;
+	margin: 20px auto 0 auto;
 	min-height: 400px;
 }
 
