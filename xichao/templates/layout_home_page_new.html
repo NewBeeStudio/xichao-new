@@ -819,7 +819,10 @@
 					//$('.one1-orig').removeClass('display-none');
 					//$('.one1-new').addClass('display-none');
 					$('#show-nick').text(val_nick);
-					$('#introduction-name').text(val_nick); //改个人介绍中显示
+					$('#introduction-name').text(val_nick); //实时更新个人介绍中显示
+
+					$('#cover-owner-former').text(val_nick.slice(0, 5));
+					$('#cover-owner-latter').text(val_nick.slice(5)); //实时更新封面显示
 
 					if (val_genger=='f') {$('#show-sex').text('女');}
 					else{
@@ -934,7 +937,7 @@ $(function(){
 			lastDisplayCover.next().css('display', 'inline');
 		}
 	});
-});
+})
 
 
 function update_cover(data){
