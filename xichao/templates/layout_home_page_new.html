@@ -607,6 +607,8 @@
 			$(refresh_tag).empty();
 			$(refresh_tag).append(text);
 			$(refresh_tag).append(pagniation_text);
+
+			updateMessageHint(category); //更新消息显示，只对消息中心有效
 		})}, ajaxRequestDelay);
 	}
 
@@ -620,6 +622,12 @@
 		var raw_content = $(refresh_tag).html().replace(/(^\s+)|(\s+$)/g, "");
 		if(raw_content == ""){
 			homepage_refresh(category, page_id);
+		}
+		else{
+			//针对消息中心已显示新消息提示隐去
+			if(category == 'received-message-all' || category == 'received-comment-all' || category == 'received-notification-all'){
+				$(refresh_tag).find('.new-message-flag').removeClass('new-message-flag');
+			}
 		}
 	}
 
@@ -660,6 +668,16 @@
 			$("#bt-release-article").trigger("click");
 		});
 	});
+	
+	//点击消息中心对应按钮时去除个人信息栏未读提示
+	function updateMessageHint(category){
+		if(category == 'received-message-all' || category == 'received-comment-all' || category == 'received-notification-all'){
+			if($("#all-message-number").css('display') != "none"){ //有消息，避免额外AJAX请求
+				//console.log('ajax');
+				getMessageNumber();
+			}
+		}
+	}
 
 	//主tab按钮触发AJAX
 	$(function(){
