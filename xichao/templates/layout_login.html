@@ -5,15 +5,7 @@
 {% endblock %}
 
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+
 {% block content %}
 
 
@@ -28,12 +20,30 @@
     </div>
 </div>
 
+
+
+
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $(".error-tip").fadeOut(4000);
-    });
+  
+{% with messages = get_flashed_messages() %}
+
+    {% for message in messages %}
+      {% if messages %}
+          layer.msg("{{message}}",1,1);
+        {% endif %}
+    {% endfor %}
+{% endwith %}
+    
+    }); 
+   
 </script>
+
 {% endblock %}

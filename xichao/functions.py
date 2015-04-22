@@ -109,7 +109,7 @@ def send_resetpassword_email(nick,password,email):
 	verify_url=app.config['HOST_NAME']+'/resetPassword/'+nick+'/'+password #/nick/MD5(password)
 	mail=Mail(app)
 
-	msg=Message(u'重置曦潮网站的密码',sender=app.config['ADMINS'][0],recipients=[email])
+	msg=Message(u'重置曦潮网站密码',sender=app.config['ADMINS'][0],recipients=[email])
 
 	msg.body='text body'
 	msg.html = render_template('resetPasswordMail.html',nick=nick,verify_url=verify_url)
