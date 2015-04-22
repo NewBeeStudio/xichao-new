@@ -111,13 +111,13 @@ ul{
 
 /*个人介绍部分*/
 #introduction{
+	position: relative;
 	font-family: 黑体;
 	margin-top: 0;
 	margin-bottom: -50px;
 	min-height: 350px;
+	max-height: 435px; /*十行*/
 	width: 100%;
-	background-image: url(/static/images/homepage-decoration.png);
-	background-size: 100% 100%;
 }
 
 /*个人介绍部分，注意分辨率兼容*/
@@ -127,6 +127,28 @@ ul{
 	margin: auto;
 	padding: 50px 120px;
 	/*border: 1px solid #000;*/
+}
+
+#introduction > div:before{
+	content: url(/static/images/homepage-decoration-topleft.png);
+	
+	width: 250px;
+	height: 208px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+
+#introduction > div:after{
+	content: url(/static/images/homepage-decoration-bottomright.png);
+
+	width: 100px;
+	height: 80px;
+	position: absolute;
+	bottom: 100px;
+	right: 200px;
+	/*overflow: hidden;*/
 }
 
 /*左侧图*/
@@ -143,7 +165,7 @@ ul{
 
 #introduction-left > div{
 	text-align: center;
-	margin-top: 30px;
+	margin-top: 20px;
 	font-size: 16px;
 }
 
@@ -176,8 +198,9 @@ span#introduction-category{
 #introduction-slogon > pre{
 	width: 100%;
 	min-height: 100%;
-	font-size: 22px;
-	line-height: 30px;
+	font-size: 18px;
+	font-family: 黑体;
+	line-height: 28px;
 	color: #0e050a;
 	border: none;
 }
@@ -288,13 +311,13 @@ span#introduction-category{
 }
 
 .sub-tab .idTabs a.selected{
-	color: #f00;
+	color: #D9AE48;
 }
 
 /*各分类内容*/
 .sub-content{
 	width: 840px;
-	margin: 20px auto 0 auto;
+	margin: 10px auto 0 auto;
 	min-height: 400px;
 }
 
@@ -524,13 +547,13 @@ div.content-box#homepage-loading > img{
 }
 
 #news-sub-tabs .content-top{
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	color: #797979;
 	font-weight: bold;
 }
 
 #news-sub-tabs .content-bottom{
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	text-align: right;
 }
 
@@ -618,6 +641,8 @@ a#change-photo{
 	width: 420px;
 	min-height: 150px;
 	line-height: 25px;
+	font: 18px 黑体; 
+	color: #000;
 }
 
 .basicinfo-button{
