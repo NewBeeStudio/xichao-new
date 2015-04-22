@@ -10,11 +10,12 @@
 <!--content-->
 {% block content %}
 	<div id="p_title">
-		<p id="p_title_1">&nbsp;<a href="{{url_for('index')}}" >首页</a>&nbsp;>&nbsp;<a href="{{url_for('activity_main')}}?sort=time&page=1">活动</a>&nbsp;>&nbsp;<font color="#D9AE48">{{ activity.name }}</font></p>
+		<p id="p_title">&nbsp;<a href="{{url_for('index')}}" >首页</a>&nbsp;>&nbsp;<a href="{{url_for('activity_main')}}?sort=time&page=1">活动</a>&nbsp;>&nbsp;<font color="#D9AE48">{{ activity.name }}</font></p>
 	</div>
 
 	<div id="article_title">
 		<p id="p_article_title">{{ activity.name }}</p>
+		<img src="/static/images/border.png">
 	</div>
 
 	<div id="activity">

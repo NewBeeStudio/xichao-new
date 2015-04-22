@@ -5,11 +5,6 @@
 	font-family: 黑体;
 }
 
-#p_title_1 {
-	float: left;
-	color: rgb(114, 114, 114);
-}
-
 #p_title a{
 	display:inline;
 	text-decoration: none;
@@ -23,6 +18,7 @@
 
 #article_title {
 	margin-top: 74px;
+	margin-bottom:8px;
 }
 
 #p_article_title {
@@ -34,6 +30,13 @@
 #article_content {
 	margin-top: 50px;
 	font-family: 微软雅黑;
+}
+
+#article_content p span{
+	position:relative;
+	bottom:5px;
+	left:2px;
+	font-size:10px;
 }
 
 #article_content_html {
