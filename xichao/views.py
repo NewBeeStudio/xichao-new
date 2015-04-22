@@ -298,8 +298,7 @@ def resetPassword(nick, password):
             user=User.query.filter_by(nick=nick).first()
             login_user(user)
             flash(u'密码修改成功')
-            return render_template('forgetPassword.html', form = form, error = error)
-
+ 
             return redirect(url_for('index'))
         else:
             return render_template('resetPassword.html', form=form)
