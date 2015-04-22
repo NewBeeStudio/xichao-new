@@ -153,7 +153,8 @@
 <script type="text/javascript">
 	$(function(){
 		$.ajaxSetup({cache:false});
-	})
+	});
+	var timeoutID = 0; //AJAX后台延时请求的ID，用于记录或停止延迟执行的AJAX
 </script>
 
 {% if current_user == user %}
@@ -383,7 +384,8 @@
 						</div>";
 		$(refresh_tag).append(textLoading);
 
-		setTimeout(function(){$.get(refresh_url, function(data){
+		clearTimeout(timeoutID);
+		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
 			var text = "";
 
 			if(category == "release-article"){
@@ -1172,7 +1174,8 @@ function update_cover(data){
 						</div>";
 		$(refresh_tag).append(textLoading);
 
-		setTimeout(function(){$.get(refresh_url, function(data){
+		clearTimeout(timeoutID);
+		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
 			var text = "";
 
 			if(category == "release-article"){
