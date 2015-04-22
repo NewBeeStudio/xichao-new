@@ -243,22 +243,69 @@ function update_avatar(data){
 }
 </script>
 <script type="text/javascript">
-var sec = 3;
-function countDown() {
-    $('#success-info>p').text(sec + "秒后自动跳转");
-    sec = sec - 1;
-    if (sec >= 0)
-        t=setTimeout("countDown()", 1000);
-};
+
 
 function submit() {
-    $('#register-form').submit();
-    $('#success-info').show();
-    $('#step-2-content').hide();
-    $("#step-3 .step-label").css("color","rgb(217, 174, 73");
-    $("#step-3 .step-num").css("background-color", "rgb(217, 174, 73)");
-    $("#step-3").css("border-color", "rgb(217, 174, 73)");
-    countDown();
+      var index = 5; //changed line number
+          
+      var info = new Array();
+      $(".register-form-value input").each(function()
+      {
+        info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
+      });
+          
+      $.getJSON($SCRIPT_ROOT + '/ajax_register', {
+      email: info[0],
+      nick: info[1],
+      password: info[2],
+      confirm: info[3]}, function(data)
+      {
+        $(".register-error").each(function()
+        {
+            function countDown(sec) {
+                console.log(sec)
+                $('#success-info>p').text(sec + "秒后自动跳转");
+                if (sec > 0)
+                    setTimeout(function(){countDown(sec - 1)}, 1000);
+            };
+          var cur_index = parseInt($(this).attr("data-index"));
+          $(this).text(""); 
+          $(this).css("display", "none"); //先初始化
+
+          if(cur_index <= index){ 
+            //当前光标位置在其之下，则显示警告内容
+            if(cur_index == 0 && data.email != ""){
+              $(this).text(data.email);
+              $(this).css("display", "block");
+            }
+            else if(cur_index == 1 && data.nick != ""){
+              $(this).text(data.nick);
+              $(this).css("display", "block");
+            }
+            else if(cur_index == 2 && data.password != ""){
+              $(this).text(data.password);
+              $(this).css("display", "block");
+            }
+                
+            else if(cur_index == 3 && data.confirm != ""){
+              $(this).text(data.confirm);
+              $(this).css("display", "block");
+            }  
+          }
+            console.log(data.success);
+            if (data.success) {
+                $('#register-form').submit();
+                $('#success-info').show();
+                $('#step-2-content').hide();
+                $("#step-3 .step-label").css("color","rgb(217, 174, 73");
+                $("#step-3 .step-num").css("background-color", "rgb(217, 174, 73)");
+                $("#step-3").css("border-color", "rgb(217, 174, 73)");
+                countDown(3);
+            }
+        });
+
+      });
+    
 }
 </script>
 {% endblock %}

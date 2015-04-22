@@ -197,7 +197,7 @@ def register():
         # session['user']=request.form['nick']
         user=User.query.filter_by(email=form.email.data).first()
         login_user(user)
-        
+        time.sleep(3)
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
@@ -1025,13 +1025,15 @@ def ajax_register_validate():
     form.validate()
 
     errors_return = {} #返回去的错误信息字典
+    success = True
     for param in ['email', 'nick', 'password', 'confirm']:
         if form.errors.get(param) == None:
             errors_return[param] = [u'']
         else:
             errors_return[param] = form.errors.get(param)
+            success = False
 
-    return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0])
+    return jsonify(email=errors_return.get('email')[0],nick=errors_return.get('nick')[0],password=errors_return.get('password')[0],confirm=errors_return.get('confirm')[0],success=success)
 
 @app.route('/ajax_membercard', methods=['GET'])
 def ajax_register_membercard():
