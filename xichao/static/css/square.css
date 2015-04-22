@@ -201,7 +201,21 @@ a.square-more{
 	font-family: 黑体;
 	font-size: 12.5px;
 }
+#recommend-text{
+	height: 120px;
+    width: 155px;
+	font-family: 黑体;
+	font-size: 14px;
+	text-align:left;
 
+	overflow: hidden;	
+	word-wrap: break-word; /*自动换行*/
+    display: -webkit-box;  
+    -webkit-line-clamp: 6;  
+    -webkit-box-orient: vertical;
+
+
+}
 #pre-read{
 	height: 60px;
     width: 300px;
@@ -223,8 +237,9 @@ a.square-more{
 
 #recommend-img{
 	padding: 1.5%;
-
+    width: 180px;
 	z-index:-1;
+    float: left;
 
 }
 

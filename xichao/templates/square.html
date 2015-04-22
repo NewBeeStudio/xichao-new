@@ -20,7 +20,7 @@
         <div>
 			<table id="square-hot-article" >
 			<!-- 热门文章2~10 -->
-			{% for (i, article) in hot_ground_article_list[1:]|zip %}
+			{% for (i, article) in hot_ground_article_list[0:]|zip %}
 				<tr id="tr{{i}}" onmouseover="square_change_img(tr{{i}})">
 					<td class="square-col-1" style="width:18.6em"><a href="{{url_for('article', article_id = article[0].article_id)}}">{{i}}.{{article[0].title}}</a></td>
 					<td class="square-col-2"><a href="{{url_for('view_home_page', nick = article[1])}}">{{article[1]}}</a></td>
@@ -31,7 +31,7 @@
 			{% endfor %}
 			</table>
         </div>
-<!--		<a class="square-more" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">MORE&gt;</a>-->
+<!--		<a class="square-more" href="{{url_for('article', article_id = recommended_ground_article.article_id)}}">MORE&gt;</a>-->
 	</div>
 </div>
 
@@ -40,22 +40,26 @@
 	<h2 style="margin-left:45%">今日推荐</h2>
 	<div id="recommend-content" class="square-hot2">
 		<div id="recommend-img">
-			<img src="{{hot_ground_article_list[0][0].picture}}"/>
+			<img src="{{recommended_ground_article.picture}}"/>
 		</div>	
-
+        <div style="height:180px;margin:10px;">
+            <div style="font-size:14px;font-weight: bold;">推荐语：</div>
+            <br>
+            <div id="recommend-text">一个偶然的机会我终于来到了这里。以一个冠冕堂皇的理由，带着很多想法，带着很多衣物，来到了那个存在了很久的村庄一个偶然的机会我终于来到了这里。以一个冠冕堂皇的理由，带着很多想法，带着很多衣物，来到了那个存在了很久的村庄</div>
+        </div>
 		<div id="recomment-box">
 			<div>
-				<h3><a class="hot-title" href="{{url_for('article', article_id = hot_ground_article_list[0][0].article_id)}}">{{hot_ground_article_list[0][0].title}}</a></h3>
+				<h3><a class="hot-title" href="{{url_for('article', article_id = recommended_ground_article.article_id)}}">{{recommended_ground_article.title}}</a></h3>
 			</div>
 			<div id="recommend-title">
-				<span> {{hot_ground_article_list[0][0].time|time_split_2}} </span>
-				<span> 阅读({{hot_ground_article_list[0][0].read_num}})</span>
-				<span> <font color="#D9AE48">收藏</font>({{hot_ground_article_list[0][0].favor}})</span>
-				<span> <font color="#D9AE48">评论</font>({{hot_ground_article_list[0][0].comment_num}})</span>
-				<span> <font color="#D9AE48">曦潮币</font>({{hot_ground_article_list[0][0].coins}})</span>
+				<span> {{recommended_ground_article.time|time_split_2}} </span>
+				<span> 阅读({{recommended_ground_article.read_num}})</span>
+				<span> <font color="#D9AE48">收藏</font>({{recommended_ground_article.favor}})</span>
+				<span> <font color="#D9AE48">评论</font>({{recommended_ground_article.comment_num}})</span>
+				<span> <font color="#D9AE48">曦潮币</font>({{recommended_ground_article.coins}})</span>
 			</div>
 			<div id="pre-read">
-           {{hot_ground_article_list[0][0].abstract}}
+           {{recommended_ground_article.abstract}}
 			</div>
 		</div>
 		
