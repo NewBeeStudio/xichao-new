@@ -17,11 +17,11 @@ src: url(../fonts/liukai.ttf);
 	font-weight: bold;
 	letter-spacing: 10px;
     position: relative;
-    top:-25px;
+    top:-15px;
     left:4%;
 }
 .hot-title{  
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
 }
 .opinion-title{
@@ -58,7 +58,7 @@ src: url(../fonts/liukai.ttf);
 .square-hot{
 	position: relative;
     top:-25px;
-	height: 380px;
+	height: 350px;
 	width: 780px;
 	border: 1px solid #D9AE48;
 }
@@ -66,7 +66,7 @@ src: url(../fonts/liukai.ttf);
 	position: relative;
     top:-25px;
     left:43%;
-	height: 380px;
+	height: 350px;
 	width: 360px;
 	border: 1px solid #D9AE48;
 }
@@ -74,7 +74,7 @@ src: url(../fonts/liukai.ttf);
 	font-family: 黑体;
 	font-size: 14px;
     table-layout:fixed;
-    width:465px;
+    width:452px;
     line-height: 1;
 }
 
@@ -87,7 +87,7 @@ src: url(../fonts/liukai.ttf);
 }
 
 #square-hot-article td,#square-part1-content td{
-	padding-top: 22px;
+	padding-top: 20px;
     word-break:keep-all;/* 不换行 */
     white-space:nowrap;/* 不换行 */
     overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
@@ -114,11 +114,12 @@ a.text-more{
 	opacity: 65%;
 }
 #square-pic-left{
-    height: 315px;
-    width: 315px;
+    height: 300px;
+    width: 300px;
     position: relative;
-    left: 2%;
-    top: 26px;
+    left: 5%;
+    top: 22px;
+    border: 3px solid #D9AE48;
 }
 td.square-col-1{
 	width: 340px;
@@ -134,7 +135,7 @@ td.square-col-2 >a{
 }
 
 td.square-col-3{
-	width: 18px;
+	width: 14px;
 	color: #6e6e6e;
 	position:relative;
 /*	left:6%;*/
@@ -173,7 +174,7 @@ a.square-more{
 #recomment-box{
 	margin:1.5%;
     position: relative;
-    top: -35px;
+    top: -48px;
 }
 #recommend-content{
 /*	padding-left: 2px;
@@ -244,8 +245,10 @@ a.square-more{
 }
 
 #recommend-img img{
-	height: 180px;
-	width: 180px;
+	height: 160px;
+	width: 160px;
+    border: 3px solid #D9AE48;
+    margin: 10px;
 }
 .square-part1-right{
 	position:relative;
@@ -287,12 +290,24 @@ img.square-part1-img1{
 
 }
 
-.square-part1, .square-part2 {
+.square-part1 {
 	height: 730px;
 	clear: both;
     position: relative;
     top: -70px;
 
+}
+.square-part2{
+    height: 730px;
+	clear: both;
+    position: relative;
+    top: -120px;
+}
+.square-part3{
+    height: 730px;
+	clear: both;
+    position: relative;
+    top: -170px;
 }
 
 /*专栏图片区域*/
