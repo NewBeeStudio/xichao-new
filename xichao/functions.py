@@ -109,7 +109,7 @@ def send_resetpassword_email(nick,password,email):
 	verify_url=app.config['HOST_NAME']+'/resetPassword/'+nick+'/'+password #/nick/MD5(password)
 	mail=Mail(app)
 
-	msg=Message(u'重置曦潮网站的密码',sender=app.config['ADMINS'][0],recipients=[email])
+	msg=Message(u'重置曦潮网站密码',sender=app.config['ADMINS'][0],recipients=[email])
 
 	msg.body='text body'
 	msg.html = render_template('resetPasswordMail.html',nick=nick,verify_url=verify_url)
@@ -251,6 +251,12 @@ def get_article_comments(article_id):
 		return result
 	else:
 		return None
+def get_article_comments_pagination(article_id,page_id,perpage):
+	root_comment=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==0)).order_by(desc(Comment.time)).all()
+	print "======================================="
+	print root_comment
+	#root_comment_reply=
+
 def get_current_comment_id():
 	result=db_session.query(Comment).order_by(desc(Comment.comment_id)).all()
 	return result[0].comment_id
@@ -285,7 +291,7 @@ def get_homepage_specials():
     return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
 def get_hot_articles(num):
-    query = db_session.query(Article).order_by(Article.coins.desc()).all()
+    query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.coins.desc()).all()
     return query[:10]
     
 def get_all_special():
@@ -391,7 +397,7 @@ def get_userid_from_session():
 	return 0
 
 def get_special_author(userid):
-    result = db_session.query(User).filter_by(user_id = userid)
+    result = db_session.query(User).filter_by(user_id = userid).all()
     return result[0]
 
 def get_special_information(special_id):
@@ -509,7 +515,7 @@ def paginate(query,page,per_page=20,error_out=True):
 
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
-	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.favor))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.coins))
 	return paginate(query,page_id,10,False)
 def get_article_pagination_by_time(group_id,category_id,page_id):
 	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.time))
@@ -658,6 +664,12 @@ def create_message(to_user_id,user_id,content):
 	db_session.add(message)
 	db_session.commit()
 
+def create_notification(user_id,content):
+	user_list=db_session.query(User).filter(User.role!=3).all();
+	for user in user_list:
+		create_message(user.user_id,user_id,content)
+
+
 def user_coin_add(user_id,num):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
 	user.coin+=num
@@ -795,15 +807,15 @@ def get_fans_pagination(user_id,page_id):
 
 ##目前来说，3是管理员
 def get_message_pagination(user_id,page_id):
-	query=db_session.query(models.Message,User).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role!=3))
+	query=db_session.query(models.Message,User).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role!=3)).order_by(desc(models.Message.time))
 	return paginate(query,page_id,4,False)
 
 def get_received_comment_pagination(user_id,page_id):
-	query=db_session.query(Comment,User,Article).join(User,User.user_id==Comment.user_id).join(Article,Article.article_id==Comment.article_id).filter(Comment.to_user_id==user_id)
+	query=db_session.query(Comment,User,Article).join(User,User.user_id==Comment.user_id).join(Article,Article.article_id==Comment.article_id).filter(Comment.to_user_id==user_id).order_by(desc(Comment.time))
 	return paginate(query,page_id,4,False)
 ##目前来说，3是管理员
 def get_notification_pagination(user_id,page_id):
-	query=db_session.query(models.Message).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role==3))
+	query=db_session.query(models.Message).join(User,User.user_id==models.Message.user_id).filter(and_(models.Message.to_user_id==user_id,User.role==3)).order_by(desc(models.Message.time))
 	return paginate(query,page_id,4,False)
 
 def get_special_pagination(user_id,page_id):
@@ -950,6 +962,7 @@ def delete_comment_by_comment_id(comment_id,user_id):
 	else:
 		pretreamentment_comment_delete(comment_id)
 		db_session.query(Comment).filter_by(comment_id=comment_id).delete()
+		db_session.query(Comment).filter_by(reply_to_comment_id=comment_id).delete()
 		db_session.commit()
 		return 'success'
 #######################################  删除一条评论 end ########################################
@@ -1094,3 +1107,6 @@ def update_notification_read_state(notification_pagination):
 		update_notification_read_state_by_notification_id(item.message_id)
 #######################################  更新消息阅读状态 end ########################################
 
+def get_recommend_words():
+	result=db_session.query(HomePage.recommend_words).first()
+	return result

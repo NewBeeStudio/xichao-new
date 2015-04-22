@@ -100,7 +100,7 @@ def logout():
     #弹出sessio
     # session.pop('user', None)
     logout_user()
-    flash('你已退出')
+    
     response=make_response(redirect(url_for('index')))
     #删除cookie，flask-login已完成相应操作
     #if request.cookies.get('user')!=None:
@@ -197,8 +197,7 @@ def register():
         # session['user']=request.form['nick']
         user=User.query.filter_by(email=form.email.data).first()
         login_user(user)
-        flash(u'注册成功，正在跳转')
-        time.sleep(3)
+        
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
@@ -250,6 +249,8 @@ def load_token(token):
 ##TODO：cookie的过期时间
 @app.route('/login',methods=['GET','POST'])
 def login():
+    if not current_user.is_anonymous():
+        return redirect(url_for("index"))
     error=None
     form=LoginForm(request.form)
     if request.method=='POST' and form.validate():
@@ -260,8 +261,7 @@ def login():
             # session['user']=nick
             user=User.query.filter_by(email=form.email.data).first()
             login_user(user, remember=form.stay.data) #参数2：是否保存cookie
-            flash(u'登陆成功，正在跳转')
-
+            
 
             response=make_response(redirect(request.form.get("request_url") or url_for("index")))
             #if form.stay.data:
@@ -277,18 +277,20 @@ def login():
 def forgetPassword():
     error = None
     form = ForgetPasswordForm(request.form)
-
+    
     if request.method == 'POST' and form.validate():
         nick = get_nick_by_email(form.email.data)
         password = get_password_by_email(form.email.data)
         send_resetpassword_email(nick, password, form.email.data) #待修改
-        flash(u'我们已向你的注册邮箱发送了一份密码重置邮件')
-        return redirect(url_for('index'))
+        flash(u'我们已向你的注册邮箱发送了密码重置邮件,请至邮箱查收')
+        return render_template('forgetPassword.html', form = form, error = error)
+
     return render_template('forgetPassword.html', form = form, error = error)
 
 ##################################  重置密码  ##################################
 @app.route('/resetPassword/<nick>/<password>',methods=['GET', 'POST'])
 def resetPassword(nick, password):
+    
     if check_nickpassword_match(nick, password): #nick和password是否匹配
         form = ResetPasswordForm(request.form)
         if request.method == 'POST' and form.validate():
@@ -296,7 +298,7 @@ def resetPassword(nick, password):
             # session['user'] = nick #session增加用户
             user=User.query.filter_by(nick=nick).first()
             login_user(user)
-            flash(u'密码修改成功，正在跳转')
+            
             return redirect(url_for('index'))
         else:
             return render_template('resetPassword.html', form=form)
@@ -378,6 +380,7 @@ def article_main():
 @login_required
 def article(article_id):
     article=get_article_information(article_id)
+    get_article_comments_pagination(article_id,1,5)
     if article!=None:
         if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
             abort(404)
@@ -1610,11 +1613,12 @@ def square():
     hot_ground_article_list=get_hot_ground_acticle()
     ##拿一篇推荐文章
     recommended_ground_article=get_recommended_ground_article()
+    recommend_words=get_recommend_words()[0]
     ##参数1表示广场
     book_review_list=get_article_group_by_coin('1','1')
     film_review_list=get_article_group_by_coin('1','2')
     essay_list=get_article_group_by_coin('1','3')
-    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article)
+    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article,recommend_words=recommend_words)
 
 
 @app.route('/user/<nick>')
@@ -1714,6 +1718,17 @@ def message():
     else:
         return 'fail'
 
+@app.route('/notify',methods=['POST'])
+@login_required
+def notify():
+    if current_user.role!=3:
+        return 'fail'
+    else:
+        content=request.form['content']
+        create_notification(user_id=current_user.user_id,content=content)
+        return 'success'
+
+
 
 @app.route('/award',methods=['POST'])
 @login_required
@@ -1775,6 +1790,14 @@ def article_test():
 @login_required
 def message_page(to_user_id):
     return render_template('message_page.html', to_user_id=to_user_id)
+
+@app.route('/notification_page')
+@login_required
+def notification_page():
+    if current_user.role!=3:
+        abort(404)
+    else:
+        return render_template('notification_page.html')
 
 @app.route('/verify_remind/')
 @login_required

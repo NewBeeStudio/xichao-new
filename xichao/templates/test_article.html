@@ -136,7 +136,6 @@
 <ul class="media-list" id="comment">
 {% if comments!=None %}
 {% for comment in comments %}
-
 {% if comment[0].reply_to_comment_id == 0 %}
   	<div class="well well-lg" >
 	  	<li class="media" id="comment-{{comment[0].comment_id}}">
@@ -149,19 +148,25 @@
 		 	<div class="comment-info">
 		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
 		 	</div>
+		 	
+<<<<<<< HEAD
+=======
+	  
+>>>>>>> 29c2f589255d0025b8f450626726b6ffb3fc2926
 		<ul class="comment-reply-ul">
- 		{%for subcomment in comments | reverse%}
- 		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
+		{%for subcomment in comments | reverse%}
+		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
   			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
 	    	 	<div class="media-body">
 		      		<p class="reply-info"><span class="media-heading reply-heading">{{subcomment[1]}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">{{subcomment[0].to_user_id}}</span>&nbsp;&nbsp;<span class="comment-time">{{subcomment[0].time}}</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{comment[3]}}, {{comment[0].comment_id}})">回复</span></p>
 		      		<p class="media-content reply-content">{{subcomment[0].content}}</p>
 		 		</div>
   			</li>
-  			
  		{% endif %}
  		{% endfor %}
  		</ul>
+ 		
+
  		 </div>
 	</div>
 {%endif%}  
@@ -182,7 +187,14 @@
 <!-- 人人网分享Js代码 -->
 <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
 <script type="text/javascript">
-	
+	{% with messages = get_flashed_messages() %}
+
+    {% for message in messages %}
+      {% if messages %}
+          layer.msg("{{message}}",1,1);
+        {% endif %}
+    {% endfor %}
+{% endwith %}
 
 	function shareClick() {
     	var link = window.location.href;
@@ -326,9 +338,9 @@ function add_commit(data, val_content,to_user_id) {
 $("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
 					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+cid+')">回复</span></div></div></li></div>')
 
-var article_num=parseInt($("#p_list_review span").html())+1
-$("#p_list_review span").html(article_num)
-$("#p_review ").html($("#p_review ").html().replace(/[0-9]+/,article_num))
+var comment_num=parseInt($("#p_list_review span").html())+1
+$("#p_list_review span").html(comment_num)
+$("#p_review ").html($("#p_review ").html().replace(/[0-9]+/,comment_num))
 }
 
 

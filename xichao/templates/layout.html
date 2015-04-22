@@ -78,7 +78,7 @@
                                 {% else %}
                                     <li><a href="/admin">个人中心</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#">发送通知</a></li>
+                                    <li><a href="#" id="notify">发送通知</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li><a href="/logout">注销</a></li>
@@ -284,7 +284,9 @@
     <script src="{{ url_for('static', filename='js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
+
+        //获取个人信息栏消息数目
+        function getMessageNumber(){
             $.get("/ajax_news",function(result){
                 //新消息总数目
                 if (result.all_message_number!="0") {
@@ -319,6 +321,25 @@
                 else{
                     $("#notification-number").css("display","none");
                 }
+            });
+        }
+
+        $(document).ready(function(){
+            getMessageNumber();
+        });
+    </script>
+    <script type="text/javascript">
+        $("#notify").click(function(){
+            var url = "{{ url_for('notification_page') }}";
+            $.layer({
+                type: 2,
+                title: ['通知'],
+                shade: [0.65, '#000'],
+                shadeClose: true,
+                closeBtn: false,
+                border: [2, 1, '#D9AE48'],
+                area: ['560px', '258px'],
+                iframe: {src: url},
             });
         });
     </script>
