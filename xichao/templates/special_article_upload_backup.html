@@ -1,0 +1,383 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
+<link rel="stylesheet" type="text/css" href="/static/css/article_upload.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/button.css" />
+{% endblock %}
+
+<!--content-->
+{% block content %}
+ <p id="title">&nbsp;首页&nbsp;>>>&nbsp;发表专栏文章</p>
+ <br>
+    <div id="pics">
+        <img class="pics" id="pic_4" style="width:225px;height:205px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}" />
+       	<p class="p_triangle" id="triangle_left">◀</p>
+        <img class="pics" id="pic_1" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
+        <img class="pics" id="pic_2" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}" />
+        <img class="pics" id="pic_3" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}" />
+        <p class="p_triangle" id="triangle_right">▶</p>
+
+        <a href="#" class="myButton" id="button_upload_pic">上传题图</a>
+    </div>
+
+   	<div id="article_editor">
+   		<p id="p_article_title">文章标题:</p>
+   		<input id="input_title" type="text">
+   	<!--
+      <label>文章类别：</label>
+      <input type="radio" name="category" value="1" checked="true">书评
+      <input type="radio" name="category" value="2">影评
+      <input type="radio" name="category" value="3">杂文
+      -->
+      <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+          
+        <div id="search_book_list">
+            
+            <div id="search_book_input">
+                请搜索要关联的书籍:
+                <input type="text" id="search_content" class="form-control" placeholder="">
+                <button id="search_book_button" class="btn btn-default" style="margin-top: -10px">在线搜索</button>
+            </div>
+
+            <div id="search_book_result" class="search_book_result col-xs-12 col-md-6 col-lg-6">
+            <article class="post tag-ad">
+                <section class="post-featured-image">
+            <a class="thumbnail">
+              <img  id="search_book_result_image" src="" width="800" height="600" alt="Book Image" style="display: block;" data-original="">
+            </a>
+                </section>
+            <header class="post-header">
+                <h3 id="search_book_result_name" class="post-title">Search Result</h3>
+            </header>
+        
+            </article>
+            </div>
+            
+            
+            <div id="selected_book_info">
+      <div id="book_information">
+        <img id="book_image" style="width:150px;height:220px;" src="">
+          <table>
+              <tr>
+                <td width="100"><p class="p_book_info">书名</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_name"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">作者</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_author"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">出版社</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_publisher"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">出版时间</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_pubdate"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">页数</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_pages"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">价格</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_price"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">装帧</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_binding"></p></td>
+              </tr>
+              <tr>
+                <td width="100"><p class="p_book_info">ISBN</p></td>
+                <td width="320"><p class="p_book_info_content" id="book_isbn"></p></td>
+              </tr>
+          </table>
+      </div>
+            </div>
+
+        </div>
+      <div style="clear:both;"></div>
+      <div id="buttons">
+        <a href="#" class="register-button" id="button_upload_cancel">取消</a>
+        <a href="#" class="register-button" id="button_upload_draft">保存草稿</a>
+        <a href="#" class="register-button" id="button_upload_confirm">确定</a>
+      </div>
+   	</div>
+	
+{% endblock %}
+
+
+<!--js file used-->
+{% block js %}
+	<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.config.js') }}"></script>
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.all.min.js') }}"> </script>
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
+
+
+
+    <script type="text/javascript">
+    var ue = UE.getEditor('editor', {
+		serverUrl: "/editor/article",
+    initialFrameWidth: 1058,
+    initialFrameHeight: 500
+	});
+
+    $(document).ready(function(){
+        
+        $("#search_book_result").css("display", "none");
+        $("#selected_book_info").css("display", "none");
+      //完成文章，上传到服务器
+      $("#button_upload_confirm").click(function(){
+        val_title = $("#input_title").val();
+        val_content = UE.getEditor('editor').getContent();
+        val_abstract = UE.getEditor('editor').getPlainTxt();
+        val_title_image=$('#pic_4').attr('src');
+        val_book_picture=$("#book_image").attr("src");
+        val_book_author=$("#book_author").text();
+        val_book_press=$("#book_publisher").text();
+        val_book_page_num=$("#book_pages").text();
+        val_book_price=$("#book_price").text();
+        val_book_press_time=$("#book_pubdate").text();
+        val_book_title=$("#book_name").text();
+        val_book_ISBN=$("#book_isbn").text();
+        val_book_binding=$("#book_binding").text();
+
+        if (val_title==''){alert("文章标题不能为空！");}
+        else if(val_content==''){alert("文章内容不能为空！");}
+        else if(val_book_title==''){alert("请关联书籍");}
+        else{
+          $.post('/special_article_finish',
+          {
+            _csrf_token:"{{ csrf_token() }}",
+            title: val_title,
+            content: val_content,
+            title_image: val_title_image,
+            abstract: val_abstract,
+            book_picture: val_book_picture,
+            book_author: val_book_author,
+            book_press: val_book_press,
+            book_page_num: val_book_page_num,
+            book_price: val_book_price,
+            book_press_time: val_book_press_time,
+            book_title: val_book_title,
+            book_ISBN: val_book_ISBN,
+            book_binding: val_book_binding
+          },
+          function(data){
+            layer.msg("文章保存成功",1,1,function(){
+              location.href ="/article/"+data;
+            });
+          });          
+        }
+      });
+      //保存草稿，上传到服务器
+      $('#button_upload_draft').click(function(){
+        val_title = $("#input_title").val();
+        val_content = UE.getEditor('editor').getContent();
+        val_abstract = UE.getEditor('editor').getPlainTxt();
+        val_title_image=$('#pic_4').attr('src');
+        val_book_picture=$("#book_image").attr("src");
+        val_book_author=$("#book_author").text();
+        val_book_press=$("#book_publisher").text();
+        val_book_page_num=$("#book_pages").text();
+        val_book_price=$("#book_price").text();
+        val_book_press_time=$("#book_pubdate").text();
+        val_book_title=$("#book_name").text();
+        val_book_ISBN=$("#book_isbn").text();
+        val_book_binding=$("#book_binding").text();
+//        val_category=$('input[name="category"]:checked').val();
+        if (val_title==''){alert("文章标题不能为空！");}
+        else if(val_content==''){alert("文章内容不能为空！");}
+        else if(val_book_title==''){alert("请关联书籍");}
+        else{
+          $.post('/special_article_draft',
+          {
+            _csrf_token:"{{ csrf_token() }}",
+            title: val_title,
+            content: val_content,
+            title_image: val_title_image,
+            abstract: val_abstract,
+            book_picture: val_book_picture,
+            book_author: val_book_author,
+            book_press: val_book_press,
+            book_page_num: val_book_page_num,
+            book_price: val_book_price,
+            book_press_time: val_book_press_time,
+            book_title: val_book_title,
+            book_ISBN: val_book_ISBN,
+            book_binding: val_book_binding
+          },
+          function(data){
+            layer.msg("草稿保存成功",1,1);
+          });          
+        }
+      });
+      //选择默认图片
+      $('.pics').click(function(){
+        $('#pic_4').attr("src",$(this).attr("src"))
+      });
+    });
+</script>
+<!-- 关联书籍js -->
+<script>
+$('#search_book_button').click(function(){            
+            var book_name=$('#search_content').val();
+            if (book_name == "" || book_name == null || book_name == undefined)
+                alert("Please enter book name");
+            else{
+                $("#selected_book_info").css("display", "none");
+                var url='https://api.douban.com/v2/book/search?q='+book_name+'&count=4&callback=?';
+                $.getJSON(url,function(json){
+                    var Total = json.books.length;
+//                    alert(Total);
+                    var oldDiv = $("#search_book_result");
+                    
+                    for(var j=0; j<Total; j++){
+                        var olddivID = "#search_book_result"+j.toString();
+                        var old = $(olddivID)
+                        if (old.length > 0){
+                            old.remove();
+                        }
+                    }
+                    
+                    for(var i=0; i<Total; i++){
+                        var book = json.books[i];
+                        var divID = "search_book_result"+i.toString();
+                        var imgID = "search_book_result_image"+i.toString();
+                        var nameID = "search_book_result_name"+i.toString();
+                        
+                        var newDiv = oldDiv.clone(true);
+                        oldDiv.after(newDiv);
+                        newDiv.css("display", "inline");
+                        
+                        newDiv.attr("id", divID);
+                            $("#"+divID).css("margin-left", "40px");
+                        $("#"+divID+" img").attr("id", imgID);
+                        $("#"+divID + " h3").attr("id", nameID);
+                        
+                        
+                    // Attributes
+                        $("#"+divID+" img").attr("number", i.toString());
+                        $("#"+divID+" img").attr("book_name", book.title);
+                        $("#"+divID+" img").attr("book_author", book.author);
+                        $("#"+divID+" img").attr("book_publisher", book.publisher);
+                        $("#"+divID+" img").attr("book_pubdate", book.pubdate);
+                        $("#"+divID+" img").attr("book_pages", book.pages);
+                        $("#"+divID+" img").attr("book_price", book.price);
+                        $("#"+divID+" img").attr("book_binding", book.binding);
+                        $("#"+divID+" img").attr("book_ISBN", book.isbn13);
+                        
+                        
+                        $("#"+imgID).attr("src", book.images["large"]);
+                        $("#"+imgID).attr("data-original", book.images["large"]);
+                        $("#"+nameID).text(book.title);
+                    }
+                });
+            }
+        });
+    
+$('.search_book_result img').click(function(){            
+            var preserve = parseInt($(this).attr("number"));
+            for(var j=0; j<4; j++){
+                var olddivID = "#search_book_result"+j.toString();
+                var old = $(olddivID)
+                old.remove();
+                if (old.length > 0 && j != preserve){
+                    
+                }
+            }
+
+      $("#book_name").text($(this).attr("book_name"));
+      $("#book_author").text($(this).attr("book_author"));
+      $("#book_publisher").text($(this).attr("book_publisher"));
+      $("#book_pubdate").text($(this).attr("book_pubdate"));
+      $("#book_pages").text($(this).attr("book_pages"));
+      $("#book_price").text($(this).attr("book_price"));
+      $("#book_binding").text($(this).attr("book_binding"));
+      $("#book_isbn").text($(this).attr("book_ISBN"));
+      $("#book_image").attr("src",$(this).attr("src"));
+      $("#selected_book_info").css("display", "inline");
+        });
+</script>
+<!--上传题图的页面框-->
+<script type="text/javascript">
+  $('#button_upload_pic').click(function(){
+    $.layer({
+        type: 2,
+        title: [
+            '上传文章题图', 
+            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+        ], 
+        shadeClose: true,
+        closeBtn: false, 
+        border:[0],
+        area: ['90%', '90%'],
+        iframe: {src: "{{url_for('upload_title_image')}}"},
+    });
+  });
+</script>
+
+<script type="text/javascript">
+function update_title_image(data){
+  $('#pic_4').attr("src",data);
+}
+</script>
+
+
+<script type="text/javascript">
+var cur_index = 2;
+var arr = new Array();
+arr[0] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}";
+arr[1] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_2.jpg')}}";
+arr[2] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_3.jpg')}}";
+arr[3] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_4.png')}}";
+arr[4] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_5.jpg')}}";
+arr[5] = "{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}";
+
+  $('#triangle_left').click(function(){
+    var pic_1 = document.getElementById("pic_1");
+    var pic_2 = document.getElementById("pic_2");
+    var pic_3 = document.getElementById("pic_3");
+
+    if (cur_index == arr.length - 1)
+      {cur_index = 0;}
+    else 
+      {cur_index += 1;}
+
+    pic_1.src = pic_2.src;
+    pic_2.src = pic_3.src;
+    pic_3.src = arr[cur_index];
+  })
+
+  $('#triangle_right').click(function(){
+    var pic_1 = document.getElementById("pic_1");
+    var pic_2 = document.getElementById("pic_2");
+    var pic_3 = document.getElementById("pic_3");
+
+    var tmp = 0;
+
+    if (cur_index - 3 < 0)
+      {tmp = arr.length + cur_index - 3;}
+    else {
+      tmp = cur_index - 3;
+    }
+
+    if (cur_index == 0)
+      {cur_index = arr.length - 1;}
+    else 
+      {cur_index -= 1;}
+
+    pic_3.src = pic_2.src;
+    pic_2.src = pic_1.src;
+    pic_1.src = arr[tmp];
+  })
+</script>
+
+{% endblock %}
+

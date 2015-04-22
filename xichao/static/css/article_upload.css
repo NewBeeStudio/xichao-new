@@ -6,20 +6,34 @@
 	margin-top: 2%;
 }
 
-#title {
+.title {
 	margin-top: 45px;
 	font-family: 黑体;
 	font-size: 16px;
 	color: rgb(114, 114, 114);
-	font-size: 17px;
+}
+
+#title a{
+	display:inline;
+	color: rgb(114, 114, 114);
+}
+
+
+#p_pic {
+	margin-top: 35px;
+	margin-left: 200px;
+	margin-bottom: 10px;
+	font-family: 黑体;
+	font-size: 16px;
+	color: rgb(114, 114, 114);
 }
 
 #article_upload {
 	margin-top: 4%;
 }
 
-#div_pics {
-	margin-top: 4%;
+#pics{
+	/*width: 1000px;*/
 }
 
 #pic_4 {
@@ -27,69 +41,140 @@
 }
 
 #pic_1 {
-	margin-left: 1%;
 	float: left;
 }
 
 #pic_2 {
-	margin-left: 2%;
+	margin-left: 40px;
 	float: left;
 }
 
 #pic_3 {
-	margin-left: 2%;
+	margin-left: 40px;
 	float: left;
 }
 
+#pic_5 {
+	margin-left: 40px;
+	float: left;
+}
 
-.p_triangle {
-	padding-top: 8%;
-	padding-bottom: 6%;
+.triangle {
+	/*padding-top: 70px;
+	padding-bottom: 70px;
 	color: #ff9900;
 	font-size: 35px;
-	text-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+	text-shadow: 0 0 7px rgba(0, 0, 0, 0.7);*/
+	
+	/* 不可选择文字 */
+	/*-moz-user-select:none;火狐*/
+	/*-webkit-user-select:none;/*webkit浏览器*/
+	/*-ms-user-select:none;/*IE10*/
+	/*-khtml-user-select:none;/*早期浏览器*/
+	/*user-select:none*/
 }
 
-.p_triangle:hover {
+.triangle:hover {
 	color: #ff6600;
+	cursor: pointer;
 }
 
-.p_triangle:active {
+.triangle:active {
 	position:relative;
 	top:1px;
 }
 
 #triangle_left {
-	margin-left: 6%;
 	float: left;
 }
 
 #triangle_right {
-	margin-left: 96%;
+	float: left;
 }
 
 #button_upload_pic {
+	clear: left;
+	font-family: 微软雅黑;
+	font-size: 15px;
+	border-radius: 2px;
 	margin-right: 75%;
-	margin-left: 5%;
+	margin-left: 30px;
 	margin-top: 20px;
 }
 
 #article_editor {
+	position: relative;
 	margin-top: 5%;
 	font-family: 微软雅黑;
 }
 
+
 #p_article_title {
-	font-family: 微软雅黑;
-	font-size: 20px;
-	float: left;
-	margin-top: 0px;
+	font-family: 黑体;
+	font-size: 18px;
+	position: absolute;
+	margin-left: 30px;
+	margin-top: 5px;
+	width: 130px;
 }
 
 #input_title {
-	margin-left: 2%;
+	margin-left: 200px;
+	margin-right: 20px;
+	padding: 0px;
 	height: 26px;
-	width: 50%;
+	width: 650px;
+	font-family: 黑体;
+	font-size: 18px;
+}
+
+#spare {
+	margin: 15px;
+}
+
+#p_article_abstract {
+	font-family: 黑体;
+	font-size: 18px;
+	position: absolute;
+	margin-left: 30px;
+	margin-top: 20px;
+	width: 130px;
+}
+
+#input_abstract {
+	margin-left: 200px;
+	margin-right: 20px;
+	padding: 0px;
+	height: 50px;
+	width: 650px;
+	font-family: 黑体;
+	font-size: 18px;
+}
+
+#display-type-select{
+	margin-top: -3px;
+	float:right;
+}
+#display-type-select>.active>a, #display-type-select>.active>a:hover, #display-type-select>.active>a:focus {
+  color: #fff;
+  background-color: #D9AE48;
+}
+
+#change-display-list > a{
+	font-family: 黑体;
+	font-size: 18px;
+    color: black;
+}
+#change-display-list > a:hover{
+  cursor: pointer;
+}
+
+
+#label_article {
+	font-family: 黑体;
+	font-size: 18px;
+	float: right;
+	margin-top: 3px;
 }
 
 #editor {
@@ -147,22 +232,38 @@
 	margin-top: 18%;
 }
 
+#search_book_button{
+	margin-left: 25px;
+	font-family: 微软雅黑;
+	font-size: 15px;
+	border-radius: 2px;
+}
+
 #buttons {
-	margin-top: 5%;
+	margin-top: 50px;
+	padding-left: 340px;
+}
+#buttons a{
+	font-family: 微软雅黑;
+	font-size: 15px;
+	border-radius: 2px;
 }
 
 #button_upload_cancel {
-	margin-left: 15%;
-	float: left;
+	height: 27px;
+	width: 108px;
+	margin-left: 100px;
 }
 
 #button_upload_confirm {
-	margin-left: 76%;
+	height: 27px;
+	width: 108px;
 }
 
 #button_upload_draft {
-	margin-left: 19%;
-	float: left;
+	height: 27px;
+	width: 120px;
+	margin-left: 100px;
 }
 
 .register-button{
@@ -181,6 +282,9 @@
 
 #book_information {
 	margin-top: 30px;
+}
+#book_information p{
+	margin: 0px;
 }
 
 #book_image {
@@ -227,6 +331,7 @@
 #p_activity_time {
 	float: left;
 	margin-right: 10px;
+	margin-top: 5px;
 }
 
 #activity_time {
@@ -238,6 +343,7 @@
 #p_activity_place {
 	float: left;
 	margin-right: 10px;
+	margin-top: 5px;
 }
 
 #activity_place {
@@ -278,8 +384,25 @@
             width: auto;
             position: relative;
         }
+        .search_book_result a:hover{
+        	cursor: pointer;
+        	border: 1px solid #D9AE48;
+        }
         #selected_book_info{
             float:left;
-            width: 100%;
-            height: 400px;
+            width: 100%;            
         }
+
+#activity_button_upload_cancel {
+	position: relative;
+	left:300px;
+	height: 27px;
+	width: 108px;
+}
+
+#activity_button_upload_confirm {
+	position: absolute;
+	left:750px;
+	height: 27px;
+	width: 108px;
+}

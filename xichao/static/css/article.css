@@ -1,27 +1,41 @@
 #p_title {
 	margin-top: 45px;
-	font-size: 16.67px;
-	letter-spacing: 2px;
+	font-size: 16px;
+	font-family: 黑体;
+}
+
+
+#p_title a{
+	display:inline;
+	text-decoration: none;
+	color: rgb(114, 114, 114);
 }
 
 #p_title_1 {
 	float: left;
-	font-family: 黑体;
 	color: rgb(114, 114, 114);
 }
 
 #p_title_2 {
 	color: #D9AE48;
-	font-family: 黑体;
 } 
 
 #article {
 	margin-left: 100px;
 	margin-right: 100px;
+	word-wrap: break-word;
+	word-break: notmal;
 }
 
 #article_title {
 	margin-top: 74px;
+	margin-bottom:8px;
+}
+
+#article_title img{
+	height:2px;
+	width:760px;
+	margin-left:100px;
 }
 
 #p_article_title {
@@ -31,8 +45,15 @@
 }
 
 #article_content {
-	margin-top: 50px;
-	font-family: 微软雅黑;
+	margin-top: 0px;
+	font-family: 黑体;
+}
+
+#article_content p span{
+	position:relative;
+	bottom:5px;
+	left:2px;
+	font-size:10px;
 }
 
 #article_content_html {
@@ -54,7 +75,7 @@
 #p_num_xichao_bracket {
 	float: left;
 	cursor:pointer;
-	margin-right: 30px;
+	margin-right: 50px;
 	color: #D9AE48;
 }
 
@@ -66,7 +87,7 @@
 #p_article_author_2 >a{
 	float: left;
 	color: #D9AE48;
-	margin-right: 30px;
+	margin-right: 50px;
 }
 
 #p_article_time {
@@ -95,14 +116,14 @@
 }
 
 #p_read {
-	padding-left: 60px;
+	padding-left: 100px;
 	float: left;
 }
 
 #p_read_content {
 	float: left;
 	color: rgb(114, 114, 114);
-	margin-right: 30px;
+	margin-right: 50px;
 	margin-left: 5px;
 }
 
@@ -114,7 +135,7 @@
 	float: left;
 	color: #D9AE48;
 	cursor:pointer;
-	margin-right: 30px;
+	margin-right: 50px;
 }
 
 #p_collection {
@@ -161,60 +182,71 @@
 
 #publish_review {
 	background-color: #f5ebd1;
-	padding-top: 3%;
-	padding-bottom: 1%;
+	padding-top: 10%;
+	padding-bottom: 5%;
 
 }
 
 #p_publish_review {
-	margin-left: 10%;
+	margin-left: 96px;
 	font-family: 微软雅黑;
 	font-size: 20px;
-	margin-bottom: 1%;
+	margin-bottom: 25px;
 }
 
 #img_user {
-	margin-left: 9%;
-	margin-right: 3%;
+	width: 120px;
+	margin-left: 115px;
+	margin-right: 63px;
 	float: left;
 }
 
 #user_pic_1 {
 	z-index: 1;
 	overflow: hidden;
-	width: 90px;
-	height: 90px;
-	border-radius: 90px;
+	width: 120px;
+	height: 120px;
+	border-radius: 120px;
 	position: relative;
 	behavior: url(/static/css/PIE.htc);
 }
 
 
 #p_user_name {
-	margin-left: 12%;
+	text-align: center; 
+	font-family: 黑体;
+	font-size: 16px;  
+	color: #D9AE48;
+	font-weight: bold;
+	margin-top: 13px;
 }
 
 #input_publish_review {
 	display: block;
 	background-color: #f5ebd1;
-	margin-right: 15%;
-	width: 60%;
-	height: 100px;
+	width: 940px;
+	height: 110px;
+	resize: none;
 }
 
-
-#comment_pay_button{
-    margin-left: 20%;
+.pay_author_div{
+	float: right;
+	margin: 10px 95px 0; 
 }
 
-#comment_reset_button{
-	/*margin-top: 3%;*/
-	margin-left: 10%;
+#comment_pay_button {
+	margin: 0;
+}
+
+.pay_author_div span{
+	font-family: 黑体;
+	font-size: 14px;
 }
 
 #comment_publish_button{
-	/*margin-top: 3%;*/
-	margin-left: 10%;
+	margin-top: 50px;
+	margin-right: -190px;
+	float: right;
 }
 
 #list_review {
@@ -281,16 +313,73 @@
 	float: left;
 }
 
-.register-button{
-    width: 118px;
-    height: 38px;
-
-    font-family: 黑体;
-    font-size: 17px;
-
-    border-radius: 8px;
-    background-color: #D9AE48;
-    color: #ffffff;
+.button-reply {
+	margin-right: 10px;
 }
 
+.register-button{
+	width: 100px;
+	border: 1px rgb(218, 164, 23) solid;
+	background-color: white;
+    height: 30px;
+    font-family: 黑体;
+    font-size: 17px;
+    border-radius: 5px;
+}
+
+.well {
+	border: 0 !important;
+	background-color: white !important;
+}
+
+.media-object {
+	width: 120px;
+	height: 120px;
+	border-radius: 120px;
+}
+
+.pull-left {
+	width: 160px;
+	margin-right: 23px!important;
+	border-right: 2px #EAC60D solid;
+}
+
+.media-heading {
+	font-family: 黑体;
+	font-size: 17.5px;
+	color: #D9AE48;
+}
+
+.media-content {
+	padding: 10px 0;
+	font-family: 宋体;
+	font-size: 18px;
+	letter-spacing: 1px;
+	line-height: 150%;
+	height: 55px;
+}
+
+.comment-info span{
+	font-family: 黑体;
+	font-size: 14px;
+	margin-right: 10px;
+}
+
+.comment-time {
+	color: gray;
+}
+
+.comment-reply {
+	font-size: 16px;
+	color: #D9AE48;
+	cursor: pointer;
+}
+
+.comment-reply-ul {
+	margin-top: 20px;
+}
+
+#pay_button{
+
+}
 

@@ -80,6 +80,9 @@ class HomePage(Base, AutoSerialize):
     special2_image = Column(String(255), nullable = False)
     special3_image = Column(String(255), nullable = False)
     special4_image = Column(String(255), nullable = False)
+
+    ground_recommended_article=Column(Integer, ForeignKey('article.article_id'),nullable = False,default=1)
+
     
     ########## Index/Unique索引 ##########
     def __init__(self, special1=1, special2=2, special3=3, special4=4):
@@ -126,6 +129,10 @@ class User(Base, UserMixin, AutoSerialize):
 
     follow_num=Column(Integer,nullable=False,default=0)
     be_followed_num=Column(Integer,nullable=False,default=0)
+
+
+    cover=Column(String(255),nullable=False,default='/upload/cover/default.jpg')
+
     ########## Index/Unique索引 ##########
     nick = Column(String(60), nullable = False, 
                               unique = True, index = True)
@@ -176,7 +183,7 @@ class Book(Base,AutoSerialize):
 
     ########## 普通列 ##########
     picture = Column(String(255), nullable = False)
-    author = Column(String(50), nullable = False)
+    author = Column(String(255), nullable = False)
     press = Column(String(50), nullable = False)
     page_num = Column(String(5), nullable = False)
     price = Column(String(10), nullable = False)
@@ -376,13 +383,13 @@ class Comment(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-    __allowed_in_json__ = ['content','comment_id','time']
+    __allowed_in_json__ = ['content','comment_id','time','is_read']
     ########## Primary索引 ##########
     comment_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)
 
     ########## 普通列 ##########
-    content = Column(String(255), nullable = False)
+    content = Column(Text, nullable = False)
 
     ########## Index/Unique索引 ##########
     time = Column(DateTime, nullable = False, 
@@ -390,20 +397,24 @@ class Comment(Base,AutoSerialize):
     isgood = Column(CHAR(1), nullable = False, 
                              unique = False, index = True, default = '1')
 
+    is_read=Column(CHAR(1),nullable=False,index=True,unique=False,default='0')
+
     ########## Foreign Key ##########
     user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
     to_user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
     article_id = Column(Integer, ForeignKey('article.article_id'), index = True)
+    reply_to_comment_id = Column(Integer, nullable=False, index=True)
 
-
+       
     def __init__(self, article_id = None, content = None,
                        user_id = None, to_user_id = None,
-                       time = None):
+                      reply_to_comment_id=reply_to_comment_id,time = None):
         self.content = content
         self.time = time
         self.user_id = user_id
         self.to_user_id = to_user_id
         self.article_id = article_id
+        self.reply_to_comment_id = reply_to_comment_id
 
 
     def __repr__(self):
@@ -438,7 +449,10 @@ class Comment_activity(Base,AutoSerialize):
         self.user_id = user_id
         self.activity_id = activity_id   
     def __repr__(self):
-        return '<Comment_activity id: %r>' % (self.comment_activity_id)                
+        return '<Comment_activity id: %r>' % (self.comment_activity_id)
+        
+    def get_comment_id():
+        return self.comment_id
 ##################################  私信模型  ####################################
 
 class Message(Base,AutoSerialize):
@@ -447,7 +461,7 @@ class Message(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-
+    __allowed_in_json__ = ['content','message_id','time','is_read']
     ########## Primary索引 ##########
     message_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)
@@ -458,6 +472,8 @@ class Message(Base,AutoSerialize):
     ########## Index/Unique索引 ##########
     time = Column(DateTime, nullable = False, 
                             unique = False, index = True)
+
+    is_read=Column(CHAR(1),nullable=False,index=True,unique=False,default='0')
 
     ########## Foreign Key ##########
     user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
@@ -474,7 +490,8 @@ class Message(Base,AutoSerialize):
     def __repr__(self):
         return '<Message id: %r>' % (self.message_id)
         
-        
+    def get_message_id(self):
+        return self.message_id
 ##################################  活动模型  ####################################
 
 class Activity(Base,AutoSerialize):

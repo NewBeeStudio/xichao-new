@@ -16,6 +16,9 @@ src: url(../fonts/liukai.ttf);
 	font-size: 25px;
 	font-weight: bold;
 	letter-spacing: 10px;
+    position: relative;
+    top:-25px;
+    left:4%;
 }
 .hot-title{  
     font-size: 25px;
@@ -23,6 +26,7 @@ src: url(../fonts/liukai.ttf);
 }
 .opinion-title{
 	position:relative;
+	margin-bottom: 40px;
 	left:39%;
 }
 .opinion-author-text{
@@ -36,7 +40,7 @@ src: url(../fonts/liukai.ttf);
 }
 .opinion-headline-text{
 	position:relative;
-	bottom:220px;
+	bottom:200px;
     left:1%;
 	font-family:liukai, KaiTi, STKaiti;
 	font-size:24px;
@@ -52,33 +56,53 @@ src: url(../fonts/liukai.ttf);
 	/*border: 2px solid #dddddd;*/
 }
 .square-hot{
-	margin-top: 35px;
-	height: 513px;
-	width: 557px;
-	border: 2px solid #dddddd;
+	position: relative;
+    top:-25px;
+	height: 380px;
+	width: 780px;
+	border: 1px solid #D9AE48;
 }
-
+.square-hot2{
+	position: relative;
+    top:-25px;
+    left:43%;
+	height: 380px;
+	width: 360px;
+	border: 1px solid #D9AE48;
+}
 #square-hot-article{
-	font-family: 宋体;
-	font-size: 18px;
+	font-family: 黑体;
+	font-size: 14px;
     table-layout:fixed;
-    width:30em;
+    width:465px;
+    line-height: 1;
 }
 
 
 #square-part1-content{
 	position:relative;
-	bottom:120px;
+	bottom:150px;
     table-layout:fixed;
+    width:703px;
 }
 
 #square-hot-article td,#square-part1-content td{
-	padding-top: 25px;
+	padding-top: 22px;
     word-break:keep-all;/* 不换行 */
     white-space:nowrap;/* 不换行 */
     overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
     text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一 起使用。*/
+    -moz-text-overflow: ellipsis;
 }
+
+#square-hot-article td > a,#square-part1-content td > a{
+    word-break:keep-all;/* 不换行 */
+    white-space:nowrap;/* 不换行 */
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一 起使用。*/
+    -moz-text-overflow: ellipsis;
+}
+
 a.text-more{
     position:relative;
     top:-120px;
@@ -89,35 +113,43 @@ a.text-more{
 	height: 14px;
 	opacity: 65%;
 }
-
+#square-pic-left{
+    height: 315px;
+    width: 315px;
+    position: relative;
+    left: 2%;
+    top: 26px;
+}
 td.square-col-1{
 	width: 340px;
 	padding-left: 15px;
 }
-
 td.square-col-2{
-    width:4em;
+    width:9.6em;
+}
+td.square-col-2 >a{
 	position:relative;
-	left:9%;
+	left:8%;
+    color:#6e6e6e;
 }
 
 td.square-col-3{
 	width: 18px;
-	color: gray;
+	color: #6e6e6e;
 	position:relative;
-	left:14%;
-	top:-2px;
+/*	left:6%;*/
+	top:-1px;
 }
 
-.square-col-4{
+td.square-col-4{
 	width: 80px;
-	color: gray;
+	color: #6e6e6e;
 }
 
-.square-col-final{
-	color: gray;
+td.square-col-final{
+	color: #6e6e6e;
 	position:relative;
-	left:16%;
+	left:2%;
 }
 
 a.square-more{
@@ -140,9 +172,8 @@ a.square-more{
 }
 #recomment-box{
 	margin:1.5%;
-	background:rgba(0,0,0,0.4) none repeat scroll !important;
-	position:relative;
-	top:-57%;
+    position: relative;
+    top: -35px;
 }
 #recommend-content{
 /*	padding-left: 2px;
@@ -152,55 +183,69 @@ a.square-more{
 
 #recommend-content h3{
 	text-align: center;
-	font-family: 宋体;
-	font-size: 25px;
+	font-family: 黑体;
+	font-size: 18px;
 	position:relative;
 	top:40px;
 }
 
 #recommend-title{
-	/*margin: 16px auto auto auto;*/
 	text-align: center;
 	position:relative;
-	top:40px;
+	top:28px;
 }
 
 
 #recommend-title span{
-	margin-left: 8px;
-	font-family: 宋体;
+/*	margin-left: 8px;*/
+	font-family: 黑体;
 	font-size: 12.5px;
-	color: white;
 }
-
-#pre-read{
-	height: 200px;
-    width: 450px;
-	font-family: 宋体;
+#recommend-text{
+	height: 120px;
+    width: 155px;
+	font-family: 黑体;
 	font-size: 14px;
 	text-align:left;
-	color:white;
 
 	overflow: hidden;	
-	white-space: pre-wrap;
 	word-wrap: break-word; /*自动换行*/
+    display: -webkit-box;  
+    -webkit-line-clamp: 6;  
+    -webkit-box-orient: vertical;
+
+
+}
+#pre-read{
+	height: 60px;
+    width: 300px;
+	font-family: 黑体;
+	font-size: 12.5px;
+	text-align:left;
+
+	overflow: hidden;	
+	word-wrap: break-word; /*自动换行*/
+    display: -webkit-box;  
+    -webkit-line-clamp: 3;  
+    -webkit-box-orient: vertical;
 
 	position:relative;
 	top:40px;
-    left:9%;
+    left: 4%;
 
 }
 
 #recommend-img{
 	padding: 1.5%;
-
+    width: 180px;
 	z-index:-1;
+    float: left;
 
 }
 
 #recommend-img img{
-	height: 500px;
-	width: 557px;
+	height: 180px;
+	width: 180px;
 }
 .square-part1-right{
 	position:relative;
@@ -210,29 +255,31 @@ a.square-more{
 	width: 700px;
 	height: 360px;
 }
-#square-part1-img2{
-    margin-left: 0px;
-    margin-top: 20px;
+.square-part1-img2{
+    margin-top: -20px;
     border-left: 0px;
     position: absolute;
-    
+}
+.square-inside-circle{
     width: 362px;
     height: 362px;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+/*    box-shadow: 3px 1px 3px #aaa;*/
 }
 
-img#square-part1-img1{
+img.square-part1-img1{
 	margin-top: 15px;
 	margin-left: 15px;
 	width: 330px;
 	height: 330px;
-
     border-radius: 330px;
     position: relative;
-    behavior: url(/static/css/PIE.htc);
 }
 #square-part1-content, .square-part1-right > a, .square-part2-left > a{
-	font-family: 宋体;
-	font-size: 16.7px;
+	font-family: 黑体;
+	font-size: 14px;
 }
 
 #square-part1-content td{
@@ -243,6 +290,8 @@ img#square-part1-img1{
 .square-part1, .square-part2 {
 	height: 730px;
 	clear: both;
+    position: relative;
+    top: -70px;
 
 }
 
@@ -301,13 +350,14 @@ img#square-part1-img, img#square-part2-img, img#square-part3-img{
 
 /*圆下面的竖线*/
 .square-part1-left > div, .square-part2-right > div{
-	margin-top: 40px;
-	height: 58px;
+	/*margin-top: 40px;*/
+	height: 362px;
+	width: 362px;
 }
 
 .square-part1-left > div{
-	margin-left: 187px;
-	border-left: 1px solid #000000;
+	/*margin-left: 187px;*/
+	/*border-left: 1px solid #000000;*/
 }
 
 .square-part2-right > div{
@@ -318,7 +368,7 @@ img#square-part1-img, img#square-part2-img, img#square-part3-img{
 
 /*专栏文章区域*/
 .square-part1-right, .square-part2-left{
-	margin-top: 45px;
+	margin-top: 25px;
 }
 
 .square-part1-right{

@@ -11,6 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
+
 DB_URL='mysql://root:Xichao42@localhost/xichao?charset=utf8'
 engine = create_engine(DB_URL, echo=True, convert_unicode=True)
 
@@ -26,7 +27,7 @@ def init_db():
     import models
     Base.metadata.create_all(bind=engine)
 
-    # 对初始化进行测试
+    ## 对初始化进行测试
     test_db()
 
 
@@ -43,10 +44,10 @@ def test_db():
     
     
     ##添加主页信息
-    from models import HomePage
-    home = HomePage(special1 = 1, special2 = 3, special3 = 5, special4 = 7)
-    db_session.add(home)
-    db_session.commit()
+    ##from models import HomePage
+    ##home = HomePage(special1 = 1, special2 = 3, special3 = 5, special4 = 7)
+    ##db_session.add(home)
+    ##db_session.commit()
     
     ##测试用户
     from datetime import datetime, timedelta
@@ -153,6 +154,11 @@ def test_db():
         db_session.add(article)
         db_session.commit()
 
+    ##添加主页信息
+    from models import HomePage
+    home = HomePage(special1 = 1, special2 = 3, special3 = 5, special4 = 7)
+    db_session.add(home)
+    db_session.commit()
 
     ##添加对应的Article_session
     from models import Article_session

@@ -1,0 +1,1325 @@
+{% extends "layout.html" %}
+
+<!--css file used-->
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/jquery-ui-1.11.2/jquery-ui.css" />
+<link href="{{ url_for('static', filename='css/homepage.css') }}" rel='stylesheet' type='text/css'/> 
+
+<style type="text/css">
+	body{
+		background-color: #f5f5f5;
+	}
+
+	#content{
+		width: 100%;
+	}
+
+	/*封面和介绍根据分辨率自适应改变宽大小,大屏100%，小屏固定宽*/
+	@media screen and (max-width: 1160px){
+		#cover {width: 1160px;}
+
+		#introduction {width: 1160px;}
+	}
+
+	/*个人信息栏宽度是固定的*/
+	#information{
+		width: 1160px;
+		margin-left: auto;
+		margin-right: auto; 
+	}
+</style>
+{% endblock %}
+
+<!--content-->
+{% block content %}
+
+{% if current_user == user %}
+<div id="change-cover">
+	<div id="cover-to-use">
+		<div><img src="{{user.cover}}"></div>
+		<div id="upload-cover"><a class="button-default" >上传封面图</a></div>
+	</div>
+
+	<div id="cover-default">
+		<div id="text-default-img">默认图库：</div>
+		<div id="cover-choice">
+			<a id="arrow-left">◀</a>
+			<img class="cover-choice first-cover first-display-cover" src="/upload/cover/default1.jpg" style="display:inline;">
+			<img class="cover-choice" src="/upload/cover/default2.jpg" style="display:inline;">
+			<img class="cover-choice last-display-cover" src="/upload/cover/default3.jpg" style="display:inline;">
+			<img class="cover-choice" src="/upload/cover/default4.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default5.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default6.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default7.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default8.jpg" style="display:none;">
+			<img class="cover-choice last-cover" src="/upload/cover/default9.jpg" style="display:none;">
+ 			<a id="arrow-right">▶</a>
+		</div>
+	</div>
+
+	<div id="change-cover-save-cancel">
+		<a id="change-cover-save" class="button-default">保存设置</a>
+		<a id="change-cover-cancel" class="button-default">取消更改</a>
+	</div>
+</div>
+{% endif %}
+
+<div id="cover" style="background-image:url({{user.cover}})">
+	<div>
+		<div id="cover-introduction">
+			{% if current_user == user %}
+			{#只有本人可以修改主页#}
+			<div id="button-change-cover">
+				更改封面图
+			</div>
+			{% endif %}
+
+			<div id="cover-owner">
+				<div id="cover-owner-latter">
+					{{ user.nick[5:] }}
+				</div>
+				<div id="cover-owner-former">
+					{{ user.nick[0:5] }}
+				</div>
+				<div id="cover-owner-dot">
+					&bull;
+				</div>
+				<div id="cover-owner-remains">
+					的个人空间
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="introduction">
+	<div>
+		<div id="introduction-left">
+			<img src="{{user.photo}}">
+			{% if current_user == user %}
+			{#只有本人可以修改个人设置#}
+			<div>
+				<a href="#settings">更改个人设置</a>
+			</div>
+			{% endif %}
+		</div>
+
+		<div id="introduction-right">
+			<div>
+				<span id="introduction-name">{{ user.nick }}</span>
+				<span id="introduction-category">
+					{% if user.role == 1 %}
+						普通用户
+					{% elif user.role == 2 %}
+						专栏作家
+					{% elif user.role == 3 %}
+						管理员
+					{% endif %}
+				</span>
+				{% if current_user != user %}
+				<span id="focus-and-message">
+					<span>
+						<a class="button-default" id="collection_user">
+							{% if collection=='yes' %}
+								取消关注
+							{% else %}
+								关注
+							{% endif %}
+						</a>
+					</span>
+					<span>
+						<a class="button-default" id="message_button">私信</a>
+					</span>
+				</span>
+				{% endif %}
+			</div>
+
+			<div id="introduction-slogon"><pre>{{ user.slogon }}</pre></div>
+		</div>
+	</div>
+</div>
+
+{% block home_page_content %}
+
+{% endblock %}
+	
+{% endblock %}
+
+<!--js file used-->
+{% block js %}
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.idTabs.min.js') }}"></script>
+<script type="text/javascript">
+	$(function(){
+		$.ajaxSetup({cache:false});
+	});
+	var timeoutID = 0; //AJAX后台延时请求的ID，用于记录或停止延迟执行的AJAX
+	var ajaxRequestDelay = 600; //两次AJAX请求最短时间差，(短于这个时间的请求将被忽略)
+</script>
+
+{% if current_user == user %}
+{# 个人主页下AJAX #}
+<!-- 关注tab下取消关注的效果 -->
+<script type="text/javascript">
+	function onMouseOverImage(image){
+		$(image).attr('src', "{{url_for('static', filename='images/transparent-circle-cancel.png')}}");
+	}
+
+	function onMouseOutImage(image){
+		$(image).attr('src', "{{url_for('static', filename='images/transparent-circle.png')}}");
+	}
+</script>
+
+<!-- 发布，收藏，关注，粉丝，消息中心AJAX -->
+<!-- 最上方个人信息栏点击AJAX -->
+<!-- 总之所有和个人主页最下方选项卡有关的AJAX基本上都在这 -->
+<script type="text/javascript">
+	//category命名，all后缀代表主tab下只有一项(如draft)，其余代表主tab下有多项（如release-article）
+	//获取删除url
+	function get_delete_url(category, item_id){ //item_id只用于focus-special
+		var delete_url;
+		if(category == "release-article")
+			delete_url = "/homepage/delete/article";
+		else if(category == "release-comment")
+			delete_url = "/homepage/delete/comment";
+		else if(category == "draft-all")
+			delete_url = "/homepage/delete/article";
+		else if(category == "collection-article")
+			delete_url = "/homepage/delete/collection/article";
+		else if(category == "collection-activity")
+			delete_url = "/homepage/delete/collection/activity";
+		else if(category == "focus-user")
+			delete_url = "/collection_cancel/user";
+		else if(category == "focus-special")
+			delete_url = "/collection_special_cancel?id=" + item_id;
+		else if(category == "fans-all")
+			delete_url = "";
+		else if(category == "received-message-all")
+			delete_url = "/homepage/delete/message";
+		else if(category == "received-comment-all")
+			delete_url = "/homepage/delete/received_comment";
+		else if(category == "received-notification-all")
+			delete_url = "/homepage/delete/message";
+		else if(category == "special-all")
+			delete_url = "{#/homepage/delete/special#}";
+		return delete_url;
+	}
+
+	//获取更新url
+	function get_refresh_url(category, page_id){
+		var refresh_url;
+		if(category == "release-article"){
+			if($('#bt-release-by-time').hasClass('selected'))
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			else if($('#bt-release-by-coins').hasClass('selected'))
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_coins";
+			else 
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			return refresh_url;
+		}
+		else if(category == "release-comment")
+			refresh_url = "/homepage/pagination/comment/page/";
+		else if(category == "draft-all")
+			refresh_url = "/homepage/pagination/article_draft/page/";
+		else if(category == "collection-article")
+			refresh_url = "/homepage/pagination/article_collection/page/";
+		else if(category == "collection-activity")
+			refresh_url = "/homepage/pagination/activity_collection/page/";
+		else if(category == "focus-user")
+			refresh_url = "/homepage/pagination/user_collection/page/";
+		else if(category == "focus-special")
+			refresh_url = "/homepage/pagination/special_collection/page/";
+		else if(category == "fans-all")
+			refresh_url = "/homepage/pagination/fans/page/";
+		else if(category == "received-message-all")
+			refresh_url = "/homepage/pagination/message/page/";
+		else if(category == "received-comment-all")
+			refresh_url = "/homepage/pagination/received_comment/page/";
+		else if(category == "received-notification-all")
+			refresh_url = "/homepage/pagination/notification/page/";
+		else if(category == "special-all")
+			refresh_url = "/homepage/pagination/special/page/";
+
+		refresh_url += page_id;
+		return refresh_url;
+	}
+
+	//获取对应的id标签，标签名为#+category
+	function get_refresh_tag(category){
+		var id = "#" + category;
+		return id;
+	}
+
+	//显示分页部分AJAX
+	function show_pagination(pagination, category){
+		// <div class='pagination'>
+		// 	<ul>
+		// 		<li><a href='#'>上一页</a></li>
+		// 		<li><a href='#'>1</a></li>
+		// 		<li><a href='#'>下一页</a></li>
+		// 	</ul>
+		var page = parseInt(pagination.page);
+		var pages = parseInt(pagination.pages);
+		var has_prev = pagination.has_prev;
+		var has_next = pagination.has_next;
+
+		var text = "<div class='pagination'>\
+						<ul>"
+
+		//上一页
+		if(has_prev == 'yes'){
+			var prev_page = page - 1;
+			text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + prev_page + ")'>上一页</li>"
+		}
+		else if(pages != 0){
+			text += "<li class='disabled'><span>上一页</span></li>"
+		}
+
+
+		//最多显示5页，这里判断显示的首页和末页
+		var first_display_page_num = 1;
+		var last_display_page_num = pages;
+
+		if(page - 2 >= 1)
+			first_display_page_num = page - 2;
+		else
+			first_display_page_num = 1;
+
+		if(page + 2 <= pages)
+			last_display_page_num = page + 2;
+		else
+			last_display_page_num = pages;
+
+		for (var i = first_display_page_num; i <= last_display_page_num; i++) {
+			if(i == page) {//当前页
+				text += "<li class='active'><span>" + i + "</span></li>"
+			}
+			else {
+				text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + i + ")'>" + i + "</a></li>"
+			}
+		};
+
+
+		//下一页
+		if(has_next == 'yes'){
+			var next_page = page + 1;
+			text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + next_page + ")'>下一页</li>"
+		}
+		else if(pages != 0){
+			text += "<li class='disabled'><span>下一页</span></li>"
+		}
+
+		return text;
+
+	}
+
+	//删除部分AJAX
+	function homepage_delete(category, item_id, page_id, length){
+		var delete_url = get_delete_url(category, item_id);
+
+		//取消关注专栏和作者的接口不一样，F**K
+		if(category == "focus-special"){
+			$.post(delete_url,
+			{
+				_csrf_token:"{{ csrf_token() }}"
+			},
+			function(data){
+				if (data != 'already'){
+					if (length == 1 && page_id > 1) {
+						homepage_refresh(category, page_id - 1);
+					}
+					else {
+						homepage_refresh(category, page_id);
+					}		
+				}
+			});
+		}
+		else if(category == "focus-user"){
+			$.post(delete_url,
+			{
+				_csrf_token:"{{ csrf_token() }}",
+				user_id: item_id
+			},
+			function(data){
+				if (data=='fail') {alert('fail');}
+				else{
+					if (length == 1 && page_id > 1) {homepage_refresh(category, page_id - 1);}
+					else{
+						homepage_refresh(category, page_id);
+					}		
+				}
+			});
+		}
+		else{
+			$.post(delete_url,
+			{
+				_csrf_token: "{{ csrf_token() }}",
+				item_id: item_id
+			},
+			function(data){
+				if (data != 'fail') {
+					if (category == "release-article"){ //刷新total总数
+						var oldTotalCount = parseInt($('#total-count > span').text());
+						$('#total-count > span').text(oldTotalCount - 1);
+					}
+					if (length == 1 && page_id > 1) {
+						homepage_refresh(category, page_id - 1);
+					}
+					else {
+						homepage_refresh(category, page_id);
+					}		
+				}
+			});
+		}
+	}
+
+	//更新部分AJAX 
+	function homepage_refresh(category, page_id){
+		var refresh_tag = get_refresh_tag(category); //对应内容显示框, "bt-xxx" -> "xxx"
+		var refresh_url = get_refresh_url(category, page_id); //对应url地址
+
+		$(refresh_tag).empty();
+		var textLoading = "<div class='content-box' id='homepage-loading'>\
+							正在加载，请稍后&nbsp;<img src='/static/images/homepage-loading.gif'>\
+						</div>";
+		$(refresh_tag).append(textLoading);
+
+		clearTimeout(timeoutID);
+		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
+			var text = "";
+
+			if(category == "release-article"){
+				var items = data.rows;
+
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'><a href='/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
+								<div class='table-cell col-2'>评论&nbsp;(" + items[i].comment_num + ")</div>\
+								<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;" + items[i].coins + "</div>\
+								<div class='table-cell col-4'><a onclick='homepage_delete(\"" + category + "\"," + items[i].article_id + "," + page_id + "," + items.length + ")'>删除</a></div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "release-comment"){
+				var items_article = data.rows_article;
+				var items_comment = data.rows_comment;
+			
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items_comment.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'>“" + items_comment[i].content + "”</div>\
+								<div class='table-cell col-2'><a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></div>\
+								<div class='table-cell col-3'>" + items_comment[i].time.slice(0, -3) + "</div>\
+								<div class='table-cell col-4'><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_comment.length + ")'>删除</a></div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "collection-article"){
+				var items_article = data.rows_article;
+				var items_user = data.rows_user;
+				var items_collection_article = data.rows_collection_article;
+				
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items_user.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'><a href='/article/" + items_article[i].article_id + "'>" + items_article[i].title + "</a></div>\
+								<div class='table-cell col-2'><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></div>\
+								<div class='table-cell col-3'><a onclick='homepage_delete(\"" + category + "\"," + items_collection_article[i].collection_article_id + "," + page_id + "," + items_article.length + ")'>删除</a></div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "collection-activity"){
+				var items_activity = data.rows_activity;
+				var items_collection_activity = data.rows_collection_activity;
+
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items_activity.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'><a href='/activity/" + items_activity[i].activity_id + "'>" + items_activity[i].name + "</a></div>\
+								<div class='table-cell col-2'>" + items_activity[i].activity_time.slice(0, -3) + "</div>\
+								<div class='table-cell col-3'><a onclick='homepage_delete(\"" + category + "\"," + items_collection_activity[i].collection_activity_id + "," + page_id + "," + items_activity.length + ")'>删除</a></div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "focus-user"){
+				var items_user = data.rows_user;
+				var items_collection_user = data.rows_collection_user;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_user.length; ++i){
+					//后台的接口是获得被关注者的id(user_id)和当前用户id(session获得)，查找并删除对应内容
+					text += "<div class='focus-info'>\
+								<div><a onclick='homepage_delete(\"" + category + "\"," + items_user[i].user_id + "," + page_id + "," + items_user.length + ")'>\
+									<img src='/static/images/transparent-circle.png' style='background-image:url("+ items_user[i].photo + ");' onmouseout='onMouseOutImage(this)' onmouseover='onMouseOverImage(this)'>\
+									</a></div>\
+								<div><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
+			else if(category == "focus-special"){
+				var items_special = data.rows_special;
+				var items_collection_special = data.rows_collection_special;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_special.length; ++i){
+					//后台的接口是获得被关注者的id(user_id)和当前用户id(session获得)，查找并删除对应内容
+					text += "<div class='focus-info'>\
+								<div><a onclick='homepage_delete(\"" + category + "\"," + items_collection_special[i].special_id + "," + page_id + "," + items_special.length + ")'>\
+									<img src='/static/images/transparent-circle.png' style='background-image:url("+ items_special[i].picture + ");' onmouseout='onMouseOutImage(this)' onmouseover='onMouseOverImage(this)'>\
+									</a></div>\
+								<div><a href='/special?id=" + items_special[i].special_id + "&page=1'>" + items_special[i].name + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
+			else if(category == "draft-all"){
+				var items = data.rows;
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'><a href='/article_modify/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
+								<div class='table-cell col-2'>" + items[i].time.slice(0, -3) + "</div>\
+								<div class='table-cell col-3'><a onclick='homepage_delete(\"" + category + "\"," + items[i].article_id + "," + page_id + "," + items.length + ")'>删除</a></div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "fans-all"){
+				var items = data.rows;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a href='/user/" + items[i].nick + "'>\
+									<img src='" + items[i].photo + "'>\
+									</a></div>\
+								<div><a href='/user/" + items[i].nick + "'>" + items[i].nick + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
+			else if(category == "received-message-all"){
+				var items_message = data.rows_message;
+				var items_user = data.rows_user;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_user.length; ++i){
+					if(items_message[i].is_read == '1'){ //已读
+						text += "<div>\
+								<div class='content-top'>“" + items_message[i].content + "”</div>\
+								<div class='content-bottom'>\
+									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></span>\
+									<span>" + items_message[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items_message[i].message_id + "," + page_id + "," + items_message.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					} else{ //未读
+						text += "<div>\
+								<div class='content-top new-message-flag'>“" + items_message[i].content + "”</div>\
+								<div class='content-bottom'>\
+									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></span>\
+									<span>" + items_message[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items_message[i].message_id + "," + page_id + "," + items_message.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					}
+				}
+				text += "</div>";
+			}
+			else if(category == "received-comment-all"){
+				var items_comment = data.rows_comment;
+				var items_user = data.rows_user;
+				var items_article = data.rows_article;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_article.length; ++i){
+					if(items_comment[i].is_read == '1'){ //已读
+						text += "<div>\
+								<div class='content-top'>“" + items_comment[i].content + "”</div>\
+								<div class='content-bottom'>\
+									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a>评论<a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></span>\
+									<span>" + items_comment[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_article.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					} else{
+						text += "<div>\
+								<div class='content-top new-message-flag'>“" + items_comment[i].content + "”</div>\
+								<div class='content-bottom'>\
+									<span><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a>评论<a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></span>\
+									<span>" + items_comment[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items_comment[i].comment_id + "," + page_id + "," + items_article.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					}
+				}
+				text += "</div>";
+			}
+			else if(category == "received-notification-all"){
+				var items=data.rows;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items.length; ++i){
+					if(items[i].is_read == '1'){ //已读
+						text += "<div>\
+								<div class='content-top'>" + items[i].content + "</div>\
+								<div class='content-bottom'>\
+									<span>" + items[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items[i].message_id + "," + page_id + "," + items.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					} else{
+						text += "<div>\
+								<div class='content-top new-message-flag'>" + items[i].content + "</div>\
+								<div class='content-bottom'>\
+									<span>" + items[i].time.slice(0, -3) + "</span>\
+									<span><a onclick='homepage_delete(\"" + category + "\"," + items[i].message_id + "," + page_id + "," + items.length + ")'>删除</a></span>\
+								</div>\
+							</div>";
+					}
+				}
+				text += "</div>";
+			}
+			else if(category == "special-all"){
+				var items = data.rows;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a href='/special?id=" + items[i].special_id + "&page=1'>\
+									<img src='" + items[i].picture + "'>\
+									</a></div>\
+								<div><a href='/special?id=" + items[i].special_id + "&page=1'>" + items[i].name + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
+			//分页处理
+			var pagniation_text = show_pagination(data, category);
+
+			$(refresh_tag).empty();
+			$(refresh_tag).append(text);
+			$(refresh_tag).append(pagniation_text);
+
+			updateMessageHint(category); //更新消息显示，只对消息中心有效
+		})}, ajaxRequestDelay);
+	}
+
+	//第一次请求：调用homepage_refresh
+	//后面的请求：保持原样
+	function homepage_display(category, page_id){
+		var refresh_tag = get_refresh_tag(category);
+		// 已经加载好的页面有<div class='content-box'>这个标签
+		// 排序功能就不能用这个逻辑，因为已经有内容存在
+
+		var raw_content = $(refresh_tag).html().replace(/(^\s+)|(\s+$)/g, "");
+		if(raw_content == ""){
+			homepage_refresh(category, page_id);
+		}
+		else{
+			//针对消息中心已显示新消息提示隐去
+			if(category == 'received-message-all' || category == 'received-comment-all' || category == 'received-notification-all'){
+				$(refresh_tag).find('.new-message-flag').removeClass('new-message-flag');
+			}
+		}
+	}
+
+	//子tab按钮触发AJAX
+	$(function(){
+		$('#bt-release-article').click(function(){
+			if($('#release-sort-ul').css('display') == 'none')
+				$('#release-sort-ul').css('display', 'block')
+			$('#total-count').css('display', 'block');
+
+			homepage_refresh("release-article", 1); //最好能改成display
+		});
+		$('#bt-release-comment').click(function(){
+			if($('#release-sort-ul').css('display') == 'block')
+				$('#release-sort-ul').css('display', 'none')
+			$('#total-count').css('display', 'none');
+
+			homepage_display("release-comment", 1);
+		});
+		$('#bt-collection-article').click(function(){
+			homepage_display("collection-article", 1);
+		});
+		$('#bt-collection-activity').click(function(){
+			homepage_display("collection-activity", 1);
+		});
+		$('#bt-focus-user').click(function(){
+			homepage_display("focus-user", 1);
+		});
+		$('#bt-focus-special').click(function(){
+			homepage_display("focus-special", 1);
+		});
+
+		//排序功能
+		$('#bt-release-by-time').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+		$('#bt-release-by-coins').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+	});
+	
+	//点击消息中心对应按钮时去除个人信息栏未读提示
+	function updateMessageHint(category){
+		if(category == 'received-message-all' || category == 'received-comment-all' || category == 'received-notification-all'){
+			if($("#all-message-number").css('display') != "none"){ //有消息，避免额外AJAX请求
+				//console.log('ajax');
+				getMessageNumber();
+			}
+		}
+	}
+
+	//主tab按钮触发AJAX
+	$(function(){
+		$('#bt-release').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+		$('#bt-collection').click(function(){
+			$("#bt-collection-article").trigger("click");
+		});
+		$('#bt-focus').click(function(){
+			$("#bt-focus-user").trigger("click");
+		});
+
+		//draft, fans, 消息中心执行动作与子tab一致
+		$('#bt-draft').click(function(){
+			homepage_display("draft-all", 1);
+		});
+		$('#bt-fans').click(function(){
+			homepage_display("fans-all", 1);
+		});
+		$('#bt-received-message').click(function(){
+			homepage_display("received-message-all", 1);
+		});
+		$('#bt-received-comment').click(function(){
+			homepage_display("received-comment-all", 1);
+		});
+		$('#bt-received-notification').click(function(){
+			homepage_display("received-notification-all", 1);
+		});
+		$('#bt-special').click(function(){
+			homepage_display("special-all", 1);
+		});
+	});
+
+	//通过最顶上navbar点击进行的后台ajax
+	function navbar_click(){
+		var locationHash = window.location.hash;
+		// alert(locationHash);
+		var transitionTime = 50;
+		if(locationHash == '#' || locationHash == ''){
+			$('#bt-release').trigger("click");
+			locationHash = '#';
+			return;
+		}
+		else if(locationHash == '#settings'){
+			if($('#homepage-settings').css('display') == 'none'){
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-settings').fadeIn(transitionTime);
+			}
+		}
+		else if(locationHash == '#fans'){
+			if($('#homepage-fans').css('display') == 'none'){
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
+				$('#homepage-fans').fadeIn(transitionTime);
+			}
+			$('#bt-fans').trigger("click");
+		}
+		else if(locationHash == '#received-message' || locationHash == '#received-comment' || locationHash == '#received-notification'){
+			if($('#homepage-news').css('display') == 'none'){
+				$('#homepage-info').fadeOut(transitionTime);
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
+				$('#homepage-news').fadeIn(transitionTime);
+			}
+			if(locationHash == '#received-message'){
+				$('#bt-received-message').trigger("click");
+			}
+			else if(locationHash == '#received-comment'){
+				$('#bt-received-comment').trigger("click");
+			}
+			else if(locationHash == '#received-notification'){
+				$('#bt-received-notification').trigger("click");
+			}
+			else{
+				$('#bt-received-message').trigger("click");
+			}
+		}
+		else{
+			if($('#homepage-info').css('display') == 'none'){
+				$('#homepage-fans').fadeOut(transitionTime);
+				$('#homepage-news').fadeOut(transitionTime);
+				$('#homepage-settings').fadeOut(transitionTime);
+				$('#homepage-info').fadeIn(transitionTime);
+			}
+
+			if(locationHash == '#release-article'){
+				$('#bt-release').trigger("click");
+				$("#bt-release-article").trigger("click");
+			}
+			else if(locationHash == '#release-comment'){
+				$('#bt-release').trigger("click");
+				$('#bt-release-comment').trigger("click");
+			}
+			else if(locationHash == '#collection-article'){
+				$('#bt-collection').trigger("click");
+				$('#bt-collection-article').trigger("click");
+			}
+			else if(locationHash == '#collection-activity'){
+				$('#bt-collection').trigger("click");
+				$('#bt-collection-activity').trigger("click");
+			}
+			else if(locationHash == '#focus-user'){
+				$('#bt-focus').trigger("click");
+				$('#bt-focus-user').trigger("click");
+			}
+			else if(locationHash == '#focus-special'){
+				$('#bt-focus').trigger("click");
+				$('#bt-focus-special').trigger("click");
+			}
+			else if(locationHash == '#xichao-coin'){
+				$('#bt-xichao-coin').trigger("click");
+			}
+			else if(locationHash == '#draft'){
+				$('#bt-draft').trigger("click");
+			}
+			else{ //default
+				$('#bt-release').trigger("click");
+			}
+		}
+		
+		$('html, body').animate({scrollTop: $('#information').offset().top}, 500); //滑动到锚点位置
+		// window.location.hash = '#information'; //跳转到合适的位置
+	}
+
+	//navbar点击后触发AJAX（模拟点击发布按钮）
+	$(function(){
+		navbar_click(); //从别的页面跳转到主页
+
+		// 在主页上点击
+		$('#navbar-info .nav a').click(function(){
+			setTimeout(navbar_click, 100); //直接执行好像不行
+		});
+
+		//个人主页更改个人设置
+		$('#introduction-left a').click(function(){
+			setTimeout(navbar_click, 100); //同上
+		});
+	});
+
+
+	// 点击修改完成进行的操作
+	$('#basicinfo-finish-change').click(function()
+	{
+		val_nick=$('#change-nick').val();
+		val_genger=$('input[name="gender"]:checked').val();
+		val_birthday_year=$('#change-year').val();
+		val_birthday_month=$('#change-month').val();
+		val_birthday_day=$('#change-day').val();
+		val_phone=$('#change-phonenumber').val();
+		$.post('/homepage/modify/basic_information',
+			{
+				_csrf_token:"{{ csrf_token() }}",
+				nick: val_nick,
+				gender: val_genger,
+				birthday_year: val_birthday_year,
+				birthday_month: val_birthday_month,
+				birthday_day: val_birthday_day,
+				phone: val_phone
+			},
+			function(result){
+				if (result=='birthday_error') {layer.msg("生日格式错误",1,3);}
+				else if (result=='birthday_time_error') {layer.msg("生日时间不正确",1,3);}
+				else if (result=='nick_length_error') {layer.msg("该昵称长度不合法",1,3);}
+				else if (result=='nick_error') {layer.msg("该昵称已存在",1,3);}
+				else if (result=='phone_error') {layer.msg("手机号格式错误",1,3);}
+				else{
+					//$('.one1-orig').removeClass('display-none');
+					//$('.one1-new').addClass('display-none');
+					$('#show-nick').text(val_nick);
+					$('#introduction-name').text(val_nick); //实时更新个人介绍中显示
+
+					$('#cover-owner-former').text(val_nick.slice(0, 5));
+					$('#cover-owner-latter').text(val_nick.slice(5)); //实时更新封面显示
+
+					if (val_genger=='f') {$('#show-sex').text('女');}
+					else{
+						$('#show-sex').text('男');
+					}
+					if (result=='success_no_birthday' || result=='success_no_birthday_phone') {$('#show-birthday').text('暂未填写');}
+					else{
+						$('#show-birthday').text(val_birthday_year+'年'+val_birthday_month+'月'+val_birthday_day+'日');
+					}
+					if (result=='success_no_phone' || result=='success_no_birthday_phone') {$('#show-phonenumber').text('暂未填写');}
+					else{
+						$('#show-phonenumber').text(val_phone);
+					}
+					layer.msg("修改成功",1,1);
+					
+				}
+			});
+
+
+	});
+	
+	$("#basicinfo-finish-change").click(function(){
+	val_slogon=$("#slogon").val();
+	$.post('/homepage/modify/slogon',
+		{
+			_csrf_token:"{{ csrf_token() }}",
+			slogon: val_slogon
+		},
+		function(result){
+			$('#slogon-after-change').text(val_slogon);
+			$('#introduction-slogon > pre').text(val_slogon); //个人介绍中slogon
+		});
+	});
+</script>
+
+<!-- 修改个人信息 -->
+<script type="text/javascript">
+	$(function(){
+		$('#basicinfo-start-change').click(function(){
+			$('.basicinfo-view').css('display', 'none');
+			$('.basicinfo-change').css('display', 'inline-block');
+		});
+
+		$('#basicinfo-finish-change').click(function(){
+			$('.basicinfo-change').css('display', 'none');
+			$('.basicinfo-view').css('display', 'inline-block');
+		});
+
+		$("#basicinfo-cancel-change").click(function(){
+			$('.basicinfo-change').css('display', 'none');
+			$('.basicinfo-view').css('display', 'inline-block');
+		});
+	});
+</script>
+
+<!-- 更新头像AJAX -->
+<script type="text/javascript">
+function update_avatar(data){
+  $('#basicinfo-img img').attr("src",data);
+  $('#introduction-left img').attr("src",data);
+
+  $.post('/homepage/modify/avatar',
+  	{
+  		_csrf_token:"{{ csrf_token() }}",
+  		avatar:data
+  	},
+  	function(result){
+  	});
+  
+}
+</script>
+
+<!-- 更新封面AJAX -->
+<script type="text/javascript">
+
+//点击默认图库更新左侧大图，左右箭头效果
+$(function(){
+	//选中效果
+	$('#cover-choice > img').click(function(){
+		$('#cover-choice > img').each(function(){
+				$(this).css('border', '3px solid #fff');
+		});
+
+		$(this).css('border', '3px solid #D9AE48');
+		// alert($(this).attr('src'));
+		$('#cover-to-use img').attr('src', $(this).attr('src'));
+	});
+
+	//左右箭头效果
+	$('#arrow-left').click(function(){
+		if($('.first-cover').css('display') == 'none'){ //第一张未被选中
+			var lastDisplayCover = $('.last-display-cover');
+			var firstDisplayCover = $('.first-display-cover');
+			lastDisplayCover.prev().addClass('last-display-cover');
+			firstDisplayCover.prev().addClass('first-display-cover');
+			lastDisplayCover.removeClass('last-display-cover');
+			firstDisplayCover.removeClass('first-display-cover');
+			lastDisplayCover.css('display', 'none');
+			firstDisplayCover.prev().css('display', 'inline');
+		}
+	});
+
+	$('#arrow-right').click(function(){
+		if($('.last-cover').css('display') == 'none'){ //最后一张未被选中
+			var lastDisplayCover = $('.last-display-cover');
+			var firstDisplayCover = $('.first-display-cover');
+			lastDisplayCover.next().addClass('last-display-cover');
+			firstDisplayCover.next().addClass('first-display-cover');
+			lastDisplayCover.removeClass('last-display-cover');
+			firstDisplayCover.removeClass('first-display-cover');
+			firstDisplayCover.css('display', 'none');
+			lastDisplayCover.next().css('display', 'inline');
+		}
+	});
+})
+
+
+function update_cover(data){
+  $('#cover-to-use img').attr("src",data);
+  $('#cover').css("background-image","url('"+data+"')");
+
+  $.post('/homepage/modify/cover',
+  	{
+  		_csrf_token:"{{ csrf_token() }}",
+  		cover:data
+  	},
+  	function(result){
+  	});
+  
+}
+</script>
+
+<script type="text/javascript">
+	$("#change-photo").click(function(){
+		$.layer({
+	        type: 2,
+	        title: [
+	            '上传头像', 
+	            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+	        ],
+	        shadeClose: true,
+	        closeBtn: false,
+	        border:[0],
+	        area: ['90%', '90%'],
+	        iframe: {src: "{{url_for('upload_avatar')}}"},
+	    });
+	});
+</script>
+<script type="text/javascript">
+	$(function(){
+		$('#button-change-cover').click(function(){
+			$('#change-cover').slideDown(500);
+		});
+		$('#change-cover-save').click(function(){
+			$('#change-cover').slideUp(500);
+		});
+		$('#change-cover-cancel').click(function(){
+			$('#change-cover').slideUp(500);
+		});
+	});
+</script>
+<script type="text/javascript">
+	$("#upload-cover a").click(function(){
+		$.layer({
+	        type: 2,
+	        title: [
+	            '上传封面', 
+	            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+	        ],
+	        shadeClose: true,
+	        closeBtn: false,
+	        border:[0],
+	        area: ['90%', '90%'],
+	        iframe: {src: "{{url_for('upload_cover')}}"},
+	    });
+	});
+</script>
+
+
+{% else %}
+{# 看别人主页下的AJAX #}
+
+<!-- 关注和私信别人 -->
+<script type="text/javascript">
+	$(function(){
+		if ('{{collection}}'=='yes'){
+			flag=true;
+		}
+		else{
+			flag=false;
+		}
+		$("#collection_user").click(function()
+		{
+			if (flag) {url='/collection_cancel/user';}
+			else{url='/collection/user';}
+			$.post(url,
+			{
+				_csrf_token:"{{ csrf_token() }}",
+				user_id: {{user.user_id}}
+			},
+			function(data){
+			if (data=='success'){
+				//var follow_num = parseInt($('#home_be_followed_num').html());
+				if (flag) {
+					layer.msg("取消关注成功",1,1);
+					$("#collection_user").html("关注");
+					//var newstr = (follow_num-1);
+					//$('#home_be_followed_num').html(newstr);
+					flag=false;
+				}
+				else{
+					layer.msg("关注成功",1,1);
+					$("#collection_user").html("取消关注");
+					//var newstr = (follow_num+1);
+					//$('#home_be_followed_num').html(newstr);
+					flag=true;
+				}
+			}
+			else {
+				if ('{{collection}}'=='yes'){
+					layer.msg("关注失败",1,3);
+				}
+				else{
+					layer.msg("取消关注失败",1,3);
+				}
+			}
+			});  
+		});
+
+
+		$("#message_button").click(function()
+		{
+			var url = "{{ url_for('message_page', to_user_id=user.user_id) }}";
+			$.layer({
+				type: 2,
+				title: ['私信'],
+				shade: [0.65, '#000'],
+				shadeClose: true,
+				closeBtn: false,
+				border: [2, 1, '#D9AE48'],
+				area: ['560px', '258px'],
+				iframe: {src: url},
+			});
+		});
+	});
+</script>
+
+<!-- 看别人主页下的内容 -->
+<script type="text/javascript">
+	//获取更新url
+	function get_refresh_url(category, page_id){
+		var refresh_url;
+		if(category == "release-article"){
+			if($('#bt-release-by-time').hasClass('selected'))
+				refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_time/page/" + page_id;
+			else if($('#bt-release-by-coins').hasClass('selected'))
+				refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_coins/page/" + page_id;
+			else 
+				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			return refresh_url;
+		}
+		else if(category == "release-comment"){
+			refresh_url = "/user/" + {{user.user_id}} + "/comment/pagination/page/" + page_id;
+			return refresh_url;
+		}
+		else if(category == "focus-user"){
+			refresh_url = "/user/" + {{user.user_id}} + "/collection_author/pagination/page/" + page_id;
+			return refresh_url;
+		}
+
+		// refresh_url += page_id;
+		return refresh_url;
+	}
+
+	//获取对应的id标签，标签名为#+category
+	function get_refresh_tag(category){
+		var id = "#" + category;
+		return id;
+	}
+
+	//显示分页部分AJAX
+	function show_pagination(pagination, category){
+		// <div class='pagination'>
+		// 	<ul>
+		// 		<li><a href='#'>上一页</a></li>
+		// 		<li><a href='#'>1</a></li>
+		// 		<li><a href='#'>下一页</a></li>
+		// 	</ul>
+		var page = parseInt(pagination.page);
+		var pages = parseInt(pagination.pages);
+		var has_prev = pagination.has_prev;
+		var has_next = pagination.has_next;
+
+		var text = "<div class='pagination'>\
+						<ul>"
+
+		//上一页
+		if(has_prev == 'yes'){
+			var prev_page = page - 1;
+			text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + prev_page + ")'>上一页</li>"
+		}
+		else if(pages != 0){
+			text += "<li class='disabled'><span>上一页</span></li>"
+		}
+
+
+		//最多显示5页，这里判断显示的首页和末页
+		var first_display_page_num = 1;
+		var last_display_page_num = pages;
+
+		if(page - 2 >= 1)
+			first_display_page_num = page - 2;
+		else
+			first_display_page_num = 1;
+
+		if(page + 2 <= pages)
+			last_display_page_num = page + 2;
+		else
+			last_display_page_num = pages;
+
+		for (var i = first_display_page_num; i <= last_display_page_num; i++) {
+			if(i == page) {//当前页
+				text += "<li class='active'><span>" + i + "</span></li>"
+			}
+			else {
+				text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + i + ")'>" + i + "</a></li>"
+			}
+		};
+
+
+		//下一页
+		if(has_next == 'yes'){
+			var next_page = page + 1;
+			text += "<li><a onclick='homepage_refresh(\"" + category + "\"," + next_page + ")'>下一页</li>"
+		}
+		else if(pages != 0){
+			text += "<li class='disabled'><span>下一页</span></li>"
+		}
+
+		return text;
+
+	}
+
+	//更新部分AJAX 
+	function homepage_refresh(category, page_id){
+		var refresh_tag = get_refresh_tag(category); //对应内容显示框, "bt-xxx" -> "xxx"
+		var refresh_url = get_refresh_url(category, page_id); //对应url地址
+
+		$(refresh_tag).empty();
+		var textLoading = "<div class='content-box' id='homepage-loading'>\
+							正在加载，请稍后&nbsp;<img src='/static/images/homepage-loading.gif'>\
+						</div>";
+		$(refresh_tag).append(textLoading);
+
+		clearTimeout(timeoutID);
+		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
+			var text = "";
+
+			if(category == "release-article"){
+				var items = data.rows;
+
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'><a href='/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
+								<div class='table-cell col-2'>评论&nbsp;(" + items[i].comment_num + ")</div>\
+								<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;" + items[i].coins + "</div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "release-comment"){
+				var items_article = data.rows_article;
+				var items_comment = data.rows_comment;
+
+				text = "<div class='content-box'><div class='table-layout'>";
+				for(var i = 0; i < items_comment.length; ++i){
+					text += "<div class='table-row'>\
+								<div class='table-cell col-1'>“" + items_comment[i].content + "”</div>\
+								<div class='table-cell col-2'><a href='/article/" + items_article[i].article_id + "'>《" + items_article[i].title + "》</a></div>\
+								<div class='table-cell col-3'>" + items_comment[i].time.slice(0, -3) + "</div>\
+							</div>";
+				}
+				text += "</div></div>";
+			}
+			else if(category == "focus-user"){
+				var items_user = data.rows_user;
+				var items_collection_user = data.rows_collection_user;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items_user.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a onclick='homepage_delete(\"" + category + "\"," + items_user[i].user_id + "," + page_id + "," + items_user.length + ")'>\
+									<img src='/static/images/transparent-circle.png' style='background-image:url("+ items_user[i].photo + ");'>\
+									</a></div>\
+								<div><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
+			
+			//分页处理
+			var pagniation_text = show_pagination(data, category);
+
+			$(refresh_tag).empty();
+			$(refresh_tag).append(text);
+			$(refresh_tag).append(pagniation_text);
+		})}, ajaxRequestDelay);
+	}
+
+	//第一次请求：调用homepage_refresh
+	//后面的请求：保持原样
+	function homepage_display(category, page_id){
+		var refresh_tag = get_refresh_tag(category);
+		// 已经加载好的页面有<div class='content-box'>这个标签
+		// 排序功能就不能用这个逻辑，因为已经有内容存在
+
+		var raw_content = $(refresh_tag).html().replace(/(^\s+)|(\s+$)/g, "");
+		if(raw_content == ""){
+			homepage_refresh(category, page_id);
+		}
+	}
+
+	//子tab按钮触发AJAX
+	$(function(){
+		$('#bt-release-article').click(function(){
+			if($('#release-sort-ul').css('display') == 'none')
+				$('#release-sort-ul').css('display', 'block')
+			$('#total-count').css('display', 'block');
+			homepage_refresh("release-article", 1);
+		});
+		$('#bt-release-comment').click(function(){
+			if($('#release-sort-ul').css('display') == 'block')
+				$('#release-sort-ul').css('display', 'none')
+			$('#total-count').css('display', 'none');
+			homepage_display("release-comment", 1);
+		});
+
+		//排序功能
+		$('#bt-release-by-time').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+		$('#bt-release-by-coins').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+	});
+
+	//主tab按钮触发AJAX
+	$(function(){
+		$('#bt-release').click(function(){
+			$("#bt-release-article").trigger("click");
+		});
+
+		$('#bt-focus').click(function(){
+			homepage_display("focus-user", 1);
+		});
+	});
+
+	//进入当前页面触发AJAX
+	$(function(){
+		$('#bt-release').trigger("click");
+	});
+</script>
+
+
+{% endif %}
+
+{% endblock %}
