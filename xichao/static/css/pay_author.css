@@ -1,10 +1,15 @@
+p {
+	font-family: 黑体!important;
+}
+
 #my_xichao {
-	margin-left: 78px;
+	margin-left: 66px;
 }
 
 #p_my_xichao {
 	float: left;
 	margin: 0px;
+	font-family: 黑体;
 }
 
 #num_xichao {
@@ -12,7 +17,7 @@
 }
 
 #pay {
-	margin-left: 78px;
+	margin-left: 66px;
 }
 
 #num_pay {
@@ -21,7 +26,7 @@
 }
 
 #input_review {
-	margin-left: 78px;
+	margin-left: 66px;
 	margin-top: 15px;
 	width: 604px;
 	height: 84px;
@@ -37,7 +42,7 @@
 
 #button {
 	margin-left: 300px;
-	margin-top: 25px;
+	margin-top: 15px;
 }
 
 .register-button{
