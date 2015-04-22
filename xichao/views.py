@@ -379,20 +379,29 @@ def article_main():
 @app.route('/article/<int:article_id>',methods=['GET'])
 @login_required
 def article(article_id):
+    comment_page=request.args.get("comment_page")
+    if not comment_page:
+        comment_page=1
+    #if comment_page
     article=get_article_information(article_id)
-    get_article_comments_pagination(article_id,1,5)
+    comment_page=get_article_comments_pagination(article_id,int(comment_page),5)
+    comment_reply=[]
+    for item in comment_page.items:
+        
+        comment_reply.append(get_comment_reply(article_id,int(item[0].comment_id)))
+    print "==========="
+    print comment_reply[0][0]
     if article!=None:
         if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
             abort(404)
         else:
-            #comment初始显示5-6条，下拉显示全部
             session['article_session_id']=article[0].article_session_id
             comments=get_article_comments(article_id)
             if article[0].user_id==current_user.user_id:
                 pass
             else:
                 update_read_num(article_id)
-            return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,nick=getNick())
+            return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,comment_page=comment_page,comment_reply=comment_reply,nick=getNick())
     else:
         abort(404)
 

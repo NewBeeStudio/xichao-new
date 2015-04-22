@@ -252,10 +252,12 @@ def get_article_comments(article_id):
 	else:
 		return None
 def get_article_comments_pagination(article_id,page_id,perpage):
-	root_comment=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==0)).order_by(desc(Comment.time)).all()
-	print "======================================="
-	print root_comment
+	query=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==0)).order_by(desc(Comment.time))
+	return paginate(query = query, page = page_id, per_page = perpage, error_out = True)
 	#root_comment_reply=
+def get_comment_reply(article_id,comment_id):
+	result=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==comment_id)).order_by(desc(Comment.time)).all()
+	return  result
 
 def get_current_comment_id():
 	result=db_session.query(Comment).order_by(desc(Comment.comment_id)).all()

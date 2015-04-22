@@ -155,6 +155,52 @@
 </ul>
 
 
+
+{%for item in comment_page.items %}
+	{{item[1]}}
+
+<h1>root content:{{item[0].content}}</h1>
+
+{%for reply in comment_reply[loop.index0]%}
+<h3>reply content:{{reply[0].content}}</h3>
+<h4>reply nick:{{reply[1]}}</h4>
+{% endfor %}
+
+
+{% endfor %}
+
+
+
+<ul class="pagenum">
+    <li>
+    {% if comment_page.has_prev %}
+    <a href="{{ url_for('article.article_id', page = comment_page.prev_num) }}">上一页</a>
+    {% else %}
+        上一页
+    {% endif %}</li>
+         
+        {%- for page in comment_page.iter_pages() %}
+          <li>
+          {% if page %}
+            {% if page != comment_page.page %}
+              <a href="{{ url_for('article.article_id', page=page) }}">{{ page }}</a>
+            {% else %}
+              <span class="page-number current">{{ page }}</span>
+            {% endif %}
+          {% else %}
+            <span class=ellipsis>…</span>
+          {% endif %}
+          </li>
+        {%- endfor %}
+     <li>
+    {% if comment_page.has_next %}
+    <a href="{{ url_for('article.article_id', page = comment_page.next_num) }}">下一页 </a>
+    {% else %}
+        下一页 
+    {% endif %}
+    </li>
+    </ul>
+
 {% endblock %}
 <!--js file used-->
 {% block js %}
