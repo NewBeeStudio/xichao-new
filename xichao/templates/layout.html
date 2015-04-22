@@ -284,7 +284,9 @@
     <script src="{{ url_for('static', filename='js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
+
+        //获取个人信息栏消息数目
+        function getMessageNumber(){
             $.get("/ajax_news",function(result){
                 //新消息总数目
                 if (result.all_message_number!="0") {
@@ -320,6 +322,10 @@
                     $("#notification-number").css("display","none");
                 }
             });
+        }
+
+        $(document).ready(function(){
+            getMessageNumber();
         });
     </script>
     <script type="text/javascript">

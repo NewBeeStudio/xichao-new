@@ -1,0 +1,385 @@
+.home-introduction{
+	margin-top: 160px;
+	width: 700px;
+	height: 500px;
+
+	float: right;
+}
+
+.home-introduction tr{
+	height: 60px;
+	text-align: center;
+	font-family: 微软雅黑;
+}
+
+
+.home-col-1{
+	width: 180px;
+	letter-spacing: 5px;
+
+	font-size: 29.2px;
+	line-height: 30px;
+}
+
+.home-col-2, .home-col-3{
+	width: 120px;
+	line-height: 30px;
+	letter-spacing: 5px;
+
+	font-size: 16.7px;
+	border-left: 1px solid #000000;
+}
+
+.home-col-4{
+	padding-left: 30px;
+	padding-right: 10px;
+}
+
+.home-col-4 > input, .home-col-5 > input{
+	width: 100px;
+	height: 40px;
+
+	font-family: 微软雅黑;
+	font-size: 20.8px;
+
+	border-radius: 5px;
+
+	background-color: #D9AE48;
+}
+
+/*个人介绍*/
+.home-introduction div{
+	margin: 40px auto;
+
+	width: 670px;
+	height: 300px;
+	letter-spacing: 2px;
+	text-align: center;
+
+	line-height: 25px;
+	font-family: 微软雅黑;
+	font-size: 18.7px;
+}
+
+#home-select{
+	font-family: 宋体;
+	float: right;
+}
+
+#home-select select{
+	width: 100px;
+}
+
+.home-paging{
+	margin-top: 50px;
+	text-align: center;
+
+	font-family: 微软雅黑;
+	font-size: 12.5px;
+}
+
+.home-paging a{
+	display: inline;
+}
+
+
+#home-star{
+	clear: both;
+}
+
+#home-star h2{
+	font-family: 黑体;
+	font-size: 25px;
+	letter-spacing: 4px;
+}
+
+.home-star-row{
+	margin-top: 10px;
+	height: 250px;
+
+	text-align: center;
+}
+
+.home-star-row > div{
+	margin: 10px 12px;
+	width: 180px;
+
+	float: left;
+}
+
+.home-star-row img{
+	width: 180px;
+	height: 180px;
+
+	border-radius: 180px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
+}
+
+div.home-star-name{
+	margin-top: 10px;
+	font-family: 微软雅黑;
+	font-size: 16.7px;
+
+	letter-spacing: 2px;
+}
+
+#ajax-inner-field{
+	height: 350px;
+}
+
+
+/*个人信息*/
+h1{
+	margin-top: 44px;
+	font-family: 微软雅黑;
+	font-size: 18.8px;
+	display: block;
+
+	font-weight: normal;
+	letter-spacing: 2px;
+}
+
+#home-personal{
+	margin-top: 20px;
+	width: 100%;
+	height: 520px;
+}
+
+.personal-left, .personal-right{
+	border-radius: 5px;
+}
+
+.personal-left{
+	float: left;
+	width: 300px;
+	height: 100%;
+
+	background-color: #D9AE48;
+}
+
+.personal-photo{
+	margin-top: 30px;
+
+	height: 180px;
+}
+
+/*照片*/
+.personal-photo img{
+	margin-left: 20px;
+
+	width: 150px;
+	height: 150px;
+
+	border-radius: 150px;
+
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
+}
+
+/*名字*/
+.personal-name{
+	margin-top: 20px;
+	width: 100px;
+
+	float: right;
+}
+
+.personal-name div{
+	margin-top: 10px;
+
+	font-family: 黑体;
+}
+
+#left-select{
+	margin-top: 40px;
+}
+
+.personal-right{
+	width: 780px;
+	height: 100%;
+	border-right: 1px solid #D9AE48;
+	border-bottom: 1px solid #D9AE48;
+	float: right;
+}
+
+/*左边选择框, 右上角选择框字体*/
+#left-select a, .personal-right-up a{
+	font-family: 微软雅黑;
+	font-size: 18.8px;
+	color: #000000;
+	text-align: center;
+	letter-spacing: 3px;
+}
+
+#left-select a{
+	height: 32px;
+	line-height: 32px;
+}
+
+.background-white{
+	background-color: #ffffff;
+}
+
+.display-none{
+	display: none;
+}
+
+.personal-right-up{
+	width: 100%;
+	height: 40px;
+	float: right;
+	border-top: 1px solid #D9AE48;
+	border-bottom: 1px solid #D9AE48;
+}
+
+.personal-right-up a{
+	padding-top: 13px;
+	float: left;
+}
+
+.underline{
+	border-bottom: 2px solid #D9AE48;
+}
+
+
+.three-tab a{
+	width: 33%;
+}
+
+.two-tab a{
+	width: 50%;
+}
+
+.one-tab a{
+	width: 100%;
+}
+
+.personal-right-bottom{
+	width: 100%;
+	height: 475px;
+
+	clear: both;
+	border: 1px solid #ffffff;
+}
+
+/*各个子模块*/
+.personal-right-bottom > div{
+	margin: 50px auto;
+	width: 85%;
+	height: 400px;
+
+	/*border: 1px solid blue;*/
+}
+
+.home-text{
+	font-family: 微软雅黑;
+	font-size: 18.8px;
+}
+
+.home-button{
+	width: 100px;
+	height: 35px;
+	font-family: 微软雅黑;
+	font-size: 18.8px;
+	border-radius: 5px;
+
+	background-color: #D9AE48;
+	color: #ffffff;
+}
+
+.overflow-handle{
+	height: 350px;
+	overflow: auto;
+}
+
+/*个人信息*/
+#one1 td{
+	height: 40px;
+}
+
+#one1 input{
+	font-family: 微软雅黑;
+	font-size: 18.8px;
+	margin-top: 10px;
+	width: 120px;
+	text-align: center;
+}
+
+#radio-sex input{
+	width: 50px;
+}
+
+#one1 img{
+	width: 150px;
+	height: 150px;
+	border-radius: 150px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
+}
+
+/*个人简介*/
+#one2 textarea{
+	width: 100%;
+	height: 40%;
+}
+
+#one2 input{
+	margin-top: 30px;
+	float: right;
+}
+
+/*会员卡*/
+#one3 div{
+	margin-top: 20px;
+	margin-left: 250px;
+	height: 30px;
+
+	letter-spacing: 2px;
+}
+
+#one3 input{
+	margin: 80px auto;
+}
+
+/*我的关注*/
+.home-photo-block{
+	overflow: auto;
+	height: 370px;
+}
+
+
+.home-photo-row{
+	margin-top: 10px;
+	height: 120px;
+
+	text-align: center;
+}
+
+.home-photo-row > div{
+	margin: 10px 12px;
+	width: 100px;
+
+	float: left;
+}
+
+.home-photo-row img{
+	width: 100px;
+	height: 100px;
+
+	background-size: 100px 100px;
+	border-radius: 100px;
+	position: relative;
+	behavior: url(/static/css/PIE.htc);
+}
+
+#eight td{
+	padding: 5px;
+}
+
+.delete-icon{
+	width: 22px;
+	height: 22px;
+}
+
+/*祭奠一下上面已经无用的css*/
