@@ -239,7 +239,7 @@
     font-size: 13px;
     margin-left: 10px;
     margin-top: 10px;
-    height: 18px;
+    line-height: 16px;
     overflow: hidden;
 }
 
@@ -294,7 +294,7 @@
     margin-right: 15px;
 
 	height: 100px;
-    width: 170px;
+    width: 150px;
 	font-family: 微软雅黑;
 	font-size: 14px;
 

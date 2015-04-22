@@ -92,7 +92,7 @@ function getCaptcha(obj) {
                 var flag = true;
                 var email = $("#step-1-content .form-area .register-form-value input").val();
                 if (email.length <= 0){
-                    $("#step-1-content .form-area .register-error").text("邮箱必须");
+                    $("#step-1-content .form-area .register-error").text("不能为空");
                     $("#step-1-content .form-area .register-error").attr("style", "display:block");
                     flag = false;
                 }

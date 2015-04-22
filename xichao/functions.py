@@ -285,13 +285,26 @@ def get_homepage_specials():
     return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
 def get_hot_articles(num):
-    query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.coins.desc()).all()
-    return query[:10]
+    query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.coins.desc()).limit(10).all()
+    return query
     
 def get_all_special():
     query = db_session.query(Special).order_by(Special.coin.desc()).all()
     return query
-    
+
+def get_all_focus_article(limit):
+	if 'user_id' in session:
+		userid = int(session['user_id'])
+		query1 = db_session.query(Article).join(Collection_Special, Collection_Special.special_id == Article.special_id).filter(and_(Collection_Special.user_id == userid, Article.is_draft == '0'))
+		query2 = db_session.query(Article).join(Collection_User, Collection_User.another_user_id == Article.user_id).filter(and_(Collection_User.user_id == userid, Article.is_draft == '0'))
+		return query1.union(query2).order_by(Article.time.desc()).limit(limit).all();
+	else:
+		return []
+
+def get_latest_articles(limit):
+	query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.time.desc()).limit(limit).all()
+	return query
+
 def modify_homepage_func(special1, url1,
                          special2, url2,
                          special3, url3,
@@ -635,8 +648,9 @@ def get_most_hot_ground_article():
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).first()
 	return result
 
-def get_most_hot_activity(time):
-	result=db_session.query(Activity).filter(Activity.activity_time>time).order_by(desc(Activity.favor)).first()
+def get_most_hot_activity():
+	act_id = db_session.query(HomePage).first().recommended_activity;
+	result=db_session.query(Activity).filter_by(activity_id = act_id).first()
 	return result
 
 def get_article_group_by_coin(groups,category):
