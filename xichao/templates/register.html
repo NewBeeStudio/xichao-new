@@ -79,7 +79,7 @@
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
 
-function getCaptcha(obj) {
+function getCaptcha() {
     $.getJSON($SCRIPT_ROOT + '/_getImage', {},
         function(data) {
             $('#captcha-pic').attr('src', 'data:image/png;base64,'+data.image);
@@ -103,6 +103,12 @@ function getCaptcha(obj) {
                     $("#step-2 .step-label").css("color","rgb(217, 174, 73");
                     $("#step-2 .step-num").css("background-color", "rgb(217, 174, 73)");
                     $("#step-2").css("border-color", "rgb(217, 174, 73)");
+                    $(document).keypress(function(e){
+                            if (e.which == 13) {
+                                submit();
+                            }
+                    });
+
                 }
             });
         });
@@ -111,15 +117,17 @@ function getCaptcha(obj) {
 
 $(document).ready(function()
 {
-
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     var captcha = {img:"a", captchaCode:"a"};
-    
-    getCaptcha(captcha);
+    getCaptcha();
     $('#captcha-pic').click(function(){
         getCaptcha();
     });
-
+    $(document).keypress(function(e){
+        if (e.which == 13) {
+            $('#next').click();
+        }
+    });
     $("#avatar_user").hover(
     function(){
         $("#avatar_button").css("display", "block");
