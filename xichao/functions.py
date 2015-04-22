@@ -251,6 +251,12 @@ def get_article_comments(article_id):
 		return result
 	else:
 		return None
+def get_article_comments_pagination(article_id,page_id,perpage):
+	root_comment=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==0)).order_by(desc(Comment.time)).all()
+	print "======================================="
+	print root_comment
+	#root_comment_reply=
+
 def get_current_comment_id():
 	result=db_session.query(Comment).order_by(desc(Comment.comment_id)).all()
 	return result[0].comment_id
@@ -285,7 +291,7 @@ def get_homepage_specials():
     return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
 def get_hot_articles(num):
-    query = db_session.query(Article).order_by(Article.coins.desc()).all()
+    query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.coins.desc()).all()
     return query[:10]
     
 def get_all_special():
@@ -391,7 +397,7 @@ def get_userid_from_session():
 	return 0
 
 def get_special_author(userid):
-    result = db_session.query(User).filter_by(user_id = userid)
+    result = db_session.query(User).filter_by(user_id = userid).all()
     return result[0]
 
 def get_special_information(special_id):
@@ -509,7 +515,7 @@ def paginate(query,page,per_page=20,error_out=True):
 
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
-	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.favor))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.coins))
 	return paginate(query,page_id,10,False)
 def get_article_pagination_by_time(group_id,category_id,page_id):
 	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.time))
@@ -956,6 +962,7 @@ def delete_comment_by_comment_id(comment_id,user_id):
 	else:
 		pretreamentment_comment_delete(comment_id)
 		db_session.query(Comment).filter_by(comment_id=comment_id).delete()
+		db_session.query(Comment).filter_by(reply_to_comment_id=comment_id).delete()
 		db_session.commit()
 		return 'success'
 #######################################  删除一条评论 end ########################################
