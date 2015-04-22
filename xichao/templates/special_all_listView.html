@@ -51,7 +51,7 @@
 			
             <img class="special-left-top" src="{{ url_for('static', filename='images/special-left-top-%d.png'%(special_num-1)) }}">
             
-<div id="special-part1-img2" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
+<div id="special-part1-img2" class="special-part1-img2" style="background-image: url({{ url_for('static', filename='images/special-all-left-border.png') }});background-repeat:no-repeat;">
             <a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">
                 
 			<img id="special-part1-img1" src="{{ special.picture | safe }}"/><!--
@@ -189,6 +189,12 @@ $(".change-display-type").click(function(){
             $("#display-all").css("display", "none");
         }
     }*/
+});
+
+//圆拨动
+$(function(){
+    $(".special-part1-img2").hover(special_square_circle_onMouseIn, login_circle_onMouseOut
+    );
 });
 </script>
 {% endblock %}
