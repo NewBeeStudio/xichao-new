@@ -5,11 +5,6 @@
 	font-family: 黑体;
 }
 
-#p_title_1 {
-	float: left;
-	color: rgb(114, 114, 114);
-}
-
 #p_title a{
 	display:inline;
 	text-decoration: none;
@@ -23,6 +18,7 @@
 
 #article_title {
 	margin-top: 74px;
+	margin-bottom:8px;
 }
 
 #p_article_title {
@@ -32,8 +28,15 @@
 }
 
 #article_content {
-	margin-top: 50px;
-	font-family: 微软雅黑;
+	margin-top: 0px;
+	font-family: 黑体;
+}
+
+#article_content p span{
+	position:relative;
+	bottom:5px;
+	left:2px;
+	font-size:10px;
 }
 
 #article_content_html {
@@ -63,7 +66,6 @@
 }
 
 #p_article_time {
-	float: right;
 	/*text-align: right;*/
 	color: rgb(114, 114, 114);
 }
@@ -89,7 +91,7 @@
 }
 
 #p_read {
-	padding-left: 370px;
+	padding-left: 300px;
 	float: left;
 }
 
@@ -153,7 +155,7 @@
 	background-color: #f5ebd1;
 	padding-top: 3%;
 	padding-bottom: 1%;
-    
+	margin-top: 20px;
 }
 
 #p_publish_review {
@@ -193,11 +195,13 @@
 }
 
 #comment_reset_button{
+	width: 100px;
 	margin-top: 3%;
 	margin-left: 40%;
 }
 
 #comment_publish_button{
+	width: 100px;
 	margin-top: 3%;
 	margin-left: 10%;
 }

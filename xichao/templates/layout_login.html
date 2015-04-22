@@ -4,11 +4,11 @@
 <link href="{{ url_for('static', filename='css/login.css') }}" rel='stylesheet' type='text/css'/>
 {% endblock %}
 
+
+
 {% block content %}
-<!--当前位置-->
-<div class="current-position">
-    <p style="font-size: 16px; font-family: 黑体;">登陆</p>
-</div>
+
+
 <!--登陆入口-->
 <div id="login-content">
     <img src="{{ url_for('static', filename='images/login-lantern.png') }}" id="login-lantern">
@@ -20,12 +20,30 @@
     </div>
 </div>
 
+
+
+
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $(".error-tip").fadeOut(4000);
-    });
+  
+{% with messages = get_flashed_messages() %}
+
+    {% for message in messages %}
+      {% if messages %}
+          layer.msg("{{message}}",1,1);
+        {% endif %}
+    {% endfor %}
+{% endwith %}
+    
+    }); 
+   
 </script>
+
 {% endblock %}

@@ -100,11 +100,12 @@ def logout():
     #弹出sessio
     # session.pop('user', None)
     logout_user()
+    flash('你已退出')
     response=make_response(redirect(url_for('index')))
     #删除cookie，flask-login已完成相应操作
     #if request.cookies.get('user')!=None:
     #    response.set_cookie('user','',expires=datetime.now())
-    flash('你已退出')
+    
     return response
 ####################################  index  ##################################
 @app.route('/')
@@ -261,7 +262,6 @@ def login():
             login_user(user, remember=form.stay.data) #参数2：是否保存cookie
             flash(u'登陆成功，正在跳转')
 
-
             response=make_response(redirect(request.form.get("request_url") or url_for("index")))
             #if form.stay.data:
             #    response.set_cookie('user',nick)
@@ -276,18 +276,20 @@ def login():
 def forgetPassword():
     error = None
     form = ForgetPasswordForm(request.form)
-
+    
     if request.method == 'POST' and form.validate():
         nick = get_nick_by_email(form.email.data)
         password = get_password_by_email(form.email.data)
         send_resetpassword_email(nick, password, form.email.data) #待修改
-        flash(u'我们已向你的注册邮箱发送了一份密码重置邮件')
+        flash(u'我们已向你的注册邮箱发送了密码重置邮件,请至邮箱查收')
+        return render_template('forgetPassword.html', form = form, error = error)
         return redirect(url_for('index'))
     return render_template('forgetPassword.html', form = form, error = error)
 
 ##################################  重置密码  ##################################
 @app.route('/resetPassword/<nick>/<password>',methods=['GET', 'POST'])
 def resetPassword(nick, password):
+    
     if check_nickpassword_match(nick, password): #nick和password是否匹配
         form = ResetPasswordForm(request.form)
         if request.method == 'POST' and form.validate():
@@ -295,7 +297,9 @@ def resetPassword(nick, password):
             # session['user'] = nick #session增加用户
             user=User.query.filter_by(nick=nick).first()
             login_user(user)
-            flash(u'密码修改成功，正在跳转')
+            flash(u'密码修改成功')
+            return render_template('forgetPassword.html', form = form, error = error)
+
             return redirect(url_for('index'))
         else:
             return render_template('resetPassword.html', form=form)
@@ -1792,5 +1796,7 @@ def verify_remind():
 @app.route('/verify_email_again/',methods=['GET'])
 @login_required
 def verify_email_again():
-    send_verify_email(current_user.nick, current_user.password, current_user.email)
-    return 'success'
+    if send_verify_email(current_user.nick, current_user.password, current_user.email):
+        return 'success'
+    else:
+        return 'fail'

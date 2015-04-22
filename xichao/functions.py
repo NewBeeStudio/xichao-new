@@ -69,17 +69,21 @@ def get_secure_photoname(filename):
 	return photoname
 
 def send_verify_email(nick,password,email):
-    verify_url='http://'+app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
+    verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
     mail=Mail(app)
-    msg=Message(u'曦潮书店',sender=app.config['ADMINS'],recipients=[email])
+
+    msg=Message(u'曦潮书店',sender=app.config['ADMINS'][0],recipients=[email])
+
     msg.body='text body'
     msg.html = render_template('test_verify_email.html',verify_url=verify_url,nick=nick)
     with app.app_context():
         try:
             mail.send(msg)
-        except:
+            return True
+        except Exception,e:
             print "\n\n\n\n\n\n", "NoNoNoNoNoNoNo!", "\n\n\n\n\n\n"
-            pass
+            print str(e)
+            return False
 
 ##################################  登陆函数  ####################################
 def get_nick(email,password):
@@ -102,16 +106,19 @@ def get_password_by_email(email):
 
 #发送重设密码邮件
 def send_resetpassword_email(nick,password,email):
-	verify_url='http://'+app.config['HOST_NAME']+'/resetPassword/'+nick+'/'+password #/nick/MD5(password)
+	verify_url=app.config['HOST_NAME']+'/resetPassword/'+nick+'/'+password #/nick/MD5(password)
 	mail=Mail(app)
-	msg=Message(u'重置曦潮网站的密码',sender=app.config['ADMINS'],recipients=[email])
+
+	msg=Message(u'重置曦潮网站密码',sender=app.config['ADMINS'][0],recipients=[email])
+
 	msg.body='text body'
 	msg.html = render_template('resetPasswordMail.html',nick=nick,verify_url=verify_url)
 	with app.app_context():
 		try:
 			mail.send(msg)
+			return True
 		except:
-			pass
+			return False
 
 #是否存在该用户名，用户名和密码是否匹配
 def check_nickpassword_match(nick, password):
