@@ -6,11 +6,6 @@
 	/*border: 1px solid red;*/
 }
 
-@font-face { 
-font-family: liukai;
-src: url(../fonts/liukai.ttf);
-} 
-
 .square-headline h2{
 	font-family: liukai, KaiTi, STKaiti;
 	font-size: 25px;
