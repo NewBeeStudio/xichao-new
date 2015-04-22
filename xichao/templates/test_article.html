@@ -415,6 +415,8 @@ $("#p_review ").html($("#p_review").html().replace(/[0-9]+/,comment_num))
 
 
 function add_reply(data,to_user_nick,val_content,val_user_id,reply_to_comment_id){
+	
+	
 	var time=data.time;
 	var cid=data.comment_id;
  	var location="comment-"+reply_to_comment_id;
