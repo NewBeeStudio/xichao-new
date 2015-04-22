@@ -17,6 +17,7 @@
 
 				var val_article_id = parent.window.get_article_id();
 				var val_user_id = parent.window.get_user_id();
+			
 				//alert(val_article_id);
 				//alert(val_user_id);
 			
@@ -30,7 +31,7 @@
 					},
 					function(data){
 						var index=parent.layer.getFrameIndex(window.name);
-						parent.window.add_reply(data, val_content,val_user_id,{{reply_to_comment_id}});
+						parent.window.add_reply(data, "{{user_nick}}",val_content,val_user_id,{{reply_to_comment_id}});
 						layer.msg('回复成功',1,1,function(){
 									parent.window.update_xichao(val_award_num);
 									parent.layer.close(index);
@@ -47,7 +48,7 @@
 
 	
 	<div id="review">
-		<textarea id="input_review">回复 {{user_nick}}:{{ comment  }}</textarea>
+		<textarea id="input_review" placeholder="回复 {{user_nick}}:">{{ comment  }}</textarea>
 	</div>
 
 

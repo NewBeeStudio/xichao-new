@@ -256,7 +256,7 @@ def get_article_comments_pagination(article_id,page_id,perpage):
 	return paginate(query = query, page = page_id, per_page = perpage, error_out = True)
 	#root_comment_reply=
 def get_comment_reply(article_id,comment_id):
-	result=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==comment_id)).order_by(desc(Comment.time)).all()
+	result=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==comment_id)).order_by(Comment.time).all()
 	return  result
 
 def get_current_comment_id():
@@ -1109,3 +1109,6 @@ def update_notification_read_state(notification_pagination):
 		update_notification_read_state_by_notification_id(item.message_id)
 #######################################  更新消息阅读状态 end ########################################
 
+def get_recommend_words():
+	result=db_session.query(HomePage.recommend_words).first()
+	return result

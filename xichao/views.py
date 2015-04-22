@@ -389,19 +389,27 @@ def article(article_id):
     for item in comment_page.items:
         
         comment_reply.append(get_comment_reply(article_id,int(item[0].comment_id)))
-    print "==========="
-    print comment_reply[0][0]
     if article!=None:
         if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
             abort(404)
         else:
             session['article_session_id']=article[0].article_session_id
             comments=get_article_comments(article_id)
+            try:
+                comment_num = len(comments);
+            except:
+                comment_num = 0;
+            if(article[0].groups == '3'):
+                special = get_special_information(article[0].special_id);
+            else:
+                special = 0;
             if article[0].user_id==current_user.user_id:
                 pass
             else:
                 update_read_num(article_id)
+
             return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,comment_page=comment_page,comment_reply=comment_reply,nick=getNick())
+
     else:
         abort(404)
 
@@ -1612,11 +1620,12 @@ def square():
     hot_ground_article_list=get_hot_ground_acticle()
     ##拿一篇推荐文章
     recommended_ground_article=get_recommended_ground_article()
+    recommend_words=get_recommend_words()[0]
     ##参数1表示广场
     book_review_list=get_article_group_by_coin('1','1')
     film_review_list=get_article_group_by_coin('1','2')
     essay_list=get_article_group_by_coin('1','3')
-    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article)
+    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article,recommend_words=recommend_words)
 
 
 @app.route('/user/<nick>')
