@@ -1107,3 +1107,6 @@ def update_notification_read_state(notification_pagination):
 		update_notification_read_state_by_notification_id(item.message_id)
 #######################################  更新消息阅读状态 end ########################################
 
+def get_recommend_words():
+	result=db_session.query(HomePage.recommend_words).first()
+	return result
