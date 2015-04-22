@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/special_all.css') }}" rel='stylesheet' type='text/css'/> 
+{% endblock %}
+
+<!--content-->
+{% block content %}
+ 
+    <div id="special-search">
+    <p>搜索专栏</p>
+    <form action="/special_search" method="get">
+        <input type="text" name="search" />
+    </form>
+    </div>
+
+
+    {% set special_num = 1 %}
+    {% for special in specials_pagination.items %}
+    {% set special_num = special_num + 1 %}
+    
+	<!-- 专栏 -->
+	<div class="special-part1">
+		<!-- 专栏标题图片 -->
+		<div class="special-part1-left" style = "
+		{% if special_num%2 == 0 %}
+		float: left;
+		{% else %}
+		float: right;
+		{% endif %}
+		">
+			<h2></h2>
+			
+			<img id="special-part1-img" src="{{ url_for('static', filename='images/transparent-circle.png') }}"
+			style="background-image: url({{ special.picture | safe }});"/>
+			<div></div>
+		</div>
+
+		<!-- 内容 -->
+		<div class="special-part1-right" style= "
+		{% if special_num%2 == 0 %}
+		float: right;
+		{% else %}
+		float: left;
+		{% endif %}
+		">
+			<div id="special-part1-content" style="width:703px">
+			
+			<h2>
+			        {{ special.name }}
+			</h2>
+			<hr />
+            <div id="author-coin">
+			<h4>
+			    by:&nbsp;&nbsp;{{ author(special.user_id).nick }}
+			    &nbsp;&nbsp;
+			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
+                {{ special.coin }}
+			</h4>
+			</div>
+			
+            <p>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 专栏介绍：
+                    {{ special.introduction | safe }}
+            </p>
+            <br>    
+            <br>
+            
+            
+            <table id="latest-article" style="
+            background-image: url({{ url_for('static', filename='images/special_list_border.png') }});">
+                <tr>
+                <td height="40"><i>最新文章:</i></td>
+                </tr>
+                {% for article in articles(special.special_id, 1, "time", 3).items %}
+                  <tr>
+                    <td width="380">    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </td>
+                    <td width="170" style="color:grey;">{{ article.time | time_split_5 }}</td>
+                    <td>
+                    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
+                    {{ article.coins }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+            
+			</div>
+			<a href="{{url_for('special')}}?id={{ special.special_id }}&page=1&sort=time">进入专栏&gt;</a>
+		</div>
+	
+	</div>
+
+
+    {% endfor %}
+    
+    
+{% endblock %}
+
+<!--js file used-->
+{% block js %}
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+<script type="text/javascript">
+
+
+</script>
+{% endblock %}

@@ -285,7 +285,7 @@ def get_homepage_specials():
     return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
 def get_hot_articles(num):
-    query = db_session.query(Article).order_by(Article.coins.desc()).all()
+    query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.coins.desc()).all()
     return query[:10]
     
 def get_all_special():
@@ -391,7 +391,7 @@ def get_userid_from_session():
 	return 0
 
 def get_special_author(userid):
-    result = db_session.query(User).filter_by(user_id = userid)
+    result = db_session.query(User).filter_by(user_id = userid).all()
     return result[0]
 
 def get_special_information(special_id):
@@ -509,7 +509,7 @@ def paginate(query,page,per_page=20,error_out=True):
 
 ###################################  获取文章组函数  #################################
 def get_article_pagination_by_favor(group_id,category_id,page_id):
-	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.favor))
+	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.coins))
 	return paginate(query,page_id,10,False)
 def get_article_pagination_by_time(group_id,category_id,page_id):
 	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.time))
