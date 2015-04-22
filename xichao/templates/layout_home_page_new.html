@@ -153,7 +153,8 @@
 <script type="text/javascript">
 	$(function(){
 		$.ajaxSetup({cache:false});
-	})
+	});
+	var timeoutID = 0; //AJAX后台延时请求的ID，用于记录或停止延迟执行的AJAX
 </script>
 
 {% if current_user == user %}
@@ -383,7 +384,8 @@
 						</div>";
 		$(refresh_tag).append(textLoading);
 
-		$.get(refresh_url, function(data){
+		clearTimeout(timeoutID);
+		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
 			var text = "";
 
 			if(category == "release-article"){
@@ -600,12 +602,11 @@
 			}
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
-			setTimeout(function(){
-				$(refresh_tag).empty();
-				$(refresh_tag).append(text);
-				$(refresh_tag).append(pagniation_text);
-			}, 200);
-		});
+
+			$(refresh_tag).empty();
+			$(refresh_tag).append(text);
+			$(refresh_tag).append(pagniation_text);
+		})}, 200);
 	}
 
 	//子tab按钮触发AJAX
@@ -818,7 +819,10 @@
 					//$('.one1-orig').removeClass('display-none');
 					//$('.one1-new').addClass('display-none');
 					$('#show-nick').text(val_nick);
-					$('#introduction-name').text(val_nick); //改个人介绍中显示
+					$('#introduction-name').text(val_nick); //实时更新个人介绍中显示
+
+					$('#cover-owner-former').text(val_nick.slice(0, 5));
+					$('#cover-owner-latter').text(val_nick.slice(5)); //实时更新封面显示
 
 					if (val_genger=='f') {$('#show-sex').text('女');}
 					else{
@@ -933,7 +937,7 @@ $(function(){
 			lastDisplayCover.next().css('display', 'inline');
 		}
 	});
-});
+})
 
 
 function update_cover(data){
@@ -1173,7 +1177,8 @@ function update_cover(data){
 						</div>";
 		$(refresh_tag).append(textLoading);
 
-		$.get(refresh_url, function(data){
+		clearTimeout(timeoutID);
+		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
 			var text = "";
 
 			if(category == "release-article"){
@@ -1222,12 +1227,10 @@ function update_cover(data){
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
 
-			setTimeout(function(){
-				$(refresh_tag).empty();
-				$(refresh_tag).append(text);
-				$(refresh_tag).append(pagniation_text);
-			}, 200);
-		});
+			$(refresh_tag).empty();
+			$(refresh_tag).append(text);
+			$(refresh_tag).append(pagniation_text);
+		})}, 200);
 	}
 
 	//子tab按钮触发AJAX

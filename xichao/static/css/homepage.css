@@ -688,7 +688,7 @@ span#introduction-category{
 #homepage-loading{
 	vertical-align: center;
 	text-align: center;
-	margin-top: 120px;
+	/*margin-top: 120px;*/
 	font-size: 22px;
 }
 
@@ -926,6 +926,7 @@ div.content-box#homepage-loading > img{
 .new-message-flag:after{
 	content: "NEW";
 	color: #F00;
+	font-style: italic;
 	padding-bottom: 30px;
 	position: relative;
 	top: -10px;
