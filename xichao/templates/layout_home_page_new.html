@@ -377,6 +377,12 @@
 		var refresh_tag = get_refresh_tag(category); //对应内容显示框, "bt-xxx" -> "xxx"
 		var refresh_url = get_refresh_url(category, page_id); //对应url地址
 
+		$(refresh_tag).empty();
+		var textLoading = "<div class='content-box' id='homepage-loading'>\
+							正在加载，请稍后&nbsp;<img src='/static/images/homepage-loading.gif'>\
+						</div>";
+		$(refresh_tag).append(textLoading);
+
 		$.get(refresh_url, function(data){
 			var text = "";
 
@@ -594,9 +600,11 @@
 			}
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
-			$(refresh_tag).empty();
-			$(refresh_tag).append(text);
-			$(refresh_tag).append(pagniation_text);
+			setTimeout(function(){
+				$(refresh_tag).empty();
+				$(refresh_tag).append(text);
+				$(refresh_tag).append(pagniation_text);
+			}, 200);
 		});
 	}
 
@@ -1159,6 +1167,12 @@ function update_cover(data){
 		var refresh_tag = get_refresh_tag(category); //对应内容显示框, "bt-xxx" -> "xxx"
 		var refresh_url = get_refresh_url(category, page_id); //对应url地址
 
+		$(refresh_tag).empty();
+		var textLoading = "<div class='content-box' id='homepage-loading'>\
+							正在加载，请稍后&nbsp;<img src='/static/images/homepage-loading.gif'>\
+						</div>";
+		$(refresh_tag).append(textLoading);
+
 		$.get(refresh_url, function(data){
 			var text = "";
 
@@ -1207,9 +1221,12 @@ function update_cover(data){
 			
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
-			$(refresh_tag).empty();
-			$(refresh_tag).append(text);
-			$(refresh_tag).append(pagniation_text);
+
+			setTimeout(function(){
+				$(refresh_tag).empty();
+				$(refresh_tag).append(text);
+				$(refresh_tag).append(pagniation_text);
+			}, 200);
 		});
 	}
 

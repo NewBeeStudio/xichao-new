@@ -685,6 +685,18 @@ span#introduction-category{
 	min-height: 300px;
 }
 
+#homepage-loading{
+	vertical-align: center;
+	text-align: center;
+	margin-top: 120px;
+	font-size: 22px;
+}
+
+div.content-box#homepage-loading > img{
+	width: 22px;
+	height: 22px;
+}
+
 .table-layout{
 	display: table;
 }
