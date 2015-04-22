@@ -100,7 +100,7 @@ def logout():
     #弹出sessio
     # session.pop('user', None)
     logout_user()
-    flash('你已退出')
+    
     response=make_response(redirect(url_for('index')))
     #删除cookie，flask-login已完成相应操作
     #if request.cookies.get('user')!=None:
@@ -197,8 +197,7 @@ def register():
         # session['user']=request.form['nick']
         user=User.query.filter_by(email=form.email.data).first()
         login_user(user)
-        flash(u'注册成功，正在跳转')
-        time.sleep(3)
+        
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
@@ -283,7 +282,7 @@ def forgetPassword():
         send_resetpassword_email(nick, password, form.email.data) #待修改
         flash(u'我们已向你的注册邮箱发送了密码重置邮件,请至邮箱查收')
         return render_template('forgetPassword.html', form = form, error = error)
-        return redirect(url_for('index'))
+
     return render_template('forgetPassword.html', form = form, error = error)
 
 ##################################  重置密码  ##################################
@@ -297,9 +296,7 @@ def resetPassword(nick, password):
             # session['user'] = nick #session增加用户
             user=User.query.filter_by(nick=nick).first()
             login_user(user)
-            flash(u'密码修改成功')
-            return render_template('forgetPassword.html', form = form, error = error)
-
+            
             return redirect(url_for('index'))
         else:
             return render_template('resetPassword.html', form=form)
