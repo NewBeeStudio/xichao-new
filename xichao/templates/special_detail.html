@@ -3,7 +3,8 @@
 <!--css file used-->
 {% block css %}
 	<link href="{{ url_for('static', filename='css/special_detail.css') }}" rel='stylesheet' type='text/css'/> 
-	
+    <link rel="stylesheet" type="text/css" href="/static/css/button.css" />
+
 	{% if author_itself %}
 	<style type="text/css">
 	#special-draft h3{
@@ -108,7 +109,6 @@
 		<div id="special-memo">
         <div class="btn-group" style="float:left;">
           <button id="share-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          <img src="/static/images/share-logo.png" style="height:22px; width:22px"/>
           分享 <span class="caret"></span>
           </button>
           <ul id="share-option" class="dropdown-menu" role="menu">
