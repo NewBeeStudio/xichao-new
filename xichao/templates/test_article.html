@@ -84,8 +84,8 @@
 	<div id="button_pay_to">
 		<button class="register-button" id="pay_button">打赏作者</button>	
 	</div>
-	</div>
-	<div style="clear:both;"></div> 
+	<div style="clear:both;"></div>
+	</div> 
 	{%endif%}
 	<hr>
 	<div id="book_info">
@@ -120,7 +120,7 @@
 			<img id="user_pic_1" src="{{avatar}}">
 			<p id="p_user_name">{{nick}}</p>
 		</div>
-		<textarea id="input_publish_review"></textarea>
+		<textarea id="input_publish_review" maxlength="500"></textarea>
 		<div class="pay_author_div">
 			<input type="checkbox" name="pay_author" id="comment_pay_button" /><span>&nbsp;同时打赏作者</span>
 		</div>
@@ -131,7 +131,6 @@
 
 
 <p id="p_list_review">评论列表(<span>{{comment_num}}</span>)</p>
-
 
 <ul class="media-list" id="comment">
 {% if comments!=None %}
@@ -148,11 +147,6 @@
 		 	<div class="comment-info">
 		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
 		 	</div>
-		 	
-<<<<<<< HEAD
-=======
-	  
->>>>>>> 29c2f589255d0025b8f450626726b6ffb3fc2926
 		<ul class="comment-reply-ul">
 		{%for subcomment in comments | reverse%}
 		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
