@@ -610,6 +610,19 @@
 		})}, ajaxRequestDelay);
 	}
 
+	//第一次请求：调用homepage_refresh
+	//后面的请求：保持原样
+	function homepage_display(category, page_id){
+		var refresh_tag = get_refresh_tag(category);
+		// 已经加载好的页面有<div class='content-box'>这个标签
+		// 排序功能就不能用这个逻辑，因为已经有内容存在
+
+		var raw_content = $(refresh_tag).html().replace(/(^\s+)|(\s+$)/g, "");
+		if(raw_content == ""){
+			homepage_refresh(category, page_id);
+		}
+	}
+
 	//子tab按钮触发AJAX
 	$(function(){
 		$('#bt-release-article').click(function(){
@@ -617,26 +630,26 @@
 				$('#release-sort-ul').css('display', 'block')
 			$('#total-count').css('display', 'block');
 
-			homepage_refresh("release-article", 1);
+			homepage_refresh("release-article", 1); //最好能改成display
 		});
 		$('#bt-release-comment').click(function(){
 			if($('#release-sort-ul').css('display') == 'block')
 				$('#release-sort-ul').css('display', 'none')
 			$('#total-count').css('display', 'none');
 
-			homepage_refresh("release-comment", 1);
+			homepage_display("release-comment", 1);
 		});
 		$('#bt-collection-article').click(function(){
-			homepage_refresh("collection-article", 1);
+			homepage_display("collection-article", 1);
 		});
 		$('#bt-collection-activity').click(function(){
-			homepage_refresh("collection-activity", 1);
+			homepage_display("collection-activity", 1);
 		});
 		$('#bt-focus-user').click(function(){
-			homepage_refresh("focus-user", 1);
+			homepage_display("focus-user", 1);
 		});
 		$('#bt-focus-special').click(function(){
-			homepage_refresh("focus-special", 1);
+			homepage_display("focus-special", 1);
 		});
 
 		//排序功能
@@ -662,22 +675,22 @@
 
 		//draft, fans, 消息中心执行动作与子tab一致
 		$('#bt-draft').click(function(){
-			homepage_refresh("draft-all", 1);
+			homepage_display("draft-all", 1);
 		});
 		$('#bt-fans').click(function(){
-			homepage_refresh("fans-all", 1);
+			homepage_display("fans-all", 1);
 		});
 		$('#bt-received-message').click(function(){
-			homepage_refresh("received-message-all", 1);
+			homepage_display("received-message-all", 1);
 		});
 		$('#bt-received-comment').click(function(){
-			homepage_refresh("received-comment-all", 1);
+			homepage_display("received-comment-all", 1);
 		});
 		$('#bt-received-notification').click(function(){
-			homepage_refresh("received-notification-all", 1);
+			homepage_display("received-notification-all", 1);
 		});
 		$('#bt-special').click(function(){
-			homepage_refresh("special-all", 1);
+			homepage_display("special-all", 1);
 		});
 	});
 
@@ -1234,6 +1247,19 @@ function update_cover(data){
 		})}, ajaxRequestDelay);
 	}
 
+	//第一次请求：调用homepage_refresh
+	//后面的请求：保持原样
+	function homepage_display(category, page_id){
+		var refresh_tag = get_refresh_tag(category);
+		// 已经加载好的页面有<div class='content-box'>这个标签
+		// 排序功能就不能用这个逻辑，因为已经有内容存在
+
+		var raw_content = $(refresh_tag).html().replace(/(^\s+)|(\s+$)/g, "");
+		if(raw_content == ""){
+			homepage_refresh(category, page_id);
+		}
+	}
+
 	//子tab按钮触发AJAX
 	$(function(){
 		$('#bt-release-article').click(function(){
@@ -1246,7 +1272,7 @@ function update_cover(data){
 			if($('#release-sort-ul').css('display') == 'block')
 				$('#release-sort-ul').css('display', 'none')
 			$('#total-count').css('display', 'none');
-			homepage_refresh("release-comment", 1);
+			homepage_display("release-comment", 1);
 		});
 
 		//排序功能
@@ -1265,7 +1291,7 @@ function update_cover(data){
 		});
 
 		$('#bt-focus').click(function(){
-			homepage_refresh("focus-user", 1);
+			homepage_display("focus-user", 1);
 		});
 	});
 
