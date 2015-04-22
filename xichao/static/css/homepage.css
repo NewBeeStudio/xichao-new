@@ -445,13 +445,15 @@ ul{
 
 #cover-owner{
 	margin-top: 10px;
-	margin-left: 120px;
+	margin-left: 80px;
 	min-height: 400px;
 	vertical-align: middle;
 	text-align: center;
 }
 
-#cover-owner-1{
+
+
+#cover-owner-former, #cover-owner-latter{
 	font-size: 50px;
 	line-height: 50px;
 	width: 50px;
@@ -460,27 +462,36 @@ ul{
 	text-align: center;
 	word-break: break-all;
 	padding: 5px 5px 5px 5px;
-	border-right: 3px solid #fff;
+
+	float: left;
 }
 
-#cover-owner-2{
-	margin-left: -80px;
-	font-size: 100px;
+#cover-owner-former:after{
+	content: "";
+	clear: both;
 }
 
-#cover-owner-3{
-	margin-left: 80px;
-	margin-top: 10px;
-	font-size: 16px;
-	line-height: 20px;
-	width: 16px;
-	letter-spacing: 16px;
+#cover-owner-former{
+	border-right: 2px solid #fff;
+}
+
+#cover-owner-dot{
+	clear: both;
+	padding-top: 20px; 
+	margin-left: -18px;
+	font-size: 50px;
+}
+
+#cover-owner-remains{
+	margin-left: 150px;
+	font-size: 36px;
+	line-height: 40px;
+	width: 36px;
+	letter-spacing: 36px;
 
 	text-align: center;
 	word-break: break-all;
 }
-
-
 
 /*个人介绍部分*/
 #introduction{

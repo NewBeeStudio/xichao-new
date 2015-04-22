@@ -75,12 +75,18 @@
 			{% endif %}
 
 			<div id="cover-owner">
-				<div id="cover-owner-1">
-					{{ user.nick }}
+				<div id="cover-owner-latter">
+					{{ user.nick[5:] }}
 				</div>
-<!-- 				<div id="cover-owner-3">
+				<div id="cover-owner-former">
+					{{ user.nick[0:5] }}
+				</div>
+				<div id="cover-owner-dot">
+					&bull;
+				</div>
+				<div id="cover-owner-remains">
 					的个人空间
-				</div> -->
+				</div>
 			</div>
 		</div>
 	</div>
