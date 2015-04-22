@@ -249,6 +249,8 @@ def load_token(token):
 ##TODO：cookie的过期时间
 @app.route('/login',methods=['GET','POST'])
 def login():
+    if not current_user.is_anonymous():
+        return redirect(url_for("index"))
     error=None
     form=LoginForm(request.form)
     if request.method=='POST' and form.validate():
