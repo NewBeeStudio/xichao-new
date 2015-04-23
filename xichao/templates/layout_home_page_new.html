@@ -1245,7 +1245,7 @@ function update_cover(data){
 				text = "<div class='content-box'>";
 				for(var i = 0; i < items_user.length; ++i){
 					text += "<div class='focus-info'>\
-								<div><a onclick='homepage_delete(\"" + category + "\"," + items_user[i].user_id + "," + page_id + "," + items_user.length + ")'>\
+								<div><a href='/user/" + items_user[i].nick + "'>\
 									<img src='/static/images/transparent-circle.png' style='background-image:url("+ items_user[i].photo + ");'>\
 									</a></div>\
 								<div><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></div>\
