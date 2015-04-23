@@ -30,6 +30,7 @@ ul{
 	position: relative;
 	/*background-image: url({{user.cover}});*/
 	background-size: cover;
+	background-position: center center;
 
 	font-family: 黑体;
 	color: #fff;
@@ -118,6 +119,10 @@ ul{
 	min-height: 350px;
 	max-height: 435px; /*十行*/
 	width: 100%;
+
+	background-image: url(/static/images/homepage-decoration.png);
+	background-position: center center;
+	background-size: cover;
 }
 
 /*个人介绍部分，注意分辨率兼容*/
@@ -127,28 +132,6 @@ ul{
 	margin: auto;
 	padding: 50px 120px;
 	/*border: 1px solid #000;*/
-}
-
-#introduction > div:before{
-	content: url(/static/images/homepage-decoration-topleft.png);
-	
-	width: 250px;
-	height: 208px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	overflow: hidden;
-}
-
-#introduction > div:after{
-	content: url(/static/images/homepage-decoration-bottomright.png);
-
-	width: 100px;
-	height: 80px;
-	position: absolute;
-	bottom: 100px;
-	right: 200px;
-	/*overflow: hidden;*/
 }
 
 /*左侧图*/
@@ -332,7 +315,7 @@ span#introduction-category{
 #homepage-loading{
 	vertical-align: center;
 	text-align: center;
-	/*margin-top: 120px;*/
+	margin-top: 80px;
 	font-size: 22px;
 }
 
@@ -378,30 +361,38 @@ div.content-box#homepage-loading > img{
 	display: block;
 }
 
-#release-article .col-1{
+#release-article-by-time .col-1,
+#release-article-by-coins .col-1{
 	width: 490px;
 }
 
-#release-article .col-2{
+#release-article-by-time .col-2,
+#release-article-by-coins .col-2{
 	width: 140px;
 }
 
-#release-article .col-3{
+#release-article-by-time .col-3,
+#release-article-by-coins .col-3{
 	width: 140px;
 }
 
-#release-article .col-4{
+#release-article-by-time .col-4,
+#release-article-by-coins .col-4{
 	padding-right: 0;	
 }
 
-#release-article .col-1 > a{
+#release-article-by-time .col-1 > a,
+#release-article-by-coins .col-1 > a{
 	color: #797979;
 	font-weight: bold;
 }
 
-#release-article .col-2,
-#release-article .col-3,
-#release-article .col-4 > a{
+#release-article-by-time .col-2,
+#release-article-by-time .col-3,
+#release-article-by-time .col-4 > a,
+#release-article-by-coins .col-2,
+#release-article-by-coins .col-3,
+#release-article-by-coins .col-4 > a{
 	color: #a5a5a5;
 }
 
@@ -765,7 +756,7 @@ a.button-default:hover{
 #cover-default{
 	margin-left: 560px;
 	width: 600px;
-	height: 218px;
+	height: 200px;
 	text-align: left;
 
 	padding-top: 120px;
@@ -785,11 +776,16 @@ a.button-default:hover{
 	vertical-align: middle;
 }
 
-#cover-choice > img{
+#cover-choice > span{
 	width: 135px;
 	height: 55px;
 	cursor: pointer;
 	border: 3px solid #fff;
+	vertical-align: middle;
+
+	background-image: url(/upload/cover/default-small.jpg);
+	background-position: 0 0;
+	/*background-size: 400px 225px;*/
 }
 
 #change-cover-save-cancel{

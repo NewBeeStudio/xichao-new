@@ -44,15 +44,15 @@
 		<div id="text-default-img">默认图库：</div>
 		<div id="cover-choice">
 			<a id="arrow-left">◀</a>
-			<img class="cover-choice first-cover first-display-cover" src="/upload/cover/default1.jpg" style="display:inline;">
-			<img class="cover-choice" src="/upload/cover/default2.jpg" style="display:inline;">
-			<img class="cover-choice last-display-cover" src="/upload/cover/default3.jpg" style="display:inline;">
-			<img class="cover-choice" src="/upload/cover/default4.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default5.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default6.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default7.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default8.jpg" style="display:none;">
-			<img class="cover-choice last-cover" src="/upload/cover/default9.jpg" style="display:none;">
+			<span class="cover-choice first-cover first-display-cover" style="display:inline-block;"></span><!-- 右侧显示小图，点击后左侧显示对应原始图，减少带宽 -->
+			<span class="cover-choice" style="display:inline-block;"></span>
+			<span class="cover-choice last-display-cover" style="display:inline-block;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice last-cover" style="display:none;"></span>
  			<a id="arrow-right">▶</a>
 		</div>
 	</div>
@@ -155,7 +155,9 @@
 		$.ajaxSetup({cache:false});
 	});
 	var timeoutID = 0; //AJAX后台延时请求的ID，用于记录或停止延迟执行的AJAX
-	var ajaxRequestDelay = 600; //两次AJAX请求最短时间差，(短于这个时间的请求将被忽略)
+	var ajaxRequestDelay = 400; //两次AJAX请求最短时间差，(短于这个时间的请求将被忽略)
+
+	var coverImgWidth = 135; //封面默认图片宽度，即#cover-choice > span的width值
 </script>
 
 {% if current_user == user %}
@@ -179,7 +181,7 @@
 	//获取删除url
 	function get_delete_url(category, item_id){ //item_id只用于focus-special
 		var delete_url;
-		if(category == "release-article")
+		if(category == "release-article-by-time" || category == "release-article-by-coins")
 			delete_url = "/homepage/delete/article";
 		else if(category == "release-comment")
 			delete_url = "/homepage/delete/comment";
@@ -209,13 +211,12 @@
 	//获取更新url
 	function get_refresh_url(category, page_id){
 		var refresh_url;
-		if(category == "release-article"){
-			if($('#bt-release-by-time').hasClass('selected'))
-				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
-			else if($('#bt-release-by-coins').hasClass('selected'))
-				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_coins";
-			else 
-				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+		if(category == "release-article-by-time"){
+			refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			return refresh_url;
+		}
+		else if(category == "release-article-by-coins"){
+			refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_coins";
 			return refresh_url;
 		}
 		else if(category == "release-comment")
@@ -389,7 +390,7 @@
 		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
 			var text = "";
 
-			if(category == "release-article"){
+			if(category == "release-article-by-time" || category == "release-article-by-coins"){
 				var items = data.rows;
 
 				text = "<div class='content-box'><div class='table-layout'>";
@@ -617,7 +618,6 @@
 	function homepage_display(category, page_id){
 		var refresh_tag = get_refresh_tag(category);
 		// 已经加载好的页面有<div class='content-box'>这个标签
-		// 排序功能就不能用这个逻辑，因为已经有内容存在
 
 		var raw_content = $(refresh_tag).html().replace(/(^\s+)|(\s+$)/g, "");
 		if(raw_content == ""){
@@ -634,17 +634,18 @@
 	//子tab按钮触发AJAX
 	$(function(){
 		$('#bt-release-article').click(function(){
-			if($('#release-sort-ul').css('display') == 'none')
+			if($('#release-sort-ul').css('display') == 'none') //排序功能按钮显示/隐去
 				$('#release-sort-ul').css('display', 'block')
 			$('#total-count').css('display', 'block');
 
-			homepage_refresh("release-article", 1); //最好能改成display
+			$("#bt-release-article-by-time").trigger("click");
 		});
 		$('#bt-release-comment').click(function(){
 			if($('#release-sort-ul').css('display') == 'block')
 				$('#release-sort-ul').css('display', 'none')
 			$('#total-count').css('display', 'none');
 
+			$('#release-article-by-coins').css('display', 'none'); //小bug
 			homepage_display("release-comment", 1);
 		});
 		$('#bt-collection-article').click(function(){
@@ -661,11 +662,11 @@
 		});
 
 		//排序功能
-		$('#bt-release-by-time').click(function(){
-			$("#bt-release-article").trigger("click");
+		$('#bt-release-article-by-time').click(function(){
+			homepage_display("release-article-by-time", 1);
 		});
-		$('#bt-release-by-coins').click(function(){
-			$("#bt-release-article").trigger("click");
+		$('#bt-release-article-by-coins').click(function(){
+			homepage_display("release-article-by-coins", 1);
 		});
 	});
 	
@@ -716,7 +717,7 @@
 	function navbar_click(){
 		var locationHash = window.location.hash;
 		// alert(locationHash);
-		var transitionTime = 50;
+		var transitionTime = 10;
 		if(locationHash == '#' || locationHash == ''){
 			$('#bt-release').trigger("click");
 			locationHash = '#';
@@ -933,14 +934,19 @@ function update_avatar(data){
 //点击默认图库更新左侧大图，左右箭头效果
 $(function(){
 	//选中效果
-	$('#cover-choice > img').click(function(){
-		$('#cover-choice > img').each(function(){
+	$('#cover-choice > span').click(function(){
+		$('#cover-choice > span').each(function(){
 				$(this).css('border', '3px solid #fff');
 		});
 
 		$(this).css('border', '3px solid #D9AE48');
 		// alert($(this).attr('src'));
-		$('#cover-to-use img').attr('src', $(this).attr('src'));
+
+		//默认加载小图，点击时再加载原始图，直接原始图太占带宽
+		// console.log($(this).css('background-position').split(' ')[0].slice(0, -2));
+		var pic_small_id = parseInt($(this).css('background-position').split(' ')[0].slice(0, -2)) / (-coverImgWidth) + 1; //通过background-position定位
+		var pic_normal = "/upload/cover/default" + pic_small_id + ".jpg";
+		$('#cover-to-use img').attr('src', pic_normal);
 	});
 
 	//左右箭头效果
@@ -953,7 +959,7 @@ $(function(){
 			lastDisplayCover.removeClass('last-display-cover');
 			firstDisplayCover.removeClass('first-display-cover');
 			lastDisplayCover.css('display', 'none');
-			firstDisplayCover.prev().css('display', 'inline');
+			firstDisplayCover.prev().css('display', 'inline-block');
 		}
 	});
 
@@ -966,7 +972,7 @@ $(function(){
 			lastDisplayCover.removeClass('last-display-cover');
 			firstDisplayCover.removeClass('first-display-cover');
 			firstDisplayCover.css('display', 'none');
-			lastDisplayCover.next().css('display', 'inline');
+			lastDisplayCover.next().css('display', 'inline-block');
 		}
 	});
 })
@@ -1006,6 +1012,12 @@ function update_cover(data){
 <script type="text/javascript">
 	$(function(){
 		$('#button-change-cover').click(function(){
+			var count = 0;
+			$('#cover-choice > span').each(function(){
+				$(this).css('background-position', count*(-coverImgWidth) + 'px 0'); //同一张图定位
+				count += 1;
+			}); 
+
 			$('#change-cover').slideDown(500);
 		});
 		$('#change-cover-save').click(function(){
@@ -1107,13 +1119,12 @@ function update_cover(data){
 	//获取更新url
 	function get_refresh_url(category, page_id){
 		var refresh_url;
-		if(category == "release-article"){
-			if($('#bt-release-by-time').hasClass('selected'))
-				refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_time/page/" + page_id;
-			else if($('#bt-release-by-coins').hasClass('selected'))
-				refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_coins/page/" + page_id;
-			else 
-				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+		if(category == "release-article-by-time"){
+			refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_time/page/" + page_id;
+			return refresh_url;
+		}
+		else if(category == "release-article-by-coins"){
+			refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_coins/page/" + page_id;
 			return refresh_url;
 		}
 		else if(category == "release-comment"){
@@ -1213,7 +1224,7 @@ function update_cover(data){
 		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
 			var text = "";
 
-			if(category == "release-article"){
+			if(category == "release-article-by-time" || category == "release-article-by-coins"){
 				var items = data.rows;
 
 				text = "<div class='content-box'><div class='table-layout'>";
@@ -1247,7 +1258,7 @@ function update_cover(data){
 				text = "<div class='content-box'>";
 				for(var i = 0; i < items_user.length; ++i){
 					text += "<div class='focus-info'>\
-								<div><a onclick='homepage_delete(\"" + category + "\"," + items_user[i].user_id + "," + page_id + "," + items_user.length + ")'>\
+								<div><a href='/user/" + items_user[i].nick + "'>\
 									<img src='/static/images/transparent-circle.png' style='background-image:url("+ items_user[i].photo + ");'>\
 									</a></div>\
 								<div><a href='/user/" + items_user[i].nick + "'>" + items_user[i].nick + "</a></div>\
@@ -1284,21 +1295,23 @@ function update_cover(data){
 			if($('#release-sort-ul').css('display') == 'none')
 				$('#release-sort-ul').css('display', 'block')
 			$('#total-count').css('display', 'block');
-			homepage_refresh("release-article", 1);
+			$("#bt-release-article-by-time").trigger("click");
 		});
 		$('#bt-release-comment').click(function(){
 			if($('#release-sort-ul').css('display') == 'block')
 				$('#release-sort-ul').css('display', 'none')
 			$('#total-count').css('display', 'none');
+
+			$('#release-article-by-coins').css('display', 'none'); //小bug
 			homepage_display("release-comment", 1);
 		});
 
 		//排序功能
-		$('#bt-release-by-time').click(function(){
-			$("#bt-release-article").trigger("click");
+		$('#bt-release-article-by-time').click(function(){
+			homepage_display("release-article-by-time", 1);
 		});
-		$('#bt-release-by-coins').click(function(){
-			$("#bt-release-article").trigger("click");
+		$('#bt-release-article-by-coins').click(function(){
+			homepage_display("release-article-by-coins", 1);
 		});
 	});
 
