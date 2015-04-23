@@ -115,16 +115,20 @@ def default():
 @app.route('/index')
 def index():
     homepage_special_list, slideUrl = get_homepage_specials()
-    most_hot_ground_article=get_most_hot_ground_article()
-    most_hot_activity=get_most_hot_activity(datetime.now())
+    most_hot_activity=get_most_hot_activity()
     hot_articles = get_hot_articles(10)
+    latest_articles = get_latest_articles(8)
+    user_focus = get_all_focus_article(8)#current_user.user_id)
     return render_template('template.html', special_list = homepage_special_list,
                                             hot_articles = hot_articles,
                                             articles = get_special_article,
                                             slideUrl = slideUrl,
                                             get_author = get_nick_by_userid,
-                                            most_hot_ground_article=most_hot_ground_article,
-                                            most_hot_activity=most_hot_activity)
+                                            most_hot_activity=most_hot_activity,
+                                            user_focus = user_focus,
+                                            latest_articles = latest_articles,
+                                            get_special_information = get_special_information,
+                                            logged_in = ('user_id' in session))
 ## 修改首页
 @app.route('/modify_homepage')
 @login_required
@@ -379,13 +383,20 @@ def article_main():
 @app.route('/article/<int:article_id>',methods=['GET'])
 @login_required
 def article(article_id):
+    comment_page=request.args.get("comment_page")
+    if not comment_page:
+        comment_page=1
+    #if comment_page
     article=get_article_information(article_id)
-    get_article_comments_pagination(article_id,1,5)
+    comment_page=get_article_comments_pagination(article_id,int(comment_page),5)
+    comment_reply=[]
+    for item in comment_page.items:
+        
+        comment_reply.append(get_comment_reply(article_id,int(item[0].comment_id)))
     if article!=None:
         if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
             abort(404)
         else:
-            #comment初始显示5-6条，下拉显示全部
             session['article_session_id']=article[0].article_session_id
             comments=get_article_comments(article_id)
             try:
@@ -400,9 +411,9 @@ def article(article_id):
                 pass
             else:
                 update_read_num(article_id)
-            return render_template('test_article.html',article=article[0],author=article[1],
-                                    book=article[2],avatar=get_avatar(),comments=comments,
-                                    nick=getNick(), comment_num = comment_num, special = special)
+
+            return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,comment_page=comment_page,comment_reply=comment_reply,nick=getNick())
+
     else:
         abort(404)
 
@@ -1646,6 +1657,7 @@ def square():
         book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,\
         recommended_ground_article=recommended_ground_article,recommend_words=recommend_words,\
         )
+
 
 
 @app.route('/user/<nick>')

@@ -272,14 +272,47 @@ div.index-special-abstract{
 
 .index-hot-activity-img{
     width: 350px;
-    height: 215px;
+    height: 350px;
     padding: 5px;
+    border: 1px solid #D9AE48;
+}
+
+.index-hot-activity-img > img{
+    width: 350px;
+    height: 350px;
+    position: absolute;
 }
 
 .index-hot-activity-img > div{
-    width: 100%;
-    height: 100%;
-    background-color: grey;
+    width: 350px;
+    height: 350px;
+    position: absolute;
+    margin-top: 0px;
+    background-color: black;
+    opacity: 0.75;
+}
+
+.index-hot-activity-img > div > p{
+    margin-top: 47px;
+    margin-bottom: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: 160px;
+    overflow: hidden;
+    color: white;
+    font-size: 14px;
+    font-family: 黑体;
+}
+
+.index-hot-activity-img > div > h3{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: white;
+    font-size: 14px;
+    line-height: 18px;
+    font-family: 黑体;
 }
 
 .index-hot-activity{
@@ -288,7 +321,10 @@ div.index-special-abstract{
 
 .index-hot-activity > h3{
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
+    line-height: 24px;
+    height: 24px;
+    overflow: hidden;
 }
 
 /*******************热门观点*******************/
@@ -320,27 +356,80 @@ div.index-special-abstract{
 
 
 /*******************广场动态*******************/
+#user-focus-select{
+    float: right;
+}
+
+#user-focus-select a{
+    background-color: #D9AE48;
+}
+#user-focus-select a:hover{
+    cursor: pointer;
+}
+
+#user-focus{
+    margin-top: 50px;
+}
+#latest_articles{
+    margin-top: 50px;
+}
 
 .index-right-square{
     margin-top: 60px;
 }
 
-.index-hot-square > h4{
+.index-right-square a{
+    color: black;
+    border-radius: 0px;
+}
+
+.index-right-square a:hover{
+    border: 1px solid #D9AE48;
+}
+
+
+.index-user-focus-article-img{
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    border: 1.5px solid #D9AE48;
+}
+
+.index-user-focus{
+    height: 150px;
+    margin-top: 20px;
+}
+
+.index-user-focus > h3{
+    margin-left: 90px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 12.5px;
+    line-height: 26px;
+    font-family: 黑体;
+    color: #D9AE48;
+}
+
+.index-user-focus > h4{
+    margin-left: 90px;
     text-align: center;
     font-size: 16px;
     font-family: 黑体;
     margin-top: 0px;
 }
-.index-hot-square > h5{
-    text-align: right;
+.index-user-focus > table{
+    margin-left: 90px;
+    font-weight: normal;
     font-size: 13px;
     font-family: 黑体;
 }
 
-.index-hot-square > p{
+.index-user-focus > p{
+    margin-top: 25px;
     font-size: 14px;
-    font-family: 宋体;
-    height: 38px;
+    line-height: 16px;
+    font-family: 黑体;
+    height: 33px;
     overflow: hidden;
 }
 

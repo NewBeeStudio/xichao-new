@@ -81,8 +81,11 @@ class HomePage(Base, AutoSerialize):
     special3_image = Column(String(255), nullable = False)
     special4_image = Column(String(255), nullable = False)
 
-    ground_recommended_article=Column(Integer, ForeignKey('article.article_id'),nullable = False,default=1)
+    ground_recommended_article = Column(Integer, ForeignKey('article.article_id'),nullable = False,default=1)
+    recommended_activity = Column(Integer, ForeignKey('activity.activity_id'),nullable = False,default=1)
     recommend_words=Column(String(255),nullable=True,default="I like it")
+
+    ground_recommended_article=Column(Integer,nullable = False,default=1)
     
     ########## Index/Unique索引 ##########
     def __init__(self, special1=1, special2=2, special3=3, special4=4):
