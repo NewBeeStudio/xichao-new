@@ -412,7 +412,12 @@ def article(article_id):
             else:
                 update_read_num(article_id)
 
-            return render_template('test_article.html',article=article[0],author=article[1],book=article[2],avatar=get_avatar(),comments=comments,comment_page=comment_page,comment_reply=comment_reply,nick=getNick())
+            return render_template('test_article.html',
+                article=article[0], author=article[1],
+                book=article[2], avatar=get_avatar(),
+                comments=comments, comment_page=comment_page,
+                comment_reply=comment_reply, nick=getNick(),
+                special_info = get_special_information)
 
     else:
         abort(404)
