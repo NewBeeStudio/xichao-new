@@ -53,7 +53,7 @@
 		<p id="p_num_xichao">曦潮币<span>+</span>  (</p>
 		<p id="p_num_xichao_content">{{article.coins}}</p>
 		<p id="p_num_xichao_bracket">)</p>
-		<p id="p_review">评论<span>+</span>&nbsp;&nbsp;({{comment_num}})</p>
+		<p id="p_review">评论<span>+</span>&nbsp;&nbsp;({{article.comment_num}})</p>
 		<p id="p_collection">收藏<span>+</span> ({{article.favor}})</p>
 		<p id="p_article_author_1">作者</p>
 		<p id="p_article_author_2"><a href="{{url_for('view_home_page', nick = author.nick)}}">{{author.nick}}</a></p>
@@ -133,7 +133,7 @@
 	{%endif%}
 
 
-<p id="p_list_review">评论列表(<span>{{comment_num}}</span>)</p>
+<p id="p_list_review">评论列表(<span>{{article.comment_num}}</span>)</p>
 <!-- 
 
 <ul class="media-list" id="comment">
