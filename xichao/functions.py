@@ -649,6 +649,9 @@ def get_article_group_by_coin(groups,category):
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
 	return result
 
+def get_article_group_by_time(groups,category):
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.time)).limit(10).all()
+	return result
 
 def has_collected(user_id,another_user_id):
 	result=db_session.query(Collection_User).filter(and_(Collection_User.user_id==user_id,Collection_User.another_user_id==another_user_id)).all()

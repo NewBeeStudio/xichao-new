@@ -424,7 +424,7 @@ def special_all():
         sort_change_url = '/special_all?view=%s&sort=time&page=1'%(view)
 
     if view != 'list':
-        vieww = 'all'
+        view = 'all'
         view_change_url = '/special_all?view=list&sort=%s&page=1'%(sort)
     else:
         view_change_url = '/special_all?view=all&sort=%s&page=1'%(sort)
@@ -1609,18 +1609,43 @@ def opinion():
 
 ##################################    广场 ##################################
 #广场主页
-@app.route('/square')
+@app.route('/square',methods=['get'])
 def square():
+    try:
+        sort1 = request.args.get('sort1')
+        sort2 = request.args.get('sort2')
+        sort3 = request.args.get('sort3')
+
+    except Exception:
+        abort(404)
+
+    if sort1 == 'time':
+        book_review_list=get_article_group_by_time('1','1')
+    else:
+        book_review_list=get_article_group_by_coin('1','1')
+        
+        
+    if sort2 == 'time':
+        film_review_list=get_article_group_by_time('1','2')
+    else:
+        film_review_list=get_article_group_by_coin('1','2')
+
+    if sort3 == 'time':
+        essay_list=get_article_group_by_time('1','3')
+    else: 
+        essay_list=get_article_group_by_coin('1','3')
+
     ##拿9篇热门文章
     hot_ground_article_list=get_hot_ground_acticle()
     ##拿一篇推荐文章
     recommended_ground_article=get_recommended_ground_article()
     recommend_words=get_recommend_words()[0]
     ##参数1表示广场
-    book_review_list=get_article_group_by_coin('1','1')
-    film_review_list=get_article_group_by_coin('1','2')
-    essay_list=get_article_group_by_coin('1','3')
-    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article,recommend_words=recommend_words)
+
+    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,\
+        book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,\
+        recommended_ground_article=recommended_ground_article,recommend_words=recommend_words,\
+        )
 
 
 @app.route('/user/<nick>')
