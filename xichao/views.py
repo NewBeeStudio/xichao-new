@@ -863,13 +863,12 @@ def article_upload():
     if role==1:
         upload_url='/group/1/category/'
     elif role==2:
-        upload_url='/group/2/category/'
+        upload_url='/group/1/category/'
+        # 原来是 upload_url='/group/2/category/'
+        # 第一版没有“观点”
     else:
         abort(404)
     return render_template('test_article_upload.html', upload_url=upload_url)
-
-
-
 
 @app.route('/article_modify/article/<int:article_id>')
 def article_modify(article_id):
