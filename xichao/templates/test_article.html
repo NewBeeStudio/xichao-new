@@ -31,8 +31,7 @@
 		<p id="p_title_2">&nbsp;{{article.title}}</p>
 		{% else %}
 		<a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a>&nbsp;>&nbsp;
-		<a href="{{url_for('special')}}?id={{special.special_id}}&page=1&sort=time">{{special.name}}</a>&nbsp;&nbsp;>&nbsp;
-		<p id="p_title_2">&nbsp;{{article.title}}</p>
+				<p id="p_title_2">&nbsp;{{article.title}}</p>
 		{% endif %}
 	</div>
 	
@@ -326,7 +325,7 @@ $("#comment_publish_button").click(function(){
     			
     		},
     		function(data){
-    			$("#comment_publish_time").text(data);
+    			$("#comment_publish_time").text(data.time);
     			layer.msg("评论成功",1,1);
     			add_commit(data, val_content,{{article.user_id}});
     		});
@@ -363,13 +362,7 @@ $("#p_review").click(function(){
 //    alert("HERE");
 });
 
-</script>
 
-
-
-</script>
-
-<script type="text/javascript">
 function update_xichao(data){
 	//alert(data);
 	//alert($('#p_num_xichao_content').text());
@@ -377,9 +370,7 @@ function update_xichao(data){
 	//alert(tmp);
   	$('#p_num_xichao_content').html(tmp);
 }
-</script>
 
-<script type="text/javascript">
 function get_author_id() {
 	return {{ author.user_id }};
 }
@@ -393,30 +384,36 @@ function get_user_id() {
 }
 
 
-function add_commit(data, val_content,to_user_id) {
+function add_commit(data,val_content,to_user_id){	
 	
+var cm=$("#p_list_review span").html()
+if(cm==='') cm='0'
+var comment_num=parseInt(cm)+1
+
+if ({{comment_page.page}}!==1) return;
+$("#p_review ").html($("#p_review").html().replace(/[0-9]+/,comment_num))
+$("#p_list_review span").html(comment_num)
+
 	var time=data.time;
 	var cid=data.comment_id;
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
-	//console.log(time+" "+cid+" "+val_content)
+	console.log(time+" "+cid+" "+val_content)
+$("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+'<a class="pull-left" href="'+homeurl+'"><img class="media-object"src="{{avatar}}"width="64px"height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply"onclick="reply_to({{current_user.user_id}},'+cid+')">回复</span></div></div></li></div>')
 
-
-$("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
-					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px"height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+cid+')">回复</span></div></div></li></div>')
-
-var comment_num=parseInt($("#p_list_review span").html())+1
-
-$("#p_list_review span").html(comment_num)
-
-$("#p_review ").html($("#p_review").html().replace(/[0-9]+/,comment_num))
 
 }
 
 
 function add_reply(data,to_user_nick,val_content,val_user_id,reply_to_comment_id){
-	
-	
+
+var cm=$("#p_list_review span").html()
+if(cm==='') cm='0'
+var comment_num=parseInt(cm)+1
+
+$("#p_review ").html($("#p_review").html().replace(/[0-9]+/,comment_num))
+$("#p_list_review span").html(comment_num)
+
 	var time=data.time;
 	var cid=data.comment_id;
  	var location="comment-"+reply_to_comment_id;
@@ -436,9 +433,7 @@ else {
 
 
 }
-</script>
 
-<script type="text/javascript">
 	$(document).ready(function(){
 		if ('{{ nick }}' == '{{ author.nick }}')
 		{
