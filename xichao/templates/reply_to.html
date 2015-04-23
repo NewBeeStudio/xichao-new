@@ -18,6 +18,11 @@
 				var val_article_id = parent.window.get_article_id();
 				var val_user_id = parent.window.get_user_id();
 			
+
+				if (val_content == '')
+					{alert("评论不能为空");}
+				else {
+
 				//alert(val_article_id);
 				//alert(val_user_id);
 			
@@ -37,7 +42,7 @@
 									parent.layer.close(index);
 								});
 					},'json');
-				
+				}
 
 			});
 		});
