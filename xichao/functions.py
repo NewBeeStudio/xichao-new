@@ -316,7 +316,8 @@ def get_latest_articles(limit):
 def modify_homepage_func(special1, url1,
                          special2, url2,
                          special3, url3,
-                         special4, url4):
+                         special4, url4,
+                         recommend_actctivity):
     
     special1 = db_session.query(Special).filter_by(name = special1).all()
     if (len(special1) == 0):
@@ -342,12 +343,16 @@ def modify_homepage_func(special1, url1,
     query.special3 = special3
     query.special4 = special4
 
+    if url1 != '':
+        query.special1_image = url1
+    if url2 != '':
+        query.special2_image = url2
+    if url3 != '':
+        query.special3_image = url3
+    if url4 != '':
+        query.special4_image = url4
 
-    query.special1_image = url1
-    query.special2_image = url2
-    query.special3_image = url3
-    query.special4_image = url4
-
+    query.recommended_activity = recommend_actctivity
 
     db_session.commit()
     return 'success'

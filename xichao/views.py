@@ -154,10 +154,13 @@ def modify_homepage_finish():
     url3 = request.args.get('url3')
     url4 = request.args.get('url4')
 
+    recommend_actctivity = request.args.get('recommend_activity')
+
     return modify_homepage_func(special1, url1,
                                 special2, url2,
                                 special3, url3,
-                                special4, url4)
+                                special4, url4,
+                                recommend_actctivity)
 
 ## 上传首页所需图片
 @app.route('/upload_homepage_image', methods=['POST'])

@@ -52,7 +52,7 @@
         <td>{{ special.coin }}</td>
      </tr>
 
- {% endfor %}
+     {% endfor %}
  </table>
 
  </div>
@@ -66,6 +66,7 @@
     		<input id="special{{i}}" type="text">
     		
     		<br>
+        如果不修改背景图片，则不需要选择文件
             <form role="form" method="POST" enctype=multipart/form-data id='form{{i+1}}' number={{i+1}}>
                 <input class="special-image" id="slide_image{{i+1}}" number={{i+1}} name="slide-image{{i+1}}" required type="file">
             </form>
@@ -75,6 +76,13 @@
             <br>
 
      {% endfor %}
+
+     <br>
+     <br>
+     推荐活动的活动id:
+     <input id="recommend-activity" type="text">
+     <br>
+     如果您不清楚活动id是什么，请联系程序员
      <br><br>
      <input id="submit" type="submit" value="修改！">
  </div>
@@ -122,6 +130,9 @@
                 var url3 = $("#slide-image-show3").attr("src");
                 var url4 = $("#slide-image-show4").attr("src");
 
+                var rec_act = $("#recommend-activity").val();
+                alert(rec_act);
+
                 $.get('/modify_homepage_finish',
                   {
                       special1: special1,
@@ -131,7 +142,8 @@
                       url1: url1,
                       url2: url2,
                       url3: url3,
-                      url4: url4
+                      url4: url4,
+                      recommend_activity: rec_act
                   },
                   function(data){
                       if (data == 'success'){
