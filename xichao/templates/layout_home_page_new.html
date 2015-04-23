@@ -44,15 +44,15 @@
 		<div id="text-default-img">默认图库：</div>
 		<div id="cover-choice">
 			<a id="arrow-left">◀</a>
-			<img class="cover-choice first-cover first-display-cover" src="/upload/cover/default1.jpg" style="display:inline;">
-			<img class="cover-choice" src="/upload/cover/default2.jpg" style="display:inline;">
-			<img class="cover-choice last-display-cover" src="/upload/cover/default3.jpg" style="display:inline;">
-			<img class="cover-choice" src="/upload/cover/default4.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default5.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default6.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default7.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default8.jpg" style="display:none;">
-			<img class="cover-choice last-cover" src="/upload/cover/default9.jpg" style="display:none;">
+			<img class="cover-choice first-cover first-display-cover" src="/upload/cover/default1-small.jpg" style="display:inline;"><!-- 右侧显示小图，点击后左侧显示对应原始图，减少带宽 -->
+			<img class="cover-choice" src="/upload/cover/default2-small.jpg" style="display:inline;">
+			<img class="cover-choice last-display-cover" src="/upload/cover/default3-small.jpg" style="display:inline;">
+			<img class="cover-choice" src="/upload/cover/default4-small.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default5-small.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default6-small.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default7-small.jpg" style="display:none;">
+			<img class="cover-choice" src="/upload/cover/default8-small.jpg" style="display:none;">
+			<img class="cover-choice last-cover" src="/upload/cover/default9-small.jpg" style="display:none;">
  			<a id="arrow-right">▶</a>
 		</div>
 	</div>
@@ -939,7 +939,11 @@ $(function(){
 
 		$(this).css('border', '3px solid #D9AE48');
 		// alert($(this).attr('src'));
-		$('#cover-to-use img').attr('src', $(this).attr('src'));
+
+		//默认加载小图，点击时再加载原始图，直接原始图太占带宽
+		var pic_small = $(this).attr('src');
+		var pic_normal = pic_small.replace('-small', '');
+		$('#cover-to-use img').attr('src', pic_normal);
 	});
 
 	//左右箭头效果
