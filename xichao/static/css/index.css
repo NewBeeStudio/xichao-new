@@ -356,20 +356,24 @@ div.index-special-abstract{
 
 
 /*******************广场动态*******************/
-#user-focus-select{
-    float: right;
+#user-focus-select>.active>a, #user-focus-select>.active>a:hover, #user-focus-select>.active>a:focus {
+  color: #fff;
+  background-color: #D9AE48;
 }
-
 #user-focus-select a{
-    background-color: #D9AE48;
+    color: black;
 }
 #user-focus-select a:hover{
     cursor: pointer;
 }
 
-#user-focus{
-    margin-top: 50px;
+#user-focus-select{
+    font-family: 黑体;
+    float: right;
+    position: relative;
+    margin-top: -2px;
 }
+
 #latest_articles{
     margin-top: 50px;
 }
@@ -381,10 +385,6 @@ div.index-special-abstract{
 .index-right-square a{
     color: black;
     border-radius: 0px;
-}
-
-.index-right-square a:hover{
-    border: 1px solid #D9AE48;
 }
 
 

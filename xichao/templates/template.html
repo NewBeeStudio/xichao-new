@@ -177,6 +177,9 @@ background-size: 100%, 100%">
 
 
 		  	<div id="user-focus">
+		  	{% if logged_in and user_focus==[] %}
+		  	<p style="margin-top:50px">您还没有关注任何专栏或用户哦，快去专栏广场转转吧～</p>
+		  	{% endif %}
             {% for article in user_focus %}
             <a class="thumbnail" href="{{ url_for('article', article_id=article.article_id)}}">
             <div class="index-user-focus">
