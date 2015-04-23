@@ -30,6 +30,7 @@ ul{
 	position: relative;
 	/*background-image: url({{user.cover}});*/
 	background-size: cover;
+	background-position: center center;
 
 	font-family: 黑体;
 	color: #fff;
@@ -118,6 +119,10 @@ ul{
 	min-height: 350px;
 	max-height: 435px; /*十行*/
 	width: 100%;
+
+	background-image: url(/static/images/homepage-decoration.png);
+	background-position: center center;
+	background-size: cover;
 }
 
 /*个人介绍部分，注意分辨率兼容*/
@@ -127,28 +132,6 @@ ul{
 	margin: auto;
 	padding: 50px 120px;
 	/*border: 1px solid #000;*/
-}
-
-#introduction > div:before{
-	content: url(/static/images/homepage-decoration-topleft.png);
-	
-	width: 250px;
-	height: 208px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	overflow: hidden;
-}
-
-#introduction > div:after{
-	content: url(/static/images/homepage-decoration-bottomright.png);
-
-	width: 100px;
-	height: 80px;
-	position: absolute;
-	bottom: 100px;
-	right: 200px;
-	/*overflow: hidden;*/
 }
 
 /*左侧图*/
