@@ -386,7 +386,7 @@ class Comment(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-    __allowed_in_json__ = ['content','comment_id','time','is_read']
+    __allowed_in_json__ = ['content','comment_id','time','is_read','user_id','to_user_id','reply_to_comment_id']
     ########## Primary索引 ##########
     comment_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)

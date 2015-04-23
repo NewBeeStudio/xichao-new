@@ -134,45 +134,7 @@
 
 
 <p id="p_list_review">评论列表(<span>{{article.comment_num}}</span>)</p>
-<!-- 
 
-<ul class="media-list" id="comment">
-{% if comments!=None %}
-{% for comment in comments %}
-{% if comment[0].reply_to_comment_id == 0 %}
-  	<div class="well well-lg" >
-	  	<li class="media" id="comment-{{comment[0].comment_id}}">
-	    	<a class="pull-left" href="{{url_for('view_home_page', nick = comment[1])}}">
-	      		<img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
-	    	</a>
-	    <div class="media-body">
-		    <h4 class="media-heading">{{comment[1]}}</h4>
-		    <div class="media-content">{{comment[0].content}}</div>
-		 	<div class="comment-info">
-		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
-		 	</div>
-		 	
-
-		<ul class="comment-reply-ul">
-		{%for subcomment in comments | reverse%}
-		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
-  			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
-	    	 	<div class="media-body">
-		      		<p class="reply-info"><span class="media-heading reply-heading">{{subcomment[1]}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">{{subcomment[0].to_user_id}}</span>&nbsp;&nbsp;<span class="comment-time">{{subcomment[0].time}}</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{comment[3]}}, {{comment[0].comment_id}})">回复</span></p>
-		      		<p class="media-content reply-content">{{subcomment[0].content}}</p>
-		 		</div>
-  			</li>
- 		{% endif %}
- 		{% endfor %}
- 		</ul>
- 		
-
- 		 </div>
-	</div>
-{%endif%}  
-{% endfor %}
-{% endif %}
-</ul> -->
 
 
 <ul class="media-list" id="comment">
@@ -188,28 +150,24 @@
 		 	<div class="comment-info">
 		 		<span class="comment-time">{{item[0].time}}</span><span class="comment-reply" onclick="reply_to({{item[3]}},{{item[0].comment_id}})">回复</span>
 		 	</div>
-
 		 	<ul class="comment-reply-ul">
 		{%for reply in comment_reply[loop.index0]%}
-		  			<li class="media"  id="comment-{{reply[0].comment_id}}">
+		  		<li class="media"  id="comment-{{reply[0].comment_id}}">
 	    	 	<div class="media-body">
-		      		<p class="reply-info"><span class="media-heading reply-heading">{{reply[1]}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">{{reply[1]}}</span>&nbsp;&nbsp;<span class="comment-time">{{reply[0].time}}</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{item[3]}}, {{item[0].comment_id}})">回复</span></p>
+		      		<p class="reply-info"><span class="media-heading reply-heading">{{reply[1]}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">{{reply[4]}}</span>&nbsp;&nbsp;<span class="comment-time">{{reply[0].time}}</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{item[3]}},{{item[0].comment_id}})">回复</span></p>
 		      		<p class="media-content reply-content">{{reply[0].content}}</p>
 		 		</div>
-  			</li>
- 	
+  				</li>	
  		{% endfor %}
- 		</ul>
-
-
-
-
+ 			</ul>
  		 </div>
+ 		 </li>
 	</div>
 {% endfor %}
+</ul>
 
 
-		<div class="pagination">
+<div class="pagination">
 <ul>
     
     {% if comment_page.has_prev %}
@@ -220,29 +178,30 @@
     {% endif %}
          
         {%- for page in comment_page.iter_pages() %}
-          <li>
+         
           {% if page %}
             {% if page != comment_page.page %}
-              <a href="{{ url_for('article', article_id=article.article_id,comment_page=page)}}#p_list_review">{{ page }}</a>
+              <li> <a href="{{ url_for('article', article_id=article.article_id,comment_page=page)}}#p_list_review">{{ page }}</a></li>
             {% else %}
-              <span class="page-number current">{{ page }}</span>
+              <li class="active"><span class="page-number current">{{ page }}</span></li>
             {% endif %}
           {% else %}
-            <span class=ellipsis>…</span>
+            <li><span class=ellipsis>…</span></li>
           {% endif %}
-          </li>
         {%- endfor %}
     
     {% if comment_page.has_next %}
     <li>
     	<a href="{{ url_for('article', article_id=article.article_id,comment_page=comment_page.next_num)}}#p_list_review">下一页 </a></li>
     {% else %}
-    <li><span>
+    <li class="disable"><span>
         下一页 </span></li>
     {% endif %}
-    
-    </ul>
-    </div>
+</ul>
+</div>
+
+
+
 
 {% endblock %}
 <!--js file used-->
@@ -300,15 +259,15 @@
 <script type="text/javascript">
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
-	val_content = $('#input_publish_review').val();
-	val_content = $("#input_publish_review").val();
+		val_content = $("#input_publish_review").val();
 	if (val_content == '')
 		{alert("评论不能为空");}
 	else {
 	$("#input_publish_review").val("");
 	
 	if ($('#comment_pay_button').attr('checked') == 'checked'){
-	    $.layer({
+
+	    	$.layer({
 					type: 2,
 					title: ['打赏曦潮币'],
 					shade: [0.65, '#000'],
@@ -318,6 +277,7 @@ $("#comment_publish_button").click(function(){
 					area: ['760px', '300px'],
 					iframe: {src: "{{ url_for('pay_author', article_id=article.article_id) }}?comment=" + val_content},
 			    });
+	   
 	} else{	
     	$.post('/article/comment',
     		{
@@ -482,7 +442,59 @@ else {
 		
 	});
 </script>
-<!--
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["tsina","weixin"],"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["tsina","weixin"],"viewText":"分享到：","viewSize":"24"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-!-->
+
+
+<script type="text/javascript">
+
+
+
+
+// 	function refresh_comment(page_id){
+
+// 		url=window.location.href+"/comment/page/"+page_id
+// 		$.get(url,function(data){
+// 			console.log(data)
+// 			comment_page=data.comment_page
+// 			comment_row=data.comments_row
+// 			comment_reply=data.comment_reply
+// 			//$("#comment").html("{%for item in comment_page.items %}haha{% endfor %}")
+// 			comment_str=""
+// 			var i=0;
+// 			var j=0;
+// 			var homeurl=""
+
+
+// 			for( i =0;i<comment_row.length;i++){
+// 				console.log("root:"+comment_row[i][1]+":"+comment_row[i][0].content+"time:"+comment_row[i][0].time+"comment_id:"+comment_row[i][0].comment_id+"reply_to_comment_id:"+comment_row[i][0].reply_to_comment_id)
+
+// 				homeurl='http://'+window.location.host+'/user/'+comment_row[i][1];
+// 				console.log(homeurl)
+// 				comment_str=comment_str+'<div class="well well-lg" ><li class="media" id="comment-'+comment_row[i][0].comment_id+'"><a class="pull-left" href="'+homeurl+'"><img class="media-object " src="'+comment_row[i][2]+'" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">'+comment_row[i][1]+'</h4><div class="media-content">'+comment_row[i][0].content+'</div><div class="comment-info"><span class="comment-time">'+comment_row[i][0].time+'</span><span class="comment-reply" onclick="reply_to('+comment_row[i][3]+','+comment_row[i][0].comment_id+')">回复</span></div><ul class="comment-reply-ul">';;
+
+			
+
+// 					if(comment_reply[i].length!==0)		
+// 				for( j=0;j<comment_reply[i][0].length;j++){
+// 				  console.log("--->"+comment_reply[i][1]+":"+comment_reply[i][0][j].content+"time:"+comment_reply[i][0][j].time+"comment_id:"+comment_reply[i][0][j].comment_id+"reply_to_comment_id:"+comment_reply[i][0][j].reply_to_comment_id)
+// comment_str=comment_str+'<li class="media"  id="comment-'+comment_reply[i][0][j].comment_id+'"><div class="media-body"><p class="reply-info"><span class="media-heading reply-heading">'+get_nick(comment_reply[i][0][j].user_id)+'</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">'+get_nick(comment_reply[i][0][j].to_user_id)+'</span>&nbsp;&nbsp;<span class="comment-time">'+comment_reply[i][0][j].time+'</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to('+comment_reply[i][0][j].user_id+','+comment_reply[i][0][j].reply_to_comment_id+')">回复</span></p><p class="media-content reply-content">'+comment_reply[i][0][j].content+'</p></div></li>'
+				
+				
+// 				}
+
+// 				comment_str=comment_str+'</ul></div></li></div>'
+// 			}
+			
+// 				$("#comment").html(comment_str)
+// 			//reply_to( comment_row[i][3] ,comment_row[i][0].comment_id)
+// 			//reply_to ( comment_reply[i][0][j] ,comment_row[i][0].comment_id)
+
+// 		});
+				
+// 	}
+
+
+
+</script>
+
+
 {% endblock %}

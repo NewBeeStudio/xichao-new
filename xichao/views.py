@@ -393,9 +393,14 @@ def article(article_id):
     article=get_article_information(article_id)
     comment_page=get_article_comments_pagination(article_id,int(comment_page),5)
     comment_reply=[]
+    
     for item in comment_page.items:
-        
-        comment_reply.append(get_comment_reply(article_id,int(item[0].comment_id)))
+        tmp=get_comment_reply(article_id,int(item[0].comment_id))
+        for i in range(0,len(tmp)):
+            tmp[i]=tmp[i]+(get_nick_by_userid(tmp[i][0].to_user_id),)
+            
+        comment_reply.append(tmp)
+    
     if article!=None:
         if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
             abort(404)
@@ -424,6 +429,33 @@ def article(article_id):
 
     else:
         abort(404)
+
+@app.route('/article/<int:article_id>/comment/page/<int:page_id>',methods=['GET'])
+@login_required
+def ajax_article_comments(article_id,page_id):
+    comment_page=get_article_comments_pagination(article_id,int(page_id),5)
+    comments_row=[]
+    comment_reply=[]
+
+    for item in comment_page.items:
+        comments_row.append([item[0].get_serialize(),item[1],item[2],item[3]])
+    #print comments_row
+
+    for item in comment_page.items:
+        one=get_comment_reply(article_id,int(item[0].comment_id))
+        if one ==[]:
+            comment_reply.append([])
+        else:
+            reply=[com[0].get_serialize() for com in one]
+            comment_reply.append([reply,item[1],item[2],item[3]])
+    
+    return jsonify(comment_page=str(comment_page.page),comments_row=comments_row,comment_reply=comment_reply)
+
+@app.route('/get_nick/<int:user_id>',methods=['GET'])
+@login_required
+def ajax_get_nick(user_id):
+    return jsonify(user_id=user_id,user_nick=get_nick_by_userid(user_id))
+
 
 ##################################  专栏页面  ##################################
 # 专栏列表页
@@ -893,8 +925,9 @@ def pay_author(article_id):
 def reply_to(article_id):
     to_user_id = request.args.get('to_user_id')
     reply_to_comment_id = request.args.get('reply_to_comment_id')
-    user_nick=get_nick_by_userid(to_user_id)
-    return render_template('reply_to.html', article_id=article_id, to_user_id=to_user_id, reply_to_comment_id=reply_to_comment_id,user_nick = user_nick)
+    to_user_nick=get_nick_by_userid(to_user_id)
+    
+    return render_template('reply_to.html', article_id=article_id, to_user_id=to_user_id, reply_to_comment_id=reply_to_comment_id,to_user_nick = to_user_nick)
 
 #UEditor配置
 @app.route('/editor/<classfication>', methods=['GET', 'POST'])

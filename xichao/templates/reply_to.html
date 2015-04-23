@@ -31,12 +31,12 @@
 						_csrf_token:"{{ csrf_token() }}",
 						content:val_content,
 						article_id:val_article_id,
-						to_user_id:val_user_id,
+						to_user_id:{{to_user_id}},
 						reply_to_comment_id:{{reply_to_comment_id}}
 					},
 					function(data){
 						var index=parent.layer.getFrameIndex(window.name);
-						parent.window.add_reply(data, "{{user_nick}}",val_content,val_user_id,{{reply_to_comment_id}});
+						parent.window.add_reply(data, "{{to_user_nick}}",val_content,val_user_id,{{reply_to_comment_id}});
 						layer.msg('回复成功',1,1,function(){
 									parent.window.update_xichao(val_award_num);
 									parent.layer.close(index);
@@ -53,7 +53,7 @@
 
 	
 	<div id="review">
-		<textarea id="input_review" placeholder="回复 {{user_nick}}:">{{ comment  }}</textarea>
+		<textarea id="input_review" placeholder="回复{{to_user_nick}}:">{{ comment  }}</textarea>
 	</div>
 
 
