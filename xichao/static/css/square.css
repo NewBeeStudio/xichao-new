@@ -254,7 +254,7 @@ a.square-more{
 	height: 360px;
 }
 .square-part1-img2{
-    margin-top: -20px;
+    margin-top: 30px;
     border-left: 0px;
     position: absolute;
 }
@@ -396,4 +396,12 @@ img#square-part1-img, img#square-part2-img, img#square-part3-img{
     left:25px;
 	letter-spacing: 1px;
 	float: right;
+}
+#sort-sq1,#sort-sq2,#sort-sq3{
+    width: 160px;
+    font-family: 黑体;
+    border: 2px solid #000;
+    position: relative;
+    top: -150px;
+    left: 81%
 }

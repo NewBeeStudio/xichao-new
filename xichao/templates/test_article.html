@@ -31,7 +31,11 @@
 		<p id="p_title_2">&nbsp;{{article.title}}</p>
 		{% else %}
 		<a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a>&nbsp;>&nbsp;
-				<p id="p_title_2">&nbsp;{{article.title}}</p>
+
+
+		<a href="{{url_for('special')}}?id={{article.special_id}}&page=1&sort=time">{{special_info(article.special_id).name}}</a>&nbsp;&nbsp;>&nbsp;
+		<p id="p_title_2">&nbsp;{{article.title}}</p>
+
 		{% endif %}
 	</div>
 	
