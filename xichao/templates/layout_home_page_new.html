@@ -44,15 +44,15 @@
 		<div id="text-default-img">默认图库：</div>
 		<div id="cover-choice">
 			<a id="arrow-left">◀</a>
-			<img class="cover-choice first-cover first-display-cover" src="/upload/cover/default1-small.jpg" style="display:inline;"><!-- 右侧显示小图，点击后左侧显示对应原始图，减少带宽 -->
-			<img class="cover-choice" src="/upload/cover/default2-small.jpg" style="display:inline;">
-			<img class="cover-choice last-display-cover" src="/upload/cover/default3-small.jpg" style="display:inline;">
-			<img class="cover-choice" src="/upload/cover/default4-small.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default5-small.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default6-small.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default7-small.jpg" style="display:none;">
-			<img class="cover-choice" src="/upload/cover/default8-small.jpg" style="display:none;">
-			<img class="cover-choice last-cover" src="/upload/cover/default9-small.jpg" style="display:none;">
+			<span class="cover-choice first-cover first-display-cover" style="display:inline-block;"></span><!-- 右侧显示小图，点击后左侧显示对应原始图，减少带宽 -->
+			<span class="cover-choice" style="display:inline-block;"></span>
+			<span class="cover-choice last-display-cover" style="display:inline-block;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice" style="display:none;"></span>
+			<span class="cover-choice last-cover" style="display:none;"></span>
  			<a id="arrow-right">▶</a>
 		</div>
 	</div>
@@ -156,6 +156,8 @@
 	});
 	var timeoutID = 0; //AJAX后台延时请求的ID，用于记录或停止延迟执行的AJAX
 	var ajaxRequestDelay = 400; //两次AJAX请求最短时间差，(短于这个时间的请求将被忽略)
+
+	var coverImgWidth = 135; //封面默认图片宽度，即#cover-choice > span的width值
 </script>
 
 {% if current_user == user %}
@@ -932,8 +934,8 @@ function update_avatar(data){
 //点击默认图库更新左侧大图，左右箭头效果
 $(function(){
 	//选中效果
-	$('#cover-choice > img').click(function(){
-		$('#cover-choice > img').each(function(){
+	$('#cover-choice > span').click(function(){
+		$('#cover-choice > span').each(function(){
 				$(this).css('border', '3px solid #fff');
 		});
 
@@ -941,8 +943,9 @@ $(function(){
 		// alert($(this).attr('src'));
 
 		//默认加载小图，点击时再加载原始图，直接原始图太占带宽
-		var pic_small = $(this).attr('src');
-		var pic_normal = pic_small.replace('-small', '');
+		// console.log($(this).css('background-position').split(' ')[0].slice(0, -2));
+		var pic_small_id = parseInt($(this).css('background-position').split(' ')[0].slice(0, -2)) / (-coverImgWidth) + 1; //通过background-position定位
+		var pic_normal = "/upload/cover/default" + pic_small_id + ".jpg";
 		$('#cover-to-use img').attr('src', pic_normal);
 	});
 
@@ -956,7 +959,7 @@ $(function(){
 			lastDisplayCover.removeClass('last-display-cover');
 			firstDisplayCover.removeClass('first-display-cover');
 			lastDisplayCover.css('display', 'none');
-			firstDisplayCover.prev().css('display', 'inline');
+			firstDisplayCover.prev().css('display', 'inline-block');
 		}
 	});
 
@@ -969,7 +972,7 @@ $(function(){
 			lastDisplayCover.removeClass('last-display-cover');
 			firstDisplayCover.removeClass('first-display-cover');
 			firstDisplayCover.css('display', 'none');
-			lastDisplayCover.next().css('display', 'inline');
+			lastDisplayCover.next().css('display', 'inline-block');
 		}
 	});
 })
@@ -1009,6 +1012,12 @@ function update_cover(data){
 <script type="text/javascript">
 	$(function(){
 		$('#button-change-cover').click(function(){
+			var count = 0;
+			$('#cover-choice > span').each(function(){
+				$(this).css('background-position', count*(-coverImgWidth) + 'px 0'); //同一张图定位
+				count += 1;
+			}); 
+
 			$('#change-cover').slideDown(500);
 		});
 		$('#change-cover-save').click(function(){

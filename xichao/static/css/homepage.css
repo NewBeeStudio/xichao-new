@@ -756,7 +756,7 @@ a.button-default:hover{
 #cover-default{
 	margin-left: 560px;
 	width: 600px;
-	height: 218px;
+	height: 200px;
 	text-align: left;
 
 	padding-top: 120px;
@@ -776,11 +776,16 @@ a.button-default:hover{
 	vertical-align: middle;
 }
 
-#cover-choice > img{
+#cover-choice > span{
 	width: 135px;
 	height: 55px;
 	cursor: pointer;
 	border: 3px solid #fff;
+	vertical-align: middle;
+
+	background-image: url(/upload/cover/default-small.jpg);
+	background-position: 0 0;
+	/*background-size: 400px 225px;*/
 }
 
 #change-cover-save-cancel{
