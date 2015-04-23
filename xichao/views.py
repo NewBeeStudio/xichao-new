@@ -115,16 +115,20 @@ def default():
 @app.route('/index')
 def index():
     homepage_special_list, slideUrl = get_homepage_specials()
-    most_hot_ground_article=get_most_hot_ground_article()
-    most_hot_activity=get_most_hot_activity(datetime.now())
+    most_hot_activity=get_most_hot_activity()
     hot_articles = get_hot_articles(10)
+    latest_articles = get_latest_articles(8)
+    user_focus = get_all_focus_article(8)#current_user.user_id)
     return render_template('template.html', special_list = homepage_special_list,
                                             hot_articles = hot_articles,
                                             articles = get_special_article,
                                             slideUrl = slideUrl,
                                             get_author = get_nick_by_userid,
-                                            most_hot_ground_article=most_hot_ground_article,
-                                            most_hot_activity=most_hot_activity)
+                                            most_hot_activity=most_hot_activity,
+                                            user_focus = user_focus,
+                                            latest_articles = latest_articles,
+                                            get_special_information = get_special_information,
+                                            logged_in = ('user_id' in session))
 ## 修改首页
 @app.route('/modify_homepage')
 @login_required
@@ -150,10 +154,13 @@ def modify_homepage_finish():
     url3 = request.args.get('url3')
     url4 = request.args.get('url4')
 
+    recommend_actctivity = request.args.get('recommend_activity')
+
     return modify_homepage_func(special1, url1,
                                 special2, url2,
                                 special3, url3,
-                                special4, url4)
+                                special4, url4,
+                                recommend_actctivity)
 
 ## 上传首页所需图片
 @app.route('/upload_homepage_image', methods=['POST'])
@@ -379,13 +386,20 @@ def article_main():
 @app.route('/article/<int:article_id>',methods=['GET'])
 @login_required
 def article(article_id):
+    comment_page=request.args.get("comment_page")
+    if not comment_page:
+        comment_page=1
+    #if comment_page
     article=get_article_information(article_id)
-    get_article_comments_pagination(article_id,1,5)
+    comment_page=get_article_comments_pagination(article_id,int(comment_page),5)
+    comment_reply=[]
+    for item in comment_page.items:
+        
+        comment_reply.append(get_comment_reply(article_id,int(item[0].comment_id)))
     if article!=None:
         if article[0].is_draft=='1' and article[1].user_id!=current_user.user_id:
             abort(404)
         else:
-            #comment初始显示5-6条，下拉显示全部
             session['article_session_id']=article[0].article_session_id
             comments=get_article_comments(article_id)
             try:
@@ -400,9 +414,14 @@ def article(article_id):
                 pass
             else:
                 update_read_num(article_id)
-            return render_template('test_article.html',article=article[0],author=article[1],
-                                    book=article[2],avatar=get_avatar(),comments=comments,
-                                    nick=getNick(), comment_num = comment_num, special = special)
+
+            return render_template('test_article.html',
+                article=article[0], author=article[1],
+                book=article[2], avatar=get_avatar(),
+                comments=comments, comment_page=comment_page,
+                comment_reply=comment_reply, nick=getNick(),
+                special_info = get_special_information)
+
     else:
         abort(404)
 
@@ -424,7 +443,7 @@ def special_all():
         sort_change_url = '/special_all?view=%s&sort=time&page=1'%(view)
 
     if view != 'list':
-        vieww = 'all'
+        view = 'all'
         view_change_url = '/special_all?view=list&sort=%s&page=1'%(sort)
     else:
         view_change_url = '/special_all?view=all&sort=%s&page=1'%(sort)
@@ -847,13 +866,12 @@ def article_upload():
     if role==1:
         upload_url='/group/1/category/'
     elif role==2:
-        upload_url='/group/2/category/'
+        upload_url='/group/1/category/'
+        # 原来是 upload_url='/group/2/category/'
+        # 第一版没有“观点”
     else:
         abort(404)
     return render_template('test_article_upload.html', upload_url=upload_url)
-
-
-
 
 @app.route('/article_modify/article/<int:article_id>')
 def article_modify(article_id):
@@ -1609,18 +1627,44 @@ def opinion():
 
 ##################################    广场 ##################################
 #广场主页
-@app.route('/square')
+@app.route('/square',methods=['get'])
 def square():
+    try:
+        sort1 = request.args.get('sort1')
+        sort2 = request.args.get('sort2')
+        sort3 = request.args.get('sort3')
+
+    except Exception:
+        abort(404)
+
+    if sort1 == 'time':
+        book_review_list=get_article_group_by_time('1','1')
+    else:
+        book_review_list=get_article_group_by_coin('1','1')
+        
+        
+    if sort2 == 'time':
+        film_review_list=get_article_group_by_time('1','2')
+    else:
+        film_review_list=get_article_group_by_coin('1','2')
+
+    if sort3 == 'time':
+        essay_list=get_article_group_by_time('1','3')
+    else: 
+        essay_list=get_article_group_by_coin('1','3')
+
     ##拿9篇热门文章
     hot_ground_article_list=get_hot_ground_acticle()
     ##拿一篇推荐文章
     recommended_ground_article=get_recommended_ground_article()
     recommend_words=get_recommend_words()[0]
     ##参数1表示广场
-    book_review_list=get_article_group_by_coin('1','1')
-    film_review_list=get_article_group_by_coin('1','2')
-    essay_list=get_article_group_by_coin('1','3')
-    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,recommended_ground_article=recommended_ground_article,recommend_words=recommend_words)
+
+    return render_template('square.html', type=1, hot_ground_article_list=hot_ground_article_list,\
+        book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list,\
+        recommended_ground_article=recommended_ground_article,recommend_words=recommend_words,\
+        )
+
 
 
 @app.route('/user/<nick>')

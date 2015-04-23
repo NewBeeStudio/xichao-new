@@ -95,7 +95,22 @@ background-size: 100%, 100%">
                 </div>
                 <div class="index-hot-entry-left-title">
 	                <p>
-                    {{article.title}}
+	                {% if article.groups == '1' %}
+	                广场
+	                	{% if article.category == '1' %}
+	                	书评
+	                	{% endif %}
+	                	{% if article.category == '2' %}
+	                	影评
+	                	{% endif %}
+	                	{% if article.category == '3' %}
+	                	杂文
+	                	{% endif %}
+	                {% endif %}
+	                {% if article.groups == '3' %}
+	                专栏《{{article.title}}》
+	                {% endif %}
+	                <!--《{{article.title}}》-->
                     </p>
                 </div>
             </div>
@@ -122,130 +137,139 @@ background-size: 100%, 100%">
 
     <div id="index-right">
         <div class="index-right-activity">
+        <a href="{{url_for('activity', activity_id = most_hot_activity.activity_id)}}">
         <h2>
 			热门活动
 		</h2>
             <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
 		<div class="index-hot-activity">
-            <div class="index-hot-activity-img" style="
-                background-image: url({{ url_for('static', filename='images/index-square-border.png') }});
-                background-repeat:no-repeat;
-                                                       ">
-                <div>
-                </div>
+            <div class="index-hot-activity-img" >
+            	<img src="{{most_hot_activity.picture}}">
+            	<div id="hot-activity-intro">
+            		<p>活动介绍：{{most_hot_activity.abstract}}</p>
+
+            		<h3>活动时间：{{most_hot_activity.activity_time|time_split_3}}</h3>
+            		<h3>活动地点：{{most_hot_activity.place}}</h3>
+            	</div>
             </div>
+         </a>
             <h3>
-                曦潮映画第三期
+                {{most_hot_activity.name}}
             </h3>
-            <p>
-                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
-            </p>
         </div>
 
         </div>
-        
-        <div class="index-right-point">
-        <h2>
-			广场热门
-		</h2>
-            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
-		<div class="index-hot-point">
-            <div class="index-hot-point-img" style="
-                background-image: url({{ url_for('static', filename='images/index-square-border.png') }});
-                background-repeat:no-repeat;
-                                                       ">
-                <div>
-                </div>
-            </div>
-            
-            <h3>
-                旅行的故事
-            </h3>
-            
-            <p>
-                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
-            </p>
-        </div>
-        </div>
-        
         
         <div class="index-right-square">
             <h2>
-			广场动态
-		  </h2>
-            {% for i in range(8) %}
-            <div class="index-hot-square">
-            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
-                
+			动态
+		  	</h2>
+		  	<img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+
+			{% if logged_in %}
+		  	<div id="user-focus-select">
+<ul id="user-focus-select" class="nav nav-pills">
+  <li role="presentation" id="change-focus" class="active"><a>我的关注</a></li>
+  <li role="presentation" id="change-hot"><a>最新文章</a></li>
+</ul>
+			</div>
+			{% endif %}
+
+
+		  	<div id="user-focus">
+		  	{% if logged_in and user_focus==[] %}
+		  	<p style="margin-top:50px">您还没有关注任何专栏或用户哦，快去专栏广场转转吧～</p>
+		  	{% endif %}
+            {% for article in user_focus %}
+            <a class="thumbnail" href="{{ url_for('article', article_id=article.article_id)}}">
+            <div class="index-user-focus">
+            	<img class="index-user-focus-article-img" src="{{article.picture}}">
+
+            	<h3>
+            	{% if article.groups == '1' %}
+            		{{get_author(article.user_id)}}
+            	{% endif %}
+            	{% if article.groups == '3' %}
+            		{{get_special_information(article.special_id).name}}
+            	{% endif %}
+            	<span style="color: black">更新：</span>
+            	</h3>
                 <h4>
-                一条路,在河之上一条路,在河之上
+                {{article.title}}
                 </h4>
                 
-                <h5>
-                    文|河鲤的故事
-                </h5>
+                <table>
+                	<tr>
+                	<td width="150">
+                    {{article.time | time_split_3}}
+                    </td>
+                    <td style="color:#D9AE48">评论</td>
+                    <td width="50">({{article.comment_num}})</td>
+                    <td>
+                    <img style="height:16px;width:16px;margin-top:-5px" src="{{ url_for('static', filename='images/coins.png') }}">
+                    {{article.coins}}
+                    </td>
+                    </tr>
+                </table>
                 
                 <p>
-                我从来不知道,那个地方,那个叫河底的小村庄,会跟我产生一点联系,但一个偶然的机会我终于来到了那里,以一个冠冕堂皇的理由,带着很多想法,带着很多衣物,来到了那个存在了很久的村庄,以一个冠冕堂皇的理由...
-            </p>
+                {{article.abstract}}
+            	</p>
+            	<!--
+            	<img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+            	-->
             </div>
-
+            </a>
             {% endfor %}
+            </div>
                 
+            <div id="latest_articles" style="display:none">
+            {% for article in latest_articles %}
+            <a class="thumbnail" href="{{ url_for('article', article_id=article.article_id)}}">
+            <div class="index-user-focus">
+            	<img class="index-user-focus-article-img" src="{{article.picture}}">
+
+            	<h3>
+            	{% if article.groups == '1' %}
+            		{{get_author(article.user_id)}}
+            	{% endif %}
+            	{% if article.groups == '3' %}
+            		{{get_special_information(article.special_id).name}}
+            	{% endif %}
+            	<span style="color: black">更新：</span>
+            	</h3>
+                <h4>
+                {{article.title}}
+                </h4>
                 
+                <table>
+                	<tr>
+                	<td width="150">
+                    {{article.time | time_split_3}}
+                    </td>
+                    <td style="color:#D9AE48">评论</td>
+                    <td width="50">({{article.comment_num}})</td>
+                    <td>
+                    <img style="height:16px;width:16px;margin-top:-5px" src="{{ url_for('static', filename='images/coins.png') }}">
+                    {{article.coins}}
+                    </td>
+                    </tr>
+                </table>
+                
+                <p>
+                {{article.abstract}}
+            	</p>
+            	<!--
+            	<img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+            	-->
+            </div>
+            </a>
+            {% endfor %}
+            </div>
         </div>
     </div>
 <div style="clear:both"></div>
-<!--
-	<div>
-		<a href="#" class="index-view-more">&gt;&gt;&gt;&gt;&nbsp;View More</a>
-	</div>
 
-	<div id="index-bottom">
-		<div>
-			<h2>广场热门</h2>
-			<div class="index-bottom-detail">
-				<a href="#">
-					<div class="index-bottom-img">
-						<img src="/static/images/square-1.jpg">
-					</div>
-				</a>
-				
-				<div class="index-bottom-article">
-					<a href=""><div class="index-bottom-title">与尔同消万古愁</div></a>
-					<div class="index-bottom-author">丁小云&nbsp;&nbsp;曦潮币(330)&nbsp;&nbsp;2014-02-23</div>
-					<div style="clear:both;"></div>
-					<div class="index-bottom-abstract">与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁</div>
-				</div>
-			</div>
-			<div>
-				<a href="#" class="index-view-more" style="margin-top: 30px;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
-			</div>
-			
-		</div>
-
-		<div style="float: right;" >
-			<h2>当前活动</h2>
-			<div class="index-bottom-detail">
-				<a href="#">
-					<div class="index-bottom-img">
-						<img src="/static/images/square-1.jpg">
-					</div>
-				</a>
-				
-				<div class="index-bottom-article">
-					<a href=""><div class="index-bottom-title">与尔同消万古愁</div></a>
-					<div class="index-bottom-author">收藏(330)&nbsp;&nbsp;2014-02-23</div>
-					<div style="clear:both;"></div>
-					<div class="index-bottom-abstract">与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁与尔同消万古愁</div>
-				</div>
-			</div>
-			<div>
-				<a href="#" class="index-view-more" style="margin-top: 30px;">&gt;&gt;&gt;&gt;&nbsp;View More</a>
-			</div>
-		</div>
-	</div>
--->
 {% endblock %}
 
 
@@ -255,6 +279,13 @@ background-size: 100%, 100%">
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+		{% if not logged_in %}
+			$("#latest_articles").show();
+			$("#user-focus").css("margin-top", "0px");
+			$("#latest_articles").css("margin-top", "20px");
+		{% endif %}
+
+		$("#hot-activity-intro").hide();
 	
 			//未验证邮箱弹窗
     {% if not current_user.is_anonymous() %}
@@ -355,7 +386,28 @@ background-size: 100%, 100%">
 
         
 		$("#index-up > div").hover(onMouseIn, onMouseOut);
-        
+
+		var activity_intro_in = function(){
+			$("#hot-activity-intro").fadeIn();
+		};
+		var activity_intro_out = function(){
+			$("#hot-activity-intro").fadeOut();
+		};
+        $(".index-hot-activity-img").hover(activity_intro_in, activity_intro_out);
+	});
+
+	$("#change-hot").click(function(){
+		$("#change-focus").attr("class", "disactive");
+		$("#change-hot").attr("class", "active");
+		$("#user-focus").hide();
+		$("#latest_articles").show()
+	});
+
+	$("#change-focus").click(function(){
+		$("#change-focus").attr("class", "active");
+		$("#change-hot").attr("class", "disactive");
+		$("#user-focus").show();
+		$("#latest_articles").hide()
 	});
 </script>
 

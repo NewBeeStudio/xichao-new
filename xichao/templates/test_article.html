@@ -31,8 +31,11 @@
 		<p id="p_title_2">&nbsp;{{article.title}}</p>
 		{% else %}
 		<a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a>&nbsp;>&nbsp;
-		<a href="{{url_for('special')}}?id={{special.special_id}}&page=1&sort=time">{{special.name}}</a>&nbsp;&nbsp;>&nbsp;
+
+
+		<a href="{{url_for('special')}}?id={{article.special_id}}&page=1&sort=time">{{special_info(article.special_id).name}}</a>&nbsp;&nbsp;>&nbsp;
 		<p id="p_title_2">&nbsp;{{article.title}}</p>
+
 		{% endif %}
 	</div>
 	
@@ -50,7 +53,7 @@
 		<p id="p_num_xichao">曦潮币<span>+</span>  (</p>
 		<p id="p_num_xichao_content">{{article.coins}}</p>
 		<p id="p_num_xichao_bracket">)</p>
-		<p id="p_review">评论<span>+</span>&nbsp;&nbsp;({{comment_num}})</p>
+		<p id="p_review">评论<span>+</span>&nbsp;&nbsp;({{article.comment_num}})</p>
 		<p id="p_collection">收藏<span>+</span> ({{article.favor}})</p>
 		<p id="p_article_author_1">作者</p>
 		<p id="p_article_author_2"><a href="{{url_for('view_home_page', nick = author.nick)}}">{{author.nick}}</a></p>
@@ -130,8 +133,8 @@
 	{%endif%}
 
 
-<p id="p_list_review">评论列表(<span>{{comment_num}}</span>)</p>
-
+<p id="p_list_review">评论列表(<span>{{article.comment_num}}</span>)</p>
+<!-- 
 
 <ul class="media-list" id="comment">
 {% if comments!=None %}
@@ -149,10 +152,7 @@
 		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
 		 	</div>
 		 	
-<<<<<<< HEAD
-=======
-	  
->>>>>>> 29c2f589255d0025b8f450626726b6ffb3fc2926
+
 		<ul class="comment-reply-ul">
 		{%for subcomment in comments | reverse%}
 		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
@@ -172,8 +172,77 @@
 {%endif%}  
 {% endfor %}
 {% endif %}
-</ul>
+</ul> -->
 
+
+<ul class="media-list" id="comment">
+{%for item in comment_page.items %}
+<div class="well well-lg" >
+	  	<li class="media" id="comment-{{item[0].comment_id}}">
+	    	<a class="pull-left" href="{{url_for('view_home_page', nick = item[1])}}">
+	      		<img class="media-object " src="{{item[2]}}" width="64px" height="64px">
+	    	</a>
+	    <div class="media-body">
+		    <h4 class="media-heading">{{item[1]}}</h4>
+		    <div class="media-content">{{item[0].content}}</div>
+		 	<div class="comment-info">
+		 		<span class="comment-time">{{item[0].time}}</span><span class="comment-reply" onclick="reply_to({{item[3]}},{{item[0].comment_id}})">回复</span>
+		 	</div>
+
+		 	<ul class="comment-reply-ul">
+		{%for reply in comment_reply[loop.index0]%}
+		  			<li class="media"  id="comment-{{reply[0].comment_id}}">
+	    	 	<div class="media-body">
+		      		<p class="reply-info"><span class="media-heading reply-heading">{{reply[1]}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">{{reply[1]}}</span>&nbsp;&nbsp;<span class="comment-time">{{reply[0].time}}</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{item[3]}}, {{item[0].comment_id}})">回复</span></p>
+		      		<p class="media-content reply-content">{{reply[0].content}}</p>
+		 		</div>
+  			</li>
+ 	
+ 		{% endfor %}
+ 		</ul>
+
+
+
+
+ 		 </div>
+	</div>
+{% endfor %}
+
+
+		<div class="pagination">
+<ul>
+    
+    {% if comment_page.has_prev %}
+    <li>
+    <a href="{{ url_for('article', article_id=article.article_id,comment_page=comment_page.prev_num)}}#p_list_review">上一页</a></li>
+    {% else %}
+   <li class="disable"> <span>上一页</span></li>
+    {% endif %}
+         
+        {%- for page in comment_page.iter_pages() %}
+          <li>
+          {% if page %}
+            {% if page != comment_page.page %}
+              <a href="{{ url_for('article', article_id=article.article_id,comment_page=page)}}#p_list_review">{{ page }}</a>
+            {% else %}
+              <span class="page-number current">{{ page }}</span>
+            {% endif %}
+          {% else %}
+            <span class=ellipsis>…</span>
+          {% endif %}
+          </li>
+        {%- endfor %}
+    
+    {% if comment_page.has_next %}
+    <li>
+    	<a href="{{ url_for('article', article_id=article.article_id,comment_page=comment_page.next_num)}}#p_list_review">下一页 </a></li>
+    {% else %}
+    <li><span>
+        下一页 </span></li>
+    {% endif %}
+    
+    </ul>
+    </div>
 
 {% endblock %}
 <!--js file used-->
@@ -260,7 +329,7 @@ $("#comment_publish_button").click(function(){
     			
     		},
     		function(data){
-    			$("#comment_publish_time").text(data);
+    			$("#comment_publish_time").text(data.time);
     			layer.msg("评论成功",1,1);
     			add_commit(data, val_content,{{article.user_id}});
     		});
@@ -297,13 +366,7 @@ $("#p_review").click(function(){
 //    alert("HERE");
 });
 
-</script>
 
-
-
-</script>
-
-<script type="text/javascript">
 function update_xichao(data){
 	//alert(data);
 	//alert($('#p_num_xichao_content').text());
@@ -311,9 +374,7 @@ function update_xichao(data){
 	//alert(tmp);
   	$('#p_num_xichao_content').html(tmp);
 }
-</script>
 
-<script type="text/javascript">
 function get_author_id() {
 	return {{ author.user_id }};
 }
@@ -326,47 +387,57 @@ function get_user_id() {
 	return {{ article.user_id }};
 }
 
-function add_commit(data, val_content,to_user_id) {
+
+function add_commit(data,val_content,to_user_id){	
 	
+var cm=$("#p_list_review span").html()
+if(cm==='') cm='0'
+var comment_num=parseInt(cm)+1
+
+if ({{comment_page.page}}!==1) return;
+$("#p_review ").html($("#p_review").html().replace(/[0-9]+/,comment_num))
+$("#p_list_review span").html(comment_num)
+
 	var time=data.time;
 	var cid=data.comment_id;
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
-	//console.log(time+" "+cid+" "+val_content)
+	console.log(time+" "+cid+" "+val_content)
+$("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+'<a class="pull-left" href="'+homeurl+'"><img class="media-object"src="{{avatar}}"width="64px"height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply"onclick="reply_to({{current_user.user_id}},'+cid+')">回复</span></div></div></li></div>')
 
 
-$("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
-					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+cid+')">回复</span></div></div></li></div>')
-
-var comment_num=parseInt($("#p_list_review span").html())+1
-$("#p_list_review span").html(comment_num)
-$("#p_review ").html($("#p_review ").html().replace(/[0-9]+/,comment_num))
 }
 
 
-function add_reply(data,val_content,val_user_id,reply_to_comment_id){
+function add_reply(data,to_user_nick,val_content,val_user_id,reply_to_comment_id){
+
+var cm=$("#p_list_review span").html()
+if(cm==='') cm='0'
+var comment_num=parseInt(cm)+1
+
+$("#p_review ").html($("#p_review").html().replace(/[0-9]+/,comment_num))
+$("#p_list_review span").html(comment_num)
+
 	var time=data.time;
 	var cid=data.comment_id;
  	var location="comment-"+reply_to_comment_id;
 
+
+
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"
  if($("#"+location+" ul li:last").length!==0)
  {$("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></div></div></li>')
+ 									  '<div class="media-body"><p class="reply-info"><span class="media-heading reply-heading">{{nick}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">'+to_user_nick+'</span>&nbsp;&nbsp;<span class="comment-time">'+time+'</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></p><p class="media-content reply-content">'+val_content+'</p></div></li>')
 
 }
 else {
-	$("#"+location+" div.media-body").append('<ul class="comment-reply-ul">'+
-												'<li class="media"id="comment-'+cid+'">'+
-												'<a class="pull-left" href="'+homeurl+
- 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></div></div></li></ul>')
+	$("#"+location+" div.media-body").append('<ul class="comment-reply-ul"><li class="media"id="comment-'+cid+'">'+
+ 									  '<div class="media-body"><p class="reply-info"><span class="media-heading reply-heading">{{nick}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">'+to_user_nick+'</span>&nbsp;&nbsp;<span class="comment-time">'+time+'</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></p><p class="media-content reply-content">'+val_content+'</p></div></li>')
 }
 
 
 }
-</script>
 
-<script type="text/javascript">
 	$(document).ready(function(){
 		if ('{{ nick }}' == '{{ author.nick }}')
 		{

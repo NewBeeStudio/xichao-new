@@ -115,7 +115,7 @@
   	border-radius: 0px;
   	float:right;
    	border: 1px solid #D9AE48;
-  	border-radius: 2px;
+  	border-radius: 5px;
    	width: 100px;
   	font-family: 微软雅黑;
   	font-size: 14px;
@@ -223,9 +223,8 @@
 
 #publish_review {
 	background-color: #f5ebd1;
-	padding-top: 10%;
-	padding-bottom: 5%;
-
+	padding-top: 4%;
+	padding-bottom: 3%;
 }
 
 #p_publish_review {
@@ -372,7 +371,7 @@
 	border: 0 !important;
 	background-color: white !important;
 	padding-bottom: 0 !important;
-	margin-bottom: 0 !important;
+	margin-bottom: 30px !important;
 }
 
 .media-object {
@@ -400,12 +399,12 @@
 	font-size: 14px;
 	letter-spacing: 2px;
 	line-height: 175%;
-	height: 70px;
+	min-height: 70px;
 	overflow: hidden;
 }
 
 .comment-info{
-	margin-top: 8px;
+	margin-top: 5px;
 }
 
 .comment-info span{

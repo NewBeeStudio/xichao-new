@@ -252,10 +252,12 @@ def get_article_comments(article_id):
 	else:
 		return None
 def get_article_comments_pagination(article_id,page_id,perpage):
-	root_comment=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==0)).order_by(desc(Comment.time)).all()
-	print "======================================="
-	print root_comment
+	query=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==0)).order_by(desc(Comment.time))
+	return paginate(query = query, page = page_id, per_page = perpage, error_out = True)
 	#root_comment_reply=
+def get_comment_reply(article_id,comment_id):
+	result=db_session.query(Comment,User.nick,User.photo,User.user_id).join(User,Comment.user_id==User.user_id).filter(and_(Comment.article_id==article_id,Comment.reply_to_comment_id==comment_id)).order_by(Comment.time).all()
+	return  result
 
 def get_current_comment_id():
 	result=db_session.query(Comment).order_by(desc(Comment.comment_id)).all()
@@ -291,17 +293,31 @@ def get_homepage_specials():
     return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
 def get_hot_articles(num):
-    query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.coins.desc()).all()
-    return query[:10]
+    query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.coins.desc()).limit(10).all()
+    return query
     
 def get_all_special():
     query = db_session.query(Special).order_by(Special.coin.desc()).all()
     return query
-    
+
+def get_all_focus_article(limit):
+	if 'user_id' in session:
+		userid = int(session['user_id'])
+		query1 = db_session.query(Article).join(Collection_Special, Collection_Special.special_id == Article.special_id).filter(and_(Collection_Special.user_id == userid, Article.is_draft == '0'))
+		query2 = db_session.query(Article).join(Collection_User, Collection_User.another_user_id == Article.user_id).filter(and_(Collection_User.user_id == userid, Article.is_draft == '0'))
+		return query1.union(query2).order_by(Article.time.desc()).limit(limit).all();
+	else:
+		return []
+
+def get_latest_articles(limit):
+	query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.time.desc()).limit(limit).all()
+	return query
+
 def modify_homepage_func(special1, url1,
                          special2, url2,
                          special3, url3,
-                         special4, url4):
+                         special4, url4,
+                         recommend_actctivity):
     
     special1 = db_session.query(Special).filter_by(name = special1).all()
     if (len(special1) == 0):
@@ -327,12 +343,16 @@ def modify_homepage_func(special1, url1,
     query.special3 = special3
     query.special4 = special4
 
+    if url1 != '':
+        query.special1_image = url1
+    if url2 != '':
+        query.special2_image = url2
+    if url3 != '':
+        query.special3_image = url3
+    if url4 != '':
+        query.special4_image = url4
 
-    query.special1_image = url1
-    query.special2_image = url2
-    query.special3_image = url3
-    query.special4_image = url4
-
+    query.recommended_activity = recommend_actctivity
 
     db_session.commit()
     return 'success'
@@ -366,6 +386,8 @@ def create_new_special(name, user_id, picture, introduction,
                        total_issue = total_issue,
                        update_frequency = update_frequency)
     db_session.add(special)
+    user = db_session.query(User).filter_by(user_id = user_id).first();
+    user.role = 2
     db_session.commit()
     return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
     
@@ -636,19 +658,22 @@ def get_recommended_ground_article():
 	result=db_session.query(Article).join(HomePage,HomePage.ground_recommended_article==Article.article_id).filter(and_(Article.groups=='1',Article.is_draft=='0')).first()
 	return result
 
-
 def get_most_hot_ground_article():
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).first()
 	return result
 
-def get_most_hot_activity(time):
-	result=db_session.query(Activity).filter(Activity.activity_time>time).order_by(desc(Activity.favor)).first()
+def get_most_hot_activity():
+	act_id = db_session.query(HomePage).first().recommended_activity;
+	result=db_session.query(Activity).filter_by(activity_id = act_id).first()
 	return result
 
 def get_article_group_by_coin(groups,category):
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
 	return result
 
+def get_article_group_by_time(groups,category):
+	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.time)).limit(10).all()
+	return result
 
 def has_collected(user_id,another_user_id):
 	result=db_session.query(Collection_User).filter(and_(Collection_User.user_id==user_id,Collection_User.another_user_id==another_user_id)).all()
