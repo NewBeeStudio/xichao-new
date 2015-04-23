@@ -22,19 +22,32 @@
 					</div>
 					<ul class="idTabs">
 						<h3>类型：</h3>
-						<li><a class="selected" href="#release-article" id="bt-release-article">文章</a></li>
+						<li><a class="selected" href="#release-article-by-time" id="bt-release-article">文章</a></li>
 						<li><a href="#release-comment" id="bt-release-comment">评论</a></li>
 						<!-- <li><a href="#release-all" id="bt-release-all">全部</a></li> -->
 					</ul>
 					<ul class="idTabs" id="release-sort-ul">
 						<h3>排序：</h3>
-						<li><a id="bt-release-by-time" class="selected" href="#information">时间</a></li>
-						<li><a id="bt-release-by-coins" href="#information">热度</a></li>
+						<li><a id="bt-release-article-by-time" class="selected" href="#release-article-by-time">时间</a></li>
+						<li><a id="bt-release-article-by-coins" href="#release-article-by-coins">热度</a></li>
 					</ul>
 				</div>
 
 				<div class="sub-content">
-					<div id="release-article">
+					<div id="release-article-by-time">
+						{#<!-- <div class='content-box'>
+						<div class='table-layout'>
+						{% for i in range(5) %}
+							<div class='table-row'>
+								<div class='table-cell col-1'><a href='#'>如何有效地应对需求频繁更改</a></div>
+								<div class='table-cell col-2'>评论&nbsp;(xx)</div>
+								<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;xx</div>
+							</div>
+						{% endfor %}
+						</div></div> -->#}
+					</div>
+
+					<div id="release-article-by-coins">
 						{#<!-- <div class='content-box'>
 						<div class='table-layout'>
 						{% for i in range(5) %}

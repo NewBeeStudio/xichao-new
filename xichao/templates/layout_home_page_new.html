@@ -155,7 +155,7 @@
 		$.ajaxSetup({cache:false});
 	});
 	var timeoutID = 0; //AJAX后台延时请求的ID，用于记录或停止延迟执行的AJAX
-	var ajaxRequestDelay = 600; //两次AJAX请求最短时间差，(短于这个时间的请求将被忽略)
+	var ajaxRequestDelay = 400; //两次AJAX请求最短时间差，(短于这个时间的请求将被忽略)
 </script>
 
 {% if current_user == user %}
@@ -179,7 +179,7 @@
 	//获取删除url
 	function get_delete_url(category, item_id){ //item_id只用于focus-special
 		var delete_url;
-		if(category == "release-article")
+		if(category == "release-article-by-time" || category == "release-article-by-coins")
 			delete_url = "/homepage/delete/article";
 		else if(category == "release-comment")
 			delete_url = "/homepage/delete/comment";
@@ -209,13 +209,12 @@
 	//获取更新url
 	function get_refresh_url(category, page_id){
 		var refresh_url;
-		if(category == "release-article"){
-			if($('#bt-release-by-time').hasClass('selected'))
-				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
-			else if($('#bt-release-by-coins').hasClass('selected'))
-				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_coins";
-			else 
-				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+		if(category == "release-article-by-time"){
+			refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+			return refresh_url;
+		}
+		else if(category == "release-article-by-coins"){
+			refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_coins";
 			return refresh_url;
 		}
 		else if(category == "release-comment")
@@ -389,7 +388,7 @@
 		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
 			var text = "";
 
-			if(category == "release-article"){
+			if(category == "release-article-by-time" || category == "release-article-by-coins"){
 				var items = data.rows;
 
 				text = "<div class='content-box'><div class='table-layout'>";
@@ -617,7 +616,6 @@
 	function homepage_display(category, page_id){
 		var refresh_tag = get_refresh_tag(category);
 		// 已经加载好的页面有<div class='content-box'>这个标签
-		// 排序功能就不能用这个逻辑，因为已经有内容存在
 
 		var raw_content = $(refresh_tag).html().replace(/(^\s+)|(\s+$)/g, "");
 		if(raw_content == ""){
@@ -634,17 +632,18 @@
 	//子tab按钮触发AJAX
 	$(function(){
 		$('#bt-release-article').click(function(){
-			if($('#release-sort-ul').css('display') == 'none')
+			if($('#release-sort-ul').css('display') == 'none') //排序功能按钮显示/隐去
 				$('#release-sort-ul').css('display', 'block')
 			$('#total-count').css('display', 'block');
 
-			homepage_refresh("release-article", 1); //最好能改成display
+			$("#bt-release-article-by-time").trigger("click");
 		});
 		$('#bt-release-comment').click(function(){
 			if($('#release-sort-ul').css('display') == 'block')
 				$('#release-sort-ul').css('display', 'none')
 			$('#total-count').css('display', 'none');
 
+			$('#release-article-by-coins').css('display', 'none'); //小bug
 			homepage_display("release-comment", 1);
 		});
 		$('#bt-collection-article').click(function(){
@@ -661,11 +660,11 @@
 		});
 
 		//排序功能
-		$('#bt-release-by-time').click(function(){
-			$("#bt-release-article").trigger("click");
+		$('#bt-release-article-by-time').click(function(){
+			homepage_display("release-article-by-time", 1);
 		});
-		$('#bt-release-by-coins').click(function(){
-			$("#bt-release-article").trigger("click");
+		$('#bt-release-article-by-coins').click(function(){
+			homepage_display("release-article-by-coins", 1);
 		});
 	});
 	
@@ -716,7 +715,7 @@
 	function navbar_click(){
 		var locationHash = window.location.hash;
 		// alert(locationHash);
-		var transitionTime = 50;
+		var transitionTime = 10;
 		if(locationHash == '#' || locationHash == ''){
 			$('#bt-release').trigger("click");
 			locationHash = '#';
@@ -1107,13 +1106,12 @@ function update_cover(data){
 	//获取更新url
 	function get_refresh_url(category, page_id){
 		var refresh_url;
-		if(category == "release-article"){
-			if($('#bt-release-by-time').hasClass('selected'))
-				refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_time/page/" + page_id;
-			else if($('#bt-release-by-coins').hasClass('selected'))
-				refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_coins/page/" + page_id;
-			else 
-				refresh_url = "/homepage/pagination/article/page/" + page_id + "?sort=by_time";
+		if(category == "release-article-by-time"){
+			refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_time/page/" + page_id;
+			return refresh_url;
+		}
+		else if(category == "release-article-by-coins"){
+			refresh_url = "/user/" + {{user.user_id}} + "/article/pagination/by_coins/page/" + page_id;
 			return refresh_url;
 		}
 		else if(category == "release-comment"){
@@ -1213,7 +1211,7 @@ function update_cover(data){
 		timeoutID = setTimeout(function(){$.get(refresh_url, function(data){
 			var text = "";
 
-			if(category == "release-article"){
+			if(category == "release-article-by-time" || category == "release-article-by-coins"){
 				var items = data.rows;
 
 				text = "<div class='content-box'><div class='table-layout'>";
@@ -1284,21 +1282,23 @@ function update_cover(data){
 			if($('#release-sort-ul').css('display') == 'none')
 				$('#release-sort-ul').css('display', 'block')
 			$('#total-count').css('display', 'block');
-			homepage_refresh("release-article", 1);
+			$("#bt-release-article-by-time").trigger("click");
 		});
 		$('#bt-release-comment').click(function(){
 			if($('#release-sort-ul').css('display') == 'block')
 				$('#release-sort-ul').css('display', 'none')
 			$('#total-count').css('display', 'none');
+
+			$('#release-article-by-coins').css('display', 'none'); //小bug
 			homepage_display("release-comment", 1);
 		});
 
 		//排序功能
-		$('#bt-release-by-time').click(function(){
-			$("#bt-release-article").trigger("click");
+		$('#bt-release-article-by-time').click(function(){
+			homepage_display("release-article-by-time", 1);
 		});
-		$('#bt-release-by-coins').click(function(){
-			$("#bt-release-article").trigger("click");
+		$('#bt-release-article-by-coins').click(function(){
+			homepage_display("release-article-by-coins", 1);
 		});
 	});
 

@@ -315,7 +315,7 @@ span#introduction-category{
 #homepage-loading{
 	vertical-align: center;
 	text-align: center;
-	/*margin-top: 120px;*/
+	margin-top: 80px;
 	font-size: 22px;
 }
 
@@ -361,30 +361,38 @@ div.content-box#homepage-loading > img{
 	display: block;
 }
 
-#release-article .col-1{
+#release-article-by-time .col-1,
+#release-article-by-coins .col-1{
 	width: 490px;
 }
 
-#release-article .col-2{
+#release-article-by-time .col-2,
+#release-article-by-coins .col-2{
 	width: 140px;
 }
 
-#release-article .col-3{
+#release-article-by-time .col-3,
+#release-article-by-coins .col-3{
 	width: 140px;
 }
 
-#release-article .col-4{
+#release-article-by-time .col-4,
+#release-article-by-coins .col-4{
 	padding-right: 0;	
 }
 
-#release-article .col-1 > a{
+#release-article-by-time .col-1 > a,
+#release-article-by-coins .col-1 > a{
 	color: #797979;
 	font-weight: bold;
 }
 
-#release-article .col-2,
-#release-article .col-3,
-#release-article .col-4 > a{
+#release-article-by-time .col-2,
+#release-article-by-time .col-3,
+#release-article-by-time .col-4 > a,
+#release-article-by-coins .col-2,
+#release-article-by-coins .col-3,
+#release-article-by-coins .col-4 > a{
 	color: #a5a5a5;
 }
 
