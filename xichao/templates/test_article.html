@@ -154,7 +154,7 @@
 		{%for reply in comment_reply[loop.index0]%}
 		  		<li class="media"  id="comment-{{reply[0].comment_id}}">
 	    	 	<div class="media-body">
-		      		<p class="reply-info"><span class="media-heading reply-heading">{{reply[1]}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">{{reply[4]}}</span>&nbsp;&nbsp;<span class="comment-time">{{reply[0].time}}</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{item[3]}},{{item[0].comment_id}})">回复</span></p>
+		      		<p class="reply-info"><span class="media-heading reply-heading">{{reply[1]}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">{{reply[4]}}</span>&nbsp;&nbsp;<span class="comment-time">{{reply[0].time}}</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{reply[3]}},{{item[0].comment_id}})">回复</span></p>
 		      		<p class="media-content reply-content">{{reply[0].content}}</p>
 		 		</div>
   				</li>	
@@ -167,7 +167,7 @@
 </ul>
 
 
-<div class="pagination">
+<div class="pagination" style="text-align: center">
 <ul>
     
     {% if comment_page.has_prev %}
@@ -180,14 +180,17 @@
         {%- for page in comment_page.iter_pages() %}
          
           {% if page %}
+        
             {% if page != comment_page.page %}
               <li> <a href="{{ url_for('article', article_id=article.article_id,comment_page=page)}}#p_list_review">{{ page }}</a></li>
             {% else %}
               <li class="active"><span class="page-number current">{{ page }}</span></li>
             {% endif %}
           {% else %}
-            <li><span class=ellipsis>…</span></li>
+            <li><span class=ellipsis>...</span></li>
           {% endif %}
+
+
         {%- endfor %}
     
     {% if comment_page.has_next %}
