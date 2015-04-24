@@ -784,8 +784,9 @@ a.button-default:hover{
 	vertical-align: middle;
 
 	background-image: url(/upload/cover/default-small.jpg);
+	background-repeat:no-repeat;
 	background-position: 0 0;
-	/*background-size: 400px 225px;*/
+	background-size: 900% 100%;
 }
 
 #change-cover-save-cancel{

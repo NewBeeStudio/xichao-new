@@ -619,8 +619,12 @@
 		var refresh_tag = get_refresh_tag(category);
 		// 已经加载好的页面有<div class='content-box'>这个标签
 
-		var raw_content = $(refresh_tag).html().replace(/(^\s+)|(\s+$)/g, "");
-		if(raw_content == ""){
+		var raw_content = $(refresh_tag).children();
+		var raw_content_loading = $(refresh_tag).children("#homepage-loading"); 
+		//console.log(raw_content.length);
+		//console.log(raw_content_loading.length);
+
+		if(raw_content.length == 0 || raw_content_loading.length > 0){
 			homepage_refresh(category, page_id);
 		}
 		else{
