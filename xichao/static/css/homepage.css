@@ -73,7 +73,7 @@ ul{
 	font-size: 36px;
 	line-height: 36px;
 	width: 50px;
-	letter-spacing: 10px;
+	letter-spacing: 15px;
 
 	text-align: center;
 	word-break: break-all;
@@ -518,7 +518,7 @@ div.content-box#homepage-loading > img{
 
 /*曦潮币部分*/
 #xichao-coin > .sub-tab h3{
-	width: 100%;
+	width: 500px;
 	padding-left: 30px;
 	text-align: left;
 }
@@ -695,6 +695,8 @@ a.button-default:hover{
 	text-align: center;
 	padding: 5px 10px;
 	margin-left: 30px;
+	border-radius: 4px;
+	box-shadow: 1px 1px 2px #D9AE48;
 }
 
 
