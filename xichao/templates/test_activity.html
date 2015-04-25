@@ -60,13 +60,13 @@
 	</div>
 	{%if current_user.state=='1'%}
 
-	<div id="publish_review" style="margin-left: -93.5px; width: 1347px;">
+	<div id="publish_review" class="long-background">
 		<p id="p_publish_review">发表评论 :</p>
 		<div id="img_user">
 			<img id="user_pic_1" src="{{avatar}}">
 			<p id="p_user_name">{{nick}}</p>
 		</div>
-		<textarea id="input_publish_review" maxlength="500"></textarea>
+		<textarea id="input_publish_review" maxlength="700"></textarea>
 		<div class="pay_author_div">
 			<input type="checkbox" name="pay_author" id="comment_pay_button" /><span>&nbsp;同时打赏作者</span>
 		</div>
