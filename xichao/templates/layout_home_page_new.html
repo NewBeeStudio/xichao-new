@@ -845,7 +845,9 @@
 	});
 	
 	$("#basicinfo-finish-change").click(function(){
-	val_slogon=$("#slogon").val();
+	slogon_all_list=$("#slogon").val().split("\n");
+	slogon_list=slogon_all_list.slice(0,6);
+	val_slogon=slogon_list.join("\n");
 	$.post('/homepage/modify/slogon',
 		{
 			_csrf_token:"{{ csrf_token() }}",
@@ -857,7 +859,14 @@
 		});
 	});
 </script>
-
+<script type="text/javascript">
+$("#slogon").keyup(function(){
+	if($(this).val().split("\n").length>6){
+		alert("对不起，输入的内容不能超过6行！");
+		return false;
+	}
+});
+</script>
 <!-- 修改个人信息 -->
 <script type="text/javascript">
 	$(function(){
@@ -950,9 +959,24 @@ function update_cover(data){
   		cover:data
   	},
   	function(result){
+  		$('#change-cover').slideUp(500);
   	});
   
 }
+</script>
+<script type="text/javascript">
+$("#change-cover-save").click(function(){
+	val_cover=$('#cover-to-use img').attr("src");
+	$.post('/homepage/modify/cover',
+  	{
+  		_csrf_token:"{{ csrf_token() }}",
+  		cover: val_cover
+  	},
+  	function(result){
+  		$("#cover").css("background-image","url('"+val_cover+"')");
+  		$('#change-cover').slideUp(500);
+  	});
+});
 </script>
 
 <script type="text/javascript">
