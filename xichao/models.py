@@ -81,8 +81,11 @@ class HomePage(Base, AutoSerialize):
     special3_image = Column(String(255), nullable = False)
     special4_image = Column(String(255), nullable = False)
 
-    ground_recommended_article=Column(Integer, ForeignKey('article.article_id'),nullable = False,default=1)
+    ground_recommended_article = Column(Integer, ForeignKey('article.article_id'),nullable = False,default=1)
+    recommended_activity = Column(Integer, ForeignKey('activity.activity_id'),nullable = False,default=1)
+    recommend_words=Column(String(255),nullable=True,default="I like it")
 
+    ground_recommended_article=Column(Integer,nullable = False,default=1)
     
     ########## Index/Unique索引 ##########
     def __init__(self, special1=1, special2=2, special3=3, special4=4):
@@ -383,7 +386,7 @@ class Comment(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-    __allowed_in_json__ = ['content','comment_id','time','is_read']
+    __allowed_in_json__ = ['content','comment_id','time','is_read','user_id','to_user_id','reply_to_comment_id']
     ########## Primary索引 ##########
     comment_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)

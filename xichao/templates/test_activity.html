@@ -13,12 +13,13 @@
 		<p id="p_title">&nbsp;<a href="{{url_for('index')}}" >首页</a>&nbsp;>&nbsp;<a href="{{url_for('activity_main')}}?sort=time&page=1">活动</a>&nbsp;>&nbsp;<font color="#D9AE48">{{ activity.name }}</font></p>
 	</div>
 
+	<div id="activity">
 	<div id="article_title">
 		<p id="p_article_title">{{ activity.name }}</p>
 		<img src="/static/images/border.png">
 	</div>
 
-	<div id="activity">
+
 		<div id="article_content">
 			<p id="p_read">阅读</p>
 			<p id="p_read_content">({{activity.read_num}})</p>
@@ -30,44 +31,56 @@
 		<div id="article_content_html"><!--该div用于显示文章内容-->
 			<br/>{{ activity.content|safe }}
 		</div>
-	{%if current_user.state=='1'%}
-		<div id="share">
-			<!--<p id="p_share">分享</p>-->
-        <!-- 新浪微博 -->
-  		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 活动 | ','  {{ activity.name }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
-		<img class="img_share" src="/static/images/share_sinaweibo.png"/>
-        </a>
+    <div class="btn-group" style="float:right;">
+      <button id="share-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      分享 <span class="caret"></span>
+      </button>
+      <ul id="share-option" class="dropdown-menu" role="menu">
+      <li>
+		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">                    
+                    <img src="/static/images/share_sinaweibo.png" style="margin-left:10px"/>
+                    </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+<!-- 人人网 -->
+            <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;" style="margin-left: 10px;margin-right: 10px;">
+            
+                <img src="/static/images/share_renren.png" />
+            </a>
+        </li>
+      </ul>
+    </div>
+	<div style="clear:both;"></div> 
 
-        <!-- 人人网 -->
-        <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;">
-		<img class="img_share" src="/static/images/share_renren.png"/>
-        </a>
-		</div>
-	
+	<div id="button_pay_to">
+		<button class="register-button" id="pay_button">打赏作者</button>	
 	</div>
-	
+	<div style="clear:both;"></div> 
+	</div>
+	{%if current_user.state=='1'%}
+
 	<div id="publish_review" class="long-background">
 		<p id="p_publish_review">发表评论 :</p>
-		<div id="img_user" style="width: 90px;">
+		<div id="img_user">
 			<img id="user_pic_1" src="{{avatar}}">
-			<p id="p_user_name" style="text-align: center; margin: auto;">{{ nick }}</p>
+			<p id="p_user_name">{{nick}}</p>
 		</div>
-
-		<iframe id="input_publish_review"></iframe>
-		<div class="clear"></div>
-		<button  class="button button-border button-primary button-small" id="comment_reset_button">取消</button>
-		<button  class="button button-border button-primary button-small" id="comment_publish_button">确认</button>
+		<textarea id="input_publish_review" maxlength="700"></textarea>
+		<div class="pay_author_div">
+			<input type="checkbox" name="pay_author" id="comment_pay_button" /><span>&nbsp;同时打赏作者</span>
+		</div>
+		<button  class="register-button" id="comment_publish_button">发表</button>
+		<div class="clear"> </div>
 	</div>
 	{%endif%}
 
 	<p id="p_list_review">评论列表(<span>{{activity.comment_num}}</span>)</p>
 
-
 <ul class="media-list" id="comment">
+
 {% if comments!=None %}
 {% for comment in comments %}
-
-{% if comment[0].reply_to_comment_id == 0 %}
   	<div class="well well-lg" >
 	  	<li class="media" id="comment-{{comment[0].comment_id}}">
 	    	<a class="pull-left" href="{{url_for('view_home_page', nick = comment[1])}}">
@@ -77,31 +90,10 @@
 		    <h4 class="media-heading">{{comment[1]}}</h4>
 		    <div class="media-content">{{comment[0].content}}</div>
 		 	<div class="comment-info">
-		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
+		 		<span class="comment-time">{{comment[0].time}}</span>
 		 	</div>
-	   
-		<ul class="comment-reply-ul">
- 		{%for subcomment in comments | reverse%}
- 		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
-  			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
-      			<a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
-	 		    	<img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px">
-	 		    </a>
-	    	 	<div class="media-body">
-		      		<h4 class="media-heading">{{subcomment[1]}}</h4>
-		      		<div class="media-content">{{subcomment[0].content}}</div>
-		      		<div class="comment-info">
-		 				<span class="comment-time">{{subcomment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
-		 			</div>
-		 		</div>
-  			</li>
-  			
- 		{% endif %}
- 		{% endfor %}
- 		</ul>
  		 </div>
 	</div>
-{%endif%}  
 {% endfor %}
 {% endif %}
 </ul>

@@ -116,8 +116,18 @@
   background-repeat: repeat-x;
   border-radius: 0px;
   float:left;
+  	border: 2px solid #D9AE48;
+  	border-radius: 2px;
+  	width: 105px;
   	font-family: 黑体;
-  	font-size: 14px;
+  	font-size: 20px;
+  	color: #D9AE48;
+}
+
+.caret{
+	border-top: 5px solid;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
 }
 
 
@@ -239,7 +249,7 @@
     font-size: 13px;
     margin-left: 10px;
     margin-top: 10px;
-    height: 18px;
+    line-height: 16px;
     overflow: hidden;
 }
 
@@ -294,7 +304,7 @@
     margin-right: 15px;
 
 	height: 100px;
-    width: 170px;
+    width: 150px;
 	font-family: 微软雅黑;
 	font-size: 14px;
 

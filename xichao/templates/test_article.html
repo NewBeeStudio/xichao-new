@@ -16,8 +16,27 @@
 <!--content-->
 {% block content %}
 	<div id="p_title">
-		<p id="p_title_1">&nbsp;<a href="{{url_for('index')}}" >首页</a>&nbsp;>&nbsp;<a href="{{url_for('square')}}">文章</a>&nbsp;>&nbsp;<a href="/article/order_time/group/1/category/1/page/1">书评</a>&nbsp;></p>
+		<p id="p_title_1">&nbsp;<a href="{{url_for('index')}}" >首页</a>&nbsp;&nbsp;>&nbsp;
+		{% if article.groups == '1' %}
+		<a href="{{url_for('square')}}">文章</a>&nbsp;>&nbsp;
+		<a href="/article/order_time/group/1/category/{{article.category}}/page/1">
+		{% if article.category == '1' %}
+		书评
+		{% elif article.category == '2' %}
+		影评
+		{% else %}
+		杂文
+		{% endif %}
+		</a>&nbsp;&nbsp;></p>
 		<p id="p_title_2">&nbsp;{{article.title}}</p>
+		{% else %}
+		<a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a>&nbsp;>&nbsp;
+
+
+		<a href="{{url_for('special')}}?id={{article.special_id}}&page=1&sort=time">{{special_info(article.special_id).name}}</a>&nbsp;&nbsp;>&nbsp;
+		<p id="p_title_2">&nbsp;{{article.title}}</p>
+
+		{% endif %}
 	</div>
 	
 	<div id="article">
@@ -34,7 +53,7 @@
 		<p id="p_num_xichao">曦潮币<span>+</span>  (</p>
 		<p id="p_num_xichao_content">{{article.coins}}</p>
 		<p id="p_num_xichao_bracket">)</p>
-		<p id="p_review">评论<span>+</span>({{article.comment_num}})</p>
+		<p id="p_review">评论<span>+</span>&nbsp;&nbsp;({{article.comment_num}})</p>
 		<p id="p_collection">收藏<span>+</span> ({{article.favor}})</p>
 		<p id="p_article_author_1">作者</p>
 		<p id="p_article_author_2"><a href="{{url_for('view_home_page', nick = author.nick)}}">{{author.nick}}</a></p>
@@ -43,28 +62,34 @@
 		
 	<div id="article_content_html"></br>{{article.content|safe}}</div>
 	{%if current_user.state=='1'%}
-	<div id="share">
-        <!-- 新浪微博 -->
-  		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 文章 | ','  {{ article.title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">
-		<img class="img_share" src="/static/images/share_sinaweibo.png"/>
-        </a>
-        <!-- 人人网 -->
-        <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;">
-		<img class="img_share" src="/static/images/share_renren.png"/>
-        </a>
-        <!--
-		<img class="img_share" src="/static/images/share_qzone.png"/>
-		<img class="img_share" src="/static/images/share_rss.png"/>
-		<p id="p_share">分享</p>
-		-->
-	</div>
+    <div class="btn-group" style="float:right;">
+      <button id="share-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      分享 <span class="caret"></span>
+      </button>
+      <ul id="share-option" class="dropdown-menu" role="menu">
+      <li>
+		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">                    
+                    <img src="/static/images/share_sinaweibo.png" style="margin-left:10px"/>
+                    </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+<!-- 人人网 -->
+            <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;" style="margin-left: 10px;margin-right: 10px;">
+            
+                <img src="/static/images/share_renren.png" />
+            </a>
+        </li>
+      </ul>
+    </div>
+	<div style="clear:both;"></div> 
 
-	<div class="bdsharebuttonbox"><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
 	<div id="button_pay_to">
 		<button class="register-button" id="pay_button">打赏作者</button>	
-	</div> 
 	</div>
-		{%endif%}
+	</div>
+	<div style="clear:both;"></div> 
+	{%endif%}
 	<hr>
 	<div id="book_info">
 		<div id="pic_book">
@@ -98,70 +123,105 @@
 			<img id="user_pic_1" src="{{avatar}}">
 			<p id="p_user_name">{{nick}}</p>
 		</div>
-		<textarea id="input_publish_review"></textarea>
-		<div class="pay_author_div">
-			<input type="checkbox" name="pay_author" id="comment_pay_button" /><span>&nbsp;同时打赏作者</span>
-		</div>
+		<textarea id="input_publish_review" maxlength="500"></textarea>
 		<button  class="register-button" id="comment_publish_button">发表</button>
 		<div class="clear"> </div>
 	</div>
 	{%endif%}
 
-
 <p id="p_list_review">评论列表(<span>{{article.comment_num}}</span>)</p>
 
 
-<ul class="media-list" id="comment">
-{% if comments!=None %}
-{% for comment in comments %}
 
-{% if comment[0].reply_to_comment_id == 0 %}
-  	<div class="well well-lg" >
-	  	<li class="media" id="comment-{{comment[0].comment_id}}">
-	    	<a class="pull-left" href="{{url_for('view_home_page', nick = comment[1])}}">
-	      		<img class="media-object " src="{{comment[2]}}" width="64px" height="64px">
+<ul class="media-list" id="comment">
+{%for item in comment_page.items %}
+<div class="well well-lg" >
+	  	<li class="media" id="comment-{{item[0].comment_id}}">
+	    	<a class="pull-left" href="{{url_for('view_home_page', nick = item[1])}}">
+	      		<img class="media-object " src="{{item[2]}}" width="64px" height="64px">
 	    	</a>
 	    <div class="media-body">
-		    <h4 class="media-heading">{{comment[1]}}</h4>
-		    <div class="media-content">{{comment[0].content}}</div>
+		    <h4 class="media-heading">{{item[1]}}</h4>
+		    <div class="media-content">{{item[0].content}}</div>
 		 	<div class="comment-info">
-		 		<span class="comment-time">{{comment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
+		 		<span class="comment-time">{{item[0].time}}</span><span class="comment-reply" onclick="reply_to({{item[3]}},{{item[0].comment_id}})">回复</span>
 		 	</div>
-	   
-		<ul class="comment-reply-ul">
- 		{%for subcomment in comments | reverse%}
- 		{% if subcomment[0].reply_to_comment_id == comment[0].comment_id%}
-  			<li class="media"  id="comment-{{subcomment[0].comment_id}}">
-      			<a class="pull-left" href="{{url_for('view_home_page', nick = subcomment[1])}}">
-	 		    	<img class="media-object " src="{{subcomment[2]}}" width="64px" height="64px">
-	 		    </a>
+		 	<ul class="comment-reply-ul">
+		{%for reply in comment_reply[loop.index0]%}
+		  		<li class="media"  id="comment-{{reply[0].comment_id}}">
 	    	 	<div class="media-body">
-		      		<h4 class="media-heading">{{subcomment[1]}}</h4>
-		      		<div class="media-content">{{subcomment[0].content}}</div>
-		      		<div class="comment-info">
-		 				<span class="comment-time">{{subcomment[0].time}}</span><span class="comment-reply" onclick="reply_to({{comment[3]}},{{comment[0].comment_id}})">回复</span>
-		 			</div>
+		      		<p class="reply-info"><span class="media-heading reply-heading">{{reply[1]}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">{{reply[4]}}</span>&nbsp;&nbsp;<span class="comment-time">{{reply[0].time}}</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{reply[3]}},{{item[0].comment_id}})">回复</span></p>
+		      		<p class="media-content reply-content">{{reply[0].content}}</p>
 		 		</div>
-  			</li>
-  			
- 		{% endif %}
+  				</li>	
  		{% endfor %}
- 		</ul>
+ 			</ul>
  		 </div>
+ 		 </li>
 	</div>
-{%endif%}  
 {% endfor %}
-{% endif %}
 </ul>
+
+
+<div class="pagination" style="text-align: center">
+<ul>
+    
+    {% if comment_page.has_prev %}
+    <li>
+    <a href="{{ url_for('article', article_id=article.article_id,comment_page=comment_page.prev_num)}}#p_list_review">上一页</a></li>
+    {% else %}
+   <li class="disable"> <span>上一页</span></li>
+    {% endif %}
+         
+        {%- for page in comment_page.iter_pages() %}
+         
+          {% if page %}
+        
+            {% if page != comment_page.page %}
+              <li> <a href="{{ url_for('article', article_id=article.article_id,comment_page=page)}}#p_list_review">{{ page }}</a></li>
+            {% else %}
+              <li class="active"><span class="page-number current">{{ page }}</span></li>
+            {% endif %}
+          {% else %}
+            <li><span class=ellipsis>...</span></li>
+          {% endif %}
+
+
+        {%- endfor %}
+    
+    {% if comment_page.has_next %}
+    <li>
+    	<a href="{{ url_for('article', article_id=article.article_id,comment_page=comment_page.next_num)}}#p_list_review">下一页 </a></li>
+    {% else %}
+    <li class="disable"><span>
+        下一页 </span></li>
+    {% endif %}
+</ul>
+</div>
+
+
 
 
 {% endblock %}
 <!--js file used-->
 {% block js %}
+<script type="text/javascript">
+	function sina_share() {
+
+	}
+</script>
+
 <!-- 人人网分享Js代码 -->
 <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
 <script type="text/javascript">
-	
+	{% with messages = get_flashed_messages() %}
+
+    {% for message in messages %}
+      {% if messages %}
+          layer.msg("{{message}}",1,1);
+        {% endif %}
+    {% endfor %}
+{% endwith %}
 
 	function shareClick() {
     	var link = window.location.href;
@@ -184,7 +244,7 @@
 					shadeClose: true,
 					closeBtn: [0,true],
 					border: [2, 1, '#D9AE48'],
-					area: ['760px', '300px'],
+					area: ['760px', '230px'],
 					iframe: {src: "{{ url_for('reply_to', article_id=article.article_id) }}?to_user_id="+to_user_id+"&reply_to_comment_id="+reply_to_comment_id},
 			    });
 	}
@@ -198,15 +258,15 @@
 <script type="text/javascript">
 $("#comment_publish_button").click(function(){
 	//val_content=$("#input_publish_review").text();
-	val_content = $('#input_publish_review').val();
-	val_content = $("#input_publish_review").val();
+		val_content = $("#input_publish_review").val();
 	if (val_content == '')
 		{alert("评论不能为空");}
 	else {
 	$("#input_publish_review").val("");
 	
 	if ($('#comment_pay_button').attr('checked') == 'checked'){
-	    $.layer({
+
+	    	$.layer({
 					type: 2,
 					title: ['打赏曦潮币'],
 					shade: [0.65, '#000'],
@@ -216,6 +276,7 @@ $("#comment_publish_button").click(function(){
 					area: ['760px', '300px'],
 					iframe: {src: "{{ url_for('pay_author', article_id=article.article_id) }}?comment=" + val_content},
 			    });
+	   
 	} else{	
     	$.post('/article/comment',
     		{
@@ -227,7 +288,7 @@ $("#comment_publish_button").click(function(){
     			
     		},
     		function(data){
-    			$("#comment_publish_time").text(data);
+    			$("#comment_publish_time").text(data.time);
     			layer.msg("评论成功",1,1);
     			add_commit(data, val_content,{{article.user_id}});
     		});
@@ -264,13 +325,7 @@ $("#p_review").click(function(){
 //    alert("HERE");
 });
 
-</script>
 
-
-
-</script>
-
-<script type="text/javascript">
 function update_xichao(data){
 	//alert(data);
 	//alert($('#p_num_xichao_content').text());
@@ -278,9 +333,7 @@ function update_xichao(data){
 	//alert(tmp);
   	$('#p_num_xichao_content').html(tmp);
 }
-</script>
 
-<script type="text/javascript">
 function get_author_id() {
 	return {{ author.user_id }};
 }
@@ -293,47 +346,57 @@ function get_user_id() {
 	return {{ article.user_id }};
 }
 
-function add_commit(data, val_content,to_user_id) {
+
+function add_commit(data,val_content,to_user_id){	
 	
+var cm=$("#p_list_review span").html()
+if(cm==='') cm='0'
+var comment_num=parseInt(cm)+1
+
+if ({{comment_page.page}}!==1) return;
+$("#p_review ").html($("#p_review").html().replace(/[0-9]+/,comment_num))
+$("#p_list_review span").html(comment_num)
+
 	var time=data.time;
 	var cid=data.comment_id;
 	var reply_to_comment_id=0;
     var homeurl = "{{url_for('view_home_page', nick = nick)}}"
-	//console.log(time+" "+cid+" "+val_content)
+	console.log(time+" "+cid+" "+val_content)
+$("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+'<a class="pull-left" href="'+homeurl+'"><img class="media-object"src="{{avatar}}"width="64px"height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply"onclick="reply_to({{current_user.user_id}},'+cid+')">回复</span></div></div></li></div>')
 
 
-$("#comment").prepend('<div class="well well-lg" ><li class="media"id="comment-'+cid+'">'+
-					  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+cid+')">回复</span></div></div></li></div>')
-
-var article_num=parseInt($("#p_list_review span").html())+1
-$("#p_list_review span").html(article_num)
-$("#p_review ").html($("#p_review ").html().replace(/[0-9]+/,article_num))
 }
 
 
-function add_reply(data,val_content,val_user_id,reply_to_comment_id){
+function add_reply(data,to_user_nick,val_content,val_user_id,reply_to_comment_id){
+
+var cm=$("#p_list_review span").html()
+if(cm==='') cm='0'
+var comment_num=parseInt(cm)+1
+
+$("#p_review ").html($("#p_review").html().replace(/[0-9]+/,comment_num))
+$("#p_list_review span").html(comment_num)
+
 	var time=data.time;
 	var cid=data.comment_id;
  	var location="comment-"+reply_to_comment_id;
 
+
+
  var homeurl = "{{url_for('view_home_page', nick = nick)}}"
  if($("#"+location+" ul li:last").length!==0)
  {$("#"+location+" li:last").append('<li class="media"id="comment-'+cid+'">'+
- 									  '<a class="pull-left" href="'+homeurl+'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></div></div></li>')
+ 									  '<div class="media-body"><p class="reply-info"><span class="media-heading reply-heading">{{nick}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">'+to_user_nick+'</span>&nbsp;&nbsp;<span class="comment-time">'+time+'</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></p><p class="media-content reply-content">'+val_content+'</p></div></li>')
 
 }
 else {
-	$("#"+location+" div.media-body").append('<ul class="comment-reply-ul">'+
-												'<li class="media"id="comment-'+cid+'">'+
-												'<a class="pull-left" href="'+homeurl+
- 												'"><img class="media-object " src="{{avatar}}" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">{{nick}}</h4><div class="media-content">'+val_content+'</div><div class="comment-info"><span class="comment-time">'+time+'</span><span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></div></div></li></ul>')
+	$("#"+location+" div.media-body").append('<ul class="comment-reply-ul"><li class="media"id="comment-'+cid+'">'+
+ 									  '<div class="media-body"><p class="reply-info"><span class="media-heading reply-heading">{{nick}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">'+to_user_nick+'</span>&nbsp;&nbsp;<span class="comment-time">'+time+'</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to({{current_user.user_id}},'+reply_to_comment_id+')">回复</span></p><p class="media-content reply-content">'+val_content+'</p></div></li>')
 }
 
 
 }
-</script>
 
-<script type="text/javascript">
 	$(document).ready(function(){
 		if ('{{ nick }}' == '{{ author.nick }}')
 		{
@@ -378,7 +441,59 @@ else {
 		
 	});
 </script>
-<!--
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["tsina","weixin"],"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["tsina","weixin"],"viewText":"分享到：","viewSize":"24"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-!-->
+
+
+<script type="text/javascript">
+
+
+
+
+// 	function refresh_comment(page_id){
+
+// 		url=window.location.href+"/comment/page/"+page_id
+// 		$.get(url,function(data){
+// 			console.log(data)
+// 			comment_page=data.comment_page
+// 			comment_row=data.comments_row
+// 			comment_reply=data.comment_reply
+// 			//$("#comment").html("{%for item in comment_page.items %}haha{% endfor %}")
+// 			comment_str=""
+// 			var i=0;
+// 			var j=0;
+// 			var homeurl=""
+
+
+// 			for( i =0;i<comment_row.length;i++){
+// 				console.log("root:"+comment_row[i][1]+":"+comment_row[i][0].content+"time:"+comment_row[i][0].time+"comment_id:"+comment_row[i][0].comment_id+"reply_to_comment_id:"+comment_row[i][0].reply_to_comment_id)
+
+// 				homeurl='http://'+window.location.host+'/user/'+comment_row[i][1];
+// 				console.log(homeurl)
+// 				comment_str=comment_str+'<div class="well well-lg" ><li class="media" id="comment-'+comment_row[i][0].comment_id+'"><a class="pull-left" href="'+homeurl+'"><img class="media-object " src="'+comment_row[i][2]+'" width="64px" height="64px"></a><div class="media-body"><h4 class="media-heading">'+comment_row[i][1]+'</h4><div class="media-content">'+comment_row[i][0].content+'</div><div class="comment-info"><span class="comment-time">'+comment_row[i][0].time+'</span><span class="comment-reply" onclick="reply_to('+comment_row[i][3]+','+comment_row[i][0].comment_id+')">回复</span></div><ul class="comment-reply-ul">';;
+
+			
+
+// 					if(comment_reply[i].length!==0)		
+// 				for( j=0;j<comment_reply[i][0].length;j++){
+// 				  console.log("--->"+comment_reply[i][1]+":"+comment_reply[i][0][j].content+"time:"+comment_reply[i][0][j].time+"comment_id:"+comment_reply[i][0][j].comment_id+"reply_to_comment_id:"+comment_reply[i][0][j].reply_to_comment_id)
+// comment_str=comment_str+'<li class="media"  id="comment-'+comment_reply[i][0][j].comment_id+'"><div class="media-body"><p class="reply-info"><span class="media-heading reply-heading">'+get_nick(comment_reply[i][0][j].user_id)+'</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="media-heading reply-heading">'+get_nick(comment_reply[i][0][j].to_user_id)+'</span>&nbsp;&nbsp;<span class="comment-time">'+comment_reply[i][0][j].time+'</span>&nbsp;&nbsp;<span class="comment-reply" onclick="reply_to('+comment_reply[i][0][j].user_id+','+comment_reply[i][0][j].reply_to_comment_id+')">回复</span></p><p class="media-content reply-content">'+comment_reply[i][0][j].content+'</p></div></li>'
+				
+				
+// 				}
+
+// 				comment_str=comment_str+'</ul></div></li></div>'
+// 			}
+			
+// 				$("#comment").html(comment_str)
+// 			//reply_to( comment_row[i][3] ,comment_row[i][0].comment_id)
+// 			//reply_to ( comment_reply[i][0][j] ,comment_row[i][0].comment_id)
+
+// 		});
+				
+// 	}
+
+
+
+</script>
+
+
 {% endblock %}

@@ -26,10 +26,29 @@
 
 				var val_article_id = parent.window.get_article_id();
 				var val_user_id = parent.window.get_user_id();
+				var to_post= false;
 				//alert(val_article_id);
 				//alert(val_user_id);
 				if($("[name='comment_article']").attr("checked")){
-					$.post('/article/comment',
+					
+				if(val_content!=''){
+					    	to_post=true
+					}
+				}
+				if($("[name='comment_article']").attr("checked")&&val_content==='')
+					{alert("请输入评论")}
+				else if (val_award_num=='') 
+					{alert("打赏值不能为空");}
+				else if (!re.test(val_award_num))
+					{alert("打赏数额应为数字");}
+				else if ( val_award_num > {{current_user.coin}} )
+					{alert("您的曦潮币余值不够");}
+				else if (val_award_num<=0) 
+					{alert("打赏值不合法！");}
+				else {
+
+					if(to_post){
+						$.post('/article/comment',
 					{
 						_csrf_token:"{{ csrf_token() }}",
 						content:val_content,
@@ -40,17 +59,7 @@
 					function(data){
 						parent.window.add_commit(data, val_content);
 					});
-				}
-
-				if (val_award_num=='') 
-					{alert("打赏值不能为空");}
-				else if (!re.test(val_award_num))
-					{alert("打赏数额应为数字");}
-				else if ( val_award_num > {{current_user.coin}} )
-					{alert("您的曦潮币余值不够");}
-				else if (val_award_num<=0) 
-					{alert("打赏值不合法！");}
-				else{
+					}
 					$.post("{{url_for('award_article')}}",
 						{
 							_csrf_token:"{{ csrf_token() }}",
@@ -89,7 +98,7 @@
 	</div>
 
 	<div id="review">
-		<textarea id="input_review">{{ comment | safe }}</textarea>
+		<textarea id="input_review" maxlength="500">{{ comment | safe }}</textarea>
 	</div>
 
 	<div id="push_review">
