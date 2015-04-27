@@ -373,7 +373,7 @@ def membercard_validate():
 
 
 ##################################  会员卡积分与曦潮币互换  ##################################
-@route('/coin_change/<int:number>',methods=['POST'])
+@app.route('/coin_change/<int:number>',methods=['POST'])
 def coin_change(number):
     pass
     #result=urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_write.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+cardID)

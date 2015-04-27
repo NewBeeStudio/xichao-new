@@ -12,3 +12,11 @@ create index is_read on comment(is_read);
 
 
 alter table user add cover varchar(255) not null default '/upload/cover/default.jpg';
+
+
+
+
+
+
+
+alter table homepage add column recommended_activity int(11) not null default 1;
