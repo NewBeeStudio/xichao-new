@@ -592,8 +592,10 @@ div.content-box#homepage-loading > img{
 	color: #D9AE48;
 }
 
-.conversion-interface > .button > a{
+.conversion-interface > .button > a, .conversion-interface > .button > input{
 	margin: 0 100px;
+	background-color: #fff;
+	font-family: 黑体;
 }
 
 
@@ -737,7 +739,7 @@ textarea#slogon-after-change{
 }
 
 /*关注/私信*/
-a.button-default{
+a.button-default, input.button-default{
 	padding: 3px 25px;
 	font-size: 20px;
 	color: #000;
@@ -746,7 +748,7 @@ a.button-default{
 	cursor: pointer;
 }
 
-a.button-default:hover{
+a.button-default:hover, input.button-default:hover{
 	color: #fff;
 	background-color: #D9AE48;
 }

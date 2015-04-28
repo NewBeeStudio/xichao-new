@@ -190,6 +190,35 @@
 		$('.conversion-interface .button-cancel').click(function(){
 			$('.conversion-interface').slideUp(slideSpeed);
 		});
+
+		//识别输入框中的数字并做转换
+		var coinToPointFactor = parseFloat(1);
+		var pointToCoinFactor = 1 / coinToPointFactor;
+		$('.conversion-interface .amount input').keyup(function(){
+			var current_id = $(this).attr('id');
+			var amountStr = $(this).val();
+			var re = /^[0-9]*[1-9][0-9]*$/;
+			if(re.test(amountStr)){ //简单正则判断
+				var amount = parseInt(amountStr);
+				if(current_id == 'coin-conversion-amount'){
+					var result = parseInt(amount * coinToPointFactor); //直接截断成整数，是否合适？
+					$('#coin-conversion-result').html(result);
+				}
+				else if(current_id == 'point-conversion-amount'){
+					var result = parseInt(amount * pointToCoinFactor);
+					$('#point-conversion-result').html(result);
+				}
+			}
+			else{
+				if(current_id == 'coin-conversion-amount'){
+					$('#coin-conversion-result').html("");
+				}
+				else if(current_id == 'point-conversion-amount'){
+					$('#point-conversion-result').html("");
+				}
+			}
+		});
+
 	});
 </script>
 
