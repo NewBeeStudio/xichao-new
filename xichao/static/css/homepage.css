@@ -119,6 +119,7 @@ ul{
 	min-height: 350px;
 	max-height: 435px; /*十行*/
 	width: 100%;
+	overflow: hidden;
 
 	background-image: url(/static/images/homepage-decoration.png);
 	background-position: center center;
@@ -528,6 +529,73 @@ div.content-box#homepage-loading > img{
 	color: #797979;
 }
 
+#coin-point-detail{
+	width: 700px;
+	height: 180px;
+	margin: auto;
+}
+
+#coin-point-detail > div{
+	width: 50%;
+	text-align: center;
+	line-height: 40px;
+	float: left;
+}
+
+#coin-point-detail .row-1{
+	font-size: 20px;
+	letter-spacing: 3px;
+}
+
+#coin-point-detail .row-2{
+	font-size: 50px;
+	letter-spacing: 10px;
+	line-height: 60px;
+	color: #D9AE48;
+}
+
+#coin-point-detail .row-3{
+	margin-top: 10px;
+}
+
+#coin-point-detail .row-3 > a{
+	font-size: 18px;
+	padding: 3px 10px;
+}
+
+.conversion-interface{
+	clear: both;
+	width: 600px;
+	height: 300px;
+	font-size: 20px;
+	letter-spacing: 3px;
+	line-height: 60px;
+
+	padding-bottom: 30px;
+	margin: auto;
+
+	display: none;
+}
+
+.conversion-interface > .title{
+	text-align: center;
+}
+
+.conversion-interface #conversion-amount{
+	width: 250px;
+	height: 25px;
+	font-size: 20px;
+}
+
+.conversion-interface > .result > .result-value{
+	font-size: 34px;
+	color: #D9AE48;
+}
+
+.conversion-interface > .button > a{
+	margin: 0 100px;
+}
+
 
 /*消息中心部分*/
 #homepage-news .main-tab-ul > li {
@@ -674,7 +742,7 @@ a.button-default{
 	font-size: 20px;
 	color: #000;
 	border: 2px solid #D9AE48;
-	/*border-radius: 5px;*/
+	border-radius: 5px;
 	cursor: pointer;
 }
 

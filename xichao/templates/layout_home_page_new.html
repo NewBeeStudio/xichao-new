@@ -173,6 +173,26 @@
 	}
 </script>
 
+<!-- 曦潮币转积分，积分转曦潮币 -->
+<script type="text/javascript">
+	$(function(){
+		var slideSpeed = 500;
+		$('#convert-to-point').click(function(){
+			$('#convert-to-coin-interface').css('display', 'none');
+			$('#convert-to-point-interface').slideDown(slideSpeed);
+		});
+		$('#convert-to-coin').click(function(){
+			$('#convert-to-point-interface').css('display', 'none');
+			$('#convert-to-coin-interface').slideDown(slideSpeed);
+		});
+
+
+		$('.conversion-interface .button-cancel').click(function(){
+			$('.conversion-interface').slideUp(slideSpeed);
+		});
+	});
+</script>
+
 <!-- 发布，收藏，关注，粉丝，消息中心AJAX -->
 <!-- 最上方个人信息栏点击AJAX -->
 <!-- 总之所有和个人主页最下方选项卡有关的AJAX基本上都在这 -->
