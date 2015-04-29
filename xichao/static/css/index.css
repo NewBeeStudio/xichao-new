@@ -256,6 +256,11 @@ div.index-special-abstract{
     margin-top: 28px;
 }
 
+#index-right a:hover{
+    border-color: #D9AE48;
+    border-width: 1px;
+}
+
 #index-right h2, #index-right h2{
 	padding-bottom: 10px;
 	/*border-bottom: 2px solid gray;*/
