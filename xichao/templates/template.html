@@ -244,11 +244,11 @@ background-size: 100%, 100%">
                 
                 <table>
                 	<tr>
-                	<td width="150">
+                	<td width="140">
                     {{article.time | time_split_3}}
                     </td>
                     <td style="color:#D9AE48">评论</td>
-                    <td width="50">({{article.comment_num}})</td>
+                    <td width="40">({{article.comment_num}})</td>
                     <td>
                     <img style="height:16px;width:16px;margin-top:-5px" src="{{ url_for('static', filename='images/coins.png') }}">
                     {{article.coins}}
