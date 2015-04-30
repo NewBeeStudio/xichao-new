@@ -53,24 +53,28 @@
 .square-hot{
 	position: relative;
     top:-25px;
-	height: 350px;
-	width: 780px;
+	height: 280px;
+	width: 800px;
 	border: 1px solid #D9AE48;
 }
 .square-hot2{
 	position: relative;
     top:-25px;
     left:43%;
-	height: 350px;
-	width: 360px;
+	height: 280px;
+	width: 340px;
+	margin-left: 20px;
 	border: 1px solid #D9AE48;
 }
 #square-hot-article{
+	float:right;
 	font-family: 黑体;
 	font-size: 14px;
     table-layout:fixed;
-    width:452px;
+    width: 520px;
     line-height: 1;
+    margin-top: 11px;
+    margin-right: 20px;
 }
 
 
@@ -82,7 +86,7 @@
 }
 
 #square-hot-article td,#square-part1-content td{
-	padding-top: 20px;
+	padding-top: 9px;
     word-break:keep-all;/* 不换行 */
     white-space:nowrap;/* 不换行 */
     overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
@@ -109,15 +113,15 @@ a.text-more{
 	opacity: 65%;
 }
 #square-pic-left{
-    height: 300px;
-    width: 300px;
+    height: 250px;
+    width: 250px;
     position: relative;
-    left: 5%;
-    top: 22px;
+    left: 15px;
+    top: 15px;
     border: 1px solid #D9AE48;
 }
 td.square-col-1{
-	width: 340px;
+	width: 290px;
 	padding-left: 15px;
 }
 td.square-col-2{
@@ -198,8 +202,9 @@ a.square-more{
 	font-size: 12.5px;
 }
 #recommend-text{
-	height: 120px;
+	height: 100px;
     width: 155px;
+    margin-top:5px;
 	font-family: 黑体;
 	font-size: 14px;
 	text-align:left;
@@ -213,6 +218,7 @@ a.square-more{
 
 }
 #pre-read{
+	margin-top: -5px;
 	height: 60px;
     width: 300px;
 	font-family: 黑体;
@@ -232,18 +238,19 @@ a.square-more{
 }
 
 #recommend-img{
-	padding: 1.5%;
-    width: 180px;
+    width: 155px;
 	z-index:-1;
     float: left;
 
 }
 
 #recommend-img img{
-	height: 160px;
-	width: 160px;
+	height: 125px;
+	width: 125px;
+	margin-left: 15px;
+	margin-top: 15px;
     border: 1px solid #D9AE48;
-    margin: 10px;
+    
 }
 .square-part1-right{
 	position:relative;
