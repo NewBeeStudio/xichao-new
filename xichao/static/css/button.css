@@ -191,8 +191,8 @@
 */
 .button-primary,
 .button-primary-flat {
-  background-color: #D18719;
-  border-color: #D18719;
+  background-color: #D9AE48;
+  border-color: #D9AE48;
   color: #FFF; }
   .button-primary:visited,
   .button-primary-flat:visited {
@@ -200,8 +200,8 @@
   .button-primary:hover, .button-primary:focus,
   .button-primary-flat:hover,
   .button-primary-flat:focus {
-    background-color: #D18719;
-    border-color: #D18719;
+    background-color: #D9AE48;
+    border-color: #D9AE48;
     color: #FFF; }
   .button-primary:active, .button-primary.active, .button-primary.is-active,
   .button-primary-flat:active,
@@ -424,7 +424,8 @@
 */
 .button-border, .button-border-thin, .button-border-thick {
   background: none;
-  border-width: 2px;
+  border-width: 1px;
+  border-radius: 5px;
   border-style: solid;
   line-height: 36px; }
   .button-border:hover, .button-border-thin:hover, .button-border-thick:hover {
@@ -473,7 +474,7 @@
     .button-border-thin.button-primary:focus,
     .button-border-thick.button-primary:hover,
     .button-border-thick.button-primary:focus {
-      background-color: #D18719;
+      background-color: #D9AE48;
       color: rgba(255, 255, 255, 0.9); }
     .button-border.button-primary:active, .button-primary.button-border-thin:active, .button-primary.button-border-thick:active, .button-border.button-primary.active, .button-primary.active.button-border-thin, .button-primary.active.button-border-thick, .button-border.button-primary.is-active, .button-primary.is-active.button-border-thin, .button-primary.is-active.button-border-thick,
     .button-border-thin.button-primary:active,
