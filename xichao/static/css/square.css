@@ -114,14 +114,14 @@ a.text-more{
     position: relative;
     left: 5%;
     top: 22px;
-    border: 3px solid #D9AE48;
+    border: 1px solid #D9AE48;
 }
 td.square-col-1{
 	width: 340px;
 	padding-left: 15px;
 }
 td.square-col-2{
-    width:9.6em;
+    width: 155px;
 }
 td.square-col-2 >a{
 	position:relative;
@@ -242,7 +242,7 @@ a.square-more{
 #recommend-img img{
 	height: 160px;
 	width: 160px;
-    border: 3px solid #D9AE48;
+    border: 1px solid #D9AE48;
     margin: 10px;
 }
 .square-part1-right{

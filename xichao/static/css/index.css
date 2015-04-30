@@ -427,7 +427,8 @@ div.index-special-abstract{
     text-align: center;
     font-size: 16px;
     font-family: 黑体;
-    margin-top: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .index-user-focus > table{
     margin-left: 50px;
