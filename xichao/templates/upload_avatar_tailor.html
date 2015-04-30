@@ -18,7 +18,7 @@ window.onload=function(){
     xiuxiu.setUploadArgs({_csrf_token:"{{ csrf_token() }}"});
 	xiuxiu.onInit = function ()
 	{
-		xiuxiu.loadPhoto("http://open.web.meitu.com/sources/images/1.jpg");
+		xiuxiu.loadPhoto("http://xichao-o.com{{url_for('static', filename='images/default-avatar.png')}}");
 	}
 	var index=parent.layer.getFrameIndex(window.name);
 	xiuxiu.onUploadResponse = function (data)
