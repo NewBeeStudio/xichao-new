@@ -10,9 +10,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from functions import encrypt
-from datetime import datetime, timedelta
-from models import User
 
 
 DB_URL='mysql://root:Xichao42@localhost/xichao?charset=utf8'
@@ -36,13 +33,27 @@ def init_db():
     init_data()
 
 def init_data():
-    user = User(nick = u"曦潮", email = u"xichao@xichao.com", 
-                role = 3, register_time = datetime.now(),
-                slogon = u"我是管理员！",
-                last_login_time = datetime.now(), password = encrypt(u"xichao"),
-                state = u'1',photo=u'upload/avatar/default1.jpg')
-    db_session.add(user)
-    db_session.commit()
+    from datetime import datetime
+    from models import User
+    from functions import encrypt
+
+    for i in range(1,6):
+        nick="曦潮管理员"+str(i)
+        email="xichaogn"+str(i)+"@xichao-sjtu.com"
+        role=3
+        register_time = datetime.now()
+        slogon = u"我是管理员！"
+        last_login_time = datetime.now()
+        password = encrypt("xichaogn"+str(i))
+        state = '1'
+        photo=u"/upload/avatar/default.jpg"
+        user = User(nick = nick, email = email, 
+                    role = role, register_time = register_time,
+                    slogon = slogon,
+                    last_login_time = last_login_time, password = password,
+                    state = state,photo=photo)
+        db_session.add(user)
+        db_session.commit()        
 
 
 def test_db():
