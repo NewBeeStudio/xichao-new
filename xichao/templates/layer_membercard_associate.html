@@ -193,7 +193,7 @@ function getCaptcha(obj) {
                     $("#step-2-content").show();
                     $("#step-2 .step-label").css("color","rgb(217, 174, 73");
                     $("#step-2 .step-num").css("background-color", "rgb(217, 174, 73)");
-                    $("#step-2").css("border-color", "rgb(217, *174, 73)");
+                    $("#step-2").css("border-color", "rgb(217, 174, 73)");
 
                     $("#confirm_cardID").text(info[0]);
                     $("#confirm_name").text(info[1]);
@@ -330,7 +330,7 @@ function update_avatar(data){
 <script type="text/javascript">
 var sec = 3;
 function countDown() {
-    layer.msg("请稍候",3,1,function(){
+    layer.msg("请稍候",2,1,function(){
         var index=parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
     });
@@ -338,12 +338,13 @@ function countDown() {
 
 function submit() {
     $('#register-form').submit();
+/*
     $('#success-info').show();
     $('#step-2-content').hide();
     $("#step-3 .step-label").css("color","rgb(217, 174, 73");
     $("#step-3 .step-num").css("background-color", "rgb(217, 174, 73)");
     $("#step-3").css("border-color", "rgb(217, 174, 73)");
-
+*/
     countDown();
 }
 </script>
