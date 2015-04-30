@@ -408,12 +408,13 @@ div.index-special-abstract{
 }
 
 .index-user-focus{
-    height: 145px;
-    margin-top: 15px;
+    height: 130px;
+    margin-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .index-user-focus > h3{
-    margin-left: 90px;
     margin-top: 0px;
     margin-bottom: 0px;
     font-size: 12.5px;
@@ -423,23 +424,22 @@ div.index-special-abstract{
 }
 
 .index-user-focus > h4{
-    margin-left: 90px;
     text-align: center;
     font-size: 16px;
     font-family: 黑体;
     margin-top: 0px;
 }
 .index-user-focus > table{
-    margin-left: 90px;
+    margin-left: 50px;
     font-weight: normal;
     font-size: 13px;
     font-family: 黑体;
 }
 
 .index-user-focus > p{
-    margin-top: 25px;
+    margin-top: 5px;
     font-size: 14px;
-    line-height: 16px;
+    line-height: 18px;
     font-family: 黑体;
     height: 33px;
     overflow: hidden;

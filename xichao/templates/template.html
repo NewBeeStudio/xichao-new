@@ -183,7 +183,9 @@ background-size: 100%, 100%">
             {% for article in user_focus %}
             <a class="thumbnail" href="{{ url_for('article', article_id=article.article_id)}}">
             <div class="index-user-focus">
+            <!--
             	<img class="index-user-focus-article-img" src="{{article.picture}}">
+            -->
 
             	<h3>
             	{% if article.groups == '1' %}
@@ -227,7 +229,8 @@ background-size: 100%, 100%">
             {% for article in latest_articles %}
             <a class="thumbnail" href="{{ url_for('article', article_id=article.article_id)}}">
             <div class="index-user-focus">
-            	<img class="index-user-focus-article-img" src="{{article.picture}}">
+            <!--
+            	<img class="index-user-focus-article-img" src="{{article.picture}}">-->
 
             	<h3>
             	{% if article.groups == '1' %}
