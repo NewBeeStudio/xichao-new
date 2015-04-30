@@ -143,8 +143,6 @@ div.index-special-abstract{
 }
 
 #index-middle h2, #index-bottom h2{
-	padding-bottom: 10px;
-	border-bottom: 2px solid gray;
     text-align: center;
     font: 30px liukai;
     font-weight: bold;
@@ -262,6 +260,7 @@ div.index-special-abstract{
 }
 
 #index-right h2, #index-right h2{
+    padding-top: 2px;
 	padding-bottom: 10px;
 	/*border-bottom: 2px solid gray;*/
     text-align: center;
@@ -272,7 +271,7 @@ div.index-special-abstract{
 
 /*******************热门活动*******************/
 .index-hot-activity{
-     margin-top: 26px;   
+     margin-top: 20px;   
 }
 
 .index-hot-activity-img{
@@ -320,9 +319,6 @@ div.index-special-abstract{
     font-family: 黑体;
 }
 
-.index-hot-activity{
-     margin-top: 26px;   
-}
 
 .index-hot-activity > h3{
     text-align: center;

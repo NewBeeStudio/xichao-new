@@ -77,10 +77,11 @@ background-image: url('{{url_for('static', filename='images/index-up-middle-laye
 	</div>
 -->
 	<div id="index-middle">
-		<h2>
+		<h2 style="margin-bottom:0px">
 			热门文章Top10
 		</h2>
-		<div style="margin-top: 30px;"></div>
+		<img src="{{ url_for('static', filename='images/border-long.png')}}" >
+		
 
         {% set count = 0 %}
         {% for article in hot_articles %}
@@ -141,7 +142,7 @@ background-size: 100%, 100%">
         <h2>
 			热门活动
 		</h2>
-            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+            <img src="{{ url_for('static', filename='images/border-short.png')}}">
 		<div class="index-hot-activity">
             <div class="index-hot-activity-img" >
             	<img src="{{most_hot_activity.picture}}">
@@ -161,7 +162,7 @@ background-size: 100%, 100%">
         </div>
         
         <div id="index-right-square">
-	        <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+	        <img src="{{ url_for('static', filename='images/border-short.png')}}">
             <h2>
 			最新动态
 		  	</h2>
