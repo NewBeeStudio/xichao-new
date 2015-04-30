@@ -361,6 +361,10 @@ div.index-special-abstract{
 
 
 /*******************广场动态*******************/
+#user-focus-select-div{
+    margin-top: 10px;
+}
+
 #user-focus-select>.active>a, #user-focus-select>.active>a:hover, #user-focus-select>.active>a:focus {
   color: #fff;
   background-color: #D9AE48;
@@ -386,15 +390,22 @@ div.index-special-abstract{
     margin-top: 50px;
 }
 
-.index-right-square{
-    margin-top: 60px;
+#index-right-square{
+    margin-top: 35px;
 }
 
-.index-right-square a{
+#index-right-square h2{
+    float:left;
+    text-align: left; 
+    font: 25px liukai;
+    font-weight: bold;
+}
+
+#index-right-square a{
     color: black;
     border-radius: 0px;
+    margin-bottom: 13px;
 }
-
 
 .index-user-focus-article-img{
     height: 80px;
@@ -404,8 +415,8 @@ div.index-special-abstract{
 }
 
 .index-user-focus{
-    height: 150px;
-    margin-top: 20px;
+    height: 145px;
+    margin-top: 15px;
 }
 
 .index-user-focus > h3{

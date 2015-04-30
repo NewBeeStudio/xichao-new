@@ -117,8 +117,8 @@ def index():
     homepage_special_list, slideUrl = get_homepage_specials()
     most_hot_activity=get_most_hot_activity()
     hot_articles = get_hot_articles(10)
-    latest_articles = get_latest_articles(8)
-    user_focus = get_all_focus_article(8)#current_user.user_id)
+    latest_articles = get_latest_articles(9)
+    user_focus = get_all_focus_article(9)#current_user.user_id)
     return render_template('template.html', special_list = homepage_special_list,
                                             hot_articles = hot_articles,
                                             articles = get_special_article,

@@ -160,14 +160,14 @@ background-size: 100%, 100%">
 
         </div>
         
-        <div class="index-right-square">
-            <h2>
-			动态
+        <div id="index-right-square">
+	        <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+            <h2 style="">
+			最新动态
 		  	</h2>
-		  	<img src="{{ url_for('static', filename='images/special-right-line.png')}}">
 
 			{% if logged_in %}
-		  	<div id="user-focus-select">
+		  	<div id="user-focus-select-div">
 <ul id="user-focus-select" class="nav nav-pills">
   <li role="presentation" id="change-focus" class="active"><a>我的关注</a></li>
   <li role="presentation" id="change-hot"><a>最新文章</a></li>
