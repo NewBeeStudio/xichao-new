@@ -336,10 +336,10 @@ def membercard_associate():
         user.member_id = form.cardID.data
         db_session.commit()
 
-        flash(u'绑定成功，正在跳转')
-        time.sleep(3)
+#        flash(u'绑定成功，正在跳转')
+        time.sleep(5)
         return redirect(url_for('index'))
-    return render_template('membercard_associate.html', form=form)
+    return render_template('layer_membercard_associate.html', form=form)
 
 @app.route('/membercard_validate', methods=['GET'])
 @login_required
