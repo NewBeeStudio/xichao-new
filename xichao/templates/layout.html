@@ -40,7 +40,7 @@
     </head>
 
     <body>
-        
+        <!--
          <div class="reference-block">
         <div class="reference-line">
             {% for i in range(5) %}
@@ -50,8 +50,7 @@
             <div class="width-160-last"></div>
         </div>
         </div> 
-
-
+-->
         <div id="navbar-info">
             <div class="navbar navbar-default">
                 <div class="floatright">
@@ -235,6 +234,8 @@
         <!--footer-->
         <div id="footer" style="margin-bottom:-20px;">
             <div id="footer-block">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" style="float:left">
+            <div style="margin-left:100px;margin-top:20px;margin-right:20px;width:500px;float:left;">
                 <ul>
                     <h3>关于书香</h3>
                 </ul>
@@ -242,28 +243,37 @@
                     <h3>曦潮书店</h3>
                 </ul>
                 <ul>
-                    <h3>合作方</h3>
-                </ul>
-                <ul>
-                    <h3>加入我们</h3>
-                    <li><a href="#">曦潮实习生</a></li>
-                    <li><a href="#">曦潮叶子</a></li>
-                </ul>
-                <ul>
-                    <h3>合作伙伴</h3>
-                </ul>
-                <ul>
                     <h3>曦潮线粒体</h3>
                 </ul>
                 <ul>
-                    <h3>联系我们</h3>
+                    <h3>加入我们</h3>
+                    <!--
+                    <li><a href="#">曦潮实习生</a></li>
+                    <li><a href="#">曦潮叶子</a></li>
+                    -->
+                </ul>
+
+                <div id="footer-statement">
+                    <div style="float:left">沪ICP备 15007577号</div>
+                    <div style="float:left;margin-left:20px"><a href="http://newbee.io">新蜂工作室 提供支持</a></div>
+                </div>
+            </div>
+            <div id="footer-right">
+                <ul style="width: 200px">
+                    <h3 style="margin-bottom:15px">合作方</h3>
+                    <li><a href="http://www.jiaodapress.com.cn/">上海交通大学出版社</a></li>
+                    <li><a href="http://net.sjtu.edu.cn/">上海交通大学网络中心</a></li>
+                </ul>
+                
+                <ul style="width: 210px">
+                    <h3 style="margin-bottom:15px">联系我们</h3>
+                    <li>电话： 021-54745080</li>
+                    <li>邮箱： info@xichao-sjtu.com</li>
                 </ul>
             </div>
-
-            <div id="footer-statement">
-                <div>沪ICP备 15007577号</div>
-                <div style="margin-top:10px;"><a href="http://newbee.io">新蜂工作室 提供支持</a></div>
             </div>
+
+            
         </div>
 
     <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
