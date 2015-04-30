@@ -62,6 +62,7 @@ from itsdangerous import constant_time_compare, BadData
 from hashlib import md5
 import captcha
 import time
+import urllib
 
 GROUP=[u'广场',u'文章',u'专栏']
 CATEGORY=[u'书评',u'影评',u'杂文',u'专栏文章']
@@ -351,7 +352,7 @@ def membercard_validate():
     except Exception:
         return "fail"
 
-    import urllib, json
+    #import urllib, json
     # TODO
     member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+cardID).read()
     if member_data[:4] == "fail":
@@ -371,12 +372,57 @@ def membercard_validate():
         if memberDB['email'] != email:
             return "email"
 
-
+@app.route('/member_information',methods=['GET'])
+@login_required
+def member_information():
+    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+current_user.member_id).read()
+    member_data =  member_data.split('}')[0]+'}'
+    memberDB = json.loads(member_data)
+    return json.dumps(memberDB)
 ##################################  会员卡积分与曦潮币互换  ##################################
-@app.route('/coin_change/<int:number>',methods=['POST'])
-def coin_change(number):
-    pass
+@app.route('/coin_to_point',methods=['POST'])
+@login_required
+def coin_to_point():
+    if current_user.member_id==None:
+        return 'member_fail'
+    else:
+        amount_str=request.form['coin-conversion-amount']
+        try:
+            amount=int(amount_str)
+        except Exception, e:
+            return 'number_fail'
+        if amount>current_user.coin:
+            return 'amount_fail'
+        else:
+            result=urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_write.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+current_user.member_id+'&Delta='+amount_str).read()
+            if result[:4]=="Fail":
+                return 'fail'
+            else:
+                return 'success'
+
     #result=urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_write.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+cardID)
+
+
+@app.route('/point_to_coin',methods=['POST'])
+@login_required
+def point_to_coin():
+    if current_user.member_id==None:
+        return 'member_fail'
+    else:
+        amount_str=request.form['point-conversion-amount']
+        try:
+            amount=int(amount_str)
+        except Exception, e:
+            return 'number_fail'
+        point=get_point_by_member_id(current_user.member_id)
+        if amount>point:
+            return 'amount_fail'
+        else:
+            result=urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_write.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+current_user.member_id+'&Delta=-'+amount_str).read()
+            if result[:4]=="Fail":
+                return 'fail'
+            else:
+                return 'success'
 
 ##################################  文章首页  ##################################
 @app.route('/article/',methods=['GET', 'POST'])
@@ -1340,7 +1386,11 @@ def activity_upload():
 def home_page():
     article_pagination=get_article_pagination_by_user_id(current_user.user_id,True,1)
     article_number=get_article_number(current_user.user_id)
-    return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user,article_number=article_number)
+    if current_user.member_id==None:
+        point=0
+    else:
+        point=get_point_by_member_id(current_user.member_id)
+    return render_template('home_page_new.html',article_pagination=article_pagination,user=current_user,article_number=article_number,point=point)
 
 
 ##能够返回数据

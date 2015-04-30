@@ -21,6 +21,8 @@ import re
 import os
 import shutil
 import models
+import urllib
+import json
 
 
 ##################################  注册函数  ####################################
@@ -1135,3 +1137,15 @@ def update_notification_read_state(notification_pagination):
 def get_recommend_words():
 	result=db_session.query(HomePage.recommend_words).first()
 	return result
+
+
+def get_point_by_member_id(member_id):
+    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+member_id).read()
+    member_data =  member_data.split('}')[0]+'}'
+    memberDB = json.loads(member_data)
+    try:
+        point=int(memberDB["coin"])
+    except:
+        return 0
+    return point
+

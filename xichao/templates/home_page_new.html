@@ -215,29 +215,42 @@
 						<div>
 							<div class="row-1">曦潮币</div>
 							<div class="row-2">{{current_user.coin}}</div>
+							{% if current_user.member_id==None %}
+							<div class="row-3"><a href="/homepage#settings" class="button-default">绑定会员卡</a></div>
+							{% else %}
 							<div class="row-3"><a href="#convert-to-point-interface" id="convert-to-point" class="button-default">转至积分</a></div>
+							{% endif %}
+
 						</div>
 	
 						<div>
 							<div class="row-1">积分</div>
-							<div class="row-2">2000</div>
+							<div class="row-2">{{point}}</div>
+							{% if current_user.member_id==None %}
+							<div class="row-3"><a href="/homepage#settings" class="button-default">绑定会员卡</a></div>
+							{% else %}
 							<div class="row-3"><a href="#convert-to-coin-interface" id="convert-to-coin" class="button-default">转至曦潮币</a></div>
+							{% endif %}
+							
+							
 						</div>
 					</div>
 					
-					<form action="#" method="get">
+					<form action="/coin_to_point" method="post">
+						<input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
 						<div id="convert-to-point-interface" class="conversion-interface">
 							<div class="title">曦潮币转至积分</div>
 							<div class="amount">转入数量：&nbsp;<span><input id="coin-conversion-amount" type="number" min="0" max="{{current_user.coin}}"></span>（最大值<span class="max-value">{{current_user.coin}}</span>）</div>
 							<div class="result">对应积分：<span class="result-value" id="coin-conversion-result"></span></div>
-							<div class="button"><input type="submit" value="确定" class="button-default"/><a class="button-default button-cancel">取消</a></div>
+							<div class="button"><input type="submit" value="确定" class="button-default" id="convert-to-point-confirm"/><a class="button-default button-cancel">取消</a></div>
 						</div>
 					</form>
 
-					<form action="#" method="get">
+					<form action="/point_to_coin" method="post">
+						<input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
 						<div id="convert-to-coin-interface" class="conversion-interface">
 							<div class="title">积分转至曦潮币</div>
-							<div class="amount">转入数量：&nbsp;<span><input id="point-conversion-amount" type="number" min="0" max="2000"></span>（最大值<span class="max-value">2000</span>）</div>
+							<div class="amount">转入数量：&nbsp;<span><input id="point-conversion-amount" type="number" min="0" max="2000"></span>（最大值<span class="max-value">{{point}}</span>）</div>
 							<div class="result">对应曦潮币：<span class="result-value" id="point-conversion-result"></span></div>
 							<div class="button"><input type="submit" value="确定" class="button-default"/><a class="button-default button-cancel">取消</a></div>
 						</div>

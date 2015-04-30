@@ -10,6 +10,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from functions import encrypt
+from datetime import datetime, timedelta
+from models import User
 
 
 DB_URL='mysql://root:Xichao42@localhost/xichao?charset=utf8'
@@ -28,7 +31,18 @@ def init_db():
     Base.metadata.create_all(bind=engine)
 
     ## 对初始化进行测试
-    test_db()
+    #test_db()
+
+    init_data()
+
+def init_data():
+    user = User(nick = u"曦潮", email = u"xichao@xichao.com", 
+                role = 3, register_time = datetime.now(),
+                slogon = u"我是管理员！",
+                last_login_time = datetime.now(), password = encrypt(u"xichao"),
+                state = u'1',photo=u'upload/avatar/default1.jpg')
+    db_session.add(user)
+    db_session.commit()
 
 
 def test_db():
