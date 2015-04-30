@@ -173,8 +173,28 @@
 	}
 </script>
 
+<!-- 关联会员卡layer -->
+<script type="text/javascript">
+	$("#associate_membercard").click(function(){
+		$.layer({
+        type: 2,
+        title: [
+            '关联会员卡', 
+            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+        ], 
+        shadeClose: true,
+        closeBtn: false, 
+        border:[0],
+        area: ['950px', '456px'],
+        iframe: {src: "{{url_for('membercard_associate')}}"},
+    	});
+	});
+</script>
+
 <!-- 曦潮币转积分，积分转曦潮币 -->
 <script type="text/javascript">
+
+
 	$(function(){
 		var slideSpeed = 500;
 		$('#convert-to-point').click(function(){

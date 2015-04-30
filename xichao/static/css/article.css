@@ -264,7 +264,7 @@
 #input_publish_review {
 	display: block;
 	background-color: #f5ebd1;
-	width: 940px;
+	width: 740px;
 	height: 110px;
 	resize: none;
 }
@@ -284,8 +284,8 @@
 }
 
 #comment_publish_button{
-	margin-top: 50px;
-	margin-right: -195px;
+	margin-top: 10px;
+	margin-right: 100px;
 	float: right;
 }
 
@@ -383,7 +383,7 @@
 .pull-left {
 	width: 160px;
 	margin-right: 23px!important;
-	border-right: 2px #EAC60D solid;
+	border-right: 2px #D9AE48 solid;
 }
 
 .media-heading {

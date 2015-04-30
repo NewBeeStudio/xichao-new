@@ -1,0 +1,350 @@
+<head>
+<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
+        <link href="{{ url_for('static', filename='css/main.css') }}" rel='stylesheet' type='text/css'/>
+<link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/>
+
+<script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+</head>
+
+<style>
+#layer-body{
+    width: 100%;
+    margin-top: 20px;
+}
+form{
+    margin-top: 30px;
+}
+.next-step{
+    margin-top: 25px;
+    margin-bottom: 0px;
+}
+</style>
+
+<html>
+  <div id="layer-body">
+
+    <!--注册表单-->
+    <div id='step-nav'>
+        <div id='step-1' class='step-item' style="width:50%">
+            <p class='step-num'>1</p>
+            <p class='step-label'>验证会员信息</p>
+        </div>
+        <div id='step-2' class='step-item' style="width:50%">
+            <p class='step-num'>2</p>
+            <p class='step-label'>确认会员信息</p>
+        </div>
+        <!--
+        <div id='step-3' class='step-item'>
+            <p class='step-num'>√</p>
+            <p class='step-label'>绑定成功</p>
+        </div>
+        -->
+    </div>
+    {% from "test_formhelpers.html" import render_membercard %}
+    <form method="post" action="/membercard_associate" accept-charset="utf-8" enctype="multipart/form-data" id="register-form">
+        <input name="_csrf_token" type=hidden value="{{ csrf_token() }}">
+            <input name="avatar" id="avatar" type="hidden" value="{{url_for('uploaded_avatar',filename='default.jpg')}}">
+        <div id='step-1-content'>
+            <table class="register-table">
+                {{ render_membercard(form.cardID, 0) }}
+                {{ render_membercard(form.name, 1) }}
+                {{ render_membercard(form.email, 2) }}
+                <tr id="captcha-area">
+                    <td> 验证码： </td>
+                    <td>
+                        <input type="text" id="captcha">
+                        <img id="captcha-pic" src=""/>
+                        <!-- data:image/png;base64, -->
+                    </td>
+                    <td class="error-tip register-error" style="display: none;">
+                            
+                    </td>
+
+                </tr>
+                    
+            </table>
+            <a href="javascript:return false;" class="next-step" id="next">下一步</a>
+            <p id="processing" class="next-step"></p>
+        </div>
+        <div id='step-2-content'>
+            <h2 style="font-size: 30px;text-align: center;">尊敬的会员,您的会员信息如下</h2>
+            <table class="register-table">
+            <tr class="form-area">
+                    <td class="register-label" width="200">会员卡号</td>
+                    <td class="register-label" id="confirm_cardID"></td>
+              </tr>
+              <tr class="form-area">
+                    <td class="register-label" width="200">姓名</td>
+                    <td class="register-label" id="confirm_name"></td>
+              </tr>
+              <tr class="form-area">
+                    <td class="register-label" width="200">会员积分</td>
+                    <td class="register-label" id="confirm_coin"></td>
+              </tr>
+            </table>
+            <a href="javascript:return false;" onclick="submit()" class="next-step">确认绑定</a>
+        </div>
+        <div id="success-info">*
+            <div id="success">
+                <p class='step-num'>√</p>
+                <p>绑定成功</p>
+            </div>
+            <p>3秒后自动跳转</p>
+        </div>
+
+
+    </form>
+  </body>
+</html>
+
+
+<script type="text/javascript">
+function getCaptcha(obj) {
+    $.getJSON($SCRIPT_ROOT + '/_getImage', {},
+        function(data) {
+            $('#captcha-pic').attr('src', 'data:image/png;base64,'+data.image);
+            $('#next').click(function(){
+                var flag = true;
+                var email = $("#step-1-content .form-area .register-form-value input").val();
+                if (email.length <= 0){
+                    $("#step-1-content .form-area .register-error").text("不能为空");
+                    $("#step-1-content .form-area .register-error").attr("style", "display:block");
+                    flag = false;
+                }
+                var cap = $("#step-1-content #captcha").val();
+                if (cap != data.code){
+                    $("#step-1-content #captcha-area .register-error").text("验证码错误");
+                    $("#step-1-content #captcha-area .register-error").attr("style", "display:block");
+                    flag = false;
+                } else{
+                    $("#step-1-content #captcha-area .register-error").attr("style", "display:none");
+                }
+
+                var info = new Array();
+                $(".register-form-value input").each(function()
+                {
+                    info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
+                });
+
+                if (flag){
+                $("#processing").show();
+                $("#next").hide();
+                $("#processing").text("正在处理,请稍候.");
+                var wait_time = 0;
+                var request_complete = 0;
+                $(function(){
+                    var wait_timer;
+                    function wait_iter(){
+                        wait_time = wait_time + 1;
+                        if (request_complete != 0){
+                            clearInterval(wait_timer);
+                        } else{
+                        if (wait_time % 3 == 1){
+                            $("#processing").text("正在处理,请稍候.");
+                        }
+                        if (wait_time % 3 == 2){
+                            $("#processing").text("正在处理,请稍候..");
+                        }
+                        if (wait_time % 3 == 0){
+                            $("#processing").text("正在处理,请稍候...");
+                        }
+                        }
+                    }
+                    wait_timer = setInterval(wait_iter, 1000);
+                });
+
+                $.get("/membercard_validate", {
+                    cardID: info[0],
+                    name: info[1],
+                    email: info[2]
+                }, function(data){
+                    //alert(data);
+                    request_complete = 1;
+                    $("#processing").hide();
+                    if (data == 'fail'){
+                        $("#next").show();
+                        layer.msg("会员卡不存在",1,3,function(){});
+                        flag =false;
+                    }
+                    if (data == 'name'){
+                        $("#next").show();
+                        layer.msg("姓名错误",1,3,function(){});
+                        flag =false;
+                    }
+                    if (data == 'email'){
+                        $("#next").show();
+                        layer.msg("邮箱错误",1,3,function(){});
+                        flag =false;
+                    }
+                    if (data == 'name null'){
+                        $("#next").show();
+                        layer.msg("该会员卡未注册使用者姓名,请您联系书店前台",2,3,function(){});
+                        flag =false;
+                    }
+                    if (data == 'email null'){
+                        $("#next").show();
+                        layer.msg("该会员卡未注册使用者邮箱,请您联系书店前台",2,3,function(){});
+                        flag =false;
+                    }
+
+                    if (flag == true) {
+                    $("#step-1-content").hide();
+                    $("#step-2-content").show();
+                    $("#step-2 .step-label").css("color","rgb(217, 174, 73");
+                    $("#step-2 .step-num").css("background-color", "rgb(217, 174, 73)");
+                    $("#step-2").css("border-color", "rgb(217, 174, 73)");
+
+                    $("#confirm_cardID").text(info[0]);
+                    $("#confirm_name").text(info[1]);
+                    $("#confirm_coin").text(data);
+                    }
+                });
+                }
+                
+            });
+        });
+};
+
+
+$(document).ready(function()
+{
+    $("#processing").hide();
+
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    var captcha = {img:"a", captchaCode:"a"};
+    
+    getCaptcha(captcha);
+    $('#captcha-pic').click(function(){
+        getCaptcha();
+    });
+
+    $("#avatar_user").hover(
+    function(){
+        $("#avatar_button").css("display", "block");
+    },
+    function(){
+        $("#avatar_button").css("display", "none");
+    });
+    $("#avatar_button").hover(
+    function(){
+        $("#avatar_button").css("display", "block");
+    },
+    function(){
+        $("#avatar_button").css("display", "none");
+    });
+
+    $("#step-1 .step-label").css("color","rgb(217, 174, 73");
+    $("#step-1 .step-num").css("background-color", "rgb(217, 174, 73)");
+    $("#step-1").css("border-color", "rgb(217, 174, 73)");
+    $("#step-2-content").hide();
+    $('#success-info').hide();
+    /************************************************************/
+    /*显示注册错误信息*/
+    /************************************************************/
+    $(".register-error").each(function()
+    {
+      var warning = $(this).text().replace(/(^\s*)|(\s*$)/, ""); //获取warning区内容，去除空白字符
+
+      if(warning.length > 0)
+        $(this).css("display", "block");
+      else
+        $(this).css("display", "none");
+    });
+      
+      
+    /************************************************************/
+    /*AJAX交互*/
+    /************************************************************/
+    $(".register-form-value input").change(function()
+    {
+      var index = parseInt($(this).parent().attr("data-index")); //changed line number
+          
+      var info = new Array();
+      $(".register-form-value input").each(function()
+      {
+        info[parseInt($(this).parent().attr("data-index"))] = $(this).val();
+      });
+          
+      $.getJSON($SCRIPT_ROOT + '/ajax_membercard', {
+      cardID: info[0],
+      name: info[1],
+      email: info[2]}, function(data)
+      {
+        $(".register-error").each(function()
+        {
+          var cur_index = parseInt($(this).attr("data-index"));
+          $(this).text(""); 
+          $(this).css("display", "none"); //先初始化
+
+          if(cur_index <= index){ 
+            //当前光标位置在其之下，则显示警告内容
+            if(cur_index == 0 && data.cardID != ""){
+              $(this).text(data.cardID);
+              $(this).css("display", "block");
+            }
+            else if(cur_index == 1 && data.name != ""){
+              $(this).text(data.name);
+              $(this).css("display", "block");
+            }
+            else if(cur_index == 2 && data.email != ""){
+              $(this).text(data.email);
+              $(this).css("display", "block");
+            }
+          }
+        });
+      });
+    });
+    
+});
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#avatar_button").click(function(){
+      $.layer({
+        type: 2,
+        title: [
+            '上传头像', 
+            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+        ],
+        shadeClose: true,
+        closeBtn: false,
+        border:[0],
+        area: ['90%', '90%'],
+        iframe: {src: "{{url_for('upload_avatar')}}"},
+      });
+    });
+    $(".default_avatar").click(function(){
+      $("#avatar_user").attr("src",$(this).attr("src"));
+      $("#avatar").attr("value",$(this).attr("src"));
+    });
+  });
+</script>
+<script type="text/javascript">
+function update_avatar(data){
+  $('#avatar_user').attr("src",data);
+  $('#avatar').attr("value",data);
+}
+</script>
+<script type="text/javascript">
+var sec = 3;
+function countDown() {
+    layer.msg("请稍候",2,1,function(){
+        var index=parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    });
+};
+
+function submit() {
+    $('#register-form').submit();
+/*
+    $('#success-info').show();
+    $('#step-2-content').hide();
+    $("#step-3 .step-label").css("color","rgb(217, 174, 73");
+    $("#step-3 .step-num").css("background-color", "rgb(217, 174, 73)");
+    $("#step-3").css("border-color", "rgb(217, 174, 73)");
+*/
+    countDown();
+}
+</script>

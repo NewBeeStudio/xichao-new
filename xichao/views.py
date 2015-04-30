@@ -118,8 +118,8 @@ def index():
     homepage_special_list, slideUrl = get_homepage_specials()
     most_hot_activity=get_most_hot_activity()
     hot_articles = get_hot_articles(10)
-    latest_articles = get_latest_articles(8)
-    user_focus = get_all_focus_article(8)#current_user.user_id)
+    latest_articles = get_latest_articles(10)
+    user_focus = get_all_focus_article(10)#current_user.user_id)
     return render_template('template.html', special_list = homepage_special_list,
                                             hot_articles = hot_articles,
                                             articles = get_special_article,
@@ -337,10 +337,10 @@ def membercard_associate():
         user.member_id = form.cardID.data
         db_session.commit()
 
-        flash(u'绑定成功，正在跳转')
-        time.sleep(3)
+#        flash(u'绑定成功，正在跳转')
+        time.sleep(5)
         return redirect(url_for('index'))
-    return render_template('membercard_associate.html', form=form)
+    return render_template('layer_membercard_associate.html', form=form)
 
 @app.route('/membercard_validate', methods=['GET'])
 @login_required

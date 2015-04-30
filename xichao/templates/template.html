@@ -77,10 +77,11 @@ background-image: url('{{url_for('static', filename='images/index-up-middle-laye
 	</div>
 -->
 	<div id="index-middle">
-		<h2>
+		<h2 style="margin-bottom:0px">
 			热门文章Top10
 		</h2>
-		<div style="margin-top: 30px;"></div>
+		<img src="{{ url_for('static', filename='images/border-long.png')}}" >
+		
 
         {% set count = 0 %}
         {% for article in hot_articles %}
@@ -141,7 +142,7 @@ background-size: 100%, 100%">
         <h2>
 			热门活动
 		</h2>
-            <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
+            <img src="{{ url_for('static', filename='images/border-short.png')}}">
 		<div class="index-hot-activity">
             <div class="index-hot-activity-img" >
             	<img src="{{most_hot_activity.picture}}">
@@ -160,14 +161,14 @@ background-size: 100%, 100%">
 
         </div>
         
-        <div class="index-right-square">
+        <div id="index-right-square">
+	        <img src="{{ url_for('static', filename='images/border-short.png')}}">
             <h2>
-			动态
+			最新动态
 		  	</h2>
-		  	<img src="{{ url_for('static', filename='images/special-right-line.png')}}">
 
 			{% if logged_in %}
-		  	<div id="user-focus-select">
+		  	<div id="user-focus-select-div">
 <ul id="user-focus-select" class="nav nav-pills">
   <li role="presentation" id="change-focus" class="active"><a>我的关注</a></li>
   <li role="presentation" id="change-hot"><a>最新文章</a></li>
@@ -175,7 +176,7 @@ background-size: 100%, 100%">
 			</div>
 			{% endif %}
 
-
+			<div style="clear:both"></div>
 		  	<div id="user-focus">
 		  	{% if logged_in and user_focus==[] %}
 		  	<p style="margin-top:50px">您还没有关注任何专栏或用户哦，快去专栏广场转转吧～</p>
@@ -183,7 +184,9 @@ background-size: 100%, 100%">
             {% for article in user_focus %}
             <a class="thumbnail" href="{{ url_for('article', article_id=article.article_id)}}">
             <div class="index-user-focus">
+            <!--
             	<img class="index-user-focus-article-img" src="{{article.picture}}">
+            -->
 
             	<h3>
             	{% if article.groups == '1' %}
@@ -227,7 +230,8 @@ background-size: 100%, 100%">
             {% for article in latest_articles %}
             <a class="thumbnail" href="{{ url_for('article', article_id=article.article_id)}}">
             <div class="index-user-focus">
-            	<img class="index-user-focus-article-img" src="{{article.picture}}">
+            <!--
+            	<img class="index-user-focus-article-img" src="{{article.picture}}">-->
 
             	<h3>
             	{% if article.groups == '1' %}
