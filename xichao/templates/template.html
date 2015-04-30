@@ -162,7 +162,7 @@ background-size: 100%, 100%">
         
         <div id="index-right-square">
 	        <img src="{{ url_for('static', filename='images/special-right-line.png')}}">
-            <h2 style="">
+            <h2>
 			最新动态
 		  	</h2>
 
@@ -175,7 +175,7 @@ background-size: 100%, 100%">
 			</div>
 			{% endif %}
 
-
+			<div style="clear:both"></div>
 		  	<div id="user-focus">
 		  	{% if logged_in and user_focus==[] %}
 		  	<p style="margin-top:50px">您还没有关注任何专栏或用户哦，快去专栏广场转转吧～</p>
