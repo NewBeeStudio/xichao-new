@@ -178,7 +178,7 @@ class HomePageView(ModelView):
 		else:
 			return False
 	can_create = False
-	column_list=('special1','special2','special3','special1','ground_recommended_article')
+	column_list=('special1','special2','special3','special4','ground_recommended_article','recommend_words')
 	def __init__(self,session,**kwargs):
 		super(HomePageView,self).__init__(HomePage,session,**kwargs)		
 
