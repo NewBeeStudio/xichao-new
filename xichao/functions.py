@@ -33,6 +33,21 @@ def nick_exist(nick):
 	else:
 		return False
 
+def is_chinese(uchar):
+    """判断一个unicode是否是汉字"""
+    if uchar >= u'\u4e00' and uchar<=u'\u9fa5':
+        return True
+    else:
+        return False
+
+def nick_validate(nick):
+	format="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"
+	for char in nick:
+		if (not char in format) and (not is_chinese(char)):
+			return False
+	return True
+
+
 def email_exist(email):
 	result=db_session.query(User).filter_by(email=email).all()
 	if len(result)>0:
