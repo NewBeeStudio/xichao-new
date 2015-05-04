@@ -1140,9 +1140,12 @@ def get_recommend_words():
 
 
 def get_point_by_member_id(member_id):
-    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+member_id).read()
-    member_data =  member_data.split('}')[0]+'}'
-    memberDB = json.loads(member_data)
+    try:
+        member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+member_id).read()
+        member_data =  member_data.split('}')[0]+'}'
+        memberDB = json.loads(member_data)
+    except:
+        return 0
     try:
         point=int(memberDB["coin"])
     except:

@@ -1142,7 +1142,61 @@ $("#change-cover-save").click(function(){
 	});
 </script>
 <script type="text/javascript">
+$("#convert-to-point-confirm").click(function(){
+	val_coin_conversion_amount=$("#coin-conversion-amount").val();
+	$.post("/coin_to_point",{
+		_csrf_token:"{{ csrf_token() }}",
+		coin_conversion_amount: val_coin_conversion_amount
+	},function(result){
+		if (result=="member_fail") {layer.msg("尚未绑定会员卡",1,3);}
+		else if(result=="number_fail"){layer.msg("输入不合法",1,3);}
+		else if (result=="amount_fail") {layer.msg("数量不合法",1,3);}
+		else if(result=='fail'){layer.msg("请稍后重试",1,3);}
+		else {layer.msg("转换成功",1,1,function(){
+			update_coin_point();
+			$('.conversion-interface').slideUp(500);
+		});}
 
+	});
+});
+$("#convert-to-coin-confirm").click(function(){
+	val_point_conversion_amount=$("#point-conversion-amount").val();
+	$.post("/point_to_coin",{
+		_csrf_token:"{{ csrf_token() }}",
+		point_conversion_amount:val_point_conversion_amount
+	},function(result){
+		if (result=="member_fail") {layer.msg("尚未绑定会员卡",1,3);}
+		else if(result=="number_fail"){layer.msg("输入不合法",1,3);}
+		else if (result=="amount_fail") {layer.msg("数量不合法",1,3);}
+		else if(result=='fail'){layer.msg("请稍后重试",1,3);}
+		else {layer.msg("转换成功",1,1,function(){
+			update_coin_point();
+			$('.conversion-interface').slideUp(500);
+		});}
+	})
+})
+$(".associate-member-card").click(function(){
+	$.layer({
+        type: 2,
+        title: [
+            '关联会员卡', 
+            'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+        ], 
+        shadeClose: true,
+        closeBtn: false, 
+        border:[0],
+        area: ['950px', '456px'],
+        iframe: {src: "{{url_for('membercard_associate')}}"},
+    	});
+});
+
+
+function update_coin_point(){
+	$.getJSON("/member_information",function(data){
+		$("#point").text(data.coin);
+		$("#coin").text(data.webcoin);
+	});
+}
 </script>
 
 
