@@ -873,3 +873,12 @@ a.button-default:hover, input.button-default:hover{
 #change-cover-save{
 	background-color: #D9AE48;
 }
+
+#remind-content-div{
+	margin-top: 40px;
+}
+
+.home-button{
+	width: 118px;
+	font: 22px liukai, KaiTi, STKaiti;
+}

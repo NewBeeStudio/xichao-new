@@ -389,7 +389,8 @@ def create_new_special(name, user_id, picture, introduction,
                        update_frequency = update_frequency)
     db_session.add(special)
     user = db_session.query(User).filter_by(user_id = user_id).first();
-    user.role = 2
+    if user.role == 1:
+        user.role = 2
     db_session.commit()
     return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
     

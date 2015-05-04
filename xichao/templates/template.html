@@ -291,10 +291,10 @@ background-size: 100%, 100%">
 
 		$("#hot-activity-intro").hide();
 	
-			//未验证邮箱弹窗
+	//未验证邮箱弹窗
     {% if not current_user.is_anonymous() %}
 		if({{current_user.state}} == 0){
-			var url = "{{ url_for('verify_remind') }}";
+			var url = "{{ url_for('verify_remind')}}";
 			$.layer({
 				type: 2,
 				title: ['请验证邮箱'],
