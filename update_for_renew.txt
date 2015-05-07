@@ -3,3 +3,6 @@
 2015.5.7 Hunter_Lin
 
 Initialization of update documents.
+
+2015年5月7日23:20:41 morning
+把func分成了几个文件，（未完成）。感觉效果不算很好，有的py中还是要import很多model
