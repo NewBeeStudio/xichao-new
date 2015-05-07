@@ -116,3 +116,9 @@ def update_article_num_for_special(special_id,is_add):
 	else:
 		special.article_num-=1
 	db_session.commit()
+
+
+def special_coin_add(special_id, num):
+    special = db_session.query(Special).filter_by(special_id = special_id).scalar()
+    special.coin += num
+    db_session.commit()

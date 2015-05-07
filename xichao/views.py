@@ -51,6 +51,7 @@ from functions_special import *
 from functions_square import *
 from functions_index import *
 from functions_user import *
+from functions_article import *
 from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify,abort,json
 from models import User
 from database import db_session
@@ -390,7 +391,7 @@ def coin_to_point():
         amount_str=request.form['coin_conversion_amount']
         try:
             amount=int(amount_str)
-        except Exception, e:
+        except:
             return 'number_fail'
         if amount>current_user.coin or amount<0:
             return 'amount_fail'
@@ -417,7 +418,7 @@ def point_to_coin():
         amount_str=request.form['point_conversion_amount']
         try:
             amount=int(amount_str)
-        except Exception, e:
+        except:
             return 'number_fail'
         point=get_point_by_member_id(current_user.member_id)
         if amount>point or amount<0:
