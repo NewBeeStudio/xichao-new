@@ -5,8 +5,8 @@
 
 	定义并实现了个人定制的验证器函数，被用于在表单验证过程中调用
 '''
-from wtforms import Form, BooleanField, TextField, PasswordField, validators, ValidationError
-from functions import nick_exist,email_exist,cardID_exist,nick_validate
+from wtforms import ValidationError
+from functions_user import nick_exist,email_exist,cardID_exist,nick_validate
 
 ##################################  注册验证器  ####################################
 def nick_validator(form,field):

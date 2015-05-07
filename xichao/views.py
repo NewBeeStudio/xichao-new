@@ -47,17 +47,18 @@
 '''
 from xichao import app, login_manager, login_serializer
 from functions import *
+from functions_special import *
+from functions_square import *
+from functions_index import *
+from functions_user import *
 from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify,abort,json
 from models import User
 from database import db_session
 from datetime import datetime,date
 from forms import MembercardForm,RegistrationForm,LoginForm,ForgetPasswordForm,ResetPasswordForm
-from wtforms import Form
 from werkzeug.datastructures import ImmutableMultiDict
-from flask.ext.sqlalchemy import Pagination
 import os
-import json
-from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
+from flask.ext.login import  login_user, logout_user, current_user, login_required
 from itsdangerous import constant_time_compare, BadData
 from hashlib import md5
 import captcha

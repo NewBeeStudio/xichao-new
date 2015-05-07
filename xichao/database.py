@@ -12,7 +12,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-DB_URL='mysql://root:Xichao42@localhost/xichao?charset=utf8'
+DB_URL='mysql://root:1234@localhost/xichao?charset=utf8'
 RDS_DB_URL='mysql://xichao:Xichao42@rdszfuv6jmjjbei.mysql.rds.aliyuncs.com:3306/xichao?charset=utf8'
 engine = create_engine(DB_URL, echo=True, convert_unicode=True)
 

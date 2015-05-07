@@ -7,15 +7,13 @@
 
 '''
 from xichao import app
-from hashlib import md5
-from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity,HomePage
+from models import User,Article,Special,Book,Comment,Article_session,\
+Activity_session,Activity,Comment_activity,\
+Collection_Special,Collection_User,Collection_Article,Collection_Activity,HomePage
 from database import db_session
-from flask import jsonify,render_template,request,session,abort
-from sqlalchemy import or_, not_, and_, desc
-from werkzeug import secure_filename
+from flask import session,abort
+from sqlalchemy import and_, desc
 from datetime import datetime
-from flask.ext.mail import Mail
-from flask.ext.mail import Message
 from flask.ext.sqlalchemy import Pagination
 import re
 import os
@@ -25,133 +23,7 @@ import urllib
 import json
 
 
-##################################  注册函数  ####################################
-def nick_exist(nick):
-	result=db_session.query(User).filter_by(nick=nick).all()
-	if len(result)>0:
-		return True
-	else:
-		return False
 
-def is_chinese(uchar):
-    """判断一个unicode是否是汉字"""
-    if uchar >= u'\u4e00' and uchar<=u'\u9fa5':
-        return True
-    else:
-        return False
-
-def nick_validate(nick):
-	format="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"
-	for char in nick:
-		if (not char in format) and (not is_chinese(char)):
-			return False
-	return True
-
-
-def email_exist(email):
-	result=db_session.query(User).filter_by(email=email).all()
-	if len(result)>0:
-		return True
-	else:
-		return False
-
-def cardID_exist(cardID):
-	result=db_session.query(User).filter_by(member_id = cardID).all()
-	if len(result)>0:
-		return True
-	else:
-		return False
-
-def encrypt(password):
-	encrypt_password=md5(password).hexdigest()
-	return encrypt_password
-
-ALLOWED_EXTENSIONS=['jpg']
-def allowed_file(filename):
-	return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
-
-def get_state(nick,password):
-	result=db_session.query(User).filter(and_(User.nick==nick,User.password==password)).all()
-	if len(result)>0:
-		return result[0].state
-	else:
-		return False
-def update_state(nick):
-	db_session.query(User).filter(User.nick==nick).update({'state':'1'})
-	db_session.commit()
-
-def get_secure_photoname(filename):
-	secured_filename=secure_filename(filename)
-	photoname=secured_filename.rsplit('.',1)[0]+datetime.now().strftime('%Y%m%d%H%M%S')+'.'+secured_filename.rsplit('.',1)[1]
-	return photoname
-
-def send_verify_email(nick,password,email):
-    verify_url=app.config['HOST_NAME']+'/verify?nick='+nick+'&secret='+password
-    mail=Mail(app)
-
-    msg=Message(u'曦潮书店',sender=app.config['ADMINS'][0],recipients=[email])
-
-    msg.body='text body'
-    msg.html = render_template('test_verify_email.html',verify_url=verify_url,nick=nick)
-    with app.app_context():
-        try:
-            mail.send(msg)
-            return True
-        except Exception,e:
-            print "\n\n\n\n\n\n", "NoNoNoNoNoNoNo!", "\n\n\n\n\n\n"
-            print str(e)
-            return False
-
-##################################  登陆函数  ####################################
-def get_nick(email,password):
-	result=db_session.query(User).filter(and_(User.email==email,User.password==encrypt(password))).all()
-	if len(result)>0:
-		return result[0].nick
-	else:
-		return False
-
-##################################  忘记/重设密码 #################################
-#通过email获取nick
-def get_nick_by_email(email):
-	nick = db_session.query(User.nick).filter_by(email=email).first()
-	return nick[0]
-
-#通过email获取password
-def get_password_by_email(email):
-	password = db_session.query(User.password).filter_by(email=email).first()
-	return password[0]
-
-#发送重设密码邮件
-def send_resetpassword_email(nick,password,email):
-	verify_url=app.config['HOST_NAME']+'/resetPassword/'+nick+'/'+password #/nick/MD5(password)
-	mail=Mail(app)
-
-	msg=Message(u'重置曦潮网站密码',sender=app.config['ADMINS'][0],recipients=[email])
-
-	msg.body='text body'
-	msg.html = render_template('resetPasswordMail.html',nick=nick,verify_url=verify_url)
-	with app.app_context():
-		try:
-			mail.send(msg)
-			return True
-		except:
-			return False
-
-#是否存在该用户名，用户名和密码是否匹配
-def check_nickpassword_match(nick, password):
-	pw = db_session.query(User.password).filter_by(nick=nick).all()
-	if not len(pw): #不存在nick
-		return False 
-	elif pw[0][0] != password:
-		return False
-	else:
-		return True
-
-#更新密码
-def update_password(nick, password):
-	user = db_session.query(User).filter_by(nick=nick).scalar()
-	user.password = encrypt(password)
-	db_session.commit()
 
 ##################################  文章函数  ####################################
 def get_article_session_id():
@@ -299,191 +171,9 @@ def update_read_num_activity(activity_id):
 	db_session.commit()
 	
 
-##################################  首页函数  ####################################
 
-def get_homepage_specials():
-    query = db_session.query(HomePage).all()[0]
-    special1 = db_session.query(Special).filter_by(special_id = query.special1).all()[0]
-    special2 = db_session.query(Special).filter_by(special_id = query.special2).all()[0]
-    special3 = db_session.query(Special).filter_by(special_id = query.special3).all()[0]
-    special4 = db_session.query(Special).filter_by(special_id = query.special4).all()[0]
-    return [special1, special2, special3, special4], [query.special1_image, query.special2_image, query.special3_image, query.special4_image]
     
-def get_hot_articles(num):
-    query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.coins.desc()).limit(10).all()
-    return query
-    
-def get_all_special():
-    query = db_session.query(Special).order_by(Special.coin.desc()).all()
-    return query
 
-def get_all_focus_article(limit):
-	if 'user_id' in session:
-		userid = int(session['user_id'])
-		query1 = db_session.query(Article).join(Collection_Special, Collection_Special.special_id == Article.special_id).filter(and_(Collection_Special.user_id == userid, Article.is_draft == '0'))
-		query2 = db_session.query(Article).join(Collection_User, Collection_User.another_user_id == Article.user_id).filter(and_(Collection_User.user_id == userid, Article.is_draft == '0'))
-		return query1.union(query2).order_by(Article.time.desc()).limit(limit).all();
-	else:
-		return []
-
-def get_latest_articles(limit):
-	query = db_session.query(Article).filter_by(is_draft = '0').order_by(Article.time.desc()).limit(limit).all()
-	return query
-
-def modify_homepage_func(special1, url1,
-                         special2, url2,
-                         special3, url3,
-                         special4, url4,
-                         recommend_actctivity):
-    
-    special1 = db_session.query(Special).filter_by(name = special1).all()
-    if (len(special1) == 0):
-        return '1'
-    special2 = db_session.query(Special).filter_by(name = special2).all()
-    if (len(special2) == 0):
-        return '2'
-    special3 = db_session.query(Special).filter_by(name = special3).all()
-    if (len(special3) == 0):
-        return '3'
-    special4 = db_session.query(Special).filter_by(name = special4).all()
-    if (len(special4) == 0):
-        return '4'
-
-    special1 = special1[0].special_id
-    special2 = special2[0].special_id
-    special3 = special3[0].special_id
-    special4 = special4[0].special_id
-    
-    query = db_session.query(HomePage).all()[0]
-    query.special1 = special1
-    query.special2 = special2
-    query.special3 = special3
-    query.special4 = special4
-
-    if url1 != '':
-        query.special1_image = url1
-    if url2 != '':
-        query.special2_image = url2
-    if url3 != '':
-        query.special3_image = url3
-    if url4 != '':
-        query.special4_image = url4
-
-    query.recommended_activity = recommend_actctivity
-
-    db_session.commit()
-    return 'success'
-    
-##################################  专栏函数  ####################################
-def get_all_specials(sort, page_id, perpage):
-    if sort == 'time':
-        query = db_session.query(Special).order_by(Special.last_modified.desc(), Special.coin.desc())
-    else:
-        query = db_session.query(Special).order_by(Special.coin.desc(), Special.last_modified.desc())
-    return paginate(query = query, page = page_id, per_page = perpage, error_out = True)
-    
-def get_search_specials(search):
-    query = db_session.query(Special).filter(Special.name.like('%'+search+'%')).order_by(Special.coin.desc())
-    return paginate(query = query, page = 1, error_out = True)
-
-def create_special_authorized():
-	nick=None
-	if 'user_id' in session:
-		result = db_session.query(User).filter_by(user_id=int(session['user_id'])).all()[0]
-		return result.role == 3
-		## 专栏作家或者管理员
-	else:
-	    return False
-
-def create_new_special(name, user_id, picture, introduction,
-                        style, total_issue, update_frequency):
-    special = Special(name = name, user_id = user_id,
-                       picture = picture, introduction = introduction,
-                       time = datetime.now(), style = style,
-                       total_issue = total_issue,
-                       update_frequency = update_frequency)
-    db_session.add(special)
-    user = db_session.query(User).filter_by(user_id = user_id).first();
-    if user.role == 1:
-        user.role = 2
-    db_session.commit()
-    return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
-    
-def modify_special_func(name, user_id, picture, introduction,
-                        style, total_issue, update_frequency):
-    query = db_session.query(Special).filter_by(name = name, user_id = user_id).all()
-    if (len(query) == 0):
-        raise Exception
-    special = query[0]
-    special.picture = picture
-    special.introduction = introduction
-    special.style = style
-    special.total_issue = total_issue
-    special.update_frequency = update_frequency
-    db_session.commit()
-    return special.special_id
-    
-def get_userid_by_nick(nick):
-    return db_session.query(User.user_id).filter_by(nick=nick).all()
-
-def get_nick_by_userid(user_id):
-    return db_session.query(User.nick).filter_by(user_id=user_id).all()[0][0]
-
-def get_userid_from_session():
-	nick=None
-	if 'user_id' in session:
-		result = db_session.query(User).filter_by(user_id=int(session['user_id'])).all()
-		return result[0].user_id
-	return 0
-
-def get_special_author(userid):
-    result = db_session.query(User).filter_by(user_id = userid).all()
-    return result[0]
-
-def get_special_information(special_id):
-#	result=db_session.query(Special,User.nick).join(User).filter(Special.special_id==special_id).all()
-    result = db_session.query(Special).filter_by(special_id = special_id).all()
-    if len(result)>0:
-        return result[0]
-    else:
-        return None
-        
-def get_special_collect_info(user_id, special_id):
-    query = db_session.query(Collection_Special).filter_by(user_id = user_id, special_id = special_id).all()
-    return len(query)
-    
-def get_author_collect_info(user_id, author_id):
-    query = db_session.query(Collection_User).filter_by(user_id = user_id, another_user_id = author_id).all()
-    return len(query)
-
-def get_special_article(special_id, page_id, sort, per_page):
-    if sort == "time":
-#        print ddd
-        query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.time.desc())
-    else:
-        query = db_session.query(Article).filter_by(special_id = special_id, is_draft = '0').order_by(Article.coins.desc())
-
-    pagination = paginate(query = query, page = page_id, per_page = per_page, error_out = True)
-    return pagination
-    
-def get_special_draft(special_id):
-    return db_session.query(Article).filter_by(special_id = special_id, is_draft = '1').all()
-    
-def get_special_author_other(user_id, special_id, limit):
-    query = db_session.query(Article.title, Article.article_id).filter(and_(Article.user_id == user_id, or_(Article.special_id == None, Article.special_id != special_id))).limit(limit).all()
-    return query
-
-def get_related_special(user_id):
-    query = db_session.query(Special.special_id, Special.name, Special.picture, Special.favor, Special.coin, Special.user_id).join(Collection_Special).filter_by(user_id=user_id).limit(6).all()
-    return query
-
-def update_article_num_for_special(special_id,is_add):
-	special=db_session.query(Special).filter_by(special_id=special_id).scalar()
-	if is_add:
-		special.article_num+=1
-	else:
-		special.article_num-=1
-	db_session.commit()
 
 ###################################  昵称函数  ####################################
 def getNick():
@@ -668,13 +358,7 @@ def update_collection_num(user_id,another_user_id,is_add):
 		another_user.be_followed_num-=1		
 	db_session.commit()
 
-def get_hot_ground_acticle():
-	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
-	return result
 
-def get_recommended_ground_article():
-	result=db_session.query(Article).join(HomePage,HomePage.ground_recommended_article==Article.article_id).filter(and_(Article.groups=='1',Article.is_draft=='0')).first()
-	return result
 
 def get_most_hot_ground_article():
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).first()
@@ -685,13 +369,7 @@ def get_most_hot_activity():
 	result=db_session.query(Activity).filter_by(activity_id = act_id).first()
 	return result
 
-def get_article_group_by_coin(groups,category):
-	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.coins)).limit(10).all()
-	return result
 
-def get_article_group_by_time(groups,category):
-	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups==groups,Article.category==category,Article.is_draft=='0')).order_by(desc(Article.time)).limit(10).all()
-	return result
 
 def has_collected(user_id,another_user_id):
 	result=db_session.query(Collection_User).filter(and_(Collection_User.user_id==user_id,Collection_User.another_user_id==another_user_id)).all()
@@ -1150,9 +828,7 @@ def update_notification_read_state(notification_pagination):
 		update_notification_read_state_by_notification_id(item.message_id)
 #######################################  更新消息阅读状态 end ########################################
 
-def get_recommend_words():
-	result=db_session.query(HomePage.recommend_words).first()
-	return result
+
 
 
 def get_point_by_member_id(member_id):
