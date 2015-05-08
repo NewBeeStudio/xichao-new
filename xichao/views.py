@@ -52,6 +52,7 @@ from functions_square import *
 from functions_index import *
 from functions_user import *
 from functions_article import *
+from functions_homepage import *
 from flask import redirect,url_for,render_template,request,flash,session,make_response,send_from_directory,jsonify,abort,json
 from models import User
 from database import db_session
@@ -1606,7 +1607,7 @@ def ajax_home_page_modify_basic_information():
         return 'nick_length_error'
     if current_user.nick!=nick and nick_exist(nick):
         return 'nick_error'
-    result=updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
+    result=update_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone)
     return result
 ##测试成功
 ##修改头像

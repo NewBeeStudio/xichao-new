@@ -42,14 +42,10 @@ def paginate(query,page,per_page=20,error_out=True):
 def get_article_pagination_by_favor(group_id,category_id,page_id):
 	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.coins))
 	return paginate(query,page_id,10,False)
+
 def get_article_pagination_by_time(group_id,category_id,page_id):
 	query=db_session.query(Article,User.nick).join(User,User.user_id==Article.user_id).filter(and_(Article.groups==group_id,Article.category==category_id,Article.is_draft=='0')).order_by(desc(Article.time))
 	return paginate(query,page_id,10,False)
-
-	
-
-
-
 
 def get_most_hot_ground_article():
 	result=db_session.query(Article,User.nick).join(User).filter(and_(Article.groups=='1',Article.is_draft=='0')).order_by(desc(Article.coins)).first()
@@ -60,13 +56,6 @@ def get_most_hot_activity():
 	result=db_session.query(Activity).filter_by(activity_id = act_id).first()
 	return result
 
-
-
-
-
-
-
-
 def update_activity_favor(activity_id,is_add):
 	activity=db_session.query(Activity).filter_by(activity_id=activity_id).scalar()
 	if is_add:
@@ -74,7 +63,6 @@ def update_activity_favor(activity_id,is_add):
 	else:
 		activity.favor-=1
 	db_session.commit()
-
 
 def get_current_activity_list(time):
 	result=db_session.query(Activity).filter(Activity.activity_time>time).all()
@@ -161,8 +149,8 @@ def get_has_next(pagination):
 		return 'no'
 
 
-
-def updata_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone):
+## changed here!
+def update_user_basic_information_by_user_id(user_id,nick,gender,birthday,phone):
 	user=db_session.query(User).filter_by(user_id=user_id).scalar()
 	user.nick=nick
 	user.gender=gender

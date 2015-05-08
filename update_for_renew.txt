@@ -1,4 +1,4 @@
-###### Update informations Here! ######
+﻿###### Update informations Here! ######
 
 2015.5.7 Hunter_Lin
 
@@ -6,3 +6,8 @@ Initialization of update documents.
 
 2015年5月7日23:20:41 morning
 把func分成了几个文件，（未完成）。感觉效果不算很好，有的py中还是要import很多model
+
+
+2015.5.8 Hunter_Lin
+
+建议把拆出来的 function_*.py 在 function.py 中import，这样views.py就不需要了解function内的细节。
