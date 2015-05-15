@@ -483,6 +483,26 @@ def update_article_num_for_special(special_id,is_add):
 		special.article_num-=1
 	db_session.commit()
 
+def prev_special_article(article_id):
+	article = db_session.query(Article).filter_by(article_id = article_id).first()
+	if article.special_id == None:
+		return None
+	prev_article = db_session.query(Article).filter(and_(Article.special_id == article.special_id, Article.time < article.time)).order_by(Article.time.desc()).limit(1).all()
+	if len(prev_article) == 0:
+		return None
+	else:
+		return prev_article[0]
+
+def next_special_article(article_id):
+	article = db_session.query(Article).filter_by(article_id = article_id).first()
+	if article.special_id == None:
+		return None
+	next_article = db_session.query(Article).filter(and_(Article.special_id == article.special_id, Article.time > article.time)).order_by(Article.time).limit(1).all()
+	if len(next_article) == 0:
+		return None
+	else:
+		return next_article[0]
+
 ###################################  昵称函数  ####################################
 def getNick():
 	nick=None

@@ -139,6 +139,16 @@
 	background-image: linear-gradient(to bottom,#fff,#fff);
 }
 
+#special-article-paging a{
+    border-radius: 0px;
+}
+
+#special-article-paging a:hover{
+    border: solid 1px #D9AE48;
+    background-color: white;
+}
+
+
 #p_share {
 	float: left;
 	padding-left: 765px;

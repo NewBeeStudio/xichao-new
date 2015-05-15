@@ -481,8 +481,13 @@ def article(article_id):
             else:
                 update_read_num(article_id)
 
+            prev_article = prev_special_article(article_id)
+            next_article = next_special_article(article_id)
+
             return render_template('test_article.html',
                 article=article[0], author=article[1],
+                prev_article = prev_article,
+                next_article = next_article,
                 book=article[2], avatar=get_avatar(),
                 comments=comments, comment_page=comment_page,
                 comment_reply=comment_reply, nick=getNick(),
