@@ -764,6 +764,7 @@ def special_article_upload():
 
 # 修改专栏文章
 @app.route('/special_article_modify/article/<int:article_id>')
+@login_required
 def special_article_modify(article_id):
     article = get_article_information(article_id)
 
@@ -772,14 +773,13 @@ def special_article_modify(article_id):
     except Exception:
         abort(404)
 
-    author = article[0].user_id
-    login_user = get_userid_from_session()
-    if (author != login_user):
+    if (article[0].user_id != current_user.user_id):
         abort(404)
 
     session['special_id'] = str(article[0].special_id)
     session['special_article_session_id'] = str(article[0].article_session_id)
-    return render_template('special_article_modify.html',article=article[0],book=article[2])
+    return render_template('special_article_modify.html',
+                            article=article[0], book=article[2])
 
 
 # 删除专栏文章
@@ -967,10 +967,15 @@ def article_upload():
     return render_template('test_article_upload.html', upload_url=upload_url)
 
 @app.route('/article_modify/article/<int:article_id>')
+@login_required
 def article_modify(article_id):
     article=get_article_information(article_id)
     session['article_session_id']=str(article[0].article_session_id)
     upload_url='/group/'+article[0].groups+'/category/'
+    
+    if (article[0].user_id != current_user.user_id):
+        abort(404)
+
     return render_template('test_article_modify.html',article=article[0],book=article[2],upload_url=upload_url)
 
 

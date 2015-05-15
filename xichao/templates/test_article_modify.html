@@ -12,7 +12,7 @@
 {% block content %}
  <p id="title">&nbsp;<a href="{{url_for('index')}}" ><font color="black">首页</font></a>&nbsp;>>>&nbsp;修改文章</p>
     <div id="pics">
-        <img class="pics" id="pic_4" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_6.jpg')}}" />
+        <img class="pics" id="pic_4" style="width:160px;height:160px;" src="{{article.picture}}" />
        <!-- <p class="p_triangle" id="triangle_left">◀</p>-->
        <img class="triangle" id="triangle_left" src="{{ url_for('static', filename='images/right.png') }}" />
         <img class="pics" id="pic_1" style="width:160px;height:160px;" src="{{url_for('uploaded_article_title_image',filename='article_upload_pic_1.jpg')}}" />
@@ -182,7 +182,7 @@
         val_book_ISBN=$("#book_isbn").text();
         val_book_binding=$("#book_binding").text();
         val_category=$('input[name="category"]:checked').val();
-        alert('/article/finish{{upload_url}}'+val_category);
+        //alert('/article/finish{{upload_url}}'+val_category);
         
         $.post('/article/finish{{upload_url}}'+val_category,
         {
