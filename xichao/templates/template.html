@@ -86,7 +86,10 @@ background-image: url('{{url_for('static', filename='images/index-up-middle-laye
         {% set count = 0 %}
         {% for article in hot_articles %}
         {% set count = count + 1 %}
-        <a class="thumbnail index-hot-entry"href="{{ url_for('article', article_id=article.article_id)}}">
+        <a class="thumbnail index-hot-entry"href="{{ url_for('article', article_id=article.article_id)}}"
+           {% if count == 1%}
+           style="margin-top:35px;"
+           {% endif %}>
         <div>
             <div class="index-hot-entry-left" style="
 background-image: url('{{article.picture | safe}}');
@@ -118,7 +121,7 @@ background-size: 100%, 100%">
             
             <div class="index-hot-entry-right">
                 <div class="index-hot-entry-right-title">{{article.title}}</div>
-                <table>
+                <table style="margin-left: 5px;">
         			<tr>
                     <td>文|{{get_author(article.user_id)}}&nbsp;&nbsp;</td>
         			<td>{{ article.time | time_split_2 }}&nbsp;&nbsp;</td>

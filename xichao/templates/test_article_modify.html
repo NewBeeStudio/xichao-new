@@ -46,6 +46,14 @@
         <li role="presentation" id="change-display-list" class="change-article-type" value="3"><a>杂文</a></li>
         {% endif %}
       </ul>
+        
+    <div style="display:none">
+      <input id = "type-input1" type="radio" name="category" value="1" checked="true">书评
+      <input id = "type-input2" type="radio" name="category" value="2">影评
+      <input id = "type-input3" type="radio" name="category" value="3">杂文
+      </div>
+        
+        
       <label id="label_article">文章类别：</label>
 
       <script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
@@ -174,6 +182,8 @@
         val_book_ISBN=$("#book_isbn").text();
         val_book_binding=$("#book_binding").text();
         val_category=$('input[name="category"]:checked').val();
+        alert('/article/finish{{upload_url}}'+val_category);
+        
         $.post('/article/finish{{upload_url}}'+val_category,
         {
           _csrf_token:"{{ csrf_token() }}",
