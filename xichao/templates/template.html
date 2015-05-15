@@ -112,7 +112,7 @@ background-size: 100%, 100%">
 	                	{% endif %}
 	                {% endif %}
 	                {% if article.groups == '3' %}
-	                专栏《{{article.title}}》
+	                专栏《{{get_special_information(article.special_id).name}}》
 	                {% endif %}
 	                <!--《{{article.title}}》-->
                     </p>
