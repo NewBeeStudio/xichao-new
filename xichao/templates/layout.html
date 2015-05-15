@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>曦潮书店 | 青春校园，人文曦潮</title>
         <meta name="Keywords" content="曦潮, xichao, 书店, 校园, 社交, 创业" />
         <meta name="description" content="曦潮由新蜂工作室负责维护" />
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/xichao-logo.png') }}" />
@@ -50,7 +49,7 @@
             <div class="width-160-last"></div>
         </div>
         </div> 
--->
+        -->
         <div id="navbar-info">
             <div class="navbar navbar-default">
                 <div class="floatright">
@@ -236,7 +235,7 @@
         <div id="footer" style="margin-bottom:-20px;">
             <div id="footer-block">
             <img src="{{ url_for('static', filename='images/logo.png') }}" style="float:left">
-            <div style="margin-left:100px;margin-top:20px;margin-right:20px;width:500px;float:left;">
+            <div style="margin-left:90px;margin-top:20px;width:600px;float:left;">
                 <ul>
                     <h3>关于书香</h3>
                 </ul>
@@ -248,10 +247,9 @@
                 </ul>
                 <ul>
                     <h3>加入我们</h3>
-                    <!--
-                    <li><a href="#">曦潮实习生</a></li>
-                    <li><a href="#">曦潮叶子</a></li>
-                    -->
+                </ul>
+                <ul>
+                    <h3><a id="suggest_button">建议反馈</a></h3>
                 </ul>
 
                 <div id="footer-statement">
@@ -266,7 +264,7 @@
                     <li><a href="http://net.sjtu.edu.cn/">上海交通大学网络中心</a></li>
                 </ul>
                 
-                <ul style="width: 210px">
+                <ul style="width: 210px;position:absolute">
                     <h3 style="margin-bottom:15px">联系我们</h3>
                     <li>电话： 021-54745080</li>
                     <li>邮箱： info@xichao-sjtu.com</li>
@@ -340,6 +338,22 @@
                 iframe: {src: url},
             });
         });
+    </script>
+    <script>
+        $("#suggest_button").click(function()
+		{
+			var url = "{{ url_for('suggest_page') }}";
+			$.layer({
+				type: 2,
+				title: ['建议反馈'],
+				shade: [0.65, '#000'],
+				shadeClose: true,
+				closeBtn: false,
+				border: [2, 1, '#D9AE48'],
+				area: ['560px', '258px'],
+				iframe: {src: url},
+			});
+		});
     </script>
     {% block js %}
     

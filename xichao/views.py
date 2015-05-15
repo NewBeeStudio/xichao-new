@@ -1945,6 +1945,12 @@ def article_test():
 def message_page(to_user_id):
     return render_template('message_page.html', to_user_id=to_user_id)
 
+@app.route('/suggest_page/')
+@login_required
+def suggest_page():
+    return render_template('suggest_page.html', to_user_id=get_suggest_user().user_id)
+
+
 @app.route('/notification_page')
 @login_required
 def notification_page():

@@ -414,6 +414,7 @@ src: url(../fonts/liukai-small.ttf);
 #footer-block h3{
     margin: 0;
     font: 15px 黑体;
+    color: white;
 }
 
 #footer-block li{
@@ -422,8 +423,11 @@ src: url(../fonts/liukai-small.ttf);
 }
 
 #footer-block a{
-    color: #aaa;
+    color: #fff;
     display: inline;
+}
+#footer-block a:hover{
+    cursor: pointer;
 }
 
 #footer-block a:hover{

@@ -1186,3 +1186,5 @@ def get_point_by_member_id(member_id):
         return 0
     return point
 
+def get_suggest_user():
+	return db_session.query(User).filter_by(nick = u"曦潮叶子").first()

@@ -3,6 +3,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="/static/css/pay_author.css" />
 	<meta charset="UTF-8" />
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
 	<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 	<script type="text/javascript">
@@ -83,6 +84,11 @@
 			});
 		});
 	</script>
+	<style>
+	.default-coin a:hover{
+		cursor: pointer;
+	}
+	</style>
 </head>
 <body>
 	<div id="my_xichao">
@@ -91,8 +97,16 @@
 		<p id="author"></p>
 	</div>
 
-	<div id="pay">
+	<div id="pay" style="width:500px">
 		<p id="num_pay">打赏数额 ：</p>
+
+		<ul id="display-type-select" class="nav nav-pills" style="float:right">
+        <li role="presentation" class="default-coin" value="1"><a><img style="width: 14px;" src="{{ url_for('static', filename='images/coins.png') }}">10</a></li>
+        <li role="presentation" class="default-coin" value="2"><a><img style="width: 14px;" src="{{ url_for('static', filename='images/coins.png') }}">20</a></li>
+        <li role="presentation" class="default-coin" value="3"><a><img style="width: 14px;" src="{{ url_for('static', filename='images/coins.png') }}">30</a></li>
+      	</ul>
+
+
 		<input type="text" id="award_num" oonkeyup=”this.value=this.value.replace(/\D/g,”)” style=”ime-mode:disabled”>
 		<img style="width: 14px;" src="{{ url_for('static', filename='images/coins.png') }}">
 	</div>
@@ -111,6 +125,22 @@
 		<button class="register-button" id="button">打赏作者</button>
 	</div>
 
-	
+	<script>
+	$(".default-coin").click(function(){
+		var type = $(this).attr("value");
+		$(".default-coin").attr("class", "default-coin");
+//		$(this).attr("class", "default-coin active");
+		if (type == "1"){
+			$("#award_num").val("10");
+		}
+		if (type == "2"){
+			$("#award_num").val("20");
+		}
+		if (type == "3"){
+			$("#award_num").val("30");
+		}
+	});
+	</script>
+	</style>
 </body>
 </html>
