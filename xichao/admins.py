@@ -131,8 +131,9 @@ class SpecialView(ModelView):
 				return False
 		else:
 			return False
-	column_list=('special_id','user_id','name','introduction','article_num','time','favor','coin')
-	column_filters=('user_id','article_num','favor','coin')
+	column_list=('special_id','name','introduction','article_num','time','favor','coin')
+#	column_list=('special_id','user_id','name','introduction','article_num','time','favor','coin')
+	column_filters=('article_num','favor','coin')
 	def __init__(self,session,**kwargs):
 		super(SpecialView,self).__init__(Special,session,**kwargs)
 

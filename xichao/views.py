@@ -67,7 +67,6 @@ import urllib
 GROUP=[u'广场',u'文章',u'专栏']
 CATEGORY=[u'书评',u'影评',u'杂文',u'专栏文章']
 #######################################  图片裁剪器  #########################################
-##TODO：通过传参，缩为一个
 @app.route('/upload/tailor/title_image')
 def upload_title_image():
     return render_template('upload_title_image_tailor.html')
@@ -189,7 +188,6 @@ def uploaded_homepage_image(filename):
     return send_from_directory(app.config['HOMEPAGE_DEST'],filename)
 
 ####################################  注册  ##################################
-##TODO：注册表单的头像链接要随着表单一起发送过来
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     # myCaptcha = captcha.Captcha()
@@ -606,6 +604,7 @@ def special():
     special = get_special_information(special_id)
     if (special == None):
         abort(404)
+    ####TODO1
     author = get_special_author(special.user_id)
 
 #    print ddd
@@ -613,11 +612,13 @@ def special():
     login_user = get_userid_from_session()
 
     articles_pagination = get_special_article(special_id, page_id, sort, 5)
+    ####TODO2
     author_other_article = get_special_author_other(special.user_id, special_id, 6)
     related_other_special = get_related_special(special.user_id)
 
     mobile_tag = request.headers.get('User-Agent')
     is_mobile = is_small_mobile_device(mobile_tag)
+    ####TODO2
     return render_template('special_detail.html',
                             is_mobile = is_mobile,
                             root_authorized = root_authorized(),
@@ -765,6 +766,7 @@ def special_article_upload():
     except Exception:
         abort(404)
 
+    ####TODO
     author = get_special_information(special_id).user_id
     #login_user = get_userid_from_session()
     if (not root_authorized()):
