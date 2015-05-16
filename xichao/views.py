@@ -1566,11 +1566,11 @@ def ajax_home_page_notification(page_id):
     return result
 
 ##能够返回数据
-##返回当前专栏用户的专栏
-@app.route('/homepage/pagination/special/page/<int:page_id>',methods=['GET'])
+##返回专栏用户的专栏
+@app.route('/homepage/pagination/special/page/<int:page_id>/user/<int:user_id>',methods=['GET'])
 @login_required
-def ajax_home_page_special(page_id):
-    pagination=get_special_pagination(current_user.user_id,page_id)
+def ajax_home_page_special(page_id, user_id):
+    pagination=get_special_pagination(user_id,page_id)
     has_prev=get_has_prev(pagination)
     has_next=get_has_next(pagination)
     page=str(pagination.page)

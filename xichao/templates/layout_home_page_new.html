@@ -312,6 +312,10 @@
 			refresh_url = "/homepage/pagination/special/page/";
 
 		refresh_url += page_id;
+
+		if (category == "special-all")
+			refresh_url += "/user/" + {{user.user_id}};
+		//alert(refresh_url);
 		return refresh_url;
 	}
 
@@ -1290,7 +1294,8 @@ function update_coin_point(){
 			return refresh_url;
 		}
 		else if(category == "special-all"){
-			refresh_url = "/homepage/pagination/special/page/" + page_id;
+			refresh_url = "/homepage/pagination/special/page/" + page_id + "/user/" + {{user.user_id}};
+			//alert(refresh_url);
 			return refresh_url;
 		}
 
