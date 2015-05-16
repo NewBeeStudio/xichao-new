@@ -280,7 +280,7 @@ class Article(Base,AutoSerialize):
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
-    __allowed_in_json__ = ['title','article_id','picture','time','comment_num','coins']
+    __allowed_in_json__ = ['category', 'title','article_id','picture','time','comment_num','coins']
     ########## Primary索引 ##########
     article_id = Column(Integer, primary_key=True, autoincrement=True, 
                                  nullable=False, index=True)

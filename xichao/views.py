@@ -1483,11 +1483,7 @@ def ajax_home_page_article(page_id):
     else:
         sort_by=False
     pagination=get_article_pagination_by_user_id(current_user.user_id,sort_by,page_id)
-    rows = []
-    for item in pagination.items:
-        tmp = item.get_serialize()
-        tmp["category"] = CATEGORY[int(item.category)-1]
-        rows.append(tmp)
+    rows = [item.get_serialize() for item in pagination.items]
 
     has_prev=get_has_prev(pagination)
     has_next=get_has_next(pagination)
@@ -1886,11 +1882,7 @@ def ajax_article_pagination_by_coins(user_id,page_id):
     has_next=get_has_next(article_pagination)
     page=str(article_pagination.page)
     pages=str(article_pagination.pages)
-    rows=[]
-    for article in article_pagination.items:
-        tmp = article.get_serialize()
-        tmp["category"] = CATEGORY[int(article.category)-1]
-        rows.append(tmp)
+    rows=[article.get_serialize() for article in article_pagination.items]
     return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=rows)
 
 @app.route('/user/<int:user_id>/article/pagination/by_time/page/<int:page_id>',methods=['GET'])
@@ -1901,11 +1893,7 @@ def ajax_article_pagination_by_time(user_id,page_id):
     has_next=get_has_next(article_pagination)
     page=str(article_pagination.page)
     pages=str(article_pagination.pages)
-    rows=[]
-    for article in article_pagination.items:
-        tmp = article.get_serialize()
-        tmp["category"] = CATEGORY[int(article.category)-1]
-        rows.append(tmp)
+    rows=[article.get_serialize() for article in article_pagination.items]
     return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=rows)
 
 
