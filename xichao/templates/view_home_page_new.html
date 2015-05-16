@@ -8,7 +8,18 @@
 		<div id="info-main-tab" class="main-tab">	
 			<ul id="info-main-tab-ul" class="idTabs main-tab-ul"> 
 				<li><a id="bt-release" href="#release">发布</a></li>
+
+				{% if user.gender == 'f' %}
+				<li><a id="bt-focus" href="#focus">她的关注</a></li>
+				{% if user.role == 2 %}
+				<li><a id="bt-special" href="#special">她的专栏</a></li>
+				{% endif %}
+				{% else %}
 				<li><a id="bt-focus" href="#focus">他的关注</a></li>
+				{% if user.role == 2 %}
+				<li><a id="bt-special" href="#special">他的专栏</a></li>
+				{% endif %}
+				{% endif %}
 			</ul> 
 		</div>
 
@@ -98,6 +109,29 @@
 					</div>
 				</div>
 			</div>
+
+			{% if user.role == 2 %}
+			<!-- 专栏tab -->
+			<div id="special">
+				<div class="sub-tab">
+					<ul class="idTabs">
+					</ul>
+				</div>
+
+				<div class="sub-content">
+
+					<div id="special-all">
+						{#<!-- <div class='content-box'>
+						{% for i in range(8) %}
+							<div class='focus-info'>
+								<div><a href='#'><img src='/static/images/logo.jpg'></a></div>
+								<div><a href='#'>名字最长可能达到十位</a></div>
+							</div>
+						{% endfor %} </div> -->#}
+					</div>
+				</div>
+			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>

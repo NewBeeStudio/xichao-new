@@ -1289,6 +1289,10 @@ function update_coin_point(){
 			refresh_url = "/user/" + {{user.user_id}} + "/collection_author/pagination/page/" + page_id;
 			return refresh_url;
 		}
+		else if(category == "special-all"){
+			refresh_url = "/homepage/pagination/special/page/" + page_id;
+			return refresh_url;
+		}
 
 		// refresh_url += page_id;
 		return refresh_url;
@@ -1420,6 +1424,20 @@ function update_coin_point(){
 				}
 				text += "</div>";
 			}
+			else if(category == "special-all"){
+				var items = data.rows;
+
+				text = "<div class='content-box'>";
+				for(var i = 0; i < items.length; ++i){
+					text += "<div class='focus-info'>\
+								<div><a href='/special?id=" + items[i].special_id + "&page=1'>\
+									<img src='" + items[i].picture + "'>\
+									</a></div>\
+								<div><a href='/special?id=" + items[i].special_id + "&page=1'>" + items[i].name + "</a></div>\
+							</div>";
+				}
+				text += "</div>";
+			}
 			
 			//分页处理
 			var pagniation_text = show_pagination(data, category);
@@ -1477,6 +1495,9 @@ function update_coin_point(){
 
 		$('#bt-focus').click(function(){
 			homepage_display("focus-user", 1);
+		});
+		$('#bt-special').click(function(){
+			homepage_display("special-all", 1);
 		});
 	});
 
