@@ -28,7 +28,7 @@
 		杂文
 		{% endif %}
 		</a>&nbsp;&nbsp;></p>
-		<p id="p_title_2">&nbsp;{{article.title}}</p>
+<!--		<p id="p_title_2">&nbsp;{{article.title}}</p>-->
 		{% else %}
 		<a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a>&nbsp;>&nbsp;
 
@@ -38,7 +38,9 @@
 
 		{% endif %}
 	</div>
-	
+
+	<div style="clear:both;"></div>
+
 	<div id="article">
 	<input type="hidden" id="article_id" value="{{article.article_id}}">
 
@@ -48,7 +50,7 @@
 	</div>
 
 	<div id="article_content">
-		<p id="p_read">阅读</p>
+		<p id="p_read" style="padding-left:0px;">阅读</p>
 		<p id="p_read_content">({{article.read_num}})</p>
 		<p id="p_num_xichao">曦潮币<span>+</span>  (</p>
 		<p id="p_num_xichao_content">{{article.coins}}</p>
