@@ -614,10 +614,12 @@ def special():
 
     articles_pagination = get_special_article(special_id, page_id, sort, 5)
     author_other_article = get_special_author_other(special.user_id, special_id, 6)
-#    print aaa
     related_other_special = get_related_special(special.user_id)
-#    print aaa
+
+    mobile_tag = request.headers.get('User-Agent')
+    is_mobile = is_small_mobile_device(mobile_tag)
     return render_template('special_detail.html',
+                            is_mobile = is_mobile,
                             root_authorized = root_authorized(),
                             author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),

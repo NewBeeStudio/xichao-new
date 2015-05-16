@@ -3,7 +3,7 @@
 <!--css file used-->
 {% block css %}
     <title>书香专栏｜{{ special_title }}</title>
-    
+
 	<link href="{{ url_for('static', filename='css/special_detail.css') }}" rel='stylesheet' type='text/css'/> 
     <link rel="stylesheet" type="text/css" href="/static/css/button.css" />
 
@@ -55,7 +55,7 @@
 
 <!--content-->
 {% block content %}
-
+{{is_mobile}}
 <!--当前位置-->
 <div class="current-position">
     <p>&nbsp;首页&nbsp;>&nbsp;专栏列表&nbsp;>&nbsp;专栏详情</p>
@@ -66,7 +66,9 @@
 <!-- ===================专栏名称及作者====================== -->
 <div id="special-info-part">
 	<!-- 左侧专栏信息 -->
-	<div id="special-info">
+	<div id="special-info" {% if is_mobile %}
+    style="width:100%"
+    {% endif %}>
 		<!-- 专栏名称和介绍 -->
 		<div id="special-name">
 			<!-- 专栏封面 -->
@@ -134,6 +136,7 @@
 
 	</div>
 
+    {% if not is_mobile %}
 	<!-- 右侧专栏作者介绍 -->
 	<div id="special-auther">
 
@@ -171,6 +174,7 @@
             {% endfor %}
         </div>
 	</div>
+    {% endif %}
 </div>
 
 
@@ -268,6 +272,8 @@
     </div>
 		
 </div>
+
+    {% if not is_mobile %}
 <!-- 类似专栏 -->
 		<div id="special-related">
 			<div class="special-separate-block" style="margin-bottom:30px;">
@@ -301,7 +307,9 @@
             {% endfor %}
 
 		</div>
-<div style="clear: both;"></div>
+
+    {% endif %}
+    <div style="clear: both;"></div>
 
 {% endblock %}
 

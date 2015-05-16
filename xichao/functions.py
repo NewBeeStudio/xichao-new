@@ -24,6 +24,13 @@ import models
 import urllib
 import json
 
+def is_mobile_device(mobile_tag):
+	return (mobile_tag.find("iPhone") != -1) or \
+		   (mobile_tag.find("iPad") != -1) or \
+		   (mobile_tag.find("Android") != -1)
+def is_small_mobile_device(mobile_tag):
+	return (mobile_tag.find("iPhone") != -1) or \
+		   (mobile_tag.find("Android") != -1)
 
 ##################################  注册函数  ####################################
 def nick_exist(nick):
