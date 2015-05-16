@@ -384,7 +384,7 @@ def get_search_specials(search):
     query = db_session.query(Special).filter(Special.name.like('%'+search+'%')).order_by(Special.coin.desc())
     return paginate(query = query, page = 1, error_out = True)
 
-def create_special_authorized():
+def root_authorized():
 	nick=None
 	if 'user_id' in session:
 		result = db_session.query(User).filter_by(user_id=int(session['user_id'])).all()[0]
@@ -999,7 +999,7 @@ def pretreamentment_article_delete(article_id):
 	delete_collection_article_by_article_id(article_id)
 def delete_article_by_article_id(article_id,user_id):
 	article=db_session.query(Article).filter_by(article_id=article_id).first()
-	if article==None or article.user_id!=user_id:
+	if article==None or not root_authorized():
 		return 'fail'
 	else:
 		##先删除和这片文章相关的内容
@@ -1018,7 +1018,7 @@ def pretreamentment_comment_delete(comment_id):
 
 def delete_comment_by_comment_id(comment_id,user_id):
 	comment=db_session.query(Comment).filter_by(comment_id=comment_id).first()
-	if comment.user_id!=user_id or comment==None:
+	if (comment.user_id!=user_id and not root_authorized()) or comment==None:
 		return 'fail'
 	else:
 		pretreamentment_comment_delete(comment_id)

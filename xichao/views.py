@@ -134,7 +134,7 @@ def index():
 @app.route('/modify_homepage')
 @login_required
 def modify_homepage():
-    if (not create_special_authorized()):
+    if (not root_authorized()):
         abort(404)
     allSpecial = get_all_special()
     return render_template('modify_homepage.html', allSpecial = allSpecial)
@@ -143,7 +143,7 @@ def modify_homepage():
 @app.route('/modify_homepage_finish', methods=['GET'])
 @login_required
 def modify_homepage_finish():
-    if (not create_special_authorized()):
+    if (not root_authorized()):
         abort(404)
     special1 = request.args.get('special1')
     special2 = request.args.get('special2')
@@ -485,6 +485,7 @@ def article(article_id):
             next_article = next_special_article(article_id)
 
             return render_template('test_article.html',
+                root_authorized = root_authorized(),
                 article=article[0], author=article[1],
                 prev_article = prev_article,
                 next_article = next_article,
@@ -516,6 +517,12 @@ def ajax_article_comments(article_id,page_id):
             comment_reply.append([reply,item[1],item[2],item[3]])
     
     return jsonify(comment_page=str(comment_page.page),comments_row=comments_row,comment_reply=comment_reply)
+
+@app.route('/comment_remove/<int:comment_id>',methods=['GET'])
+@login_required
+def ajax_comments_remove(comment_id):
+    delete_comment_by_comment_id(comment_id, current_user.user_id)
+    return "success"
 
 @app.route('/get_nick/<int:user_id>',methods=['GET'])
 @login_required
@@ -611,6 +618,7 @@ def special():
     related_other_special = get_related_special(special.user_id)
 #    print aaa
     return render_template('special_detail.html',
+                            root_authorized = root_authorized(),
                             author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
                             has_collected_author = get_author_collect_info(login_user, special.user_id),
@@ -639,7 +647,7 @@ def special():
 @app.route('/create_special')
 @login_required
 def create_special():
-    if (not create_special_authorized()):
+    if (not root_authorized()):
         abort(404)
     return render_template('create_special.html')
 
@@ -648,7 +656,7 @@ def create_special():
 @app.route('/modify_special')
 @login_required
 def modify_special():
-    if (not create_special_authorized()):
+    if (not root_authorized()):
         abort(404)
     return render_template('modify_special.html')
 
@@ -675,7 +683,7 @@ def upload_special_title_image():
 @app.route('/create_special_finish', methods=['GET'])
 @login_required
 def create_special_finish():
-    if (not create_special_authorized()):
+    if (not root_authorized()):
         abort(404)
 
     try:
@@ -712,7 +720,7 @@ def create_special_finish():
 @app.route('/modify_special_finish', methods=['GET'])
 @login_required
 def modify_special_finish():
-    if (not create_special_authorized()):
+    if (not root_authorized()):
         abort(404)
 
     try:
@@ -756,13 +764,14 @@ def special_article_upload():
         abort(404)
 
     author = get_special_information(special_id).user_id
-    login_user = get_userid_from_session()
-    if (author != login_user):
+    #login_user = get_userid_from_session()
+    if (not root_authorized()):
         abort(404)
 
     article_session_id = get_article_session_id()
     session['special_article_session_id'] = str(article_session_id)
     session['special_id'] = str(special_id)
+    session['special_author_id'] = str(author)
     os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
 
     return render_template('special_article_upload.html')
@@ -778,7 +787,7 @@ def special_article_modify(article_id):
     except Exception:
         abort(404)
 
-    if (article[0].user_id != current_user.user_id):
+    if (not root_authorized()):
         abort(404)
 
     session['special_id'] = str(article[0].special_id)
@@ -825,7 +834,7 @@ def special_article_finish():
         abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
     else:
         abstract=abstract_plain_text[0:190]+'......'
-    user_id = int(session['user_id'])
+    user_id = int(session['special_author_id'])
     book_id = create_book(book_picture = book_picture,
                                   book_author = book_author,
                                   book_press = book_press,
@@ -869,7 +878,7 @@ def special_article_draft():
         abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
     else:
         abstract=abstract_plain_text[0:190]+'......'
-    user_id=int(session['user_id'])
+    user_id=int(session['special_author_id'])
     #create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
     book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
     article_id=create_article(title = title, content = content,
