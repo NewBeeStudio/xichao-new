@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="Keywords" content="曦潮, xichao, 书店, 校园, 社交, 创业" />
+        <meta name="description" content="曦潮由新蜂工作室负责维护" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/xichao-logo.png') }}" />
+
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
+        <link href="{{ url_for('static', filename='css/mobile_main.css') }}" rel='stylesheet' type='text/css'/>
+        {% block css %}
+                
+        {% endblock %}
+    </head>
+
+    <body>
+        <!--
+         <div class="reference-block">
+        <div class="reference-line">
+            {% for i in range(5) %}
+            <div class="width-160"></div>
+            <div class="width-40"></div>
+            {% endfor %}
+            <div class="width-160-last"></div>
+        </div>
+        </div> 
+        -->
+        <div id="navbar-info">
+            <div class="navbar navbar-default">
+                <div class="floatright">
+                    <ul class="nav navbar-nav">
+                    {% if current_user.is_authenticated() %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><img src="{{ url_for('static', filename='images/pen.png') }}">&nbsp;写文章<b class="caret"></b></a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="{{url_for('article_upload')}}">新文章</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#draft">草稿箱</a></li>
+                            </ul>
+                            
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">{{current_user.nick}}<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                {% if current_user.role!=3 %}
+                                {#非管理员界面#}
+                                    <li><a href="{{url_for('home_page')}}">我的主页</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('home_page')}}#settings">个人设置</a></li>
+                                {% else %}
+                                    <li><a href="/admin">个人中心</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#" id="notify">发送通知</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li><a href="/logout">注销</a></li>
+                            </ul>
+                        </li>
+                        
+
+                        <li><a href="{{url_for('home_page')}}#xichao-coin">曦潮币({{current_user.coin}})</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">消息中心 
+                            <b class="caret"></b>
+                            </a>
+                            <span id="all-message-number" class="message-number-display" style="display:none;"></span>
+
+                            <ul class="dropdown-menu menu-min-width message-center-ul">
+                                <li>
+                                    <a href="{{url_for('home_page')}}#received-message">
+                                        <span>收到的私信</span>
+                                        <span id="message-number" class="message-number-display"></span>
+                                </a>
+                                    
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{url_for('home_page')}}#received-comment"><span>收到的评论</span><span id="comment-number" class="message-number-display"></span></a>
+                                    
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{url_for('home_page')}}#received-notification"><span>系统消息</span><span id="notification-number" class="message-number-display"></span></a>
+                                    
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的发布 
+                            <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="{{url_for('home_page')}}#release-article">发布的文章</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#release-comment">发布的评论</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的收藏
+                            <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="{{url_for('home_page')}}#collection-article">收藏的文章</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#collection-activity">收藏的活动</a></li>
+                            </ul>
+                        </li>
+                         <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">我的关注
+                            <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu menu-min-width">
+                                <li><a href="{{url_for('home_page')}}#focus-user">关注的作者</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#focus-special">关注的专栏</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{url_for('home_page')}}#fans">我的粉丝</a></li>
+                            </ul>
+                        </li>
+
+                    {% else %}
+                        <li><a class="register-login" href="/login">登陆</a></li>
+                        <li><a class="register-login" href="/register">注册</a></li>
+                    {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!--header-->
+        <div id="header">
+
+            <!--标题栏-->
+            <div id="nav-bar-header">
+
+                <!--曦潮logo-->
+                <div id="nav-bar-logo" >
+                    <a href=" {{url_for('index')}} "><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
+                    
+                </div>
+                    
+                <div id="nav-bar-right">
+                    {#<div id="nav-bar-search">
+                        <form action="#" method="post">
+                            <input type="text" name="search">
+                        </form>
+                    </div>#}
+                    
+
+                    <div id="navbar-main" class="navbar navbar-default">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{url_for('index')}}">首页</a></li>
+                            <li><a href="{{url_for('special_all')}}?view=list&sort=favor&page=1">专栏</a></li>
+                            <li><a href="{{url_for('activity_main')}}?sort=time&page=1">活动</a></li>
+                            {#<li class="dropdown">
+                                <a href="{{url_for('opinion')}}" class="dropdown-toggle" data-hover="dropdown">观点 <b class="caret"></b></a>
+                                <ul class="dropdown-menu menu-min-width">
+                                    <li><a href="{{url_for('opinion')}}#book_review">书评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('opinion')}}#film_review">影评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('opinion')}}#essay">杂文</a></li>
+                                </ul>
+                            </li>#}
+                            <li class="dropdown">
+                                <a href="{{url_for('square')}}" class="dropdown-toggle" data-hover="dropdown">广场 
+                                <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu menu-min-width">
+                                    <li><a href="{{url_for('square')}}#book_review">书评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('square')}}#film_review">影评</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{url_for('square')}}#essay">杂文</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                    
+            </div>
+
+            <div id="parting-line">
+                <img src="{{ url_for('static', filename='images/border-long.png') }}">
+            </div>
+        </div>
+
+            {#<!--导航栏-->
+            <!-- <ul id="nav-bar">
+                <li class="nav-bar-item"> <a href="{{url_for('index')}}">首页</a> </li>
+                <li class="nav-bar-item"> <a href="{{url_for('special_all')}}?sort=time&page=1">专栏</a> </li>
+                <li class="nav-bar-item"> <a href="{{url_for('activity_main')}}">活动</a> </li>
+                <li class="nav-bar-item"> <a href="{{url_for('opinion')}}">观点</a> </li>
+                <li class="nav-bar-item"> <a href="{{url_for('square')}}">广场</a> </li>
+            </ul> -->#}
+
+        <!--body主题-->
+        <div id="content">
+
+            {% block content %}
+                {% block opinion_content %}
+                {% endblock %}
+            {% endblock %}
+
+        </div>
+        <!---->
+
+        <!--footer-->
+        <div id="footer">
+            <div style="width:760px; margin:auto;">
+
+            <div>
+            <div id="footer-block">
+            
+            <img src="{{ url_for('static', filename='images/logo_white.png') }}" style="float:left;margin-top:10px">
+
+            <div style="margin-left:190px;margin-top:25px;width:600px;float:left;position:absolute">
+                <ul>
+                    <h3>关于书香</h3>
+                </ul>
+                <ul>
+                    <h3>曦潮书店</h3>
+                </ul>
+                <ul>
+                    <h3>曦潮线粒体</h3>
+                </ul>
+                <ul>
+                    <h3>加入我们</h3>
+                </ul>
+                <ul>
+                    <h3><a id="suggest_button">建议反馈</a></h3>
+                </ul>
+
+                <div id="footer-statement">
+                    <div style="float:left">沪ICP备 15007577号</div>
+                    <div style="float:left;margin-left:20px"><a href="http://newbee.io">新蜂工作室 提供支持</a></div>
+                </div>
+            </div>
+            <!--
+            <div id="footer-right">
+                <ul style="width: 200px">
+                    <h3 style="margin-bottom:15px">合作方</h3>
+                    <li><a href="http://www.jiaodapress.com.cn/">上海交通大学出版社</a></li>
+                    <li><a href="http://net.sjtu.edu.cn/">上海交通大学网络中心</a></li>
+                </ul>
+                
+                <ul style="width: 210px;position:absolute">
+                    <h3 style="margin-bottom:15px">联系我们</h3>
+                    <li>电话： 021-54745080</li>
+                    <li>邮箱： info@xichao-sjtu.com</li>
+                </ul>
+            </div>
+            -->
+            </div>
+
+            </div>            
+        </div>
+
+    <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script type="text/javascript">
+
+        //获取个人信息栏消息数目
+        function getMessageNumber(){
+            $.get("/ajax_news",function(result){
+                //新消息总数目
+                if (result.all_message_number!="0") {
+                    $("#all-message-number").css("display","inline");
+                    $("#all-message-number").text(result.all_message_number);
+                }
+                else{
+                    $("#all-message-number").css("display","none");
+                }
+                //私信数目
+                if (result.message_number!="0") {
+                    //alert(result.message_number);
+                    $("#message-number").css("display","inline");
+                    $("#message-number").text(result.message_number);
+                }
+                else{
+                    $("#message-number").css("display","none");
+                }
+                //评论数目
+                if (result.comment_number!="0") {
+                    $("#comment-number").css("display","inline");
+                    $("#comment-number").text(result.comment_number);
+                }
+                else{
+                    $("#comment-number").css("display","none");
+                }
+                //通知数目
+                if (result.notification_number!="0") {
+                    $("#notification-number").css("display","inline");
+                    $("#notification-number").text(result.notification_number);
+                }
+                else{
+                    $("#notification-number").css("display","none");
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            getMessageNumber();
+        });
+    </script>
+    <script type="text/javascript">
+        $("#notify").click(function(){
+            var url = "{{ url_for('notification_page') }}";
+            $.layer({
+                type: 2,
+                title: ['通知'],
+                shade: [0.65, '#000'],
+                shadeClose: true,
+                closeBtn: false,
+                border: [2, 1, '#D9AE48'],
+                area: ['560px', '258px'],
+                iframe: {src: url},
+            });
+        });
+    </script>
+    <script>
+        $("#suggest_button").click(function()
+		{
+			var url = "{{ url_for('suggest_page') }}";
+			$.layer({
+				type: 2,
+				title: ['建议反馈'],
+				shade: [0.65, '#000'],
+				shadeClose: true,
+				closeBtn: false,
+				border: [2, 1, '#D9AE48'],
+				area: ['560px', '258px'],
+				iframe: {src: url},
+			});
+		});
+    </script>
+    {% block js %}
+    
+    {% endblock %}
+    </body>
+
+
+</html>

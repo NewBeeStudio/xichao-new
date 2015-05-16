@@ -443,8 +443,13 @@ def article_main():
 
 ##################################  文章页面  ##################################
 @app.route('/article/<int:article_id>',methods=['GET'])
-@login_required
+#@login_required
 def article(article_id):
+    is_mobile = is_small_mobile_device(request)
+    is_login = 'user_id' in session
+    if not is_mobile and not is_login:
+        return redirect(url_for('login'))
+
     comment_page=request.args.get("comment_page")
     if not comment_page:
         comment_page=1
@@ -474,15 +479,32 @@ def article(article_id):
                 special = get_special_information(article[0].special_id);
             else:
                 special = 0;
+            """
             if article[0].user_id==current_user.user_id:
                 pass
             else:
                 update_read_num(article_id)
+            """
 
             prev_article = prev_special_article(article_id)
             next_article = next_special_article(article_id)
 
-            return render_template('test_article.html',
+            if is_mobile:
+                if is_login:
+                    nick = getNick()
+                else:
+                    nick = ""
+                return render_template('mobile_test_article.html',
+                root_authorized = root_authorized(),
+                article=article[0], author=article[1],
+                prev_article = prev_article,
+                next_article = next_article,
+                book=article[2], avatar=get_avatar(),
+                comments=comments, comment_page=comment_page,
+                comment_reply=comment_reply, nick=nick,
+                special_info = get_special_information)
+            else:
+                return render_template('test_article.html',
                 root_authorized = root_authorized(),
                 article=article[0], author=article[1],
                 prev_article = prev_article,
@@ -491,6 +513,7 @@ def article(article_id):
                 comments=comments, comment_page=comment_page,
                 comment_reply=comment_reply, nick=getNick(),
                 special_info = get_special_information)
+
 
     else:
         abort(404)
@@ -616,10 +639,11 @@ def special():
     author_other_article = get_special_author_other(special.user_id, special_id, 6)
     related_other_special = get_related_special(special.user_id)
 
-    mobile_tag = request.headers.get('User-Agent')
-    is_mobile = is_small_mobile_device(mobile_tag)
+    is_mobile = is_small_mobile_device(request)
     ####TODO2
-    return render_template('special_detail.html',
+
+    if is_mobile:
+        return render_template('mobile_special_detail.html',
                             is_mobile = is_mobile,
                             root_authorized = root_authorized(),
                             author_itself = (special.user_id == login_user),
@@ -643,8 +667,31 @@ def special():
                             articles_pagination = articles_pagination,
                             related_other_special = related_other_special,
                             get_nick_by_userid = get_nick_by_userid)
-#                            articles_pagination = articles_pagination)
-
+    else:
+        return render_template('special_detail.html',
+                            is_mobile = is_mobile,
+                            root_authorized = root_authorized(),
+                            author_itself = (special.user_id == login_user),
+                            has_collected_special = get_special_collect_info(login_user, special_id),
+                            has_collected_author = get_author_collect_info(login_user, special.user_id),
+                            sort_change_url = sort_change_url,
+                            special_id = special_id,
+                            sort = sort,
+                            other = author_other_article,
+                            special_favor = special.favor,
+                            special_title = special.name,
+                            special_author = author.nick,
+                            special_author_slogon = author.slogon,
+                            special_introduction = special.introduction,
+                            special_style = special.style,
+                            special_total_issue = special.total_issue,
+                            special_update_frequency = special.update_frequency,
+                            special_coin = special.coin,
+                            special_image = special.picture,
+                            special_author_avatar = author.photo,
+                            articles_pagination = articles_pagination,
+                            related_other_special = related_other_special,
+                            get_nick_by_userid = get_nick_by_userid)
 
 ## 创建专栏界面
 @app.route('/create_special')

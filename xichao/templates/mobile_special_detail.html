@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "mobile_layout.html" %}
 
 <!--css file used-->
 {% block css %}
@@ -59,7 +59,6 @@
 <div class="current-position">
     <p>&nbsp;首页&nbsp;>&nbsp;专栏列表&nbsp;>&nbsp;专栏详情</p>
 </div>
-
 
 
 <!-- ===================专栏名称及作者====================== -->
@@ -131,44 +130,6 @@
 	    </div>
 	
 
-	</div>
-
-	<!-- 右侧专栏作者介绍 -->
-	<div id="special-auther">
-
-		<!-- 作者信息 -->
-		<div id="special-author-inner">
-            <a href="{{url_for('view_home_page', nick = special_author)}}">
-
-			<img id="special-transparent-circle" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
-			<!-- 作者头像 -->
-			<img id="special-auther-pic" src="{{ special_author_avatar }}">
-            
-            </a>
-
-			<h2> {{ special_author }} </h2>
-
-			<!-- 关注按钮 -->
-			{% if not has_collected_author %}
-    			<input id = "collection_user" class="special-button" type="submit" value="关注作者">
-            {% else %}
-                <input id = "collection_user_cancel" class="special-button" type="submit" value="取消关注">
-            {% endif %}
-			<p>
-                {{ special_author_slogon }}
-			</p>
-				
-		</div>
-        
-        <div id="special-author-right">
-            <p>其他作品</p>
-            {% if other == [] %}
-                &nbsp;&nbsp;该作者没有其他文章
-            {% endif %}
-            {% for article in other %}
-            <a href="{{ url_for('article', article_id=article[1])}}">{{article[0]}}</a>
-            {% endfor %}
-        </div>
 	</div>
 </div>
 
@@ -268,39 +229,6 @@
 		
 </div>
 
-<!-- 类似专栏 -->
-		<div id="special-related">
-			<div class="special-separate-block" style="margin-bottom:30px;">
-<h3 style="margin-left:10px;">作者关注</h3>
-            </div>
-            {% if related_other_special == [] %}
-                该作者没有关注其他专栏
-            {% endif %}
-            
-            {% set count = 0 %}
-            {% for special in related_other_special %}
-            {% set count = count + 1 %}
-            <div class="special-related-entry" style="
-                {% if count % 2 == 0 %}
-                    margin-left: 40px;
-                {% endif %}
-                                                      ">
-                <a href="/special?id={{special[0]}}&page=1&sort=time">
-                <div class="special-related-img" style="
-                background-image: url('{{special[2]}}');
-                                                        background-size: 100% 100%;
-                ">
-                    
-                </div>
-                </a>
-                <h3>{{special[1]}}</h3>
-                <h4>{{get_nick_by_userid(special[5])}}</h4>
-                <p>{{special[3]}}人关注</p>
-                <p>{{special[4]}}曦潮币</p>
-            </div>
-            {% endfor %}
-
-		</div>
 
     <div style="clear: both;"></div>
 

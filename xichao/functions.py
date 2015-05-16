@@ -24,11 +24,13 @@ import models
 import urllib
 import json
 
-def is_mobile_device(mobile_tag):
+def is_mobile_device(request):
+	mobile_tag = request.headers.get('User-Agent')
 	return (mobile_tag.find("iPhone") != -1) or \
 		   (mobile_tag.find("iPad") != -1) or \
 		   (mobile_tag.find("Android") != -1)
-def is_small_mobile_device(mobile_tag):
+def is_small_mobile_device(request):
+	mobile_tag = request.headers.get('User-Agent')
 	return (mobile_tag.find("iPhone") != -1) or \
 		   (mobile_tag.find("Android") != -1)
 
@@ -527,6 +529,8 @@ def getNick():
 ###################################  头像函数  ####################################
 def get_avatar():
 	nick=getNick()
+	if nick == None:
+		return None
 	avatar=db_session.query(User.photo).filter_by(nick=nick).first()
 	return avatar[0]
 ###################################  评论函数  ####################################

@@ -1,0 +1,531 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    position: relative;
+    width: 100%;
+    margin: auto;
+    font-family: 微软雅黑, sans-serif;
+    word-break: break-all;
+    /*overflow-x: hidden;*/
+}
+
+img{
+    border: 0; /*IE8兼容*/
+}
+
+input{
+    border: solid 1.5px #aaaaaa;
+}
+
+label{
+    display: inline; /*bootstrap reset*/
+    margin: 0;
+}
+
+a{
+	text-decoration: none;
+    display: block;
+}
+
+a:link,
+a:hover,
+a:active,
+a:visited{
+    color:black;
+    text-decoration: none; /*去下划线*/
+}
+
+.clear{
+    clear: both;
+}
+
+
+.main-color{
+    color: #D9AE48;
+}
+
+.floatleft{
+    float: left;
+}
+
+.floatright{
+    float: right;
+}
+/*******************字体*****************/
+@font-face { 
+  font-family: 尚黑; /*这里是说明调用来的字体名字*/ 
+  src: url('/static/fonts/MFShangHei_Noncommercial-Regular.otf'); /*这里是字体文件路径*/
+  /*src: url('/static/fonts/MFShangHei_Noncommercial-Regular.eot');*/
+} 
+
+/*******************header*****************/
+ul{
+    list-style:none; /*去黑点*/
+    padding-left: 0;
+}
+
+#header{
+    width: 100%;
+    margin-bottom: 20px;
+    /*padding-bottom: 15px;*/
+}
+
+#nav-bar-header{
+    height: 75px;
+    width: 100%;
+    padding-top: 40px;
+}
+
+#nav-bar-logo{
+    float: left;
+    width: 122px;
+    height: 51px;
+    margin-top: 13px;
+    /*margin-top: 10px;*/
+}
+
+#nav-bar-logo > img {
+    width: 100%;
+    height: 100%;
+}
+
+#nav-bar-button{
+    float: right;
+}
+
+.nav-bar-login{
+    width: 60px;
+    float: left;
+    text-align: center;
+}
+
+.nav-bar-login-first{
+    border-right: 2px solid #000000;
+    width: 300px;
+    text-align: right;
+    padding-right: 15px; /*右对齐，有padding*/
+}
+
+.nav-bar-login-first a{
+    float: right;
+}
+
+.nav-bar-login > a{
+    text-decoration: none;
+    color: #000000;
+    font-family: 微软雅黑;
+    font-size: 12.5px;
+}
+
+#nav-bar-search{
+	margin-top: 0px;
+    text-align: right;
+}
+
+#nav-bar-search form{
+    margin: 0;
+}
+
+#nav-bar-search input{
+    width: 148px;
+    height: 25px;
+    font-size: 16px;
+
+    border: 1px solid #888;
+}
+
+input:hover{
+    border:solid 1.5px gray;
+}
+
+input:focus{
+    border:solid 1.5px #00aaff; /*浅蓝*/
+}
+
+#nav-bar{
+    position: relative;
+    height: 34px;
+    width: 100%;
+    margin: auto;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+#nav-bar > hr{
+    margin: auto;
+    width: 100%;
+    color: #000000;
+    background-color: #000000;
+    height: 1px;
+    border-width: 0;
+}
+
+.hover{
+    background-color: #D9AE48;
+}
+
+.nav-bar-item{
+    width: 20%;
+    height: 30px;
+    margin: 2px auto 2px auto;
+    float: left;
+    
+    font-family: 微软雅黑;
+    font-size: 16.7px;
+    text-align: center; /*水平居中*/
+    line-height: 30px; /*垂直居中*/
+}
+
+.nav-bar-item > a{
+    text-decoration: none;
+    color: #000000;
+}
+
+
+
+/*******************body*****************/
+/*content对齐*/
+#content{
+    /*
+    height:3100px;
+    */
+    width: 80%;
+    margin: auto;
+    padding-bottom: 20px;
+}
+#footer-rect{
+    width:100%;
+    height:100px;
+    background-color:#D9AE48;
+}
+.current-position{
+    position: relative;
+    height: 62px;
+    margin-bottom: 26px;
+}
+
+.current-position p{
+    position: absolute;
+    bottom: 0;
+}
+
+.current-position-2{
+    margin-top: 44px;
+    font-family: 微软雅黑;
+    font-size: 16.7px;
+
+    color: #727272;
+}
+
+.input-button{
+    /*
+    width: 118px;
+    height: 38px;*/
+
+    font-family: 黑体;
+    font-size: 20px;
+
+    background-color: #D9AE48;
+    color: #ffffff;
+}
+
+
+
+/*******************others*****************/
+.error-tip {
+    font-size: 12px;
+    position: absolute;
+    padding: 4px 7px;
+    background-color: #DF4D3F;
+    border-radius: 2px;
+    color: #FFF;
+    /*display: none;*/
+}
+
+.error-tip:after {
+    content: "";
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    margin-left: -4px;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 8px;
+    border-color: #DF4D3F transparent transparent;
+}
+
+/*个人信息栏相关css*/
+#navbar-info {
+    height: 40px;
+    background-color: #252525;
+    z-index: 1000;
+    position: fixed; 
+    width: 100%;
+}
+
+#navbar-info > div{
+    margin: 0 auto 0 auto;
+    width: 100%;
+}
+
+#navbar-info a{
+    font: 14px 黑体;
+    border-radius: 5px;
+    text-shadow: none;
+    text-align: center;
+}
+
+#navbar-info .nav > li > a:link, 
+#navbar-info .nav > li > a:hover, 
+#navbar-info .nav > li > a:active, 
+#navbar-info .nav > li > a:visited{
+    color: #f5f5f5;
+}
+
+
+#navbar-info .nav > li > a:hover,
+#navbar-info .open > .dropdown-toggle{
+    background-color: #D9AE48;
+}
+
+/*下拉框修改*/
+#navbar-info .dropdown-menu{
+    min-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    background-clip: border-box;
+ }
+
+#navbar-info li.divider{
+    margin: 2px;
+}
+
+.register-login{
+    width: 60px;
+    text-align: center;
+}
+
+#navbar-info img{
+    width: 16px;
+    height: 16px;
+}
+
+
+@font-face { 
+font-family: liukai;
+src: url(../fonts/liukai-small.ttf);
+} 
+/*导航栏相关css*/
+#nav-bar-right{
+    margin-left: 560px;
+    margin-top: 15px;
+}
+
+#navbar-main{
+    margin-top: 40px;
+    font: 22px liukai, KaiTi, STKaiti;
+}
+
+#navbar-main > .nav{
+    float: right;
+    width: 700px;
+}
+
+#navbar-main .nav>li{
+    float: right;
+}
+
+.dropdown-menu > li > a{
+    color: #5f5f5f;
+}
+
+#navbar-main > .nav > li > a{
+    width: 88px;
+    text-align: center;
+    text-shadow: none;
+
+    border-radius: 5px;
+    line-height: 10px;
+    /*transform: rotate(5deg);*/
+}
+
+#navbar-main .nav > li > a:hover,
+#navbar-main .open > .dropdown-toggle{
+    background-color: #D9AE48;
+    font-size: 24px;
+}
+
+/*导航栏下拉菜单相关*/
+#navbar-main .dropdown-menu{
+    text-align: center;
+    min-width: 100%;
+    padding: 3px 0;
+    font-size: 20px;
+}
+
+#navbar-main .dropdown-menu .divider{
+    margin: 0;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a {
+    color: #FFF;
+    /*background-color: #0081C2;*/
+    background-image: linear-gradient(to bottom, gray, gray);
+}
+
+/*导航栏下分割线*/
+#parting-line{
+    line-height: 0;
+    /*margin-top: 10px;*/
+}
+
+#parting-line > img{
+    width: 100%;
+}
+
+
+/*footer*/
+#footer{
+    width: 100%;
+    margin-top: 0px;
+    background-color: #2A2A2A;
+}
+
+#footer > div{
+    width: 100%;
+    height: 115px;
+    padding-top: 20px;
+    margin: auto;
+}
+
+#footer-block  ul{
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    width: 115px;
+    text-align: left;
+    color: #fff;
+    font: 18px 黑体;
+}
+
+#footer-block > ul:last-child{
+    width: 100px;
+}
+
+#footer-block h3{
+    margin: 0;
+    font: 15px 黑体;
+    color: white;
+}
+
+#footer-block li{
+    margin-top: 8px;
+    font: 15px 黑体;
+}
+
+#footer-block a{
+    color: #fff;
+    display: inline;
+}
+#footer-block a:hover{
+    cursor: pointer;
+}
+
+#footer-block a:hover{
+    color: #fff;
+}
+
+#footer-statement{
+    margin-top: 15px;
+    text-align: center;
+    font: 15px 微软雅黑;
+    color: #fff;
+}
+
+#footer-statement a{
+    display: inline;
+    color: #fff;
+}
+
+#footer-statement a:hover{
+    color: #fff;
+}
+
+#footer-right h3{
+    font: 20px 黑体;
+}
+
+#footer-right a{
+    color: #fff;
+}
+#footer-right a:hover{
+    color: #fff;
+}
+
+/*这部分描述参考线，上线后可删*/
+.reference-block {
+    position: relative; 
+    width: 1160px; 
+    margin: auto;
+}
+
+.reference-line {
+    position: absolute;
+    margin: auto;
+    width: 1160px;
+    height: 100%;
+    z-index:  -100;
+}
+
+.width-160 {
+    width: 159px;
+    height: 100%;
+    border-left: 1px solid red; 
+    float: left;
+}
+
+.width-40 {
+    width: 39px;
+    height:  100%;
+    border-left: 1px solid red; 
+    float: left;
+}
+
+.width-160-last {
+    width: 158px;
+    height: 100%;
+    border-left: 1px solid red; 
+    border-right: 1px solid red; 
+    float: left;
+}
+
+.message-center-ul a{
+    position: relative;
+}
+
+.message-number-display{
+    display: none;
+    position: absolute;
+    height: 15px;
+    border: solid 2px #fff;
+    border-radius: 9px;
+    background: #FF5D54;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 0 4px;
+    color: #fff;
+
+    padding-bottom: -5px;
+    top: -5px;
+}
+
+span#all-message-number{
+    font-size: 12px;
+    top: 0px;
+    margin-left:67px;
+}
+                                
