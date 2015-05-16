@@ -1483,11 +1483,17 @@ def ajax_home_page_article(page_id):
     else:
         sort_by=False
     pagination=get_article_pagination_by_user_id(current_user.user_id,sort_by,page_id)
+    rows = []
+    for item in pagination.items:
+        tmp = item.get_serialize()
+        tmp["category"] = CATEGORY[int(item.category)-1]
+        rows.append(tmp)
+
     has_prev=get_has_prev(pagination)
     has_next=get_has_next(pagination)
     page=str(pagination.page)
     pages=str(pagination.pages)
-    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[item.get_serialize() for item in pagination.items])
+    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=rows)
 
 ##能够返回数据
 ##返回当前用户所发布的评论
@@ -1880,7 +1886,12 @@ def ajax_article_pagination_by_coins(user_id,page_id):
     has_next=get_has_next(article_pagination)
     page=str(article_pagination.page)
     pages=str(article_pagination.pages)
-    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[article.get_serialize() for article in article_pagination.items])
+    rows=[]
+    for article in article_pagination.items:
+        tmp = article.get_serialize()
+        tmp["category"] = CATEGORY[int(article.category)-1]
+        rows.append(tmp)
+    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=rows)
 
 @app.route('/user/<int:user_id>/article/pagination/by_time/page/<int:page_id>',methods=['GET'])
 @login_required
@@ -1890,7 +1901,12 @@ def ajax_article_pagination_by_time(user_id,page_id):
     has_next=get_has_next(article_pagination)
     page=str(article_pagination.page)
     pages=str(article_pagination.pages)
-    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=[article.get_serialize() for article in article_pagination.items])
+    rows=[]
+    for article in article_pagination.items:
+        tmp = article.get_serialize()
+        tmp["category"] = CATEGORY[int(article.category)-1]
+        rows.append(tmp)
+    return jsonify(has_prev=has_prev,has_next=has_next,page=page,pages=pages,rows=rows)
 
 
 

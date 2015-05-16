@@ -227,6 +227,10 @@ div.index-special-abstract{
     font-family: 黑体;
     margin-bottom: 10px;
     font-weight: bold;
+
+    height: 25px;
+    line-height: 25px;
+    overflow: hidden;
 }
 
 .index-hot-entry-right-intro{

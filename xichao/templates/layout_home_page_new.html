@@ -469,7 +469,7 @@
 				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items.length; ++i){
 					text += "<div class='table-row'>\
-								<div class='table-cell col-1'><a href='/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
+								<div class='table-cell col-1'><a href='/article/"+items[i].article_id + "'>"+"【" + items[i].category+"】 "+items[i].title + "</a></div>\
 								<div class='table-cell col-2'>评论&nbsp;(" + items[i].comment_num + ")</div>\
 								<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;" + items[i].coins + "</div>\
 								<div class='table-cell col-4'><a onclick='homepage_delete(\"" + category + "\"," + items[i].article_id + "," + page_id + "," + items.length + ")'>删除</a></div>\
@@ -1389,11 +1389,11 @@ function update_coin_point(){
 
 			if(category == "release-article-by-time" || category == "release-article-by-coins"){
 				var items = data.rows;
-
+				
 				text = "<div class='content-box'><div class='table-layout'>";
 				for(var i = 0; i < items.length; ++i){
 					text += "<div class='table-row'>\
-								<div class='table-cell col-1'><a href='/article/" + items[i].article_id + "'>" + items[i].title + "</a></div>\
+								<div class='table-cell col-1'><a href='/article/" + items[i].article_id + "'>"+"【" + items[i].category+"】 "+items[i].title + "</a></div>\
 								<div class='table-cell col-2'>评论&nbsp;(" + items[i].comment_num + ")</div>\
 								<div class='table-cell col-3'><img src='/static/images/coins.png'>&nbsp;" + items[i].coins + "</div>\
 							</div>";
