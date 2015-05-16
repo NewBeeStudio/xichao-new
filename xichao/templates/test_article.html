@@ -2,6 +2,7 @@
 
 <!--css file used-->
 {% block css %}
+	<title>书香文章｜{{article.title}}</title>
 <!--e.g. <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/> -->
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 
@@ -62,28 +63,7 @@
 		
 	<div id="article_content_html"></br>{{article.content|safe}}</div>
 	{%if current_user.state=='1'%}
-<!--
-    <div class="btn-group" style="float:right;">
-      <button id="share-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-      分享 <span class="caret"></span>
-      </button>
-        
-      <ul id="share-option" class="dropdown-menu" role="menu">
-      <li>
-		<a rel="nofollow" href="javascript:void((function(s,d,e){try{}catch(e){}var%20f='http://v.t.sina.com.cn/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=','曦潮书香生态系统 | 专栏 | ','  {{ special_title }}','&appkey=1392530042'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));">                    
-                    <img src="/static/images/share_sinaweibo.png" style="margin-left:10px"/>
-                    </a>
-        </li>
-        <li class="divider"></li>
-        <li>
-            <a name="xn_share" onclick="shareClick()" type="button_medium" href="javascript:;" style="margin-left: 10px;margin-right: 10px;">
-            
-                <img src="/static/images/share_renren.png" />
-            </a>
-        </li>
-      </ul>
-    </div>
-        -->
+
         <div class="bdsharebuttonbox" style="float:right;"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><!--<a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>--></div>
 <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
     
