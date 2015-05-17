@@ -656,7 +656,7 @@ def special():
                             login_user_id = login_user,
                             is_mobile = is_mobile,
                             root_authorized = root_authorized(),
-                            author_itself = (special.user_id == login_user),
+                            #author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
                             has_collected_author = has_collected,
                             sort_change_url = sort_change_url,
