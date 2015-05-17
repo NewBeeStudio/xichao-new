@@ -249,7 +249,7 @@ class Special(Base,AutoSerialize):
     last_modified = Column(DateTime, nullable = False)
 
     ########## Foreign Key ##########
-    user_id = Column(Integer, ForeignKey('user.user_id'), index=True)
+    #user_id = Column(Integer, ForeignKey('user.user_id'), index=True)
 
     def __init__(self, name = None,
                        picture = None, introduction = None,
@@ -300,7 +300,31 @@ class Special_author(Base,AutoSerialize):
 
     def __repr__(self):
         return '<Special Author id: %r>' % (self.special_author_id)
-   
+
+
+##################################  相关专栏模型  ####################################
+class Special_related(Base,AutoSerialize):
+    __tablename__ = 'special_related'
+    __table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    ########## Primary索引 ##########
+    special_related_id = Column(Integer, primary_key=True, 
+                autoincrement=True, nullable=False, index=True)
+
+    ########## Foreign Key ##########
+    host_id = Column(Integer, ForeignKey('special.special_id'), index = True)
+    guest_id = Column(Integer, ForeignKey('special.special_id'), index = True)
+
+    def __init__(self, host_id = None, guest_id = None):
+        self.host_id = host_id
+        self.guest_id = guest_id
+
+    def __repr__(self):
+        return '<Special Related id: %r>' % (self.special_related_id)
+
 
 ##################################  文章模型  ####################################
 

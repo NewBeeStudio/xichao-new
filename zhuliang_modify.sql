@@ -28,3 +28,13 @@ CREATE TABLE special_author (
 	FOREIGN KEY(user_id) REFERENCES user (user_id), 
 	FOREIGN KEY(special_id) REFERENCES special (special_id)
 )ENGINE=InnoDB CHARSET=utf8
+
+
+CREATE TABLE special_related (
+	special_related_id INTEGER NOT NULL AUTO_INCREMENT, 
+	host_id INTEGER, 
+	guest_id INTEGER, 
+	PRIMARY KEY (special_related_id), 
+	FOREIGN KEY(host_id) REFERENCES special (special_id), 
+	FOREIGN KEY(guest_id) REFERENCES special (special_id)
+)ENGINE=InnoDB CHARSET=utf8

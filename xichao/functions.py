@@ -8,7 +8,7 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity,HomePage,Special_author
+from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity,HomePage,Special_author,Special_related
 from database import db_session
 from flask import jsonify,render_template,request,session,abort
 from sqlalchemy import or_, not_, and_, desc
@@ -508,8 +508,10 @@ def get_special_author_other(user_id, special_id, limit):
     query = db_session.query(Article.title, Article.article_id).filter(and_(Article.user_id == user_id, or_(Article.special_id == None, Article.special_id != special_id))).limit(limit).all()
     return query
 
-def get_related_special(user_id):
-    query = db_session.query(Special.special_id, Special.name, Special.picture, Special.favor, Special.coin, Special.user_id).join(Collection_Special).filter_by(user_id=user_id).limit(6).all()
+def get_related_special(special_id):
+    #query = db_session.query(Special.special_id, Special.name, Special.picture, Special.favor, Special.coin, Special.user_id).join(Collection_Special).filter_by(user_id=user_id).limit(6).all()
+    query = db_session.query(Special).join(Special_related, Special_related.guest_id==Special.special_id).filter(Special_related.host_id == special_id).limit(6).all()
+#    print aaa
     return query
 
 def update_article_num_for_special(special_id,is_add):

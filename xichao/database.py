@@ -14,7 +14,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 DB_URL='mysql://root:Xichao42@localhost/xichao?charset=utf8'
 RDS_DB_URL='mysql://xichao:Xichao42@rdszfuv6jmjjbei.mysql.rds.aliyuncs.com:3306/xichao?charset=utf8'
-engine = create_engine(RDS_DB_URL, echo=True, convert_unicode=True)
+engine = create_engine(DB_URL, echo=True, convert_unicode=True)
 
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,

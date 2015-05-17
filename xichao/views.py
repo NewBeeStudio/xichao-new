@@ -67,7 +67,8 @@ import urllib
 GROUP=[u'广场',u'文章',u'专栏']
 CATEGORY=[u'书评',u'影评',u'杂文',u'专栏文章']
 
-
+"""
+专栏作家一变多迁移
 @app.route('/special_author_transfer', methods=['GET'])
 def special_author_transfer():
     specials = db_session.query(Special).all()
@@ -77,6 +78,7 @@ def special_author_transfer():
         if new_author == []:
             create_new_special_author(s.special_id, s.user_id)
     return "true"
+"""
 #######################################  图片裁剪器  #########################################
 @app.route('/upload/tailor/title_image')
 def upload_title_image():
@@ -638,7 +640,6 @@ def special():
     special = get_special_information(special_id)
     if (special == None):
         abort(404)
-    ####TODO1
     author = get_special_author(special.special_id)
 
 #    print ddd
@@ -646,12 +647,9 @@ def special():
     login_user = get_userid_from_session()
 
     articles_pagination = get_special_article(special_id, page_id, sort, 5)
-    ####TODO2
-    author_other_article = []#get_special_author_other(special.user_id, special_id, 6)
-    related_other_special = []#get_related_special(special.user_id)
+    related_other_special = get_related_special(special.special_id)
 
     is_mobile = is_small_mobile_device(request)
-    ####TODO2
 
     if is_mobile:
         return render_template('mobile_special_detail.html',
@@ -664,7 +662,6 @@ def special():
                             sort_change_url = sort_change_url,
                             special_id = special_id,
                             sort = sort,
-                            other = author_other_article,
                             special_favor = special.favor,
                             special_title = special.name,
                             special_author = author,
@@ -677,21 +674,21 @@ def special():
                             special_image = special.picture,
                             #special_author_avatar = author.photo,
                             articles_pagination = articles_pagination,
-                            related_other_special = related_other_special,
                             get_nick_by_userid = get_nick_by_userid)
     else:
         return render_template('special_detail.html',
                             len = len,
+                            author = get_special_author,
                             login_user_id = login_user,
                             is_mobile = is_mobile,
                             root_authorized = root_authorized(),
-                            author_itself = (special.user_id == login_user),
+                            #author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
                             has_collected_author = has_collected,
                             sort_change_url = sort_change_url,
                             special_id = special_id,
                             sort = sort,
-                            other = author_other_article,
+                            other = get_special_author_other,
                             special_favor = special.favor,
                             special_title = special.name,
                             special_author = author,
@@ -980,12 +977,6 @@ def special_article_draft():
     return str(article_id)
 
 ##################################  专栏详情页面  ##################################
-#TODO 专栏详情尽量改成special detail
-@app.route('/special_detail')
-def coloum_detail():
-    return render_template('special_detail.html')
-
-
 @app.route('/upload/special/<filename>')
 def uploaded_special_image(filename):
     return send_from_directory(app.config['SPECIAL_DEST'],filename)
