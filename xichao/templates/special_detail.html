@@ -173,7 +173,7 @@
                 &nbsp;&nbsp;该作者没有其他文章
             {% endif %}
             {% for article in author_other %}
-            <a href="{{ url_for('article', article_id=article[1])}}">{{article[0]}}</a>
+            <a href="{{ url_for('article', article_id=article[1])}}" style="height:16px; overflow:hidden">{{article[0]}}</a>
             {% endfor %}
         </div>
         </div>
