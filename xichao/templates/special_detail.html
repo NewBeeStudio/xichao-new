@@ -84,7 +84,10 @@
                     <table>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">作者</td>
-                            <td width="260" style="font-family: 黑体; color:#D9AE48">{{special_author}}</td>
+                            <td width="260" style="font-family: 黑体; color:#D9AE48">
+                            {% for author in special_author %}
+                            {{author.nick}}
+                            {% endfor %}</td>
                         </tr>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">类别</td>
@@ -134,28 +137,33 @@
 	</div>
 
 	<!-- 右侧专栏作者介绍 -->
-	<div id="special-auther">
+    
+	<div id="special-author" now="1">
 
+        {% set author_num = 0 %}
+        {% for author in special_author %}
+        {% set author_num = author_num + 1 %}
+        <div class="special-author-card" id="special-author{{author_num}}" style="display:none">
 		<!-- 作者信息 -->
 		<div id="special-author-inner">
-            <a href="{{url_for('view_home_page', nick = special_author)}}">
+            <a href="{{url_for('view_home_page', nick = author.nick)}}">
 
 			<img id="special-transparent-circle" src="{{ url_for('static', filename='images/transparent-circle.png') }}">
 			<!-- 作者头像 -->
-			<img id="special-auther-pic" src="{{ special_author_avatar }}">
+			<img id="special-auther-pic" src="{{ author.photo }}">
             
             </a>
 
-			<h2> {{ special_author }} </h2>
+			<h2> {{ author.nick }} </h2>
 
 			<!-- 关注按钮 -->
-			{% if not has_collected_author %}
-    			<input id = "collection_user" class="special-button" type="submit" value="关注作者">
+			{% if has_collected_author(login_user_id, author.user_id) == 'no' %}
+    			<input class="collection_user special-button" type="submit" value="关注作者" number="{{author.user_id}}">
             {% else %}
-                <input id = "collection_user_cancel" class="special-button" type="submit" value="取消关注">
+                <input class="collection_user_cancel special-button" type="submit" value="取消关注" number="{{author.user_id}}">
             {% endif %}
 			<p>
-                {{ special_author_slogon }}
+                {{ author.slogon }}
 			</p>
 				
 		</div>
@@ -169,6 +177,20 @@
             <a href="{{ url_for('article', article_id=article[1])}}">{{article[0]}}</a>
             {% endfor %}
         </div>
+        </div>
+        {% endfor %}
+
+        {% if len(special_author) != 1 %}
+        <div id="special-author-paging" style="margin-top:-10px;margin-right:10px;float:right;"> 
+        <nav>
+            <ul class="pager">
+                <li><a id="prev_author" class="button button-border button-primary button-small" style="border-radius:0px;padding-top:1px; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;">上一位作者</a></li>
+                <li><a id="next_author" class="button button-border button-primary button-small" style="border-radius:0px;padding-top:1px; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;">下一位作者</a></li>
+            </ul>
+        </nav>
+    </div>
+        {% else %}
+        {% endif %}
 	</div>
 </div>
 
@@ -332,6 +354,8 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+    $("#special-author1").css("display", "inline");
+
     (function ($) {
         $.getUrlParam = function (name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -410,7 +434,7 @@ $("#collection_special_cancel").click(function () {
 });
 
 
-$("#collection_user").click(function () {
+$(".collection_user").click(function () {
 //获得URL中id的函数
     (function ($) {
         $.getUrlParam = function (name) {
@@ -421,11 +445,12 @@ $("#collection_user").click(function () {
     })(jQuery);
 
     var id = $.getUrlParam('id');
-//    alert('http://127.0.0.1:5000/collection_special?id=' + id)
 
-    $.post('/collection_special_author?id=' + id,
+    //alert($(this).attr("number"));
+    $.post('/collection_special_author',
     {
-        _csrf_token:"{{ csrf_token() }}"
+        _csrf_token:"{{ csrf_token() }}",
+        author: $(this).attr("number")
     }, function(data){
            if (data == "success"){
             layer.msg("您已成功关注该用户作者",1,1,function(){location.reload();});
@@ -444,7 +469,7 @@ $("#collection_user").click(function () {
        });
 });
 
-$("#collection_user_cancel").click(function () {
+$(".collection_user_cancel").click(function () {
 //获得URL中id的函数
     (function ($) {
         $.getUrlParam = function (name) {
@@ -457,9 +482,10 @@ $("#collection_user_cancel").click(function () {
     var id = $.getUrlParam('id');
 //    alert('http://127.0.0.1:5000/collection_special?id=' + id)
 
-    $.post('/collection_special_author_cancel?id=' + id,
+    $.post('/collection_special_author_cancel',
     {
-        _csrf_token:"{{ csrf_token() }}"
+        _csrf_token:"{{ csrf_token() }}",
+        author: $(this).attr("number")
     }, function(data){
            if (data == "success"){
             layer.msg("您已成功取消关注该作者",1,1,function(){location.reload();});
@@ -495,6 +521,23 @@ $("#write_special_article").click(function(){
     location.href = "/special_article_upload?id="+id;
 });
 
-
+$("#prev_author").click(function(){
+    var total = {{len(special_author)}};
+    var now = parseInt($("#special-author").attr("now"));
+    var next;
+    if (now == 1) next = total; else next = now-1;
+    $(".special-author-card").css("display", "none");
+    $("#special-author"+next.toString()).css("display","inline");
+    $("#special-author").attr("now", next.toString());
+});
+$("#next_author").click(function(){
+    var total = {{len(special_author)}};
+    var now = parseInt($("#special-author").attr("now"));
+    var next;
+    if (now == total) next = 1; else next = now+1;
+    $(".special-author-card").css("display", "none");
+    $("#special-author"+next.toString()).css("display","inline");
+    $("#special-author").attr("now", next.toString());
+});
 </script>
 {% endblock %}

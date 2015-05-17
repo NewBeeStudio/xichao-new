@@ -71,7 +71,10 @@
 			<img src="{{ url_for('static', filename='images/border-short.png')}}">
             <div id="author-coin">
 			<h4 style="margin:0px;">
-			    &nbsp;&nbsp;{{ author(special.user_id).nick }}
+			    &nbsp;&nbsp;
+                {%for au in author(special.special_id)%}
+                {{au.nick}}&nbsp;
+                {% endfor %}
 			    <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}" style="height: 20px; width: 20px;">
                 {{ special.coin }}
 			</h4>

@@ -32,8 +32,16 @@
         </div>
     
         <div>
+            <p style="font-family: 微软雅黑;font-size: 20px;float: left;margin-top: 0px;">专栏作家个数:</p>
+   		<input id="input_author_number" number="0" style="margin-left: 2%; margin-top: 0px; height: 26px;width: 150px;float:left" type="text">
+        <a href="#" class="button button-border button-primary button-small" id="confirm_author_number" style="float:left;margin-left:20px;">确定</a>
+            <div style="clear:both"></div>
+        </div>
+        
+        <div id="input_author_prototype" style="display:none;">
    		<p style="font-family: 微软雅黑;font-size: 20px;float: left;margin-top: 0px;">专栏作家昵称:</p>
    		<input id="input_author" style="margin-left: 2%; margin-top: 0px; height: 26px;width: 50%;" type="text">
+            <div style="clear:both"></div>
         </div>
         
         <div>
@@ -73,13 +81,36 @@
     <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
     <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 
+    <script>
+        $("#confirm_author_number").click(function(){
+            var author_number = parseInt($("#input_author_number").val());
+            var previous_number = parseInt($("#input_author_number").attr("number"));
+            for(var i=0; i<previous_number; i++){
+                var oldId = "input_author_prototype"+i.toString();
+                $("#"+oldId).remove();
+            }
+            var oldDiv = $("#input_author_prototype");
+            for(var i=0; i<author_number; i++){
+                var newDiv = oldDiv.clone(true);
+                oldDiv.after(newDiv);
+                newDiv.css("display", "inline");
+                
+                newDiv.attr("id", "input_author_prototype"+i.toString());
+                $("#input_author_prototype"+i.toString()+" input").attr("id", "input_author"+i.toString());
+                $("#input_author_prototype"+i.toString()+" p").text("专栏作家 " + (i+1).toString() + " 昵称:");
+                
+                $("#input_author_number").attr("number", author_number.toString())
+            }
+
+        });
+    </script>
+
     <script type="text/javascript">
 
     $(document).ready(function(){
-      //完成文章，上传到服务器
       $("#button_upload_confirm").click(function(){
         val_title = $("#input_special_title").val();
-        val_author = $("#input_author").val();
+        //val_author = $("#input_author").val();
         val_style = $("#input_style").val();
         val_total_issue = $("#input_total_issue").val();
         val_update_frequency = $("#input_update_frequency").val();
@@ -89,10 +120,20 @@
 //        alert(val_title);
 //        alert(val_content);
 //        alert(val_title_image);
-
-        if (val_title==''){layer.msg("专栏标题不能为空！",1,3,function(){});}
+        var author_number = parseInt($("#input_author_number").attr("number"));
+        var author_list = "[";
+        for(var i=0; i<author_number; i++){
+            var oldId = "input_author_prototype"+i.toString();
+            author_list += "\"" + $("#"+oldId+" input").val() + "\"";
+            if (i != author_number-1)
+                author_list += ", ";
+        }
+        author_list += "]";
+        alert(author_list);
+        
+        if (author_number==0){layer.msg("专栏作家不能为空！",1,3,function(){});}
+        else if (val_title==''){layer.msg("专栏标题不能为空！",1,3,function(){});}
         else if (val_content==''){layer.msg("专栏内容不能为空！",1,3,function(){});}
-        else if (val_author==''){layer.msg("专栏作家不能为空！",1,3,function(){});}
         else if (val_style == ''){layer.msg("专栏类别不能为空！",1,3,function(){});}
         else if (val_total_issue == ''){layer.msg("专栏期数不能为空！",1,3,function(){});}
         else if (val_update_frequency == ''){layer.msg("专栏更新频率不能为空！",1,3,function(){});}
@@ -100,7 +141,8 @@
           $.get('/create_special_finish',
           {
             title: val_title,
-            author: val_author,
+            //author: val_author,
+            author_list: author_list,
             content: val_content,
             title_image: val_title_image,
             // Added  
@@ -109,6 +151,7 @@
             update_frequency: val_update_frequency
           },
           function(data){
+            alert(data);
             if (data == "failed"){
                 layer.msg("对不起！创建失败，请联系管理员",1,3,function(){});
             } else if (data == "nick_error"){

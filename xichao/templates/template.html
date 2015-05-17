@@ -33,7 +33,9 @@ background-image: url('{{url_for('static', filename='images/index-up-middle-laye
 					</h3>
                     
                     <h4>
-                    	{{get_author(special_list[i].user_id)}}
+                    	{%for au in get_author(special_list[i].special_id)%}
+                		{{au.nick}}&nbsp;
+                		{% endfor %}
                     </h4>
 				</div>
 				    </a>

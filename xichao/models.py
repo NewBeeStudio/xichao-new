@@ -251,7 +251,7 @@ class Special(Base,AutoSerialize):
     ########## Foreign Key ##########
     user_id = Column(Integer, ForeignKey('user.user_id'), index=True)
 
-    def __init__(self, name = None, user_id = None,
+    def __init__(self, name = None,
                        picture = None, introduction = None,
                        time = None, style = None,
                        total_issue = None,
@@ -263,7 +263,7 @@ class Special(Base,AutoSerialize):
         self.time = time
         self.favor = 0
         self.last_modified = time
-        self.user_id = user_id
+        #self.user_id = user_id
         self.style = style
         self.total_issue = total_issue
         self.update_frequency = update_frequency
@@ -271,6 +271,36 @@ class Special(Base,AutoSerialize):
     def __repr__(self):
         return '<Special %r>' % (self.name)
 
+
+##################################  专栏作家模型  ####################################
+class Special_author(Base,AutoSerialize):
+    __tablename__ = 'special_author'
+    __table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    ########## Primary索引 ##########
+    special_author_id = Column(Integer, primary_key=True, 
+                autoincrement=True, nullable=False, index=True)
+
+    ########## Index/Unique索引 ##########
+    time = Column(DateTime, nullable = False, 
+                            unique = False, index = True)
+
+    ########## Foreign Key ##########
+    user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
+    special_id = Column(Integer, ForeignKey('special.special_id'), index = True)
+
+    def __init__(self, user_id = None, special_id = None,
+                       time = None):
+        self.user_id = user_id
+        self.special_id = special_id
+        self.time = time
+
+    def __repr__(self):
+        return '<Special Author id: %r>' % (self.special_author_id)
+   
 
 ##################################  文章模型  ####################################
 

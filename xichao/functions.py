@@ -8,7 +8,7 @@
 '''
 from xichao import app
 from hashlib import md5
-from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity,HomePage
+from models import User,Article,Special,Book,Comment,Article_session,Activity_session,Activity,Comment_activity,Collection_Special,Collection_User,Collection_Article,Collection_Activity,HomePage,Special_author
 from database import db_session
 from flask import jsonify,render_template,request,session,abort
 from sqlalchemy import or_, not_, and_, desc
@@ -402,23 +402,33 @@ def root_authorized():
 	else:
 	    return False
 
-def create_new_special(name, user_id, picture, introduction,
+def create_new_special(name, picture, introduction,
                         style, total_issue, update_frequency):
-    special = Special(name = name, user_id = user_id,
+    time = datetime.now()
+    special = Special(name = name, #user_id = user_id,
                        picture = picture, introduction = introduction,
-                       time = datetime.now(), style = style,
+                       time = time, style = style,
                        total_issue = total_issue,
                        update_frequency = update_frequency)
     db_session.add(special)
-    user = db_session.query(User).filter_by(user_id = user_id).first();
-    if user.role == 1:
-        user.role = 2
+#    user = db_session.query(User).filter_by(user_id = user_id).first();
+#    if user.role == 1:
+#        user.role = 2
     db_session.commit()
-    return db_session.query(Special).filter_by(user_id = user_id, name = name).all()[0].special_id
-    
-def modify_special_func(name, user_id, picture, introduction,
+    return db_session.query(Special).filter_by(time = time, name = name).all()[0].special_id
+
+def create_new_special_author(special_id, author):
+    special_author = Special_author(author, special_id, datetime.now())
+    db_session.add(special_author)
+    db_session.commit()
+
+def has_special_author(special_id, user_id):
+    result = db_session.query(Special_author).filter(and_(Special_author.special_id == special_id, Special_author.user_id == user_id)).all()
+    return result != []
+
+def modify_special_func(name, authors, picture, introduction,
                         style, total_issue, update_frequency):
-    query = db_session.query(Special).filter_by(name = name, user_id = user_id).all()
+    query = db_session.query(Special).filter_by(name = name).all()
     if (len(query) == 0):
         raise Exception
     special = query[0]
@@ -427,6 +437,16 @@ def modify_special_func(name, user_id, picture, introduction,
     special.style = style
     special.total_issue = total_issue
     special.update_frequency = update_frequency
+
+    prev_authors = db_session.query(Special_author).filter(Special_author.special_id == special.special_id).all()
+    for author in prev_authors:
+        print author.user_id
+        db_session.delete(author)
+
+    for author in authors:
+        special_author = Special_author(author, special.special_id, datetime.now())
+        db_session.add(special_author)
+
     db_session.commit()
     return special.special_id
     
@@ -443,9 +463,10 @@ def get_userid_from_session():
 		return result[0].user_id
 	return 0
 
-def get_special_author(userid):
-    result = db_session.query(User).filter_by(user_id = userid).all()
-    return result[0]
+def get_special_author(special_id):
+#    result = db_session.query(User).filter_by(user_id = userid).all()
+    result = db_session.query(User).join(Special_author).filter(Special_author.special_id == special_id).all()
+    return result
 
 def get_special_information(special_id):
 #	result=db_session.query(Special,User.nick).join(User).filter(Special.special_id==special_id).all()
@@ -621,9 +642,8 @@ def collection_special_cancel(user_id, special_id):
 
         
 ##################################  收藏/取消收藏 专栏作家  ####################################
-def collection_special_author(user_id, special_id):
-    query = db_session.query(Special).filter_by(special_id = special_id).all()
-    another_user_id = query[0].user_id
+def collection_special_author(user_id, author_id):
+    another_user_id = author_id
     if (user_id == another_user_id):
         return "self"
     query = db_session.query(Collection_User).filter_by(user_id = user_id, another_user_id = another_user_id).all()
@@ -640,9 +660,8 @@ def collection_special_author(user_id, special_id):
     return "success"
 
 
-def collection_special_author_cancel(user_id, special_id):
-    query = db_session.query(Special).filter_by(special_id = special_id).all()
-    another_user_id = query[0].user_id
+def collection_special_author_cancel(user_id, author_id):
+    another_user_id = author_id
     if (user_id == another_user_id):
         return "self"
     query = db_session.query(Collection_User).filter_by(user_id = user_id, another_user_id = another_user_id).all()
@@ -891,7 +910,7 @@ def get_notification_pagination(user_id,page_id):
 	return paginate(query,page_id,4,False)
 
 def get_special_pagination(user_id,page_id):
-	query=db_session.query(Special).filter(Special.user_id==user_id)
+	query=db_session.query(Special).join(Special_author).filter(Special_author.user_id==user_id)
 	return paginate(query,page_id,3,False)
 
 def get_has_prev(pagination):

@@ -66,6 +66,17 @@ import urllib
 
 GROUP=[u'广场',u'文章',u'专栏']
 CATEGORY=[u'书评',u'影评',u'杂文',u'专栏文章']
+
+
+@app.route('/special_author_transfer', methods=['GET'])
+def special_author_transfer():
+    specials = db_session.query(Special).all()
+    for s in specials:
+        print s.user_id
+        new_author = db_session.query(Special_author).filter(Special_author.special_id == s.special_id).all()
+        if new_author == []:
+            create_new_special_author(s.special_id, s.user_id)
+    return "true"
 #######################################  图片裁剪器  #########################################
 @app.route('/upload/tailor/title_image')
 def upload_title_image():
@@ -123,7 +134,7 @@ def index():
                                             hot_articles = hot_articles,
                                             articles = get_special_article,
                                             slideUrl = slideUrl,
-                                            get_author = get_nick_by_userid,
+                                            get_author = get_special_author,
                                             most_hot_activity=most_hot_activity,
                                             user_focus = user_focus,
                                             latest_articles = latest_articles,
@@ -628,7 +639,7 @@ def special():
     if (special == None):
         abort(404)
     ####TODO1
-    author = get_special_author(special.user_id)
+    author = get_special_author(special.special_id)
 
 #    print ddd
     #article的分页对象，articles_pagination.items获得该分页对象中的所有内容，为一个list
@@ -636,59 +647,62 @@ def special():
 
     articles_pagination = get_special_article(special_id, page_id, sort, 5)
     ####TODO2
-    author_other_article = get_special_author_other(special.user_id, special_id, 6)
-    related_other_special = get_related_special(special.user_id)
+    author_other_article = []#get_special_author_other(special.user_id, special_id, 6)
+    related_other_special = []#get_related_special(special.user_id)
 
     is_mobile = is_small_mobile_device(request)
     ####TODO2
 
     if is_mobile:
         return render_template('mobile_special_detail.html',
+                            login_user_id = login_user,
                             is_mobile = is_mobile,
                             root_authorized = root_authorized(),
                             author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
-                            has_collected_author = get_author_collect_info(login_user, special.user_id),
+                            has_collected_author = has_collected,
                             sort_change_url = sort_change_url,
                             special_id = special_id,
                             sort = sort,
                             other = author_other_article,
                             special_favor = special.favor,
                             special_title = special.name,
-                            special_author = author.nick,
-                            special_author_slogon = author.slogon,
+                            special_author = author,
+                            #special_author_slogon = author.slogon,
                             special_introduction = special.introduction,
                             special_style = special.style,
                             special_total_issue = special.total_issue,
                             special_update_frequency = special.update_frequency,
                             special_coin = special.coin,
                             special_image = special.picture,
-                            special_author_avatar = author.photo,
+                            #special_author_avatar = author.photo,
                             articles_pagination = articles_pagination,
                             related_other_special = related_other_special,
                             get_nick_by_userid = get_nick_by_userid)
     else:
         return render_template('special_detail.html',
+                            len = len,
+                            login_user_id = login_user,
                             is_mobile = is_mobile,
                             root_authorized = root_authorized(),
                             author_itself = (special.user_id == login_user),
                             has_collected_special = get_special_collect_info(login_user, special_id),
-                            has_collected_author = get_author_collect_info(login_user, special.user_id),
+                            has_collected_author = has_collected,
                             sort_change_url = sort_change_url,
                             special_id = special_id,
                             sort = sort,
                             other = author_other_article,
                             special_favor = special.favor,
                             special_title = special.name,
-                            special_author = author.nick,
-                            special_author_slogon = author.slogon,
+                            special_author = author,
+                            #special_author_slogon = author.slogon,
                             special_introduction = special.introduction,
                             special_style = special.style,
                             special_total_issue = special.total_issue,
                             special_update_frequency = special.update_frequency,
                             special_coin = special.coin,
                             special_image = special.picture,
-                            special_author_avatar = author.photo,
+                            #special_author_avatar = author.photo,
                             articles_pagination = articles_pagination,
                             related_other_special = related_other_special,
                             get_nick_by_userid = get_nick_by_userid)
@@ -747,23 +761,27 @@ def create_special_finish():
     except Exception:
         return "failed"
 
+    authors = []
     try:
-        author = request.args.get('author')
-        author = get_userid_by_nick(author)
-        if (len(author) == 0):
-            return "nick_error"
+        author_list = eval(request.args.get('author_list'))
+        for nick in author_list:
+            author = get_userid_by_nick(nick)
+            if (len(author) == 0):
+                return "nick_error"
+            authors.append(author[0][0])
     except Exception:
         return "failed"
 
     special_id = create_new_special(name = title,
-                       user_id = author[0][0],
+                       #user_id = author[0][0],
                        picture = title_image,
                        introduction = content,
                        style = style,
                        total_issue = total_issue,
                        update_frequency = update_frequency)
+    for author in authors:
+        create_new_special_author(special_id, author)
 
-#    print "\n\n\n\n\n\n\n\nHERE  %d\n\n\n\n\n\n\n\n" % (special_id)
     return str(special_id)
 
 ## 完成修改专栏
@@ -784,17 +802,21 @@ def modify_special_finish():
     except Exception:
         return "failed"
 
+    authors = []
     try:
-        author = request.args.get('author')
-        author = get_userid_by_nick(author)
-        if (len(author) == 0):
-            return "nick_error"
+        author_list = eval(request.args.get('author_list'))
+        for nick in author_list:
+            author = get_userid_by_nick(nick)
+            if (len(author) == 0):
+                return "nick_error"
+            authors.append(author[0][0])
     except Exception:
         return "failed"
 
     try:
         special_id = modify_special_func(name = title,
-                                         user_id = author[0][0],
+                                         #user_id = author[0][0],
+                                         authors = authors,
                                          picture = title_image,
                                          introduction = content,
                                          style = style,
@@ -814,7 +836,7 @@ def special_article_upload():
         abort(404)
 
     ####TODO
-    author = get_special_information(special_id).user_id
+    #author = get_special_information(special_id).user_id
     #login_user = get_userid_from_session()
     if (not root_authorized()):
         abort(404)
@@ -822,7 +844,6 @@ def special_article_upload():
     article_session_id = get_article_session_id()
     session['special_article_session_id'] = str(article_session_id)
     session['special_id'] = str(special_id)
-    session['special_author_id'] = str(author)
     os.makedirs(os.path.join(app.config['ARTICLE_CONTENT_DEST'], str(article_session_id)))
 
     return render_template('special_article_upload.html')
@@ -880,12 +901,20 @@ def special_article_finish():
     book_ISBN=request.form['book_ISBN']
     book_binding=request.form['book_binding']
 
+    special_author = request.form['special_author']
+
+    try:
+        user_id = get_userid_by_nick(special_author)[0][0]
+        if not has_special_author(int(session['special_id']), user_id):
+            raise Exception
+    except Exception:
+        return "nick"
+
     abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
     if len(abstract_plain_text)<191:
         abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
     else:
         abstract=abstract_plain_text[0:190]+'......'
-    user_id = int(session['special_author_id'])
     book_id = create_book(book_picture = book_picture,
                                   book_author = book_author,
                                   book_press = book_press,
@@ -924,12 +953,21 @@ def special_article_draft():
     book_title=request.form['book_title']
     book_ISBN=request.form['book_ISBN']
     book_binding=request.form['book_binding']
+    
+    special_author = request.form['special_author']
+    try:
+        user_id = get_userid_by_nick(special_author)[0][0]
+        if not has_special_author(int(session['special_id']), user_id):
+            raise Exception
+    except Exception:
+        return "nick"
+
     abstract_plain_text=get_abstract_plain_text(abstract_abstract_with_img)
     if len(abstract_plain_text)<191:
         abstract=abstract_plain_text[0:len(abstract_plain_text)-1]+'......'
     else:
         abstract=abstract_plain_text[0:190]+'......'
-    user_id=int(session['special_author_id'])
+
     #create_article(title=title,content=content,title_image=title_image,user_id=user_id,article_session_id=session['article_session_id'],is_draft='1',group_id=group_id,category_id=category_id,abstract=abstract)
     book_id=create_book(book_picture=book_picture,book_author=book_author,book_press=book_press,book_page_num=book_page_num,book_price=book_price,book_press_time=book_press_time,book_title=book_title,book_ISBN=book_ISBN,book_binding=book_binding)
     article_id=create_article(title = title, content = content,
@@ -1296,9 +1334,21 @@ def ajax_collection_special_author():
     except Exception:
         return "login"
 
-    special_id = int(request.args.get('id'))
+    author_id = int(request.form['author'])
 
-    err = collection_special_author(user_id, special_id)
+    err = collection_special_author(user_id, author_id)
+    return err
+# 取消收藏专栏作家
+@app.route('/collection_special_author_cancel', methods=['POST'])
+def ajax_collection_special_author_cancel():
+    try:
+        user_id = int(session['user_id'])
+    except Exception:
+        return "login"
+
+    author_id = int(request.form['author'])
+
+    err = collection_special_author_cancel(user_id, author_id)
     return err
 
 
@@ -1324,20 +1374,6 @@ def ajax_collection_activity():
             update_activity_favor(activity_id,True)
         return result
 
-
-
-# 取消收藏专栏作家
-@app.route('/collection_special_author_cancel', methods=['POST'])
-def ajax_collection_special_author_cancel():
-    try:
-        user_id = int(session['user_id'])
-    except Exception:
-        return "login"
-
-    special_id = int(request.args.get('id'))
-
-    err = collection_special_author_cancel(user_id, special_id)
-    return err
 '''
 ##################################    书籍 ##################################
 #书籍图片的存储路径

@@ -31,7 +31,7 @@ def init_db():
     ## 对初始化进行测试
     #test_db()
 
-    init_data()
+    #init_data()
 
 def init_data():
     from datetime import datetime
