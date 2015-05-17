@@ -420,6 +420,10 @@ def create_new_special(name, picture, introduction,
 def create_new_special_author(special_id, author):
     special_author = Special_author(author, special_id, datetime.now())
     db_session.add(special_author)
+
+    user = db_session.query(User).filter_by(user_id = author).first()
+    if user.role == 1:
+        user.role = 2
     db_session.commit()
 
 def has_special_author(special_id, user_id):
@@ -446,6 +450,9 @@ def modify_special_func(name, authors, picture, introduction,
     for author in authors:
         special_author = Special_author(author, special.special_id, datetime.now())
         db_session.add(special_author)
+        user = db_session.query(User).filter_by(user_id = author).first()
+        if user.role == 1:
+            user.role = 2
 
     db_session.commit()
     return special.special_id
