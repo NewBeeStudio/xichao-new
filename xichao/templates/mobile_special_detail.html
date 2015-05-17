@@ -87,7 +87,9 @@
                     <table>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">作者</td>
-                            <td width="260" style="font-family: 黑体; color:#D9AE48">{{special_author[0].nick}}</td>
+                            <td width="260" style="font-family: 黑体; color:#D9AE48">{% for author in special_author %}
+                            {{author.nick}}
+                            {% endfor %}</td>
                         </tr>
                         <tr>
                             <td width="80" height="24" style="font-family:微软雅黑; color:grey;">类别</td>
