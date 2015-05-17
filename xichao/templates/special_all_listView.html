@@ -94,7 +94,7 @@
                 <tbody>
                 {% for article in articles(special.special_id, 1, "time", 5).items %}
                   <tr>
-                    <td width="480" height="35">    <a href = "article/{{ article.article_id }}" > {{ article.title }} </a> </td>
+                    <td width="480" height="35">    <a href = "article/{{ article.article_id }}" styel="height:20px;width:460px;overflow:hidden"> {{ article.title }} </a> </td>
                     <td width="100" style="color:grey;">
                     <img id="coin-image" src="{{ url_for('static', filename='images/coins.png') }}">
                     {{ article.coins }}
