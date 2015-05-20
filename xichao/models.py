@@ -754,3 +754,36 @@ class Product(Base,AutoSerialize):
 
     def __repr__(self):
         return '<Product: %r>' % (self.name)
+
+
+##################################  曦潮记产品模型  ####################################
+
+class Pay_Record(Base, AutoSerialize):
+    __tablename__ = 'pay_record'
+    __table_args__ = { 
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    ########## Primary索引 ##########
+    pay_record_id = Column(Integer, primary_key=True, 
+                       autoincrement=True, nullable=False, index=True)
+
+    ########## 普通列 ##########
+    coins = Column(Integer, nullable = False, 
+                      unique = False, default = 0)
+
+    ########## Foreign Key ##########
+    user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
+    article_id = Column(Integer, ForeignKey('article.article_id'), index = True)
+
+
+    def __init__(self,  coins = 0,
+                        user_id = 0, 
+                        article_id = 0):
+        self.coins = coins
+        self.user_id = user_id
+        self.article_id = article_id
+
+    def __repr__(self):
+        return '<Pay Record id: %r>' % (self.pay_record_id)

@@ -800,7 +800,13 @@ def process_article_award(user_id,article_id,award_num):
 	else:
 		user_coin_sub(user_id=user_id,num=award_num)
 		article_coin_add(article_id=article_id,num=award_num)
+		add_pay_record(user_id = user_id, article_id = article_id, award_num = award_num)
 		return 'success'
+
+def add_pay_record(user_id, article_id, award_num):
+	record = models.Pay_Record(user_id = user_id, article_id = article_id, coins = award_num)
+	db_session.add(record)
+	db_session.commit()
 
 def examine_article_id(article_id):
 	result=db_session.query(Article).filter_by(article_id=article_id).all()
