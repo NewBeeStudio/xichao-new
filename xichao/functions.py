@@ -415,7 +415,7 @@ def create_new_special(name, picture, introduction,
 #    if user.role == 1:
 #        user.role = 2
     db_session.commit()
-    return db_session.query(Special).filter_by(time = time, name = name).all()[0].special_id
+    return db_session.query(Special).filter_by(name = name).all()[0].special_id
 
 def create_new_special_author(special_id, author):
     special_author = Special_author(author, special_id, datetime.now())
