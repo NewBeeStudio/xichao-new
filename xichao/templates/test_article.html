@@ -444,10 +444,14 @@ else {
 }
 
 	$(document).ready(function(){
-		if ('{{ nick }}' == '{{ author.nick }}')
+		if ('{{root_authorized}}' == 'True'||
+			'{{ nick }}' == '{{ author.nick }}')
 		{
 		    {% if article.special_id %}
 			    url = "{{ url_for('special_article_modify', article_id=article.article_id) }}"
+			    if ('{{ nick }}' == '{{ author.nick }}'){
+			    	$('#pay_button').css("display", "none");
+			    }
             {% else %}
                 url = "{{ url_for('article_modify', article_id=article.article_id) }}"
             {% endif %}
@@ -490,10 +494,6 @@ else {
 
 
 <script type="text/javascript">
-
-
-
-
 // 	function refresh_comment(page_id){
 
 // 		url=window.location.href+"/comment/page/"+page_id

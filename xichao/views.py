@@ -863,7 +863,8 @@ def special_article_modify(article_id):
     session['special_id'] = str(article[0].special_id)
     session['special_article_session_id'] = str(article[0].article_session_id)
     return render_template('special_article_modify.html',
-                            article=article[0], book=article[2])
+                            article=article[0], book=article[2],
+                            get_author = get_nick_by_userid)
 
 
 # 删除专栏文章

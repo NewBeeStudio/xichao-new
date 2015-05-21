@@ -28,6 +28,7 @@
     <div id="article_editor">
       <p id="p_article_title">文章标题:</p>
       <input id="input_title" type="text" value="{{article.title}}">
+        <p id="p_article_author">作者昵称:{{get_author(article.user_id)}}</p>
 <!--
       <ul id="display-type-select" class="nav nav-pills">
         {% if article.category=='1' %}
@@ -173,6 +174,7 @@
         val_book_title=$("#book_name").text();
         val_book_ISBN=$("#book_isbn").text();
         val_book_binding=$("#book_binding").text();
+        val_special_author = "{{get_author(article.user_id)}}";
 
         $.post('/special_article_finish',
         {
@@ -189,7 +191,8 @@
           book_press_time: val_book_press_time,
           book_title: val_book_title,
           book_ISBN: val_book_ISBN,
-          book_binding: val_book_binding
+          book_binding: val_book_binding,
+          special_author: val_special_author
         },
         function(data){
           layer.msg("文章保存成功",1,1,function(){
@@ -212,6 +215,7 @@
         val_book_title=$("#book_name").text();
         val_book_ISBN=$("#book_isbn").text();
         val_book_binding=$("#book_binding").text();
+        val_special_author = "{{get_author(article.user_id)}}";
         
         $.post('/special_article_draft',
         {
@@ -228,7 +232,8 @@
           book_press_time: val_book_press_time,
           book_title: val_book_title,
           book_ISBN: val_book_ISBN,
-          book_binding: val_book_binding
+          book_binding: val_book_binding,
+          special_author: val_special_author
         },
         function(data){
           layer.msg("草稿保存成功",1,1);
