@@ -773,17 +773,23 @@ class Pay_Record(Base, AutoSerialize):
     coins = Column(Integer, nullable = False, 
                       unique = False, default = 0)
 
+    ########## Index/Unique索引 ##########
+    time = Column(DateTime, nullable = False, 
+                            unique = False, index = True)
+
     ########## Foreign Key ##########
     user_id = Column(Integer, ForeignKey('user.user_id'), index = True)
     article_id = Column(Integer, ForeignKey('article.article_id'), index = True)
 
 
-    def __init__(self,  coins = 0,
-                        user_id = 0, 
-                        article_id = 0):
+    def __init__(self,  coins = None,
+                        user_id = None, 
+                        article_id = None,
+                        time = None):
         self.coins = coins
         self.user_id = user_id
         self.article_id = article_id
+        self.time = time
 
     def __repr__(self):
         return '<Pay Record id: %r>' % (self.pay_record_id)

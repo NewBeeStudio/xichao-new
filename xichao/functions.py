@@ -804,7 +804,7 @@ def process_article_award(user_id,article_id,award_num):
 		return 'success'
 
 def add_pay_record(user_id, article_id, award_num):
-	record = models.Pay_Record(user_id = user_id, article_id = article_id, coins = award_num)
+	record = models.Pay_Record(user_id = user_id, article_id = article_id, coins = award_num, time = datetime.now())
 	db_session.add(record)
 	db_session.commit()
 
