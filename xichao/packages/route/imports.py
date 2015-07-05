@@ -11,6 +11,7 @@ from xichao.forms import MembercardForm, \
                          LoginForm, \
                          ForgetPasswordForm, \
                          ResetPasswordForm
+from xichao.packages.config import *
 
 from flask import redirect, url_for, \
                   render_template, request, \

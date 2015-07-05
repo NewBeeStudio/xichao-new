@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
 from imports import *
 
-##################################  文章首页  ##################################
-@app.route('/article/',methods=['GET', 'POST'])
-@login_required
-def article_main():
-    ##参数1=2表示文章
-    book_review_list=get_article_group_by_coin('2','1')
-    film_review_list=get_article_group_by_coin('2','2')
-    essay_list=get_article_group_by_coin('2','3')
-    return render_template('article.html',type=2,book_review_list=book_review_list,film_review_list=film_review_list,essay_list=essay_list)
-
-
 ##################################  文章页面  ##################################
 @app.route('/article/<int:article_id>',methods=['GET'])
 #@login_required
 def article(article_id):
+    """
+		Single Article Page
+		@Parameter  article_id
+    """
     is_mobile = is_small_mobile_device(request)
     is_login = 'user_id' in session
     if not is_mobile and not is_login:
@@ -50,12 +43,6 @@ def article(article_id):
                 special = get_special_information(article[0].special_id);
             else:
                 special = 0;
-            """
-            if article[0].user_id==current_user.user_id:
-                pass
-            else:
-                update_read_num(article_id)
-            """
 
             prev_article = prev_special_article(article_id)
             next_article = next_special_article(article_id)
