@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from imports import *
-
+from xichao.packages.config import *
 ################################## 会员卡绑定 ##################################
 
 @app.route('/membercard_associate', methods=['GET', 'POST'])
@@ -30,7 +30,7 @@ def membercard_validate():
 
     #import urllib, json
     # TODO
-    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+cardID).read()
+    member_data = urllib.urlopen(_MEMBERSHIP_READ_ + cardID).read()
     if member_data[:4] == "fail":
         return "fail"
     member_data =  member_data.split('}')[0]+'}'
@@ -51,7 +51,7 @@ def membercard_validate():
 @app.route('/member_information',methods=['GET'])
 @login_required
 def member_information():
-    member_data = urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_read.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+current_user.member_id).read()
+    member_data = urllib.urlopen(_MEMBERSHIP_READ_ + current_user.member_id).read()
     member_data =  member_data.split('}')[0]+', "webcoin":"'+str(current_user.coin)+'"}'
     memberDB = json.loads(member_data)
     return json.dumps(memberDB)
@@ -72,7 +72,7 @@ def coin_to_point():
             return 'amount_fail'
         else:
             try:
-                result=urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_write.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+current_user.member_id+'&Delta='+amount_str).read()
+                result=urllib.urlopen(_MEMBERSHIP_WRITE_ + current_user.member_id+'&Delta='+amount_str).read()
             except:
                 return 'fail'
             if result[:7]=="Success":
@@ -80,9 +80,6 @@ def coin_to_point():
                 return 'success'     
             else:
                 return 'fail'
-
-    #result=urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_write.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+cardID)
-
 
 @app.route('/point_to_coin',methods=['POST'])
 @login_required
@@ -100,7 +97,7 @@ def point_to_coin():
             return 'amount_fail'
         else:
             try:
-                result=urllib.urlopen('http://shjdxcsd.xicp.net:4057/website_write.aspx?Secret=18A6E54B00574FD5C172C52C3D689C8E&CardID='+current_user.member_id+'&Delta=-'+amount_str).read()
+                result=urllib.urlopen(_MEMBERSHIP_WRITE_ + current_user.member_id+'&Delta=-'+amount_str).read()
             except:
                 return 'fail'
             if result[:7]=="Success":

@@ -12,9 +12,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-DB_URL='mysql://root:Xichao42@localhost/xichao?charset=utf8'
-RDS_DB_URL='mysql://xichao:Xichao42@rdszfuv6jmjjbei.mysql.rds.aliyuncs.com:3306/xichao?charset=utf8'
-engine = create_engine(DB_URL, echo=True, convert_unicode=True)
+from packages.config import _RDS_DB_URL_
+engine = create_engine(_RDS_DB_URL_, echo=True, convert_unicode=True)
 
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
