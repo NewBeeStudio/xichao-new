@@ -20,13 +20,13 @@ _GROUP_Special_ = '3'
 
 
 #普通用户
-_ROLE_Normal_ = '1'
+_ROLE_Normal_ = 1
 #专栏作家
-_ROLE_Author_ = '2'
+_ROLE_Author_ = 2
 #编辑
-_ROLE_Editor_ = '3'
+_ROLE_Editor_ = 3
 #管理员
-_ROLE_Root_ = '3'
+_ROLE_Root_ = 3
 
 
 _MEMBER_DOMAIN_ = 'http://shjdxcsd.xicp.net:4057'
