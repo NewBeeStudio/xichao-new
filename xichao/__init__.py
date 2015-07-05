@@ -14,7 +14,6 @@ from flask.ext.login import current_user
 app = Flask(__name__)
 
 
-
 # 配置，之后可以考虑单独放在一个文件中
 SECRET_KEY = '\x18\xd1\x81cU\xb9j%\xb9\x00\xf5\xf3\xe9r\xcb\x82lq\x9e\xa8\xe3\x14@\x96'
 DEBUG = True
