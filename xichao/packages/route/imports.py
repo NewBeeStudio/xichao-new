@@ -2,7 +2,8 @@
 
 from xichao import app, login_manager, login_serializer
 
-import xichao.captcha
+#import xichao.captcha
+from xichao import captcha
 from xichao.functions import *
 from xichao.models import User
 from xichao.database import db_session
