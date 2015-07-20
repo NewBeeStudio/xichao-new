@@ -35,6 +35,6 @@ _MEMBERSHIP_READ_ = _MEMBER_DOMAIN_ + '/website_read.aspx?Secret=' + _MEMBER_SEC
 _MEMBERSHIP_WRITE_ = _MEMBER_DOMAIN_ + '/website_write.aspx?Secret=' + _MEMBER_SECRET_ + '&CardID='
 
 #本地
-#_RDS_DB_URL_ = 'mysql://root:Xichao42@localhost/xichao?charset=utf8'
+_RDS_DB_URL_ = 'mysql://root:Xichao42@localhost/xichao?charset=utf8'
 #RDS服务器
-_RDS_DB_URL_ ='mysql://xichao:Xichao42@rdszfuv6jmjjbei.mysql.rds.aliyuncs.com:3306/xichao?charset=utf8'
+#_RDS_DB_URL_ ='mysql://xichao:Xichao42@rdszfuv6jmjjbei.mysql.rds.aliyuncs.com:3306/xichao?charset=utf8'
