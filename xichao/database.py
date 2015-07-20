@@ -12,7 +12,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-from packages.config import _RDS_DB_URL_
+from packages.config.database import _RDS_DB_URL_
 engine = create_engine(_RDS_DB_URL_, echo=True, convert_unicode=True)
 
 db_session = scoped_session(sessionmaker(autocommit=False,

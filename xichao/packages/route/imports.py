@@ -12,7 +12,12 @@ from xichao.forms import MembercardForm, \
                          LoginForm, \
                          ForgetPasswordForm, \
                          ResetPasswordForm
-from xichao.packages.config import *
+
+# TODO
+#from xichao.packages.config import _ROLE_Normal_, _ROLE_Author_, _ROLE_Editor_, _ROLE_Root_
+#from xichao.packages.config import _GROUP_Square_, _GROUP_Article_, _GROUP_Special_
+#from xichao.packages.config import _CATEGORY_BookReview_, _CATEGORY_FilmReview_, _CATEGORY_Essay_
+
 
 from flask import redirect, url_for, \
                   render_template, request, \

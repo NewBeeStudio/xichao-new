@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 from imports import *
-from xichao.packages.config import *
+from xichao.packages.config.membership import _MEMBERSHIP_READ_, _MEMBERSHIP_WRITE_
+
+#from xichao.packages.config import *#_MEMBERSHIP_READ_, _MEMBERSHIP_WRITE_
+
+#from xichao.packages.config import _MEMBERSHIP_READ_, _MEMBERSHIP_WRITE_
+#from xichao.packages.config import _ROLE_Normal_, _ROLE_Author_, _ROLE_Editor_, _ROLE_Root_
+#from xichao.packages.config import _GROUP_Square_, _GROUP_Article_, _GROUP_Special_
+#from xichao.packages.config import _CATEGORY_BookReview_, _CATEGORY_FilmReview_, _CATEGORY_Essay_
+
 ################################## 会员卡绑定 ##################################
 
 @app.route('/membercard_associate', methods=['GET', 'POST'])
