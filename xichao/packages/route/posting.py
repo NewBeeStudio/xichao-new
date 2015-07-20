@@ -8,6 +8,7 @@ def save_title_image():
     title_image = request.files['upload_file']
     #设置默认题图
     title_image_name = 'article_upload_pic_4.png'
+    print title_image.filename
     if title_image:
         if allowed_file(title_image.filename):
             title_image_name=get_secure_photoname(title_image.filename)
@@ -29,6 +30,7 @@ def save_activity_title_image():
 #获得文章题图
 @app.route('/upload/article/article_title_image/<filename>')
 def uploaded_article_title_image(filename):
+    print "HERE???\n\n\n\n"
     return send_from_directory(app.config['ARTICLE_TITLE_DEST'],filename)
 
 #获得活动题图

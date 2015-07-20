@@ -38,7 +38,7 @@ def cardID_exist(cardID):
 	else:
 		return False
 
-ALLOWED_EXTENSIONS=['jpg']
+ALLOWED_EXTENSIONS=['jpg', 'png']
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
 
