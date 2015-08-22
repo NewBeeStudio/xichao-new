@@ -8,8 +8,9 @@
     <link rel="stylesheet" type="text/css" href="/static/css/button.css" />
 
 	{% if root_authorized %}
-	<style type="text/css">
-	#special-draft h3{
+<!--
+<style type="text/css">
+#special-draft h3{
 	margin-top: 36px;
 	margin-bottom: 30px;
 	color: #d19413;
@@ -48,9 +49,9 @@
 
 	clear: both;
 }
-	</style>
-	
-	{% endif %}
+</style>    
+-->	
+    {% endif %}
 {% endblock %}
 
 <!--content-->
@@ -246,6 +247,8 @@
 
 <!-- 人人网分享Js代码 -->
 <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
 <script type="text/javascript">
 	function shareClick() {
     	var link = window.location.href;
@@ -260,9 +263,6 @@
 	}
 </script>
 
-
-
-<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -431,4 +431,5 @@ $("#write_special_article").click(function(){
 
 
 </script>
+
 {% endblock %}

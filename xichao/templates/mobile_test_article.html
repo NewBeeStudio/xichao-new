@@ -251,14 +251,17 @@
 {% endblock %}
 <!--js file used-->
 {% block js %}
+<!--
 <script type="text/javascript">
 	function sina_share() {
 
 	}
 </script>
-
+-->
 <!-- 人人网分享Js代码 -->
 <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
 	{% with messages = get_flashed_messages() %}
 
@@ -297,9 +300,6 @@
 </script>
 
 
-
-<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
-<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <!--获取评论内容，更新数据库，返回评论时间-->
 <script type="text/javascript">
 $("#comment_publish_button").click(function(){
@@ -540,6 +540,5 @@ else {
 
 
 </script>
-
 
 {% endblock %}

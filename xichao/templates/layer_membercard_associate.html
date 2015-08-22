@@ -1,6 +1,6 @@
 <head>
 <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
-        <link href="{{ url_for('static', filename='css/main.css') }}" rel='stylesheet' type='text/css'/>
+<link href="{{ url_for('static', filename='css/main.css') }}" rel='stylesheet' type='text/css'/>
 <link href="{{ url_for('static', filename='css/register.css') }}" rel='stylesheet' type='text/css'/>
 
 <script src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
@@ -99,7 +99,9 @@ form{
 </html>
 
 
+
 <script type="text/javascript">
+
 function getCaptcha(obj) {
     $.getJSON($SCRIPT_ROOT + '/_getImage', {},
         function(data) {
@@ -298,7 +300,6 @@ $(document).ready(function()
     
 });
 </script>
-
 <script type="text/javascript">
   $(document).ready(function(){
     $("#avatar_button").click(function(){
@@ -348,3 +349,4 @@ function submit() {
     countDown();
 }
 </script>
+

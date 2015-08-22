@@ -559,3 +559,45 @@
 .pager li>a:hover{
     background-color: #D9AE48;
 }
+
+/*Updated by 2015-07-17 16:40 gained from special_detail.html and mobile_special_detail.html*/
+
+#special-draft h3{
+	margin-top: 36px;
+	margin-bottom: 30px;
+	color: #d19413;
+	font-size: 22px;
+}
+
+
+#special-draft p{
+	font-family: 黑体;
+	font-size: 18px;
+}
+
+#special-draft table{
+	padding-top: 20px;
+	padding-bottom: 30px;
+
+	float: left;
+	/*border: 1px solid #D9AE48;*/
+}
+
+#special-draft td{
+	padding-right: 15px;
+	font-family: 黑体;
+	font-size: 15px;
+}
+
+#special-draft input{
+	margin-top: 6px;
+	float: right;
+	/*border: 1px solid #D9AE48;*/
+}
+
+
+#special-draft hr{
+	color: #d19413;
+
+	clear: both;
+}

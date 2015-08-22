@@ -6,6 +6,7 @@
 	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel='stylesheet' type='text/css'/>
 	<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/jquery-1.8.0.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+	
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#button").click(function(){
@@ -84,11 +85,13 @@
 			});
 		});
 	</script>
+	<!--Modified by Yao Yuan
 	<style>
 	.default-coin a:hover{
 		cursor: pointer;
 	}
 	</style>
+	-->
 </head>
 <body>
 	<div id="my_xichao">
@@ -125,6 +128,7 @@
 		<button class="register-button" id="button">打赏作者</button>
 	</div>
 
+	<!--
 	<script>
 	$(".default-coin").click(function(){
 		var type = $(this).attr("value");
@@ -141,6 +145,6 @@
 		}
 	});
 	</script>
-	</style>
+	-->
 </body>
 </html>

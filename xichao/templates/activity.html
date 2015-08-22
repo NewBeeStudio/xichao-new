@@ -82,13 +82,14 @@ terminal进入到xichao-new，再进入到xichao
 				<span>活动介绍：</span>{{passed_activity.abstract}}
 				
 				<!--将functions.py中的导入语句'from xichao import app'注释， models.py中'from xichao import login_serializer'注释
-terminal进入到xichao-new，再进入到xichao
-进入python shell（在terminal下运行'python'）
-运行如下语句：from database import init_db
-再运行导入的函数，语句为：init_db()
-数据库创建好后，将functions中的'from xichao import app'解除注释
-数据库就已经搭好了
-在database.py文件中将DB_URL='mysql:-->
+				terminal进入到xichao-new，再进入到xichao
+				进入python shell（在terminal下运行'python'）
+				运行如下语句：from database import init_db
+				再运行导入的函数，语句为：init_db()
+				数据库创建好后，将functions中的'from xichao import app'解除注释
+				数据库就已经搭好了
+				在database.py文件中将DB_URL='mysql:-->
+
 			</div>
 			<div class="passed-activity-info">
 				{{passed_activity.activity_time | time_split_6}}&nbsp;&nbsp;&nbsp;&nbsp;<span>收藏</span>（{{passed_activity.favor}}）&nbsp;&nbsp;<span>评论</span>（{{passed_activity.comment_num}}）

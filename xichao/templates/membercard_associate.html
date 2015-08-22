@@ -82,6 +82,7 @@
 
 {% block js %}
 <script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
+
 <script type="text/javascript">
 
 function getCaptcha(obj) {
@@ -190,7 +191,6 @@ function getCaptcha(obj) {
         });
 };
 
-
 $(document).ready(function()
 {
     $("#processing").hide();
@@ -282,7 +282,6 @@ $(document).ready(function()
     
 });
 </script>
-
 <script type="text/javascript">
   $(document).ready(function(){
     $("#avatar_button").click(function(){

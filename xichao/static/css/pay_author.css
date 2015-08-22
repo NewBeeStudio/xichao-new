@@ -54,3 +54,8 @@ p {
     font-size: 17px;
     border-radius: 5px;
 }
+
+/*Updated by Yao Yuan at 2015-07-17 17:13*/
+.default-coin a:hover{
+	cursor: pointer;
+}

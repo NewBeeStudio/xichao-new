@@ -5,10 +5,12 @@
     <title>书香专栏｜{{ special_title }}</title>
 
 	<link href="{{ url_for('static', filename='css/special_detail.css') }}" rel='stylesheet' type='text/css'/> 
-    <link rel="stylesheet" type="text/css" href="/static/css/button.css" />
+    
 
 	{% if root_authorized %}
-	<style type="text/css">
+    <link rel="stylesheet" type="text/css" href="/static/css/button.css" />
+<!--modified by yy
+    <style type="text/css">
 	#special-draft h3{
 	margin-top: 36px;
 	margin-bottom: 30px;
@@ -49,7 +51,8 @@
 	clear: both;
 }
 	</style>
-	
+	-->
+
 	{% endif %}
 {% endblock %}
 
@@ -336,6 +339,7 @@
 
 <!-- 人人网分享Js代码 -->
 <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
 	function shareClick() {
     	var link = window.location.href;
@@ -352,7 +356,6 @@
 
 
 
-<script src="{{ url_for('static', filename='layer-v1.8.5/layer/layer.min.js') }}"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){

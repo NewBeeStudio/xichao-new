@@ -523,4 +523,26 @@ span#all-message-number{
     top: 0px;
     margin-left:67px;
 }
-                                
+                           
+/*Updated by Yao Yuan 2015-07-17 16:53*/                           
+/*根据分辨率自适应改变背景图大小*/
+@media screen and (min-width: 1161px) {
+    #top-background, #top-background > img {width: 100%;}
+    #navbar-info {position: fixed; width: 100%;}
+    #footer {width: 100%;}
+}
+
+@media screen and (max-width: 1160px) {
+    #top-background, #top-background > img {width: 1160px;}
+    #navbar-info {position: absolute; width: 1160px;}
+    #footer {width: 1160px;}
+} 
+
+
+@media screen and (min-width: 1161px) {
+    .reference-line  {height: 100%; position: fixed;}
+}
+
+@media screen and (max-width: 1160px) {
+    .reference-line {height: 1000px; position: absolute;}
+}      
