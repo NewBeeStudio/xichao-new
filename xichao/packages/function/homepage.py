@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from imports import *
 from xichao.packages.config.article import *
-from xichao.packages.config.user import *
+from xichao.packages.config.user import _ROLE_Normal_, _ROLE_Root_, _ROLE_Author_, _ROLE_Editor_
 
 # 分页函数
 # 源自官方的实现
