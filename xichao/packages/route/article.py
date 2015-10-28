@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from imports import *
+from xichao.packages.config.article import *
 
 ##################################  文章页面  ##################################
 @app.route('/article/<int:article_id>',methods=['GET'])
